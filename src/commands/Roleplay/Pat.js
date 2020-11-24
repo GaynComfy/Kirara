@@ -1,4 +1,5 @@
 const Fetcher = require("../../utils/GifFetcher");
+const withCooldown = require("../../utils/withCooldown");
 const Color = require("../../utils/Colors.json");
 const { MessageEmbed } = require("discord.js");
 
@@ -13,23 +14,26 @@ module.exports = {
       message.channel.send(embed);
       return;
     }
-    const { url } = await Fetcher.getPat();
-    const hugEmbed = new MessageEmbed()
-      .setDescription(
-        `**${message.author.username}** pats **${
-          message.mentions.users.first().username
-        }**!`
-      )
-      .setImage(url)
-      .setColor(Color.white);
+    await withCooldown(instance.cache, message.author.id, "pat", async () => {
+      const { url } = await Fetcher.getPat();
+      const hugEmbed = new MessageEmbed()
+        .setDescription(
+          `**${message.author.username}** pats **${
+            message.mentions.users.first().username
+          }**!`
+        )
+        .setImage(url)
+        .setColor(Color.white);
 
-    message.channel.send(hugEmbed);
+      message.channel.send(hugEmbed);
+    });
   },
   info: {
     name: "pat",
     aliases: ["pats"],
     matchCase: false,
     category: "Roleplay",
+    cooldown: 60,
   },
   help: {
     info: "idk need to figure this out",

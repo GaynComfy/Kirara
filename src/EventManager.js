@@ -17,6 +17,7 @@ class EventManager {
   registerOnMessage() {
     const otherHandlers = this.events["message"];
     this.client.on("message", async (message) => {
+      if (message.channel.type === "dm") return;
       if (message.content.indexOf(this.config.prefix) === 0) {
         const args = message.content
           .slice(this.config.prefix.length)
