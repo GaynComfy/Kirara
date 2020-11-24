@@ -1,5 +1,5 @@
 const Fetcher = require("../../utils/GifFetcher");
-const withCooldown = require("../../utils/withCooldown");
+const { withCooldown } = require("../../utils/hooks");
 const Color = require("../../utils/Colors.json");
 const { MessageEmbed } = require("discord.js");
 const info = {

@@ -1,7 +1,7 @@
 const Fetcher = require("../../utils/GifFetcher");
 const Color = require("../../utils/Colors.json");
 const { MessageEmbed } = require("discord.js");
-const withCooldown = require("../../utils/withCooldown");
+const { withCooldown } = require("../../utils/hooks");
 const info = {
   name: "hug",
   aliases: ["huggies"],
