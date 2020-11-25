@@ -13,50 +13,52 @@ module.exports = {
   execute: async (instance, message, args) => {
     message.channel.startTyping();
     console.log("fetching");
-    message.guild.members
-      .fetch()
-      .then((allMembers) => {
-        console.log("done");
-        const allBoosters = allMembers
-          .filter((member) => member.premiumSinceTimestamp)
-          .sorted(
-            (first, second) =>
-              first.premiumSinceTimestamp - second.premiumSinceTimestamp
-          );
-        console.log(allBoosters);
+    const p = message.guild.members.fetch({
+      force: true,
+    });
+    console.log(p);
+    p.then((allMembers) => {
+      console.log("done");
+      const allBoosters = allMembers
+        .filter((member) => member.premiumSinceTimestamp)
+        .sorted(
+          (first, second) =>
+            first.premiumSinceTimestamp - second.premiumSinceTimestamp
+        );
+      console.log(allBoosters);
 
-        message.channel.stopTyping();
+      message.channel.stopTyping();
 
-        if (allBoosters.size === 0) {
-          message.channel.send(
-            "\uD83D\uDCA2 **Nobody is boosting this server!**"
-          );
-          return;
-        }
+      if (allBoosters.size === 0) {
+        message.channel.send(
+          "\uD83D\uDCA2 **Nobody is boosting this server!**"
+        );
+        return;
+      }
 
-        return pageThroughCollection(message, allBoosters, (boosters, page) => {
-          const offset = page.index * page.perPage;
+      return pageThroughCollection(message, allBoosters, (boosters, page) => {
+        const offset = page.index * page.perPage;
 
-          return new MessageEmbed()
-            .setTitle(
-              `Server Boost Leaderboard | ${page.index + 1}/${page.total} | ${
-                message.guild.name
-              }`
+        return new MessageEmbed()
+          .setTitle(
+            `Server Boost Leaderboard | ${page.index + 1}/${page.total} | ${
+              message.guild.name
+            }`
+          )
+          .setDescription(
+            boosters.map(
+              (member, index) =>
+                `${offset + index + 1}. ${member} *(${moment(
+                  Date.now() - member.premiumSinceTimestamp
+                ).fromNow()})*`
             )
-            .setDescription(
-              boosters.map(
-                (member, index) =>
-                  `${offset + index + 1}. ${member} *(${moment(
-                    Date.now() - member.premiumSinceTimestamp
-                  ).fromNow()})*`
-              )
-            )
-            .setColor("#ba30ba");
-        });
-      })
-      .catch(() => {
-        message.channel.stopTyping();
+          )
+          .setColor("#ba30ba");
       });
+    }).catch((err) => {
+      console.log(err);
+      message.channel.stopTyping();
+    });
   },
   info,
   help: {

@@ -3,4 +3,4 @@ WORKDIR /usr/app
 COPY package*.json ./
 RUN npm install
 COPY src src
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "shards"]

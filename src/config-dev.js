@@ -16,4 +16,5 @@ module.exports = {
     events: "events",
   },
   owner: ["195906408561115137"],
+  shardCount: 2,
 };
