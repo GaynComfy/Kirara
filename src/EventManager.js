@@ -120,6 +120,13 @@ class EventManager {
         }
     });
   }
+  cleanup() {
+    Object.keys(this.events)
+      .filter((value, index, self) => self.indexOf(value) === index)
+      .forEach((key) => this.client.removeAllListeners(key));
+    this.events = {};
+    this.commands = {};
+  }
   registerEventHandler(name, handlers) {
     this.client.on(name, async (param) => {
       for (const handler of handlers) {
@@ -134,13 +141,13 @@ class EventManager {
       }
     });
   }
-  setup() {
+  setup(reload = false) {
     Object.keys(this.events).forEach((elem) => {
       if (elem === "message" || elem === "ready") return;
       this.registerEventHandler(elem, this.events[elem]);
     });
     this.registerOnMessage();
-    this.registerOnReady();
+    if (!reload) this.registerOnReady();
   }
 }
 module.exports = EventManager;

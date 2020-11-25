@@ -1,5 +1,5 @@
 module.exports = {
-  prefix: "s!",
+  prefix: "sb!",
   database: {
     host: "database",
     user: "kirara",

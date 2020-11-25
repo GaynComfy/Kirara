@@ -1,11 +1,12 @@
 const { MessageEmbed } = require("discord.js");
-const { withRights } = require("../../utils/hooks");
+const { withOwner } = require("../../utils/hooks");
 const info = {
   name: "evaluate",
   aliases: ["eval"],
   matchCase: false,
   category: "Owner",
   cooldown: 60,
+  disabled: true,
 };
 const clean = (text) => {
   if (typeof text === "string") {
@@ -19,8 +20,8 @@ const clean = (text) => {
 
 module.exports = {
   execute: async (instance, message, args) => {
-    withRights(
-      message.member,
+    return withOwner(
+      message.author.id,
       async () => {
         try {
           const code = args.join(" ");
@@ -43,11 +44,13 @@ module.exports = {
           message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
         }
       },
-      "ADMINISTRATOR"
+      instance.config.owner
     );
   },
   info,
   help: {
-    info: "idk need to figure this out",
+    usage: "evaluate eval",
+    examples: ["eval message.author.id"],
+    description: "Evaluate javascript code!",
   },
 };

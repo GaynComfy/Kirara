@@ -50,12 +50,23 @@ class Instance {
       if (commands[command.info.name]) {
         throw new Error(`Duplicated command ${command.info.name}`);
       }
+      if (command.info.disabled) continue;
       if (command.init) await command.init(this);
       command.file = file;
 
       commands[command.info.name] = command;
     }
     return commands;
+  }
+  async reload() {
+    if (!this.bootstrapped) return;
+    this.eventManager.cleanup();
+    this.eventManager = null;
+    const commands = await this.prepareCommands();
+    const events = await this.prepareEvents();
+    this.eventManager = new EventManager(this, events, commands);
+    await this.eventManager.setup(true);
+    this.bootstrapped = true;
   }
   async bootrap() {
     if (this.bootstrapped) return;
