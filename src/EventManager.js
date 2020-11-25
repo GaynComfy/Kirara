@@ -1,4 +1,5 @@
 const Instance = require("./Instance");
+const { withCooldown } = require("./utils/hooks");
 
 class EventManager {
   /**
@@ -26,10 +27,17 @@ class EventManager {
         const commandName = args.shift();
         const command = this.commands[commandName];
         if (command) {
-          await command.execute(this.instance, message, args);
+          await withCooldown(
+            this.instance.cache,
+            message.author.id,
+            command.info.name,
+            async () => await command.execute(this.instance, message, args),
+            command.info.cooldown || 0
+          );
         } else {
           //not yet found. this isnt the best time complexity but it should be still okay
-          for (const currentEntry of commands) {
+          for (const commandKey of Object.keys(this.commands)) {
+            const currentEntry = this.commands[commandKey];
             if (!currentEntry.info.matchCase) {
               if (
                 currentEntry.info.name.toLowerCase() ===
@@ -39,7 +47,14 @@ class EventManager {
                     (e) => e.toLowerCase() === commandName.toLowerCase()
                   ))
               ) {
-                await currentEntry.execute(this.instance, message, args);
+                await withCooldown(
+                  this.instance.cache,
+                  message.author.id,
+                  currentEntry.info.name,
+                  async () =>
+                    await currentEntry.execute(this.instance, message, args),
+                  currentEntry.info.cooldown || 0
+                );
                 break;
               }
             } else {
@@ -47,7 +62,14 @@ class EventManager {
                 Array.isArray(currentEntry.info.aliases) &&
                 currentEntry.info.aliases.find((e) => e === commandName)
               ) {
-                await currentEntry.execute(this.instance, message, args);
+                await withCooldown(
+                  this.instance.cache,
+                  message.author.id,
+                  currentEntry.info.name,
+                  async () =>
+                    await currentEntry.execute(this.instance, message, args),
+                  currentEntry.info.cooldown || 0
+                );
                 break;
               }
             }

@@ -1,5 +1,4 @@
 const Fetcher = require("../../utils/GifFetcher");
-const { withCooldown } = require("../../utils/hooks");
 const Color = require("../../utils/Colors.json");
 const { MessageEmbed } = require("discord.js");
 const info = {
@@ -20,25 +19,18 @@ module.exports = {
       message.channel.send(embed);
       return;
     }
-    await withCooldown(
-      instance.cache,
-      message.author.id,
-      info.name,
-      async () => {
-        const { url } = await Fetcher.getPat();
-        const hugEmbed = new MessageEmbed()
-          .setDescription(
-            `**${message.author.username}** pats **${
-              message.mentions.users.first().username
-            }**!`
-          )
-          .setImage(url)
-          .setColor(Color.white);
 
-        message.channel.send(hugEmbed);
-      },
-      info.cooldown
-    );
+    const { url } = await Fetcher.getPat();
+    const hugEmbed = new MessageEmbed()
+      .setDescription(
+        `**${message.author.username}** pats **${
+          message.mentions.users.first().username
+        }**!`
+      )
+      .setImage(url)
+      .setColor(Color.white);
+
+    message.channel.send(hugEmbed);
   },
   info,
   help: {
