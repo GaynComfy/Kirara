@@ -7,9 +7,13 @@ const shardManager = new ShardingManager("./src/index.js", {
   token: process.env.TOKEN,
   respawn: true,
 });
-
+let count = 0;
 shardManager.on("shardCreate", (shard) => {
+  count++;
   console.log("Shard spwned");
+  if (count === (config.shardCount || 2)) {
+    console.log("All shards live!");
+  }
 });
 
 shardManager.spawn();
