@@ -52,7 +52,7 @@ module.exports = {
   execute: async (instance, message, args) => {
     try {
       const { totalGuilds, totalMembers, channels } = await fetchData(instance);
-      const shardid = instance.client.shard.ids[0];
+      const shardid = instance.client.shard.ids[0] + 1;
       const guildSize = instance.client.guilds.cache.size;
       const userSize = instance.client.guilds.cache.reduce(
         (acc, guild) => acc + guild.memberCount,
