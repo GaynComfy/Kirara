@@ -49,7 +49,14 @@ class PgApi {
 
   async createTables() {
     await this.pool.query(
-      "CREATE TABLE IF NOT EXISTS SERVERS (id BIGSERIAL PRIMARY KEY, guild_id VARCHAR, owner_id VARCHAR, description VARCHAR, banner VARCHAR, icon VARCHAR, active BOOLEAN DEFAULT false, large BOOLEAN DEFAULT false, log_channel VARCHAR, event BOOLEAN DEFAULT false)"
+      "CREATE TABLE IF NOT EXISTS SERVERS (id BIGSERIAL PRIMARY KEY, guild_id VARCHAR, owner_id VARCHAR, description VARCHAR, banner VARCHAR, icon VARCHAR, active BOOLEAN DEFAULT false, large BOOLEAN DEFAULT false, log_channel VARCHAR, event BOOLEAN DEFAULT false, timer BOOLEAN DEFAULT false)"
+    );
+    await this.pool.query(
+      "CREATE TABLE IF NOT EXISTS CARD_ROLES (id BIGSERIAL PRIMARY KEY, server_id BIGINT, tier VARCHAR, role_id VARCHAR)"
+    );
+    await this.pool.query(
+      // todo maybe change time
+      "CREATE TABLE IF NOT EXISTS CARD_CLAIMS (id BIGSERIAL PRIMARY KEY, server_id BIGINT, discord_id VARCHAR, card_id VARCHAR, issue INT, tier VARCHAR, from_cylce BOOLEAN DEFAULT FALSE, time BIGINT)"
     );
   }
 }

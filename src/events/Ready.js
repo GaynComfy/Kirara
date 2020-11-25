@@ -18,6 +18,10 @@ module.exports = {
           large: server.large,
           log_channel: null,
         });
+      } else {
+        const serverObj = query.rows[0];
+        if (serverObj.log_channel)
+          instance.logChannels[server.id] = serverObj.log_channel;
       }
     }
   },

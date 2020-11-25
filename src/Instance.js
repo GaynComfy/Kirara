@@ -19,6 +19,7 @@ class Instance {
     this.cache = cache;
     this.client = client;
     this.onReady = onReady;
+    this.logChannels = {};
   }
   async prepareEvents() {
     const events = {};
