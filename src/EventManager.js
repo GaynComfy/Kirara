@@ -1,5 +1,6 @@
 const Instance = require("./Instance");
 const { withCooldown } = require("./utils/hooks");
+const sendUsage = require("./utils/SendUsage");
 
 class EventManager {
   /**
@@ -31,8 +32,17 @@ class EventManager {
             this.instance.cache,
             message.author.id,
             command.info.name,
-            async () => await command.execute(this.instance, message, args),
-            command.info.cooldown || 0
+            async () => {
+              const result = await command.execute(
+                this.instance,
+                message,
+                args
+              );
+              if (result === false) sendUsage(message.channel, command.help);
+              return result;
+            },
+            command.info.cooldown || 0,
+            true
           );
         } else {
           //not yet found. this isnt the best time complexity but it should be still okay
@@ -51,9 +61,19 @@ class EventManager {
                   this.instance.cache,
                   message.author.id,
                   currentEntry.info.name,
-                  async () =>
-                    await currentEntry.execute(this.instance, message, args),
-                  currentEntry.info.cooldown || 0
+                  async () => {
+                    const result = await currentEntry.execute(
+                      this.instance,
+                      message,
+                      args
+                    );
+                    if (result === false)
+                      sendUsage(message.channel, command.help);
+
+                    return result;
+                  },
+                  currentEntry.info.cooldown || 0,
+                  true
                 );
                 break;
               }
@@ -66,9 +86,18 @@ class EventManager {
                   this.instance.cache,
                   message.author.id,
                   currentEntry.info.name,
-                  async () =>
-                    await currentEntry.execute(this.instance, message, args),
-                  currentEntry.info.cooldown || 0
+                  async () => {
+                    const result = await currentEntry.execute(
+                      this.instance,
+                      message,
+                      args
+                    );
+                    if (result === false)
+                      sendUsage(message.channel, command.help);
+                    return result;
+                  },
+                  currentEntry.info.cooldown || 0,
+                  true
                 );
                 break;
               }

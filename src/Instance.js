@@ -42,7 +42,7 @@ class Instance {
     const entries = readDirectoryRecursiveWithFilter(
       this.config.structure.commands,
       "src/",
-      (name) => name.endsWith(".js")
+      (name) => name.endsWith(".js") && !name.endsWith("utils.js")
     );
     for (const file of entries) {
       const command = require(`./${file}`);

@@ -1,7 +1,7 @@
 const Fetcher = require("../../utils/GifFetcher");
 const { generateRolePlayEmbed } = require("./utils");
 const info = {
-  name: "pat",
+  name: "feed",
   matchCase: false,
   category: "Roleplay",
   cooldown: 60,
@@ -11,10 +11,10 @@ module.exports = {
     if (message.mentions.users.size === 0) {
       return false;
     }
-    const { url } = await Fetcher.request("pat");
+    const { url } = await Fetcher.request("feed");
     await message.channel.send(
       generateRolePlayEmbed(
-        "pats",
+        "feeds",
         message.author.username,
         message.mentions.users.first().username
       ).setImage(url)
@@ -23,8 +23,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "pat @user",
-    examples: ["pat @~Nota~"],
-    description: "Pats a user",
+    usage: "Feed @user",
+    examples: ["Feed @Nota"],
+    description: "Feeds a user",
   },
 };

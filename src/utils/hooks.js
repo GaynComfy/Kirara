@@ -18,12 +18,20 @@ exports.withRights = async (member, handler, permission = "ADMINISTRATOR") => {
   if (member.hasPermission(permission)) handler();
 };
 
-exports.withCooldown = async (cache, id, command, handler, cd = 25) => {
+exports.withCooldown = async (
+  cache,
+  id,
+  command,
+  handler,
+  cd = 25,
+  returnOnFalse = false
+) => {
   if (cd <= 0) {
     await handler();
     return;
   }
   if (await cache.exists(`cmdcooldown:${id}:${command}`)) return;
-  await handler();
+  const result = await handler();
+  if (returnOnFalse === true && result === false) return;
   await cache.setExpire(`cmdcooldown:${id}:${command}`, "1", cd);
 };
