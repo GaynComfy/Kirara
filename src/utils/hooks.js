@@ -17,6 +17,12 @@ exports.withRights = async (member, handler, permission = "ADMINISTRATOR") => {
   }
   if (member.hasPermission(permission)) handler();
 };
+exports.withOwner = async (userId, handler, ownerId) => {
+  if (!userId || !ownerId)
+    throw new Error("owner not present or user not present");
+
+  if (userId === ownerId) handler();
+};
 
 exports.withCooldown = async (
   cache,

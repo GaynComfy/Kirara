@@ -22,11 +22,5 @@ class GifFetcher {
         });
     });
   }
-  getHug() {
-    return this.request("hug");
-  }
-  getPat() {
-    return this.request("pat");
-  }
 }
 module.exports = new GifFetcher();

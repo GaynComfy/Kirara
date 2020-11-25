@@ -15,9 +15,9 @@ module.exports = {
     await message.channel.send(
       generateRolePlayEmbed(
         "cuddle's",
-        message.author.username,
-        message.mentions.users.first().username
-      ).setImage(url)
+        message.author.id,
+        message.mentions.users.first().id
+      ).setThumbnail(url)
     );
     return true;
   },
