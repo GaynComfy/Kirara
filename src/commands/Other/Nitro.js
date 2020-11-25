@@ -10,8 +10,8 @@ const info = {
 module.exports = {
   execute: async (instance, message, args) => {
     const target = message.mentions.users.first() || message.member;
-    const { user: mem } = message.guild.members.cache.get(target.id);
-
+    const account = message.guild.members.cache.get(target.id);
+    const mem = account.user;
     if (!account.premiumSinceTimestamp) {
       const embed = new MessageEmbed()
         .setDescription(

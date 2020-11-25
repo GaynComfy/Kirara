@@ -12,22 +12,26 @@ const info = {
 module.exports = {
   execute: async (instance, message, args) => {
     message.channel.startTyping();
-    return message.guild.members
+    console.log("fetching");
+    message.guild.members
       .fetch()
       .then((allMembers) => {
+        console.log("done");
         const allBoosters = allMembers
           .filter((member) => member.premiumSinceTimestamp)
           .sorted(
             (first, second) =>
               first.premiumSinceTimestamp - second.premiumSinceTimestamp
           );
+        console.log(allBoosters);
 
         message.channel.stopTyping();
 
         if (allBoosters.size === 0) {
-          return message.channel.send(
+          message.channel.send(
             "\uD83D\uDCA2 **Nobody is boosting this server!**"
           );
+          return;
         }
 
         return pageThroughCollection(message, allBoosters, (boosters, page) => {
