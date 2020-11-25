@@ -13,6 +13,7 @@ const Instance = require("./Instance");
 
 const start = async () => {
   const pgApi = await postgresConnect(config, !isDev);
+  await pgApi.createTables();
   const redisApi = await redisConnect(config, !isDev, true);
   const { client: discordClient, login: onReady } = await discordConnect();
   const instance = new Instance(
