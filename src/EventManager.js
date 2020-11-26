@@ -9,12 +9,13 @@ class EventManager {
    * @param {*} events
    * @param {*} commands
    */
-  constructor(instance, events, commands) {
+  constructor(instance, events, commands, services) {
     this.instance = instance;
     this.client = instance.client;
     this.config = instance.config;
     this.events = events;
     this.commands = commands;
+    this.services = services;
   }
   registerOnMessage() {
     const otherHandlers = this.events["message"];
@@ -118,14 +119,21 @@ class EventManager {
         for (const handler of otherHandlers) {
           await handler.execute(this.instance, t);
         }
+      this.services.forEach((element) => {
+        element.start(this.instance);
+      });
     });
   }
   cleanup() {
     Object.keys(this.events)
       .filter((value, index, self) => self.indexOf(value) === index)
       .forEach((key) => this.client.removeAllListeners(key));
+    for (const service of this.services) {
+      service.stop(this.instance);
+    }
     this.events = {};
     this.commands = {};
+    this.services = [];
   }
   registerEventHandler(name, handlers) {
     this.client.on(name, async (param) => {
@@ -148,6 +156,10 @@ class EventManager {
     });
     this.registerOnMessage();
     if (!reload) this.registerOnReady();
+    else
+      this.services.forEach((element) => {
+        element.start(this.instance);
+      });
   }
 }
 module.exports = EventManager;

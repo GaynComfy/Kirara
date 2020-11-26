@@ -14,6 +14,7 @@ module.exports = {
   structure: {
     commands: "commands",
     events: "events",
+    services: "services",
   },
   owner: ["195906408561115137"],
   shardCount: 2,

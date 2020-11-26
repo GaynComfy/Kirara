@@ -40,6 +40,22 @@ class Instance {
     }
     return events;
   }
+  async prepareServices() {
+    const services = [];
+    const entries = readDirectoryRecursiveWithFilter(
+      this.config.structure.services,
+      "src/",
+      (name) => name.endsWith(".js")
+    );
+    for (const file of entries) {
+      const event = require(`./${file}`);
+      if (!event.stop || !event.start)
+        throw new Error(`Services need a start/stop export to work ${file}`);
+      if (event.init) await event.init(this);
+      services.push(event);
+    }
+    return services;
+  }
   async prepareCommands() {
     const commands = {};
     const entries = readDirectoryRecursiveWithFilter(
@@ -66,7 +82,9 @@ class Instance {
     this.eventManager = null;
     const commands = await this.prepareCommands();
     const events = await this.prepareEvents();
-    this.eventManager = new EventManager(this, events, commands);
+    const services = await this.prepareServices();
+
+    this.eventManager = new EventManager(this, events, commands, services);
     await this.eventManager.setup(true);
     this.bootstrapped = true;
   }
@@ -74,7 +92,8 @@ class Instance {
     if (this.bootstrapped) return;
     const commands = await this.prepareCommands();
     const events = await this.prepareEvents();
-    this.eventManager = new EventManager(this, events, commands);
+    const services = await this.prepareServices();
+    this.eventManager = new EventManager(this, events, commands, services);
     await this.eventManager.setup();
     this.bootstrapped = true;
     this.onReady();
