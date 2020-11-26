@@ -10,6 +10,7 @@ module.exports = {
       if (query.rows.length === 0) {
         const result = await instance.database.simpleInsert("SERVERS", {
           guild_id: server.id,
+          guild_name: server.name,
           owner_id: server.ownerID,
           description: server.description,
           banner: server.banner || null,
