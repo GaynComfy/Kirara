@@ -41,6 +41,7 @@ module.exports = {
       recentCards.reverse();
 
       const claimers = recentCards.map((item) => {
+        if (!item.claimed) return "> ``No one``";
         const user = instance.client.users.resolve(item.discord_id) || {};
         return `> \`${user.username || "Unknown"}\``;
       });

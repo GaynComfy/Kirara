@@ -20,7 +20,7 @@ module.exports = {
         .setColor("#f52fb3");
 
       const query =
-        "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE discord_id=$1 GROUP BY tier";
+        "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE claimed=true AND discord_id=$1 GROUP BY tier";
       const result = await instance.database.pool.query(query, [
         message.author.id,
       ]);
@@ -36,7 +36,7 @@ module.exports = {
     } else {
       if (!allowed.includes(args[0])) return false;
       const query =
-        "SELECT * FROM CARD_CLAIMS WHERE discord_id=$1 AND tier=$2 ORDER BY id DESC LIMIT 5";
+        "SELECT * FROM CARD_CLAIMS WHERE discord_id=$1 AND tier=$2 AND claimed=true ORDER BY id DESC LIMIT 5";
       const result = await instance.database.pool.query(query, [
         message.author.id,
         args[0].toLowerCase(),
