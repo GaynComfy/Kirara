@@ -20,10 +20,13 @@ module.exports = {
     client.on("message", async (channel, message) => {
       if (channel === "claims") {
         const data = JSON.parse(message);
+
         if (instance.client.guilds.cache.has(data.server_id)) {
           const guild = instance.client.guilds.cache.get(data.server_id);
-          const member = guild.members.cache.get(data.discord_id);
-          if (!member) {
+          const member = data.claimed
+            ? guild.members.cache.get(data.discord_id)
+            : null;
+          if (!member && data.claimed) {
             console.error("claim user not found");
             return;
           }
@@ -32,27 +35,42 @@ module.exports = {
               instance.logChannels[guild.id]
             );
             if (logChannel) {
-              const log = new Discord.MessageEmbed()
-                .setAuthor(
-                  "Shoob",
-                  message.author
-                    ? message.author.displayAvatarURL({ type: "png" })
-                    : "https://cdn.animesoul.com/images/content/shoob/shoob-no-empty-space.png"
-                )
-                .setDescription(
-                  `${tierSettings[data.tier].emoji} <@${
-                    member.user.username
-                  }> has claimed [${data.card_name} Tier: ${
-                    data.tier
-                  }](https://animesoul.com/cards/info/${
-                    data.card_id
-                  }) Issue: \`${data.issue}\``
-                )
-                .setColor(tierSettings[data.tier].color)
-                .setThumbnail(data.image_url)
-                .setFooter(guild.name)
-                .setTimestamp();
+              const log = new Discord.MessageEmbed();
+              if (data.claimed) {
+                log
+                  .setAuthor(
+                    "Shoob",
+                    "https://cdn.animesoul.com/images/content/shoob/shoob-no-empty-space.png"
+                  )
+                  .setDescription(
+                    `${tierSettings[data.tier].emoji} <@${
+                      member.user.username
+                    }> has claimed [${data.card_name} Tier: ${
+                      data.tier
+                    }](https://animesoul.com/cards/info/${
+                      data.card_id
+                    }) Issue: \`${data.issue}\``
+                  )
+                  .setColor(tierSettings[data.tier].color)
+                  .setThumbnail(data.image_url)
+                  .setFooter(data.server_name)
+                  .setTimestamp();
+              } else {
+                const settings = tierSettings[data.tier];
 
+                embed
+                  .setAuthor(
+                    "Shoob",
+                    "https://cdn.animesoul.com/images/content/shoob/shoob-no-empty-space.png"
+                  )
+                  .setDescription(
+                    `${settings.emoji} [${data.card_name} Tier: ${data.tier}](https://animesoul.com/cards/info/${data.card_id}) Despawned`
+                  )
+                  .setColor(settings.color)
+                  .setThumbnail(data.image_url)
+                  .setFooter(data.server_name)
+                  .setTimestamp();
+              }
               try {
                 await logChannel.send(log);
               } catch (err) {
@@ -60,6 +78,7 @@ module.exports = {
               }
             }
           }
+          if (!data.claimed) return;
           const messageChannel = guild.channels.cache.get(data.channel_id);
           if (messageChannel) {
             const oweeet = new Discord.MessageEmbed()

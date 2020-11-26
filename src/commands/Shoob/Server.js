@@ -33,7 +33,7 @@ module.exports = {
     const {
       rows: recentCards,
     } = await instance.database.pool.query(
-      "SELECT claims FROM SERVERS WHERE id=$1",
+      "SELECT claims, spawns FROM SERVERS WHERE id=$1",
       [instance.serverIds[message.guild.id]]
     );
     // const {rows: topServers} = await instance.database.pool.query("SELECT COUNT(CARD_CLAIMS.id) as amount, SERVERS.guild_name as name, CARD_CLAIMS.server_id as sid FROM CARD_CLAIMS LEFT JOIN SERVERS ON CARD_CLAIMS.server_id=SERVERS.id GROUP BY name, sid ORDER BY amount DESC LIMIT 5")
@@ -77,7 +77,10 @@ module.exports = {
     • Claims     :: ${Number.parseInt(
       recentCards[0].claims
     ).toLocaleString(undefined, { style: "decimal", maximumFractionDigits: 0 })}
-    
+    • Spawns     :: ${Number.parseInt(
+      recentCards[0].spawns
+    ).toLocaleString(undefined, { style: "decimal", maximumFractionDigits: 0 })}
+
     = TOP 5 SERVERS =
     ${topped.join("\n")}
     \`\`\``;
