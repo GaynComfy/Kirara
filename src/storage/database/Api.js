@@ -52,6 +52,9 @@ class PgApi {
       "CREATE TABLE IF NOT EXISTS SERVERS (id BIGSERIAL PRIMARY KEY, guild_id VARCHAR, owner_id VARCHAR, description VARCHAR, banner VARCHAR, icon VARCHAR, active BOOLEAN DEFAULT false, large BOOLEAN DEFAULT false, log_channel VARCHAR, event BOOLEAN DEFAULT false, timer BOOLEAN DEFAULT false)"
     );
     await this.pool.query(
+      "CREATE TABLE IF NOT EXISTS SETTINGS (id BIGSERIAL PRIMARY KEY, server_id BIGINT, guild_id VARCHAR, key VARCHAR, value VARCHAR)"
+    );
+    await this.pool.query(
       "CREATE TABLE IF NOT EXISTS CARD_ROLES (id BIGSERIAL PRIMARY KEY, server_id BIGINT, tier VARCHAR, role_id VARCHAR)"
     );
     await this.pool.query(

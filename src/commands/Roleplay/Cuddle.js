@@ -12,13 +12,18 @@ module.exports = {
       return false;
     }
     const { url } = await Fetcher.request("cuddle");
-    await message.channel.send(
-      generateRolePlayEmbed(
-        "cuddle's",
-        message.author.id,
-        message.mentions.users.first().id
-      ).setThumbnail(url)
+    const embed = generateRolePlayEmbed(
+      "cuddle's",
+      message.author.id,
+      message.mentions.users.first().id
     );
+    if (
+      instance.settings[message.guild.id][`roleplay_size:${message.channel.id}`]
+    )
+      embed.setThumbnail(url);
+    else embed.setImage(url);
+
+    await message.channel.send(embed);
     return true;
   },
   info,

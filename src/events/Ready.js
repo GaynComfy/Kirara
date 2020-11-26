@@ -8,7 +8,7 @@ module.exports = {
         guild_id: server.id,
       });
       if (query.rows.length === 0) {
-        instance.database.simpleInsert("SERVERS", {
+        const result = await instance.database.simpleInsert("SERVERS", {
           guild_id: server.id,
           owner_id: server.ownerID,
           description: server.description,
@@ -18,10 +18,22 @@ module.exports = {
           large: server.large,
           log_channel: null,
         });
+        instance.settings[server.id] = {};
+        instance.serverIds[server.id] = result.rows[0].id;
       } else {
         const serverObj = query.rows[0];
+        instance.serverIds[server.id] = serverObj.id;
         if (serverObj.log_channel)
           instance.logChannels[server.id] = serverObj.log_channel;
+
+        const settings = await instance.database.simpleQuery("SETTINGS", {
+          server_id: query.rows[0].id,
+        });
+        const s = {};
+        settings.rows.forEach((element) => {
+          s[element.key] = element.value;
+        });
+        instance.settings[server.id] = s;
       }
     }
   },

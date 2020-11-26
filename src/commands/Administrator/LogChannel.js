@@ -7,7 +7,6 @@ const info = {
   matchCase: false,
   category: "Administration",
 };
-const allowed = ["off"];
 module.exports = {
   execute: async (instance, message, args) => {
     return withRights(message.member, async () => {
