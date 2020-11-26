@@ -18,7 +18,7 @@ class Instance {
     this.database = database;
     this.cache = cache;
     this.client = client;
-    this, (client.b_instance = this);
+    client.b_instance = this;
     this.onReady = onReady;
     this.logChannels = {};
     this.serverIds = {};
