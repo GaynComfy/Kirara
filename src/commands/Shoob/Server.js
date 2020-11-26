@@ -50,7 +50,7 @@ module.exports = {
           }
         )}`
     );
-    const { upDays, upHours, upMins, cpu } = getInfo();
+    const { upDays, upHours, upMinutes: upMins, cpu } = getInfo();
     const stats = `
     \`\`\`asciidoc
     = STATISTICS =
