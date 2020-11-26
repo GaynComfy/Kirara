@@ -29,4 +29,9 @@ exports.tierInfo = {
     num: 6,
     color: "#ff170f",
   },
+  TS: {
+    emoji: "<:T6:754541597479403612>",
+    num: 8,
+    color: "#ff170f",
+  },
 };

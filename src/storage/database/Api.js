@@ -61,9 +61,6 @@ class PgApi {
       // todo maybe change time
       "CREATE TABLE IF NOT EXISTS CARD_CLAIMS (id BIGSERIAL PRIMARY KEY, claimed BOOLEAN DEFAULT FALSE, server_id BIGINT, discord_id VARCHAR, card_id VARCHAR, card_name VARCHAR, image_url VARCHAR, issue INT, tier VARCHAR, from_cylce BOOLEAN DEFAULT FALSE, time TIMESTAMPTZ)"
     );
-
-    // const {rows: topServers} = await this.pool.query("")
-    // console.log(topServers)
   }
 }
 module.exports = PgApi;
