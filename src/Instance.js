@@ -18,6 +18,7 @@ class Instance {
     this.database = database;
     this.cache = cache;
     this.client = client;
+    this, (client.b_instance = this);
     this.onReady = onReady;
     this.logChannels = {};
     this.serverIds = {};
@@ -76,8 +77,12 @@ class Instance {
     }
     return commands;
   }
+  async initReload() {
+    this.client.shard.broadcastEval(`this.b_instance.reload()`);
+  }
   async reload() {
     if (!this.bootstrapped) return;
+    console.log("invoked reload", this.client.shard.ids);
     this.eventManager.cleanup();
     this.eventManager = null;
     const commands = await this.prepareCommands();

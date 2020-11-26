@@ -51,7 +51,8 @@ const actions = [
       );
       await embedMessage.edit(embed);
 
-      await instance.reload();
+      await instance.initReload();
+
       setTimeout(function () {
         embed.setDescription(
           `**${originalMessage.author.username}-sama Welcome to My Control Panel/Status**\n\n🕊️ **Reloaded: \n✔️ Commands\n✔️ Handlers\n✔️ Inhibitors**`
