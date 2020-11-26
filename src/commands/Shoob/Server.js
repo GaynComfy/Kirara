@@ -42,12 +42,13 @@ module.exports = {
     );
     const topped = topServers.map(
       (e) =>
-        `• ${e.guild_name} :: ${Number.parseInt(
-          e.claims
-        ).toLocaleString(undefined, {
-          style: "decimal",
-          maximumFractionDigits: 0,
-        })}`
+        `• ${e.guild_name} :: ${Number.parseInt(e.claims).toLocaleString(
+          undefined,
+          {
+            style: "decimal",
+            maximumFractionDigits: 0,
+          }
+        )}`
     );
     const { upDays, upHours, upMins, cpu } = getInfo();
     const stats = `
@@ -74,7 +75,7 @@ module.exports = {
     = SERVER/GUILD =
     • Name       :: ${message.guild.name}
     • Claims     :: ${Number.parseInt(
-      recentCards.rows[0].claims
+      recentCards[0].claims
     ).toLocaleString(undefined, { style: "decimal", maximumFractionDigits: 0 })}
     
     = TOP 5 SERVERS =
