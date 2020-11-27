@@ -1,4 +1,5 @@
 const { tierInfo } = require("../../utils/cardUtils");
+const { MessageEmbed } = require("discord.js");
 
 const info = {
   name: "stats",
@@ -10,10 +11,10 @@ const allowed = ["t1", "t2", "t3", "t4", "t5", "t6"];
 
 module.exports = {
   execute: async (instance, message, args) => {
-    const member = message.meber || {};
+    const member = message.author || {};
     if (args.length === 0) {
-      const hugEmbed = new discord.MessageEmbed()
-        .setDescription(`**${member}'s stats:**`)
+      const hugEmbed = new MessageEmbed()
+        .setDescription(`**${member.username}'s stats:**`)
         .setImage(
           "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
         )
@@ -36,20 +37,20 @@ module.exports = {
     } else {
       if (!allowed.includes(args[0])) return false;
       const query =
-        "SELECT * FROM CARD_CLAIMS WHERE discord_id=$1 AND tier=$2 AND claimed=true ORDER BY id DESC LIMIT 5";
+        "SELECT * FROM CARD_CLAIMS WHERE discord_id=$1 AND tier=$2 AND claimed=true AND season=0 ORDER BY id DESC";
       const result = await instance.database.pool.query(query, [
         message.author.id,
         args[0].toLowerCase(),
       ]);
-      const tier = tierSettings[args[0].toUpperCase()];
-      const toDisplay = result.rows.map(
-        (e) => `Issue: \`${e.issue}\` • \`${e.card_name}\``
-      );
-      const embed = new discord.MessageEmbed()
+      const tier = tierInfo[args[0].toUpperCase()];
+      const toDisplay = result.rows
+        .slice(0, 5)
+        .map((e) => `Issue: \`${e.issue}\` • \`${e.card_name}\``);
+      const embed = new MessageEmbed()
         .setTitle(`${tier.emoji} Tier ${tier.num} Stats.`)
         .setThumbnail(member.displayAvatarURL())
         .setDescription(
-          `For this season you have claimed \`${cards.length}\` T${tier.num}'s`
+          `For this season you have claimed \`${result.rows.length}\` T${tier.num}'s`
         )
         .setImage(
           "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
