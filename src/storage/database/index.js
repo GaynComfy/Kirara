@@ -10,7 +10,8 @@ module.exports = (config, isProd) => {
       port: config.database.port,
     };
     if (isProd || config.database.password) {
-      connectionProps.password = config.database.password;
+      connectionProps.password =
+        config.database.password || process.env.PG_PASSWORD || null;
     }
     const pool = new Pool(connectionProps);
     resolve(new PgApi(pool, config.database));

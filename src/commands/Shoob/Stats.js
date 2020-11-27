@@ -40,7 +40,7 @@ module.exports = {
         "SELECT * FROM CARD_CLAIMS WHERE discord_id=$1 AND tier=$2 AND claimed=true AND season=0 ORDER BY id DESC";
       const result = await instance.database.pool.query(query, [
         message.author.id,
-        args[0].toLowerCase(),
+        args[0][0].toUpperCase(),
       ]);
       const tier = tierInfo[args[0].toUpperCase()];
       const toDisplay = result.rows

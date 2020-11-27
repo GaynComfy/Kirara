@@ -47,7 +47,7 @@ module.exports = {
       });
 
       const cards = recentCards.map(
-        (item) => `> \`\`Tier:${item.tier}\`\` • \`\`${item.card_name}\`\``
+        (item) => `> \`\`Tier:T${item.tier}\`\` • \`\`${item.card_name}\`\``
       );
       embed.addField("•   ``Tiers:\u200b`` • __**Cards:**__", cards, true);
       embed.addField("•   __**Claimed by:**__", claimers, true);
