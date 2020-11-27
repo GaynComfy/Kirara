@@ -3,6 +3,7 @@ const database = require("../storage/database");
 
 module.exports = {
   execute: async (instance, params) => {
+    console.log("ready");
     for (const server of instance.client.guilds.cache.array()) {
       const query = await instance.database.simpleQuery("SERVERS", {
         guild_id: server.id,

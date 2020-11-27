@@ -69,7 +69,7 @@ class EventManager {
                       args
                     );
                     if (result === false)
-                      sendUsage(message.channel, command.help);
+                      sendUsage(message.channel, currentEntry.help);
 
                     return result;
                   },
@@ -94,7 +94,7 @@ class EventManager {
                       args
                     );
                     if (result === false)
-                      sendUsage(message.channel, command.help);
+                      sendUsage(message.channel, currentEntry.help);
                     return result;
                   },
                   currentEntry.info.cooldown || 0,
