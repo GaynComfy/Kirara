@@ -59,7 +59,7 @@ class PgApi {
     );
     await this.pool.query(
       // todo maybe change time
-      "CREATE TABLE IF NOT EXISTS CARD_CLAIMS (id BIGSERIAL PRIMARY KEY, claimed BOOLEAN DEFAULT FALSE, server_id BIGINT, discord_id VARCHAR, card_id VARCHAR, card_name VARCHAR, image_url VARCHAR, issue INT, tier VARCHAR, from_cylce BOOLEAN DEFAULT FALSE, time TIMESTAMPTZ)"
+      "CREATE TABLE IF NOT EXISTS CARD_CLAIMS (id BIGSERIAL PRIMARY KEY, claimed BOOLEAN DEFAULT FALSE, server_id BIGINT, discord_id VARCHAR, card_id VARCHAR, card_name VARCHAR, image_url VARCHAR, issue INT, tier VARCHAR, from_cylce BOOLEAN DEFAULT FALSE, time TIMESTAMPTZ, season INT NOT NULL DEFAULT 0)"
     );
   }
 }
