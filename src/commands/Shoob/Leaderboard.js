@@ -71,12 +71,14 @@ module.exports = {
           [server.id]
         );
 
-    const background = await loadImage("https://i.imgur.com/ItzPXbU.png");
+    const background = await loadImage("./src/assets/leaderboard.png");
     const icon = await loadImage(message.guild.iconURL({ format: "png" }));
     const canvas = createCanvas(800, 600);
     const ctx = canvas.getContext("2d");
     ctx.drawImage(icon, 360, 55, 58, 58);
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+    ctx.textAlign = "center";
+
     for (const entry of claimers) {
       const index = claimers.indexOf(entry);
       const first = index === 0;
@@ -91,7 +93,6 @@ module.exports = {
         );
         ctx.drawImage(avatar, 100, 167, 158, 158);
         ctx.font = "30px Century Gothic";
-        ctx.textAlign = "center";
         ctx.fillStyle = "#ffffff";
         ctx.fillText(`#${discriminator}`, 172, 401);
         ctx.font = "60px Century Gothic";
