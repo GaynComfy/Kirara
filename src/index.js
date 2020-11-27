@@ -16,9 +16,6 @@ const start = async () => {
 
   const redisApi = await redisConnect(config, !isDev, true);
   const { client: discordClient, login: onReady } = await discordConnect();
-  if (discordClient.shard.ids[0] === 0) {
-    pgApi.createTables();
-  }
   const instance = new Instance(
     config,
     pgApi,

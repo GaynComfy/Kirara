@@ -46,21 +46,5 @@ class PgApi {
     const values = [...updateValues, ...Object.values(query)];
     return this.pool.query(queryStr, values);
   }
-
-  async createTables() {
-    await this.pool.query(
-      "CREATE TABLE IF NOT EXISTS SERVERS (id BIGSERIAL PRIMARY KEY, guild_name VARCHAR, guild_id VARCHAR, owner_id VARCHAR, description VARCHAR, banner VARCHAR, icon VARCHAR, active BOOLEAN DEFAULT false, large BOOLEAN DEFAULT false, log_channel VARCHAR, event BOOLEAN DEFAULT false, event_time TIMESTAMPTZ, timer BOOLEAN DEFAULT false, claims BIGINT NOT NULL DEFAULT 0, spawns BIGINT NOT NULL DEFAULT 0)"
-    );
-    await this.pool.query(
-      "CREATE TABLE IF NOT EXISTS SETTINGS (id BIGSERIAL PRIMARY KEY, server_id BIGINT, guild_id VARCHAR, key VARCHAR, value VARCHAR)"
-    );
-    await this.pool.query(
-      "CREATE TABLE IF NOT EXISTS CARD_ROLES (id BIGSERIAL PRIMARY KEY, server_id BIGINT, tier VARCHAR, role_id VARCHAR)"
-    );
-    await this.pool.query(
-      // todo maybe change time
-      "CREATE TABLE IF NOT EXISTS CARD_CLAIMS (id BIGSERIAL PRIMARY KEY, claimed BOOLEAN DEFAULT FALSE, server_id BIGINT, discord_id VARCHAR, card_id VARCHAR, card_name VARCHAR, image_url VARCHAR, issue INT, tier VARCHAR, from_cylce BOOLEAN DEFAULT FALSE, time TIMESTAMPTZ, season INT NOT NULL DEFAULT 0)"
-    );
-  }
 }
 module.exports = PgApi;
