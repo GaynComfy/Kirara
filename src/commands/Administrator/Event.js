@@ -15,14 +15,16 @@ module.exports = {
       }
       const arg = args[0].toLowerCase();
       const newState = arg === "on" || arg === "start";
+      const update = {
+        event: newState,
+      };
+      if (newState) update.event_time = new Date();
       await instance.database.simpleUpdate(
         "SERVERS",
         {
           guild_id: message.guild.id,
         },
-        {
-          event: newState,
-        }
+        update
       );
       const embed = new MessageEmbed()
         .setDescription(

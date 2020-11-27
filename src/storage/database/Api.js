@@ -49,7 +49,7 @@ class PgApi {
 
   async createTables() {
     await this.pool.query(
-      "CREATE TABLE IF NOT EXISTS SERVERS (id BIGSERIAL PRIMARY KEY, guild_name VARCHAR, guild_id VARCHAR, owner_id VARCHAR, description VARCHAR, banner VARCHAR, icon VARCHAR, active BOOLEAN DEFAULT false, large BOOLEAN DEFAULT false, log_channel VARCHAR, event BOOLEAN DEFAULT false, timer BOOLEAN DEFAULT false, claims BIGINT NOT NULL DEFAULT 0, spawns BIGINT NOT NULL DEFAULT 0)"
+      "CREATE TABLE IF NOT EXISTS SERVERS (id BIGSERIAL PRIMARY KEY, guild_name VARCHAR, guild_id VARCHAR, owner_id VARCHAR, description VARCHAR, banner VARCHAR, icon VARCHAR, active BOOLEAN DEFAULT false, large BOOLEAN DEFAULT false, log_channel VARCHAR, event BOOLEAN DEFAULT false, event_time TIMESTAMPTZ, timer BOOLEAN DEFAULT false, claims BIGINT NOT NULL DEFAULT 0, spawns BIGINT NOT NULL DEFAULT 0)"
     );
     await this.pool.query(
       "CREATE TABLE IF NOT EXISTS SETTINGS (id BIGSERIAL PRIMARY KEY, server_id BIGINT, guild_id VARCHAR, key VARCHAR, value VARCHAR)"
