@@ -1,4 +1,5 @@
 const redis = require("redis");
+const Discord = require("discord.js");
 const GuildDelete = require("../events/GuildDelete");
 const tierSettings = {
   1: { emoji: "<:T1:754538833386668075>", num: 1, color: "#e8e8e8" },
@@ -58,7 +59,7 @@ module.exports = {
               } else {
                 const settings = tierSettings[data.tier];
 
-                embed
+                log
                   .setAuthor(
                     "Shoob",
                     "https://cdn.animesoul.com/images/content/shoob/shoob-no-empty-space.png"

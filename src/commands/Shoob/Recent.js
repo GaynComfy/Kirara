@@ -51,7 +51,7 @@ module.exports = {
       );
       embed.addField("•   ``Tiers:\u200b`` • __**Cards:**__", cards, true);
       embed.addField("•   __**Claimed by:**__", claimers, true);
-      const dates = topFive[0].time;
+      const dates = cards[0].time;
       embed.setFooter(`Last card spawned: ${moment(dates).fromNow()}.`);
     } else {
       embed.addField("Cards:", "``No cards have spawned yet.``", true);

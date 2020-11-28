@@ -21,9 +21,10 @@ module.exports = {
         .setColor("#f52fb3");
 
       const query =
-        "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE claimed=true AND discord_id=$1 GROUP BY tier";
+        "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE claimed=true AND discord_id=$1 AND season=$2 GROUP BY tier";
       const result = await instance.database.pool.query(query, [
         message.author.id,
+        instance.config.season,
       ]);
       result.rows.forEach((entry) => {
         const tierInfo = tierInfo[entry.tier.toUpperCase()];
@@ -37,10 +38,11 @@ module.exports = {
     } else {
       if (!allowed.includes(args[0])) return false;
       const query =
-        "SELECT * FROM CARD_CLAIMS WHERE discord_id=$1 AND tier=$2 AND claimed=true AND season=0 ORDER BY id DESC";
+        "SELECT * FROM CARD_CLAIMS WHERE discord_id=$1 AND tier=$2 AND claimed=true AND season=$3 ORDER BY id DESC";
       const result = await instance.database.pool.query(query, [
         message.author.id,
         args[0][0].toUpperCase(),
+        instance.config.season,
       ]);
       const tier = tierInfo[args[0].toUpperCase()];
       const toDisplay = result.rows
