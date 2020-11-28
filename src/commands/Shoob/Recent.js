@@ -39,7 +39,7 @@ module.exports = {
       .setTitle(selectedTitle)
       .setColor(selectedColor)
       .setDescription(
-        `Showing recently spawned cards in \`\`${message.guild.name}\`\``
+        `Showing \`\`${message.guild.name}\`\``
       );
     if (recentCards.length !== 0) {
       recentCards.reverse();
