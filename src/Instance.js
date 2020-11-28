@@ -37,6 +37,12 @@ class Instance {
       if (event.init) await event.init(this);
       if (!events[event.eventName]) events[event.eventName] = [];
       event.file = file;
+      console.log(
+        "adding event",
+        file,
+        event.eventName,
+        this.client.shard.ids[0]
+      );
       events[event.eventName].push(event);
     }
     return events;
@@ -53,6 +59,7 @@ class Instance {
       if (!event.stop || !event.start)
         throw new Error(`Services need a start/stop export to work ${file}`);
       if (event.init) await event.init(this);
+      console.log("adding service", file, this.client.shard.ids[0]);
       services.push(event);
     }
     return services;
@@ -72,7 +79,12 @@ class Instance {
       if (command.info.disabled) continue;
       if (command.init) await command.init(this);
       command.file = file;
-
+      console.log(
+        "adding command",
+        file,
+        command.info.name,
+        this.client.shard.ids[0]
+      );
       commands[command.info.name] = command;
     }
     return commands;
