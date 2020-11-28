@@ -90,7 +90,8 @@ module.exports = {
               .setFooter(
                 "Got a problem? use s!support\nWant to invite the bot? Use s!invite"
               )
-              .setColor("RANDOM");
+              .setColor("RANDOM")
+              .setThumbnail(data.image_url);
 
             try {
               messageChannel.send(oweeet);
