@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const { getLilliePing } = require('./utils');
 
 const info = {
   name: "ping",
@@ -9,12 +10,14 @@ const info = {
 
 module.exports = {
   execute: async (instance, message, args) => {
+    const ping = Math.round(Date.now() - message.createdTimestamp);
+    const lilping = await getLilliePing();
     const InviteEmbed = new MessageEmbed()
-      .setAuthor("Info for Sirona")
+      .setAuthor("Latency for Kirara")
       .setDescription(
-        `🏓Latency is ${
-          Date.now() - message.createdTimestamp
-        }ms. API Latency is ${Math.round(instance.client.ws.ping)}ms`
+        `🏓 Commands: \`${ping}ms\`\n` +
+        `💓 Gateway: \`${Math.round(instance.client.ws.ping)}ms\`` +
+        `🗃️ lillie: \`${lilping}\``
       )
       .setColor("#e0e0e0");
     message.channel.send(InviteEmbed);

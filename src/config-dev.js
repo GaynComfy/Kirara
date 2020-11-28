@@ -18,4 +18,5 @@ module.exports = {
   },
   owner: ["195906408561115137"],
   shardCount: 2,
+  season: 1
 };
