@@ -77,7 +77,7 @@ module.exports = {
       )
       .setColor("#17bcff")
       .setAuthor(
-        `${member.username}'s Claims in \`${message.guild.name}\``,
+        `${member.username}'s Claims in ${message.guild.name}`,
         message.guild.iconURL()
       )
       .attachFiles([attachment])

@@ -29,7 +29,7 @@ module.exports = {
   info,
   help: {
     usage: "hug @user",
-    examples: ["hug @Nota"],
+    examples: ["hug @~Nota~"],
     description: "Hugs a user",
   },
 };

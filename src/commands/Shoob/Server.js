@@ -2,6 +2,7 @@ const { tierInfo } = require("../../utils/cardUtils");
 const { getInfo } = require("../Owner/utils");
 const info = {
   name: "serverstats",
+  aliases: ["server"],
   matchCase: false,
   category: "Shoob",
   cooldown: 5,
@@ -51,39 +52,39 @@ module.exports = {
         )}`
     );
     const { upDays, upHours, upMinutes: upMins, cpu } = getInfo();
-    const stats = `
-    \`\`\`asciidoc
-    = STATISTICS =
-    • Mem Usage  :: ${cpu}
-    • Uptime     :: ${upDays} Days, ${upHours} Hours, ${upMins} Minutes
-    • Shards     :: 3
-    • Users      :: ${totalMembers.toLocaleString(undefined, {
-      style: "decimal",
-      maximumFractionDigits: 0,
-    })}
-    • Servers    :: ${totalGuilds.toLocaleString(undefined, {
-      style: "decimal",
-      maximumFractionDigits: 0,
-    })}
-    • Channels   :: ${channels
-      .reduce((a, b) => a + b, 0)
-      .toLocaleString(undefined, {
-        style: "decimal",
-        maximumFractionDigits: 0,
-      })}
-    
-    = SERVER/GUILD =
-    • Name       :: ${message.guild.name}
-    • Claims     :: ${Number.parseInt(
-      recentCards[0].claims
-    ).toLocaleString(undefined, { style: "decimal", maximumFractionDigits: 0 })}
-    • Spawns     :: ${Number.parseInt(
-      recentCards[0].spawns
-    ).toLocaleString(undefined, { style: "decimal", maximumFractionDigits: 0 })}
+    // todo change this oh my god
+    const stats = `\`\`\`asciidoc
+= STATISTICS =
+• Mem Usage  :: ${cpu}
+• Uptime     :: ${upDays} Days, ${upHours} Hours, ${upMins} Minutes
+• Shards     :: 3
+• Users      :: ${totalMembers.toLocaleString(undefined, {
+  style: "decimal",
+  maximumFractionDigits: 0,
+})}
+• Servers    :: ${totalGuilds.toLocaleString(undefined, {
+  style: "decimal",
+  maximumFractionDigits: 0,
+})}
+• Channels   :: ${channels
+  .reduce((a, b) => a + b, 0)
+  .toLocaleString(undefined, {
+    style: "decimal",
+    maximumFractionDigits: 0,
+  })}
 
-    = TOP 5 SERVERS =
-    ${topped.join("\n")}
-    \`\`\``;
+= SERVER/GUILD =
+• Name       :: ${message.guild.name}
+• Claims     :: ${Number.parseInt(
+  recentCards[0].claims
+).toLocaleString(undefined, { style: "decimal", maximumFractionDigits: 0 })}
+• Spawns     :: ${Number.parseInt(
+  recentCards[0].spawns
+).toLocaleString(undefined, { style: "decimal", maximumFractionDigits: 0 })}
+
+= TOP 5 SERVERS =
+${topped.join("\n")}
+\`\`\``;
     await message.channel.send(stats);
     return true;
   },

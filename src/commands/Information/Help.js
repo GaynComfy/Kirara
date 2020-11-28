@@ -7,12 +7,12 @@ const info = {
 };
 const emotes = {
   Information: "<a:Sirona_star:748985391360507924>",
-  Administration: "<a:Hypesquad:741202057507373136>",
-  Shoob: "<:T6:754541597479403612>",
+  Administration: "<:Sirona_yesh:762603569538531328> ",
+  Shoob: "<:NewT6:781684992937558047>",
   Owner: "<a:Sirona_Tick:749202570341384202>",
-  UwU: "<a:ANIuwu:727780154264256565>",
+  UwU: "<a:Sirona_Oww:749512613716688946>",
   Giveaway: "🎁",
-  Roleplay: "<a:Sirona_boost:755897634216083516>",
+  Roleplay: "<a:Sirona_hug:749511190622765163>",
 };
 module.exports = {
   execute: async (instance, message, args) => {

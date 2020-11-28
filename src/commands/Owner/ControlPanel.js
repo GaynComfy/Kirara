@@ -3,7 +3,7 @@ const { withOwner } = require("../../utils/hooks");
 const { getInfo } = require("./utils");
 const color = require("../../utils/Colors.json");
 const info = {
-  name: "Controlpanel",
+  name: "controlpanel",
   aliases: ["cp"],
   matchCase: false,
   category: "Owner",

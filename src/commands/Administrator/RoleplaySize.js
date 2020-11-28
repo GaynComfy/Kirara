@@ -33,7 +33,7 @@ module.exports = {
           "roleplay_size:" + message.channel.id
         ] = true;
         const embed = new MessageEmbed()
-          .setDescription("<a:Sirona_Tick:749202570341384202> set to small embeds.")
+          .setDescription("<a:Sirona_Tick:749202570341384202> Set to small embeds!")
           .setColor("RANDOM");
         return message.channel.send(embed);
       } else {
@@ -50,7 +50,7 @@ module.exports = {
           "roleplay_size:" + message.channel.id
         ];
         const embed = new MessageEmbed()
-          .setDescription("<a:Sirona_Tick:749202570341384202> set to big embeds.")
+          .setDescription("<a:Sirona_Tick:749202570341384202> Set to big embeds!")
           .setColor("RANDOM");
         return message.channel.send(embed);
       }

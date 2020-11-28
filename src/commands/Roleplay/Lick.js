@@ -1,7 +1,7 @@
 const Fetcher = require("../../utils/GifFetcher");
 const { generateRolePlayEmbed } = require("./utils");
 const info = {
-  name: "baka",
+  name: "lick",
   matchCase: false,
   category: "Roleplay",
   cooldown: 60,
@@ -11,9 +11,9 @@ module.exports = {
     if (message.mentions.users.size === 0) {
       return false;
     }
-    const { url } = await Fetcher.request("baka");
+    const { url } = await Fetcher.request("lick");
     const embed = generateRolePlayEmbed(
-      "tells baka to",
+      "licks",
       message.author.id,
       message.mentions.users.first().id
     );
@@ -28,8 +28,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "baka @user",
-    examples: ["baka @Nota"],
-    description: "Insults a user",
+    usage: "lick @user",
+    examples: ["lick @~Nota~"],
+    description: "Licks a user",
   },
 };
