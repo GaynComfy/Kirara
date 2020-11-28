@@ -33,7 +33,7 @@ module.exports = {
     const selectedColor = tierInfo[`T${card.tier}`];
 
     const query =
-      "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true AND card_id=$1 GROUP BY discord_id ORDER BY c DESC LIMIT 8";
+      "SELECT COUNT(id) c, CARD_CLAIMS.* FROM CARD_CLAIMS WHERE claimed=true AND card_id=$1 GROUP BY discord_id ORDER BY c DESC LIMIT 8";
     const { rows: entries } = await instance.database.pool.query(query, [
       card.id,
     ]);
@@ -41,7 +41,7 @@ module.exports = {
     const mapped = [];
     for (const claim of entries) {
       let result = await instance.client.shard.broadcastEval(
-        `this.users.resolve(${claim.discord_id})`
+        `this.users.resolve('${claim.discord_id}')`
       );
       if (!result) {
         result = instance.client.users.resolve(claim.discord_id) || {
