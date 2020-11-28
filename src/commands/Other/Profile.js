@@ -19,7 +19,7 @@ const tierPositions = [
 
 module.exports = {
   execute: async (instance, message, args) => {
-    const member = message.author;
+    const member = message.mentions.users.first() || message.author;
     const {
       rows: [cards],
     } = await instance.database.pool.query(
