@@ -1,5 +1,6 @@
 const { withRights } = require("../../utils/hooks");
 const { MessageEmbed } = require("discord.js");
+const { getLilliePing } = require('./utils');
 const isDev = process.env.NODE_ENV === "development";
 
 const info = {
@@ -51,6 +52,8 @@ const fetchData = async (instance) => {
 module.exports = {
   execute: async (instance, message, args) => {
     try {
+      const ping = Math.round(Date.now() - message.createdTimestamp);
+      const lillie  = await getLilliePing();
       const { totalGuilds, totalMembers, channels } = await fetchData(instance);
       const shardid = instance.client.shard.ids[0] + 1;
       const guildSize = instance.client.guilds.cache.size;
@@ -60,25 +63,27 @@ module.exports = {
       );
       const channelSize = instance.client.channels.cache.size;
       const InviteEmbed = new MessageEmbed()
-        .setAuthor("Info for Sirona")
+        .setAuthor("Info for Kirara")
         .setDescription(
-          `🏓Latency is ${
-            Date.now() - message.createdTimestamp
-          }ms. API Latency is ${Math.round(instance.client.ws.ping)}ms`
+          `🏓 Commands: \`${ping}ms\`\n` +
+          `💓 Gateway: \`${Math.round(instance.client.ws.ping)}ms\`\n` +
+          `🗃️ lillie: \`${lillie.ping}\``
         )
+        .setColor("#e0e0e0")
         .addField(
           "**🖥️ Bot Details:**",
-          `${numberWithCommas(totalGuilds)} Servers\n${numberWithCommas(
-            totalMembers
-          )} Users\n${numberWithCommas(channels)} Channels`
+          `${numberWithCommas(totalGuilds)} Servers\n` +
+          `${numberWithCommas(totalMembers)} Users\n` +
+          `${numberWithCommas(channels)} Channels\n` +
+          `lillie: ${lillie.message ? lillie.message : 'down'}` +
+          (lillie.version ? `, v${lillie.version}` : '')
         )
         .addField(
           `**🟢 Shard: ${shardid}**`,
-          `${numberWithCommas(guildSize)} Servers\n${numberWithCommas(
-            userSize
-          )} Users\n${numberWithCommas(channelSize)} Channels`
-        )
-        .setColor("#e0e0e0");
+          `${numberWithCommas(guildSize)} Servers\n` +
+          `${numberWithCommas(userSize)} Users\n` +
+          `${numberWithCommas(channelSize)} Channels`
+        );
 
       message.channel.send({ embed: InviteEmbed });
     } catch (err) {

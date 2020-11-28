@@ -10,14 +10,14 @@ const info = {
 
 module.exports = {
   execute: async (instance, message, args) => {
-    const ping = Math.round(Date.now() - message.createdTimestamp);
-    const lilping = await getLilliePing();
+    const msgPing = Math.round(Date.now() - message.createdTimestamp);
+    const { ping } = await getLilliePing();
     const InviteEmbed = new MessageEmbed()
       .setAuthor("Latency for Kirara")
       .setDescription(
-        `🏓 Commands: \`${ping}ms\`\n` +
-        `💓 Gateway: \`${Math.round(instance.client.ws.ping)}ms\`` +
-        `🗃️ lillie: \`${lilping}\``
+        `🏓 Commands: \`${msgPing}ms\`\n` +
+        `💓 Gateway: \`${Math.round(instance.client.ws.ping)}ms\`\n` +
+        `🗃️ lillie: \`${ping}\``
       )
       .setColor("#e0e0e0");
     message.channel.send(InviteEmbed);

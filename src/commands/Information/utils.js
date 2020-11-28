@@ -1,12 +1,16 @@
 const lillieClient = require('../../utils/lillieClient');
 
 exports.getLilliePing = async () => {
-  const then = Date.now();
   try {
-    await lillieClient.request('ping');
+    const then = Date.now();
+    const data = await lillieClient.request('ping');
+    const now = Date.now() - then;
+    return {
+      ping: `${now}ms`,
+      message: data.message,
+      version: data.version
+    };
   } catch (err) {
-    return 'failure';
+    return { ping: 'failure' };
   }
-  const now = Date.now() - then;
-  return `${now}ms`;
 };
