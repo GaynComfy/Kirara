@@ -84,10 +84,11 @@ module.exports = {
           if (messageChannel) {
             const oweeet = new Discord.MessageEmbed()
               .setDescription(
-                `<a:Sirona_loading:748854549703426118> Adding [\`${data.card_name}\`](https://animesoul.com/cards/info/${data.card_id}) Issue #:\`${data.issue}\` to **<@${data.discord_id}>'s** Database!\n\u200b`
+                `<a:Sirona_loading:748854549703426118> [\`${data.card_name}\`](https://animesoul.com/cards/info/${data.card_id})` +
+                `Issue #:\`${data.issue}\` has been claimed!\n<a:Sirona_Tick:749202570341384202> Added to <@${data.discord_id}>'s database.\n\u200b`
               )
               .setFooter(
-                "Got a problem? use s!support\n Want to invite the bot? Use s!invite"
+                "Got a problem? use s!support\nWant to invite the bot? Use s!invite"
               )
               .setColor("RANDOM");
 
