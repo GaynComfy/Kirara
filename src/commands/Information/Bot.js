@@ -64,7 +64,7 @@ module.exports = {
       );
       const channelSize = instance.client.channels.cache.size;
       const InviteEmbed = new MessageEmbed()
-        .setAuthor(`Kirara ${version}`)
+        .setAuthor(`Kirara v${version}`)
         .setDescription(
           `🏓 Command: \`${ping}ms\`\n` +
           `💓 Gateway: \`${Math.round(instance.client.ws.ping)}ms\`\n` +
