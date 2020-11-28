@@ -22,12 +22,13 @@ module.exports = {
         });
         instance.settings[server.id] = {};
         instance.serverIds[server.id] = result.rows[0].id;
+        console.log("Adding Guild ", server.id, server.name);
       } else {
         const serverObj = query.rows[0];
         instance.serverIds[server.id] = serverObj.id;
         if (serverObj.log_channel)
           instance.logChannels[server.id] = serverObj.log_channel;
-
+        console.log("loading", server.id, server.name);
         const settings = await instance.database.simpleQuery("SETTINGS", {
           server_id: query.rows[0].id,
         });

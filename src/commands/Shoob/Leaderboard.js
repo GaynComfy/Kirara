@@ -62,9 +62,9 @@ module.exports = {
       const discriminator = user ? user.discriminator : "#0000";
       const name = user
         ? user.username
-            .substr(0, 15)
-            .trim()
             .replace(/[\u0080-\uF8FF]/g, "")
+            .trim()
+            .substr(0, 15)
         : first
         ? "User Left"
         : "Some user";
