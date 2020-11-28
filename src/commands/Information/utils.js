@@ -1,6 +1,6 @@
 const lillieClient = require('../../utils/lillieClient');
 
-exports.getLilliePing = () => {
+exports.getLilliePing = async () => {
   const then = Data.now();
   try {
     await lillieClient.request('ping');
