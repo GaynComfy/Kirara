@@ -33,7 +33,7 @@ module.exports = {
     const selectedColor = tierInfo[`T${card.tier}`];
 
     const query =
-      "SELECT COUNT(id) c, discord_id, issue, card_id  FROM CARD_CLAIMS WHERE claimed=true AND card_id=$1 GROUP BY discord_id ORDER BY c DESC LIMIT 8";
+      "SELECT aggregate.c, CARD_CLAIMS.discord_id, CARD_CLAIMS.issue, CARD_CLAIMS.id as extern_id FROM (SELECT id ,COUNT(id) AS c FROM CARD_CLAIMS WHERE claimed=true AND card_id=$1 GROUP BY discord_id,id ORDER BY c DESC LIMIT 8) as aggregate JOIN CARD_CLAIMS ON CARD_CLAIMS.id=aggregate.id";
     const { rows: entries } = await instance.database.pool.query(query, [
       card.id,
     ]);
