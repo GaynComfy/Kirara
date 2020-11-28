@@ -94,7 +94,8 @@ module.exports = {
               .setThumbnail(data.image_url);
 
             try {
-              messageChannel.send(oweeet);
+              const msg = await messageChannel.send(oweeet);
+              setTimeout(() => msg.delete(), 15000);
             } catch (err) {
               console.error(err);
             }
