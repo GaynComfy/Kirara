@@ -43,7 +43,7 @@ module.exports = {
       for (const claim of entries) {
         const owners = claim.trade_history;
         const username = owners[owners.length - 1].username;
-        mapTemp[username]++;
+        mapTemp[username] = (mapTemp[username] || 0) + 1;
         claimers.push(
           `> • \`Issue: ${claim.issue}\` | [__**${username}**__](https://animesoul.com/user/${claim.discord_id})`
         );
