@@ -56,7 +56,7 @@ ${tiersArray.join(' | ')}
         .slice(0, 5)
         .map((e) => `Issue: \`${e.issue}\` • \`${e.card_name}\``);
       const embed = new MessageEmbed()
-        .setTitle(`${tier.emoji} Tier ${tier.num} Stats.`)
+        .setTitle(`${tier.emoji} Tier ${tier.num} Stats`)
         .setThumbnail(member.displayAvatarURL())
         .setDescription(
           `For this season you have claimed \`${result.rows.length}\` T${tier.num}'s`
