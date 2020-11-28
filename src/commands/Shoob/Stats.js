@@ -27,10 +27,10 @@ module.exports = {
         instance.config.season,
       ]);
       result.rows.forEach((entry) => {
-        const tierInfo = tierInfo[entry.tier.toUpperCase()];
+        const tier = tierInfo["T" + entry.tier.toUpperCase()];
         hugEmbed.addField(
           `Tier ${entry.tier}`,
-          `》${tierInfo.emoji} ${entry.c}x`,
+          `》${tier.emoji} ${entry.c}x`,
           true
         );
       });
@@ -41,7 +41,7 @@ module.exports = {
         "SELECT * FROM CARD_CLAIMS WHERE discord_id=$1 AND tier=$2 AND claimed=true AND season=$3 ORDER BY id DESC";
       const result = await instance.database.pool.query(query, [
         message.author.id,
-        args[0][0].toUpperCase(),
+        args[0][1].toUpperCase(),
         instance.config.season,
       ]);
       const tier = tierInfo[args[0].toUpperCase()];
