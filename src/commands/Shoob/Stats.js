@@ -14,7 +14,7 @@ module.exports = {
     const member = message.author || {};
     if (args.length === 0) {
       let tiersArray = [];
-      const hugEmbed = new MessageEmbed()     
+      const hugEmbed = new MessageEmbed()
         /*.setImage(
           "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
         )*/

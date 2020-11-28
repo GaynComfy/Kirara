@@ -21,12 +21,12 @@ class EventManager {
     const otherHandlers = this.events["message"];
     this.client.on("message", async (message) => {
       if (message.channel.type === "dm") return;
-      if (message.content.indexOf(this.config.prefix) === 0) {
+      if (message.content.toLowerCase().indexOf(this.config.prefix.toLowerCase()) === 0) {
         const args = message.content
           .slice(this.config.prefix.length)
           .trim()
           .split(/ +/g);
-        const commandName = args.shift();
+        const commandName = args.shift().toLowerCase();
         const command = this.commands[commandName];
         if (command) {
           await withCooldown(
