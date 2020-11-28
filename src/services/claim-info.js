@@ -54,7 +54,7 @@ module.exports = {
                     }) Issue: \`${data.issue}\``
                   )
                   .setColor(settings.color)
-                  .setThumbnail(data.image_url)
+                  .setThumbnail(data.image_url.replace(".webp", ".gif"))
                   .setFooter(data.server_name)
                   .setTimestamp();
               } else {
@@ -67,7 +67,7 @@ module.exports = {
                     `${settings.emoji} [${data.card_name} Tier: ${data.tier}](https://animesoul.com/cards/info/${data.card_id}) Despawned`
                   )
                   .setColor(settings.color)
-                  .setThumbnail(data.image_url)
+                  .setThumbnail(data.image_url.replace(".webp", ".gif"))
                   .setFooter(data.server_name)
                   .setTimestamp();
               }
@@ -90,7 +90,7 @@ module.exports = {
                 "Got a problem? Use s!support\nWant to invite the bot? Use s!invite"
               )
               .setColor("RANDOM")
-              .setThumbnail(data.image_url);
+              .setThumbnail(data.image_url.replace(".webp", ".gif"));
 
             try {
               const msg = await messageChannel.send(oweeet);
