@@ -28,10 +28,10 @@ module.exports = {
 
     const selectedTitle =
       args.length !== 0
-        ? `${
+        ? `__${
             tierInfo[args[0].toUpperCase()].emoji
-          } Recent cards: ${args[0].toUpperCase()}`
-        : "Recent cards";
+          } Recent cards: ${args[0].toUpperCase()}__`
+        : "__Recent cards__";
     const selectedColor =
       args.length !== 0 ? tierInfo[args[0].toUpperCase()].color : "#eca8ff";
 
@@ -46,18 +46,18 @@ module.exports = {
 
       const claimers = recentCards.map((item) => {
         if (!item.claimed) return "> ``No one``";
-        const user = instance.client.users.resolve(item.discord_id) || {};
-        return `> \`${user.username || "Unknown"}\``;
+        //const user = instance.client.users.resolve(item.discord_id) || {};
+        return `> <@${item.discord_id}>`;
       });
 
       const cards = recentCards.map(
         (item) =>
-          `> \`\`Tier:T${item.tier}\`\` • \`\`${item.card_name.substr(
+          `> \`\`T${item.tier}\`\` • \`\`${item.card_name.substr(
             0,
             15
           )}\`\``
       );
-      embed.addField("•   ``Tiers:\u200b`` • __**Cards:**__", cards, true);
+      embed.addField("•   ``  `` • __**Cards:**__", cards, true);
       embed.addField("•   __**Claimed by:**__", claimers, true);
       const dates = cards[0].time;
       embed.setFooter(`Last card spawned: ${moment(dates).fromNow()}.`);
