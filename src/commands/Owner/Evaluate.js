@@ -1,5 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const { withOwner } = require("../../utils/hooks");
+const Color = require("./Colors.json");
 const info = {
   name: "evaluate",
   aliases: ["eval"],
@@ -34,9 +35,9 @@ module.exports = {
           if (evaled.length > 2000) {
             const embed = new MessageEmbed()
               .setDescription(
-                "<:NoCross:732292174254833725> The eval result is over 2000 characters."
+                "<:Sirona_NoCross:762606114444935168> The eval result is over 2000 characters."
               )
-              .setColor("RANDOM");
+              .setColor(Color.red);
             return message.channel.send(embed);
           }
           message.channel.send(clean(evaled), { code: "xl" });

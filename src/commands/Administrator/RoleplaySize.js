@@ -19,9 +19,7 @@ module.exports = {
       if (args[0] === "small") {
         if (result.rows.length === 1) {
           const embed = new MessageEmbed()
-            .setDescription(
-              "<:NoCross:732292174254833725> Already set to small."
-            )
+            .setDescription("<:Sirona_NoCross:762606114444935168> Already set to small.")
             .setColor("RANDOM");
           return message.channel.send(embed);
         }
@@ -35,13 +33,13 @@ module.exports = {
           "roleplay_size:" + message.channel.id
         ] = true;
         const embed = new MessageEmbed()
-          .setDescription("<:NoCross:732292174254833725> set to small embeds.")
+          .setDescription("<a:Sirona_Tick:749202570341384202> set to small embeds.")
           .setColor("RANDOM");
         return message.channel.send(embed);
       } else {
         if (result.rows.length !== 1) {
           const embed = new MessageEmbed()
-            .setDescription("<:NoCross:732292174254833725> Already set to big.")
+            .setDescription("<:Sirona_NoCross:762606114444935168> Already set to big.")
             .setColor("RANDOM");
           return message.channel.send(embed);
         }
@@ -52,7 +50,7 @@ module.exports = {
           "roleplay_size:" + message.channel.id
         ];
         const embed = new MessageEmbed()
-          .setDescription("<:NoCross:732292174254833725> set to big embeds.")
+          .setDescription("<a:Sirona_Tick:749202570341384202> set to big embeds.")
           .setColor("RANDOM");
         return message.channel.send(embed);
       }
