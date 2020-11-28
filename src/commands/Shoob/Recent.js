@@ -15,12 +15,16 @@ module.exports = {
   execute: async (instance, message, args) => {
     if (args.length > 0 && !allowed.includes(args[0])) return false;
     const member = message.meber || {};
-    const {
-      rows: recentCards,
-    } = await instance.database.pool.query(
-      "SELECT * FROM CARD_CLAIMS WHERE server_id=$1 ORDER BY id DESC LIMIT 5",
-      [instance.serverIds[message.guild.id]]
-    );
+    const { rows: recentCards } =
+      args.length === 0
+        ? await instance.database.pool.query(
+            "SELECT * FROM CARD_CLAIMS WHERE server_id=$1 ORDER BY id DESC LIMIT 5",
+            [instance.serverIds[message.guild.id]]
+          )
+        : await instance.database.pool.query(
+            "SELECT * FROM CARD_CLAIMS WHERE server_id=$1 AND tier=$2 ORDER BY id DESC LIMIT 5",
+            [instance.serverIds[message.guild.id], args[0][0].toUpperCase()]
+          );
 
     const selectedTitle =
       args.length !== 0
@@ -47,7 +51,11 @@ module.exports = {
       });
 
       const cards = recentCards.map(
-        (item) => `> \`\`Tier:T${item.tier}\`\` • \`\`${item.card_name}\`\``
+        (item) =>
+          `> \`\`Tier:T${item.tier}\`\` • \`\`${item.card_name.substr(
+            0,
+            15
+          )}\`\``
       );
       embed.addField("•   ``Tiers:\u200b`` • __**Cards:**__", cards, true);
       embed.addField("•   __**Claimed by:**__", claimers, true);
