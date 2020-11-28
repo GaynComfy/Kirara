@@ -28,9 +28,9 @@ module.exports = {
 
     const selectedTitle =
       args.length !== 0
-        ? `__${
+        ? `${
             tierInfo[args[0].toUpperCase()].emoji
-          } Recent cards: ${args[0].toUpperCase()}__`
+          } __Recent cards: ${args[0].toUpperCase()}__`
         : "__Recent cards__";
     const selectedColor =
       args.length !== 0 ? tierInfo[args[0].toUpperCase()].color : "#eca8ff";
@@ -57,9 +57,9 @@ module.exports = {
             15
           )} V${item.issue}\`\``
       );
-      embed.addField("•   ``  `` • __**Cards:**__", cards, true);
+      embed.addField("•   ``T `` • __**Cards:**__", cards, true);
       embed.addField("•   __**Claimed by:**__", claimers, true);
-      const dates = cards[0].time;
+      const dates = recentCards[0].time;
       embed.setFooter(`Last card spawned: ${moment(dates).fromNow()}.`);
     } else {
       embed.addField("Cards:", "``No cards have spawned yet.``", true);
