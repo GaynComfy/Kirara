@@ -55,7 +55,7 @@ module.exports = {
           `> \`\`T${item.tier}\`\` • \`\`${item.card_name.substr(
             0,
             15
-          )}\`\``
+          )} V${item.issue}\`\``
       );
       embed.addField("•   ``  `` • __**Cards:**__", cards, true);
       embed.addField("•   __**Claimed by:**__", claimers, true);
