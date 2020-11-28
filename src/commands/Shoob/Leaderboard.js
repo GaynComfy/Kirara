@@ -40,7 +40,9 @@ module.exports = {
 
     if (claimers.length === 0) {
       const embed = new MessageEmbed()
-        .setDescription('<:Sirona_NoCross:762606114444935168> This server has no claimed cards.')
+        .setDescription(
+          "<:Sirona_NoCross:762606114444935168> This server has no claimed cards."
+        )
         .setColor(Color.red);
       return await message.channel.send(embed);
     }
@@ -59,7 +61,10 @@ module.exports = {
       const user = await instance.client.users.fetch(entry.discord_id);
       const discriminator = user ? user.discriminator : "#0000";
       const name = user
-        ? user.username.substr(0, 15)
+        ? user.username
+            .substr(0, 15)
+            .trim()
+            .replace(/[\u0080-\uF8FF]/g, "")
         : first
         ? "User Left"
         : "Some user";
