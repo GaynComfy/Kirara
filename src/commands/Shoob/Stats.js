@@ -15,9 +15,9 @@ module.exports = {
     if (args.length === 0) {
       let tiersArray = [];
       const hugEmbed = new MessageEmbed()     
-        .setImage(
+        /*.setImage(
           "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
-        )
+        )*/
         .setThumbnail(member.displayAvatarURL({size: 2048, dynamic: true}))
         .setColor("#f52fb3");
 
@@ -37,7 +37,7 @@ module.exports = {
           true
         );*/
       });
-      hugEmbed.setDescription(`**${member.username}'s claims**
+      hugEmbed.setDescription(`<:733154673413980202:782165519146156062> **${member.username}'s claims**
 ━━━━━━━━━━━━━━━
 ${tiersArray.join(' | ')}
 ━━━━━━━━━━━━━━━`);
