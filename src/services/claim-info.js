@@ -2,12 +2,12 @@ const redis = require("redis");
 const Discord = require("discord.js");
 const GuildDelete = require("../events/GuildDelete");
 const tierSettings = {
-  1: { emoji: "<:T1:754538833386668075>", num: 1, color: "#e8e8e8" },
-  2: { emoji: "<:T2:754538833504370779>", num: 2, color: "#2ed60d" },
-  3: { emoji: "<:T3:754540393797910562>", num: 3, color: "#1a87ed" },
-  4: { emoji: "<:T4:754540393760161905>", num: 4, color: "#a623a6" },
-  5: { emoji: "<:T5:754540394137518092>", num: 5, color: "#ffe814" },
-  6: { emoji: "<:T6:754541597479403612>", num: 6, color: "#ff170f" },
+  1: { emoji: "<:NewT1:781684991372689458>", num: 1, color: "#e8e8e8" },
+  2: { emoji: "<:NewT2:781684993071251476>", num: 2, color: "#2ed60d" },
+  3: { emoji: "<:NewT3:781684993331953684>", num: 3, color: "#1a87ed" },
+  4: { emoji: "<:NewT4:781684993449001011>", num: 4, color: "#a623a6" },
+  5: { emoji: "<:NewT5:781684993834352680>", num: 5, color: "#ffe814" },
+  6: { emoji: "<:NewT6:781684992937558047>", num: 6, color: "#ff170f" },
 };
 
 let client = null;
