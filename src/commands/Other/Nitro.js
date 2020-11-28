@@ -1,5 +1,6 @@
 const { MessageEmbed } = require("discord.js");
-const moment = require("moment");
+const humanizeDuration = require("humanize-duration");
+
 const info = {
   name: "nitro",
   matchCase: false,
@@ -21,7 +22,10 @@ module.exports = {
 
       message.channel.send({ embed: embed });
     } else {
-      const since = moment(account.premiumSinceTimestamp).fromNow();
+      const since = humanizeDuration(
+        Date.now() - account.premiumSinceTimestamp,
+        { round: true, units: ["y", "mo", "w", "d", "h", "m"] }
+      );
 
       const embed = new MessageEmbed()
         .setDescription(
