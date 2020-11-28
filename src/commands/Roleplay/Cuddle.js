@@ -13,7 +13,7 @@ module.exports = {
     }
     const { url } = await Fetcher.request("cuddle");
     const embed = generateRolePlayEmbed(
-      "cuddle's",
+      "cuddles",
       message.author.id,
       message.mentions.users.first().id
     );
