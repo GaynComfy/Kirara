@@ -29,7 +29,7 @@ module.exports = {
     const {
       rows: [position],
     } = await instance.database.pool.query(
-      "SELECT aggregates.*, ROW_NUMBER () OVER (ORDER BY aggregates.c DESC) AS row FROM (SELECT COUNT(id) AS c, discord_id FROM CARD_CLAIMS WHERE server_id=$2 GROUP BY discord_id) as aggregates WHERE aggregates.discord_id=$1",
+      "SELECT aggregates.* FROM (SELECT count(id) AS c, discord_id, ROW_NUMBER() OVER (ORDER BY count(id) DESC) as row FROM card_claims WHERE server_id=$2 group by discord_id ORDER BY c desc) as aggregates WHERE aggregates.discord_id=$1",
       [member.id, instance.serverIds[message.guild.id]]
     );
 
@@ -66,7 +66,7 @@ module.exports = {
     // Fill in tier counts
     (cards || []).forEach((tier, i) => {
       if (tier.tier === "S") return;
-      const pos = tierPositions[Number.parseInt(tier.tier[0]) - 1];
+      const pos = tierPositions[Number.parseInt(tier.tier) - 1];
       ctx.fillText(`${tier.c}x`, pos.x, pos.y);
     });
 

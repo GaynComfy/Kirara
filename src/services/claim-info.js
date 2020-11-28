@@ -84,7 +84,7 @@ module.exports = {
           if (messageChannel) {
             const oweeet = new Discord.MessageEmbed()
               .setDescription(
-                `<a:Sirona_loading:748854549703426118> Adding [\`${data.card_name}\`](https://animesoul.com/cards/info/${data.card_id}) Issue #:\`${data.issue}\` to **<@${data.discord_id}>'s** Database!\n<:Sirona_ArrowPink:748852891481014324>\n\u200b`
+                `<a:Sirona_loading:748854549703426118> Adding [\`${data.card_name}\`](https://animesoul.com/cards/info/${data.card_id}) Issue #:\`${data.issue}\` to **<@${data.discord_id}>'s** Database!\n\u200b`
               )
               .setFooter(
                 "Got a problem? use s!support\n Want to invite the bot? Use s!invite"
