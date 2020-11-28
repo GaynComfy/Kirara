@@ -43,8 +43,8 @@ class CardFetcher {
       return null;
     }
     const cards = result.data;
-    instance.cache.setExpire(k, JSON.stringify(card), 60 * 30);
-    return card;
+    instance.cache.setExpire(k, JSON.stringify(cards), 60 * 30);
+    return cards;
   }
 }
 module.exports = new CardFetcher(process.env.AS_TOKEN);
