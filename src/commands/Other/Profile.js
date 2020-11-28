@@ -54,7 +54,7 @@ module.exports = {
       member.username.length > 12
         ? member.username.substr(0, 12)
         : member.username;
-    const total = (cards || []).reduce((prev, curr) => prev + curr.c, 0);
+    const total = (cards || []).reduce((prev, curr) => parseInt(prev) + parseInt(curr.c), 0);
     ctx.textAlign = "left";
     ctx.fillText(name, 440, 75);
     ctx.font = "45px Century Gothic";
