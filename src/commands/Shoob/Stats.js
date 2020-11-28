@@ -18,6 +18,7 @@ module.exports = {
         .setImage(
           "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
         )
+        .setThumbnail(member.displayAvatarURL({size: 2048, dynamic: true}))
         .setColor("#f52fb3");
 
       const query =
@@ -37,9 +38,9 @@ module.exports = {
         );*/
       });
       hugEmbed.setDescription(`**${member.username}'s claims**
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━
 ${tiersArray.join(' | ')}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+━━━━━━━━━━━━━━━`);
       await message.channel.send(hugEmbed);
     } else {
       if (!allowed.includes(args[0])) return false;
