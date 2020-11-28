@@ -92,7 +92,7 @@ module.exports = {
             : "https://cdn.discordapp.com/embed/avatars/0.png"
         );
         ctx.save();
-        ctx.arc(100, 167, 79, 0, Math.PI * 2, true);
+        ctx.arc(179.5, 245.5, 79, 0, Math.PI * 2, true);
         ctx.closePath();
         ctx.clip();
         ctx.drawImage(avatar, 100, 167, 158, 158);
