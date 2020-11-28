@@ -85,10 +85,10 @@ module.exports = {
             const oweeet = new Discord.MessageEmbed()
               .setDescription(
                 `<a:Sirona_loading:748854549703426118> [\`${data.card_name}\`](https://animesoul.com/cards/info/${data.card_id}) ` +
-                `Issue #: \`${data.issue}\` has been claimed!\n\n<a:Sirona_Tick:749202570341384202> Added to <@${data.discord_id}>'s database.\n\u200b`
+                `Issue #: \`${data.issue}\` has been claimed!\n<a:Sirona_Tick:749202570341384202> Added to <@${data.discord_id}>'s database.\n\u200b`
               )
               .setFooter(
-                "Got a problem? Use s!support\nWant to invite the bot? Use s!invite"
+                "Got a problem? use s!support\nWant to invite the bot? Use s!invite"
               )
               .setColor("RANDOM")
               .setThumbnail(data.image_url);
