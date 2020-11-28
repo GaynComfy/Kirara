@@ -88,7 +88,7 @@ module.exports = {
                 `Issue #: \`${data.issue}\` has been claimed!\n<a:Sirona_Tick:749202570341384202> Added to <@${data.discord_id}>'s database.\n\u200b`
               )
               .setFooter(
-                "Got a problem? use s!support\nWant to invite the bot? Use s!invite"
+                "Got a problem? Use s!support\nWant to invite the bot? Use s!invite"
               )
               .setColor("RANDOM")
               .setThumbnail(data.image_url);

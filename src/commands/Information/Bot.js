@@ -1,6 +1,7 @@
 const { withRights } = require("../../utils/hooks");
 const { MessageEmbed } = require("discord.js");
 const { getLilliePing } = require('./utils');
+const { version } = require('../../../package.json');
 const isDev = process.env.NODE_ENV === "development";
 
 const info = {
@@ -63,11 +64,11 @@ module.exports = {
       );
       const channelSize = instance.client.channels.cache.size;
       const InviteEmbed = new MessageEmbed()
-        .setAuthor("Info for Kirara")
+        .setAuthor(`Kirara ${version}`)
         .setDescription(
           `🏓 Command: \`${ping}ms\`\n` +
           `💓 Gateway: \`${Math.round(instance.client.ws.ping)}ms\`\n` +
-          `🗃️ lillie: \`${lillie.ping}\`` +
+          `🖍️ lillie: \`${lillie.ping}\`` +
           (lillie.version ? `, v${lillie.version}` : '')
         )
         .setColor("#e0e0e0")
