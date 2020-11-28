@@ -51,7 +51,7 @@ module.exports = {
           )
           .setFooter(
             "by G&C Dev Team | s!help [cmd] | discord.gg/comfy",
-            "https://cdn.discordapp.com/avatars/748100524246564894/03cfa9d81490e748b10e26d37a197525.png?size=2048"
+            "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png"
           );
       });
 
