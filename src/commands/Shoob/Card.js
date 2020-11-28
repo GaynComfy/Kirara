@@ -40,11 +40,9 @@ module.exports = {
     const claimers = [];
     const mapped = [];
     for (const claim of entries) {
-      let result = await instance.client.shard.broadcastEval(
-        `this.users.resolve('${claim.discord_id}')`
-      );
+      let result = await instance.client.users.fetch(claim.discord_id);
       if (!result) {
-        result = instance.client.users.resolve(claim.discord_id) || {
+        result = {
           username: "Unkown user",
         };
       }
