@@ -59,7 +59,7 @@ module.exports = {
     ctx.fillText(name, 440, 75);
     ctx.font = "45px Century Gothic";
     // Claims
-    ctx.fillText(`#${total}`, 703, 210);
+    ctx.fillText(`${total}x`, 703, 210);
     // Rank
     ctx.fillText(`${(position || {}).row || "-"}`, 667, 155);
 
