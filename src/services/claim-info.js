@@ -45,7 +45,7 @@ module.exports = {
                   )
                   .setDescription(
                     `${tierSettings[data.tier].emoji} <@${
-                      member.user.username
+                      member.user.id
                     }> has claimed [${data.card_name} Tier: ${
                       data.tier
                     }](https://animesoul.com/cards/info/${
