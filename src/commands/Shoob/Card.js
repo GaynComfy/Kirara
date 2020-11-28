@@ -40,18 +40,12 @@ module.exports = {
     const mapped = [];
     if (isGlobal) {
       const entries = await Fetcher.fetchOwners(instance, card.id, "8");
-      const mapTemp = {};
       for (const claim of entries) {
         const owners = claim.trade_history;
         const username = owners[owners.length - 1].username;
-        mapTemp[username] = (mapTemp[username] || 0) + 1;
         claimers.push(
           `> • \`Issue: ${claim.issue}\` | [__**${username}**__](https://animesoul.com/user/${claim.discord_id})`
         );
-      }
-      // if limited, it will just show the top claimers of the first 8 issues
-      for (const user of Object.keys(mapTemp)) {
-        mapped.push({ value: user, count: mapTemp[user] });
       }
     } else {
       const query =
@@ -93,7 +87,7 @@ module.exports = {
           .setImage(card.image_url.replace(".webp", ".gif"))
           .setFooter("React to ▶️ for more info");
       } else {
-        return new MessageEmbed()
+        const embed = new MessageEmbed()
           .setTitle(
             `${selectedColor.emoji}  •  ${card.name}  •  ${
               card.tier === "S"
@@ -114,22 +108,25 @@ module.exports = {
           .setImage(
             "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
           )
-          .addField(
-            `Top ${isGlobal ? "Global " : ""}Claimers:`,
-            mapped
-              .slice(0, 3)
-              .map((user) => `\`${user.value} (${user.count}x)\``)
-              .join(" | ") || "- No one! <:shoob:760021745905696808>"
-          )
-          .addField(
+          .setFooter("React to ◀️ get back")
+          .setColor(selectedColor.color);
+          if (!isGlobal) {
+            embed.addField(
+              `Top Claimers:`,
+              mapped
+                .slice(0, 3)
+                .map((user) => `\`${user.value} (${user.count}x)\``)
+                .join(" | ") || "- No one! <:shoob:760021745905696808>"
+            );
+          }
+          embed.addField(
             `__${isGlobal ? "Global " : ""}Card Owners:__`,
             claimers.length === 0
               ? "- No one! <:shoob:760021745905696808>"
               : claimers,
             true
-          )
-          .setFooter("React to ◀️ get back")
-          .setColor(selectedColor.color);
+          );
+          return embed;
       }
     });
     return true;

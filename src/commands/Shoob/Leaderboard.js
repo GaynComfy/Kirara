@@ -1,3 +1,4 @@
+const Color = require("../../utils/Colors.json");
 const { createCanvas, loadImage, registerFont } = require("canvas");
 const { MessageEmbed, MessageAttachment } = require("discord.js");
 registerFont("./src/assets/CenturyGothic.ttf", { family: "Century Gothic" });
@@ -36,6 +37,13 @@ module.exports = {
           "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true AND server_id=$1 GROUP BY discord_id ORDER BY c DESC LIMIT 8",
           [server.id]
         );
+
+    if (claimers.length === 0) {
+      const embed = new MessageEmbed()
+        .setDescription('<:Sirona_NoCross:762606114444935168> This server has no claimed cards.')
+        .setColor(Color.red);
+      return await message.channel.send(embed);
+    }
 
     const background = await loadImage("./src/assets/leaderboard.png");
     const icon = await loadImage(message.guild.iconURL({ format: "png" }));
