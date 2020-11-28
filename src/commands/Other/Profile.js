@@ -21,7 +21,7 @@ module.exports = {
   execute: async (instance, message, args) => {
     const member = message.mentions.users.first() || message.author;
     const {
-      rows: [cards],
+      rows: cards,
     } = await instance.database.pool.query(
       "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE discord_id=$1 AND server_id=$2 GROUP BY tier",
       [member.id, instance.serverIds[message.guild.id]]
