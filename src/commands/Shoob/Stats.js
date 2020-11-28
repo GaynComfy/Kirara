@@ -13,8 +13,8 @@ module.exports = {
   execute: async (instance, message, args) => {
     const member = message.author || {};
     if (args.length === 0) {
-      const hugEmbed = new MessageEmbed()
-        .setDescription(`**${member.username}'s stats:**`)
+      let tiersArray = [];
+      const hugEmbed = new MessageEmbed()     
         .setImage(
           "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
         )
@@ -28,12 +28,18 @@ module.exports = {
       ]);
       result.rows.forEach((entry) => {
         const tier = tierInfo["T" + entry.tier.toUpperCase()];
-        hugEmbed.addField(
+          var text = '${tier.emoji} x ${entry.c}'
+          tiersArray.push(text)
+        /*hugEmbed.addField(
           `Tier ${entry.tier}`,
           `》${tier.emoji} ${entry.c}x`,
           true
-        );
+        );*/
       });
+      hugembed.setDescription(`**${member.username}'s claims**
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+${tiersArray.join(' | ')}
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_`);
       await message.channel.send(hugEmbed);
     } else {
       if (!allowed.includes(args[0])) return false;
