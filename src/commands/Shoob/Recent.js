@@ -23,7 +23,7 @@ module.exports = {
           )
         : await instance.database.pool.query(
             "SELECT * FROM CARD_CLAIMS WHERE server_id=$1 AND tier=$2 ORDER BY id DESC LIMIT 5",
-            [instance.serverIds[message.guild.id], args[0][0].toUpperCase()]
+            [instance.serverIds[message.guild.id], args[0][1].toUpperCase()]
           );
 
     const selectedTitle =
