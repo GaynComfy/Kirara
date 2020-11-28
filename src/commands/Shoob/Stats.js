@@ -28,7 +28,7 @@ module.exports = {
       ]);
       result.rows.forEach((entry) => {
         const tier = tierInfo["T" + entry.tier.toUpperCase()];
-          var text = '${tier.emoji} x ${entry.c}'
+          var text = `${tier.emoji} x ${entry.c}`
           tiersArray.push(text)
         /*hugEmbed.addField(
           `Tier ${entry.tier}`,
@@ -37,9 +37,9 @@ module.exports = {
         );*/
       });
       hugEmbed.setDescription(`**${member.username}'s claims**
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${tiersArray.join(' | ')}
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_`);
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
       await message.channel.send(hugEmbed);
     } else {
       if (!allowed.includes(args[0])) return false;
