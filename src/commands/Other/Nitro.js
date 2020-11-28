@@ -21,9 +21,7 @@ module.exports = {
 
       message.channel.send({ embed: embed });
     } else {
-      const since = moment(
-        Date.now() - account.premiumSinceTimestamp
-      ).fromNow();
+      const since = moment(account.premiumSinceTimestamp).fromNow();
 
       const embed = new MessageEmbed()
         .setDescription(
