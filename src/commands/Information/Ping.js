@@ -15,7 +15,7 @@ module.exports = {
     const InviteEmbed = new MessageEmbed()
       .setAuthor("Latency for Kirara")
       .setDescription(
-        `🏓 Commands: \`${msgPing}ms\`\n` +
+        `🏓 Command: \`${msgPing}ms\`\n` +
         `💓 Gateway: \`${Math.round(instance.client.ws.ping)}ms\`\n` +
         `🗃️ lillie: \`${ping}\``
       )

@@ -65,18 +65,17 @@ module.exports = {
       const InviteEmbed = new MessageEmbed()
         .setAuthor("Info for Kirara")
         .setDescription(
-          `🏓 Commands: \`${ping}ms\`\n` +
+          `🏓 Command: \`${ping}ms\`\n` +
           `💓 Gateway: \`${Math.round(instance.client.ws.ping)}ms\`\n` +
-          `🗃️ lillie: \`${lillie.ping}\``
+          `🗃️ lillie: \`${lillie.ping}\`` +
+          (lillie.version ? `, v${lillie.version}` : '')
         )
         .setColor("#e0e0e0")
         .addField(
           "**🖥️ Bot Details:**",
           `${numberWithCommas(totalGuilds)} Servers\n` +
           `${numberWithCommas(totalMembers)} Users\n` +
-          `${numberWithCommas(channels)} Channels\n` +
-          `lillie: ${lillie.message ? lillie.message : 'down'}` +
-          (lillie.version ? `, v${lillie.version}` : '')
+          `${numberWithCommas(channels)} Channels`
         )
         .addField(
           `**🟢 Shard: ${shardid}**`,
