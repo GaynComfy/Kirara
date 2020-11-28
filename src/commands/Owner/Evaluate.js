@@ -1,6 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const { withOwner } = require("../../utils/hooks");
-const Color = require("./Colors.json");
+const Color = require("../../utils/Colors.json");
 const info = {
   name: "evaluate",
   aliases: ["eval"],
