@@ -6,13 +6,11 @@ const info = {
   category: "Information",
 };
 const emotes = {
-  Information: "<a:Sirona_star:748985391360507924>",
-  Administration: "<:Sirona_yesh:762603569538531328> ",
-  Shoob: "<:NewT6:781684992937558047>",
-  Owner: "<a:Sirona_Tick:749202570341384202>",
-  UwU: "<a:Sirona_Oww:749512613716688946>",
-  Giveaway: "🎁",
-  Roleplay: "<a:Sirona_hug:749511190622765163>",
+  Information: "<:KiraraHmm:775767857811816478>",
+  Administration: "<:KiraraSmart:775767857798578207>",
+  Shoob: "<:shoob:760021745905696808>",
+  UwU: "<:KiraraBlush:775767857324752908>",
+  Roleplay: "<:AiriKiraraHug:775767850946265104>",
 };
 module.exports = {
   execute: async (instance, message, args) => {
@@ -34,7 +32,7 @@ module.exports = {
           category === "Moderation" &&
           !message.member.permissions.has("MANAGE_MESSAGES")
         )
-          mappedOut = "`No commands available..`";
+          mappedOut = "`No commands available.`";
 
         embed
           .addField(
@@ -53,7 +51,7 @@ module.exports = {
           )
           .setFooter(
             "by G&C Dev Team | s!help [cmd] | discord.gg/comfy",
-            "https://cdn.discordapp.com/avatars/748100524246564894/03cfa9d81490e748b10e26d37a197525.png?size=2048"
+            "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png"
           );
       });
 

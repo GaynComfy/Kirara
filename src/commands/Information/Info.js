@@ -9,7 +9,7 @@ const info = {
 const embed = new MessageEmbed()
   .setAuthor(
     "Sirona-Kirara",
-    "https://cdn.discordapp.com/avatars/748100524246564894/03cfa9d81490e748b10e26d37a197525.png?size=2048"
+    "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png"
   )
   .setColor("#fffffe")
   .setDescription(

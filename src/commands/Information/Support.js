@@ -9,7 +9,7 @@ const info = {
 const InviteEmbed = new MessageEmbed()
   .setAuthor(
     "Kirara",
-    "https://cdn.discordapp.com/avatars/748100524246564894/03cfa9d81490e748b10e26d37a197525.png?size=2048"
+    "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png"
   )
   .setDescription(
     "Want more help or want to report bugs?\n> [__**Click Me**__](https://discord.gg/comfy) and [__**Click Me**__](https://discord.gg/GU9USZR4M2) for more support!"
