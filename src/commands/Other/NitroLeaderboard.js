@@ -46,7 +46,7 @@ module.exports = {
               boosters.map(
                 (member, index) =>
                   `${offset + index + 1}. ${member} *(${moment(
-                    Date.now() - member.premiumSinceTimestamp
+                    member.premiumSinceTimestamp
                   ).fromNow()})*`
               )
             )
