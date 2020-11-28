@@ -1,5 +1,5 @@
 module.exports = {
-  prefix: "sb!",
+  prefix: "s!",
   database: {
     host: "127.0.0.1",
     user: "kirara",
@@ -21,8 +21,8 @@ module.exports = {
     "77256980288253952", // Alycans#1693
     "195906408561115137", // Liz3#0001
     "175408504427905025", // JeDaYoshi#7942
-    "97707213690249216" // offbeatwitch#8860
+    "97707213690249216", // offbeatwitch#8860
   ],
-  shardCount: 2,
-  season: 1
+  shardCount: 6,
+  season: 1,
 };
