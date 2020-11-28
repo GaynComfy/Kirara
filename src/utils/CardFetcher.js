@@ -17,7 +17,7 @@ class CardFetcher {
       return JSON.parse(e);
     }
     const result = await this.instance.get(
-      `/card/name/${name}${tier === "all" ? "" : "?tier=" + tier}`
+      `/card/name/${name}${tier === "all" ? "" : `?tier=${tier}`}`
     );
     if (result.data.length === 0) {
       return null;
@@ -25,6 +25,24 @@ class CardFetcher {
     const card =
       result.data.find((e) => e.name.toLowerCase() === name.toLowerCase()) ||
       result.data[0];
+    instance.cache.setExpire(k, JSON.stringify(card), 60 * 30);
+    return card;
+  }
+  async fetchOwners(instance, id, limit = "0") {
+    const k = `cardowners:${id}:${limit}`;
+
+    const exists = await instance.cache.exists(k);
+    if (exists) {
+      const e = await instance.cache.get(k);
+      return JSON.parse(e);
+    }
+    const result = await this.instance.get(
+      `/inventory/card/${id}${limit === "0" ? "" : `?limit=${limit}`}`
+    );
+    if (result.data.length === 0) {
+      return null;
+    }
+    const cards = result.data;
     instance.cache.setExpire(k, JSON.stringify(card), 60 * 30);
     return card;
   }

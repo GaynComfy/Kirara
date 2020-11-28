@@ -89,7 +89,7 @@ module.exports = {
               .setFooter(
                 "Got a problem? Use s!support\nWant to invite the bot? Use s!invite"
               )
-              .setColor("RANDOM")
+              .setColor(settings.color)
               .setThumbnail(data.image_url.replace(".webp", ".gif"));
 
             try {
