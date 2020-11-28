@@ -17,7 +17,8 @@ const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
 module.exports = {
   execute: async (instance, message, args) => {
     if (args.length === 0) return false;
-    const isGlobal = (args[0].toLowerCase() === 'global' || args[0].toLowerCase() === 'g');
+    const isGlobal =
+      args[0].toLowerCase() === "global" || args[0].toLowerCase() === "g";
     if (isGlobal) args.splice(0, 1);
     const hasTier = allowed.includes(args[0].toLowerCase());
     if (hasTier && args.length === 1) return false;
@@ -38,7 +39,7 @@ module.exports = {
     const claimers = [];
     const mapped = [];
     if (isGlobal) {
-      const entries = await Fetcher.fetchOwners(instance, card.id, '8');
+      const entries = await Fetcher.fetchOwners(instance, card.id, "8");
       const mapTemp = {};
       for (const claim of entries) {
         const owners = claim.trade_history;
@@ -49,7 +50,7 @@ module.exports = {
         );
       }
       // if limited, it will just show the top claimers of the first 8 issues
-      for (const user of mapTemp) {
+      for (const user of Object.keys(mapTemp)) {
         mapped.push({ value: user, count: mapTemp[user] });
       }
     } else {
@@ -114,15 +115,17 @@ module.exports = {
             "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
           )
           .addField(
-            `Top ${isGlobal ? 'Global ' : ''}Claimers:`,
+            `Top ${isGlobal ? "Global " : ""}Claimers:`,
             mapped
               .slice(0, 3)
               .map((user) => `\`${user.value} (${user.count}x)\``)
               .join(" | ") || "- No one! <:shoob:760021745905696808>"
           )
           .addField(
-            `__${isGlobal ? 'Global ' : ''}Card Owners:__`,
-            claimers.length === 0 ? "- No one! <:shoob:760021745905696808>" : claimers,
+            `__${isGlobal ? "Global " : ""}Card Owners:__`,
+            claimers.length === 0
+              ? "- No one! <:shoob:760021745905696808>"
+              : claimers,
             true
           )
           .setFooter("React to ◀️ get back")
