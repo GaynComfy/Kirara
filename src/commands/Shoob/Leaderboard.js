@@ -92,7 +92,7 @@ module.exports = {
             : "https://cdn.discordapp.com/embed/avatars/0.png"
         );
         ctx.save();
-        ctx.arc(100, 167, 156, 0, Math.PI * 2, true);
+        ctx.arc(100, 167, 79, 0, Math.PI * 2, true);
         ctx.closePath();
         ctx.clip();
         ctx.drawImage(avatar, 100, 167, 158, 158);
@@ -106,7 +106,7 @@ module.exports = {
         ctx.fillText(name, 172, 363);
       }
       ctx.font = "30px Century Gothic";
-      ctx.fillStyle = first ? "#ffffff" : "#e856e8";
+      ctx.fillStyle = first ? "#ffffff" : "f49e17";
       ctx.textAlign = "left";
       ctx.fillText(name, 405, 176 + 53 * index);
       ctx.font = "24px Century Gothic";
@@ -118,7 +118,7 @@ module.exports = {
       "leaderboard.png"
     );
     const hugEmbed = new MessageEmbed()
-      .setColor("#e856e8")
+      .setColor("f49e17")
       .setAuthor(message.guild.name + "'s Leaderboard", message.guild.iconURL())
       .attachFiles([attachment])
       .setImage("attachment://leaderboard.png");
