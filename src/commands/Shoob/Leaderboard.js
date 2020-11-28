@@ -63,11 +63,11 @@ module.exports = {
 
     const { rows: claimers } = event
       ? await instance.database.pool.query(
-          "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true AND server_id=$1 AND time > $2 GROUP BY discord_id ORDER BY c DESC LIMIT 10",
+          "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true AND server_id=$1 AND time > $2 GROUP BY discord_id ORDER BY c DESC LIMIT 9",
           [server.id, server.event_time]
         )
       : await instance.database.pool.query(
-          "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true AND server_id=$1 GROUP BY discord_id ORDER BY c DESC LIMIT 10",
+          "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true AND server_id=$1 GROUP BY discord_id ORDER BY c DESC LIMIT 9",
           [server.id]
         );
 
@@ -84,7 +84,11 @@ module.exports = {
       const first = index === 0;
       const user = await instance.client.users.fetch(entry.discord_id);
       const discriminator = user ? user.discriminator : "#0000";
-      const name = user ? user.username : first ? "User Left" : "Some user";
+      const name = user
+        ? user.username.substr(0, 15)
+        : first
+        ? "User Left"
+        : "Some user";
       if (first) {
         const avatar = await loadImage(
           user
