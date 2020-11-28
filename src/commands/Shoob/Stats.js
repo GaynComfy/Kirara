@@ -36,7 +36,7 @@ module.exports = {
           true
         );*/
       });
-      hugembed.setDescription(`**${member.username}'s claims**
+      hugEmbed.setDescription(`**${member.username}'s claims**
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 ${tiersArray.join(' | ')}
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_`);
