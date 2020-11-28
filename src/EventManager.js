@@ -26,7 +26,7 @@ class EventManager {
           .slice(this.config.prefix.length)
           .trim()
           .split(/ +/g);
-        const commandName = args.shift().toLowerCase();
+        const commandName = args.shift();
         const command = this.commands[commandName];
         if (command) {
           await withCooldown(
