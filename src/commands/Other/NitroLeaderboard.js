@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const moment = require("moment");
+const humanizeDuration = require("humanize-duration");
 const { pageThroughCollection } = require("../../utils/PagedResults");
 const info = {
   name: "nitroleaderboard",
@@ -32,7 +32,7 @@ module.exports = {
           return;
         }
 
-        return pageThroughCollection(message, allBoosters, (boosters, page) => {
+        pageThroughCollection(message, allBoosters, (boosters, page) => {
           const offset = page.index * page.perPage;
 
           return new MessageEmbed()
@@ -44,9 +44,12 @@ module.exports = {
             .setDescription(
               boosters.map(
                 (member, index) =>
-                  `${offset + index + 1}. ${member} *(${moment(
-                    member.premiumSinceTimestamp
-                  ).fromNow()})*`
+                  `${
+                    offset + index + 1
+                  }. ${member} *(${humanizeDuration(
+                    Date.now() - member.premiumSinceTimestamp,
+                    { round: true, units: ["y", "mo", "w", "d", "h", "m"] }
+                  )})*`
               )
             )
             .setColor("#ba30ba");
