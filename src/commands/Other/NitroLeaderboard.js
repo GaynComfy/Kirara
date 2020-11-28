@@ -2,8 +2,8 @@ const { MessageEmbed } = require("discord.js");
 const moment = require("moment");
 const { pageThroughCollection } = require("../../utils/PagedResults");
 const info = {
-  name: "NitroLeaderboard",
-  aliases: ["boosters"],
+  name: "nitroleaderboard",
+  aliases: ["nitrolb", "boosters"],
   matchCase: false,
   category: "UwU",
   cooldown: 2,
@@ -22,7 +22,6 @@ module.exports = {
             (first, second) =>
               first.premiumSinceTimestamp - second.premiumSinceTimestamp
           );
-        console.log(allBoosters);
 
         message.channel.stopTyping();
 
