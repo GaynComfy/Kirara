@@ -10,40 +10,6 @@ const info = {
   category: "Shoob",
 };
 
-const claimers = [
-  {
-    c: 225,
-    discord_id: "77256980288253952",
-  },
-  {
-    c: 220,
-    discord_id: "399447856232005632",
-  },
-  {
-    c: 219,
-    discord_id: "304357538101723137",
-  },
-  {
-    c: 121,
-    discord_id: "195906408561115137",
-  },
-  {
-    c: 121,
-    discord_id: "195906408561115137",
-  },
-  {
-    c: 121,
-    discord_id: "195906408561115137",
-  },
-  {
-    c: 121,
-    discord_id: "195906408561115137",
-  },
-  {
-    c: 121,
-    discord_id: "195906408561115137",
-  },
-];
 const applyText = (canvas, text) => {
   const ctx = canvas.getContext("2d");
   let fontSize = 30;

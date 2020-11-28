@@ -31,6 +31,7 @@ module.exports = {
             console.error("claim user not found");
             return;
           }
+          const settings = tierSettings[data.tier];
           if (instance.logChannels[guild.id]) {
             const logChannel = guild.channels.cache.get(
               instance.logChannels[guild.id]
@@ -44,7 +45,7 @@ module.exports = {
                     "https://cdn.animesoul.com/images/content/shoob/shoob-no-empty-space.png"
                   )
                   .setDescription(
-                    `${tierSettings[data.tier].emoji} <@${
+                    `${settings.emoji} <@${
                       member.user.id
                     }> has claimed [${data.card_name} Tier: ${
                       data.tier
@@ -52,13 +53,11 @@ module.exports = {
                       data.card_id
                     }) Issue: \`${data.issue}\``
                   )
-                  .setColor(tierSettings[data.tier].color)
+                  .setColor(settings.color)
                   .setThumbnail(data.image_url)
                   .setFooter(data.server_name)
                   .setTimestamp();
               } else {
-                const settings = tierSettings[data.tier];
-
                 log
                   .setAuthor(
                     "Shoob",
