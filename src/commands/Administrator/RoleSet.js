@@ -6,7 +6,6 @@ const info = {
   aliases: ['tierping', 'set'],
   matchCase: false,
   category: "Administration",
-  cooldown: 1,
 };
 const emotes = {
   t1: "<:NewT1:781684991372689458>",
@@ -16,14 +15,14 @@ const emotes = {
   t5: "<:NewT5:781684993834352680>",
   t6: "<:NewT6:781684992937558047>",
 };
-const allowed = ["t3", "t4", "t5", "t6"];
+const allowed = ["t4", "t5", "t6"];
 module.exports = {
   execute: async (instance, message, args) => {
     return withRights(message.member, async () => {
       if (args.length !== 2) {
         return false;
       }
-      if (!allowed.includes(args[0])) return false;
+      if (!allowed.includes(args[0].toLowerCase())) return false;
       const {
         rows: [server],
       } = await instance.database.simpleQuery("SERVERS", {
@@ -100,7 +99,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "roleset [T3|T4|T5|T6] @role",
+    usage: "roleset [T4|T5|T6] @role",
     examples: ["roleset t6 @T6"],
     description: "Set card tiers role mentions for your server.",
   },
