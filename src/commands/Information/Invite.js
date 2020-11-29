@@ -12,7 +12,7 @@ const InviteEmbed = new MessageEmbed()
     "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png"
   )
   .setDescription(
-    "<:T6:754541597479403612> Want to invite the bot to your server? **[Click Me](https://discord.com/oauth2/authorize?client_id=748100524246564894&permissions=8&scope=bot)**"
+    "<:T6:754541597479403612> Want to invite the bot to your server? **[Click Me](https://discord.com/oauth2/authorize?client_id=748100524246564894&permissions=511040&scope=bot)**"
   )
   .setColor("RANDOM");
 
