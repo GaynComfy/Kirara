@@ -50,9 +50,8 @@ module.exports = {
 
       const cards = recentCards.map(
         (item) =>
-          `> \`\`T${item.tier}\`\` • \`\`${item.card_name.substr(0, 15)} V${
-            item.issue
-          }\`\``
+          `> \`\`T${item.tier}\`\` • \`\`${item.card_name.substr(0, 15)}` +
+          `${parseInt(item.issue) > 0 ? ` V${item.issue}` : ''}\`\``
       );
       embed.addField("•   ``T `` • __**Cards:**__", cards, true);
       embed.addField("•   __**Claimed by:**__", claimers, true);
