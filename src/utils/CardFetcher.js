@@ -8,8 +8,8 @@ class CardFetcher {
       },
     });
   }
-  async fetchByName(instance, name, tier = "all") {
-    const k = `cardsearch:${tier}:${name.toLowerCase().replace(/ /g, "-")}`;
+  async fetchByName(instance, name, tier = "all", event = false) {
+    const k = `cardsearch${event ? ':event' : ''}:${tier}:${name.toLowerCase().replace(/ /g, "-")}`;
 
     const exists = await instance.cache.exists(k);
     if (exists) {
@@ -17,7 +17,7 @@ class CardFetcher {
       return JSON.parse(e);
     }
     const result = await this.instance.get(
-      `/card/name/${name}${tier === "all" ? "" : `?tier=${tier}`}`
+      `/${event ? 'eventcards' : 'card'}/name/${name}${tier === "all" ? "" : `?tier=${tier}`}`
     );
     if (result.data.length === 0) {
       return null;

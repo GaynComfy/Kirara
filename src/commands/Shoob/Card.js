@@ -18,9 +18,11 @@ const space = / /; // lol
 module.exports = {
   execute: async (instance, message, args) => {
     if (args.length === 0) return false;
+    const isEvent =
+      args[0].toLowerCase() === "event" || args[0].toLowerCase() === "e";
     const isGlobal =
-      args[0].toLowerCase() === "global" || args[0].toLowerCase() === "g";
-    if (isGlobal) args.splice(0, 1);
+      isEvent || (args[0].toLowerCase() === "global" || args[0].toLowerCase() === "g");
+    if (isEvent || isGlobal) args.splice(0, 1);
     const hasTier = allowed.includes(args[0].toLowerCase());
     if (hasTier && args.length === 1) return false;
     const tier = hasTier ? args.shift()[1].toUpperCase() : "all";
@@ -29,8 +31,8 @@ module.exports = {
     if (space.test(name)) {
       altName = [...args.slice(-1), ...args.slice(0, -1)].join(' ');
     }
-    const card = await Fetcher.fetchByName(instance, name, tier) ||
-      (altName ? await Fetcher.fetchByName(instance, altName, tier) : null);
+    const card = await Fetcher.fetchByName(instance, name, tier, isEvent) ||
+      (altName ? await Fetcher.fetchByName(instance, altName, tier, isEvent) : null);
     if (card === null) {
       const embedz = new MessageEmbed()
         .setDescription(
@@ -139,8 +141,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "card [g/global] [tier] <name>",
-    examples: ["card global t6 Alice", "card t6 Rin"],
+    usage: "card [event/global] [tier] <name>",
+    examples: ["card global t6 Alice", "card event t6 Rias", "card t6 Rin"],
     description: "Fetch a card by tier & name",
   },
 };
