@@ -40,7 +40,7 @@ class CardFetcher {
       `/inventory/card/${id}${limit === "0" ? "" : `?limit=${limit}`}`
     );
     if (result.data.length === 0) {
-      return null;
+      return [];
     }
     const cards = result.data;
     instance.cache.setExpire(k, JSON.stringify(cards), 60 * 30);
