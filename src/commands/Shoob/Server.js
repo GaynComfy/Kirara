@@ -1,8 +1,8 @@
 const { tierInfo } = require("../../utils/cardUtils");
 const { getInfo } = require("../Owner/utils");
 const info = {
-  name: "serverstats",
-  aliases: ["server"],
+  name: "server",
+  aliases: ["serverstats"],
   matchCase: false,
   category: "Shoob",
   cooldown: 5,
