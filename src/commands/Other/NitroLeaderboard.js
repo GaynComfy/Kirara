@@ -2,8 +2,8 @@ const { MessageEmbed } = require("discord.js");
 const humanizeDuration = require("humanize-duration");
 const { pageThroughCollection } = require("../../utils/PagedResults");
 const info = {
-  name: "nitroleaderboard",
-  aliases: ["nitrolb", "boosters"],
+  name: "boosters",
+  aliases: ["nitrolb", "nitroleaderboard"],
   matchCase: false,
   category: "UwU",
   cooldown: 2,
@@ -64,6 +64,6 @@ module.exports = {
   help: {
     usage: "boosters",
     examples: ["boosters"],
-    description: "Show the server booster leaderboard.",
+    description: "Show the server boosters leaderboard.",
   },
 };
