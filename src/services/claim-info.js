@@ -45,13 +45,7 @@ module.exports = {
                     "https://cdn.animesoul.com/images/content/shoob/shoob-no-empty-space.png"
                   )
                   .setDescription(
-                    `${settings.emoji} <@${
-                      member.user.id
-                    }> has claimed [${data.card_name} Tier: ${
-                      data.tier
-                    }](https://animesoul.com/cards/info/${
-                      data.card_id
-                    }) Issue: \`${data.issue}\``
+                    `${settings.emoji} <@${member.user.id}> has claimed [${data.card_name} Tier: ${data.tier}](https://animesoul.com/cards/info/${data.card_id}) Issue: \`${data.issue}\``
                   )
                   .setColor(settings.color)
                   .setThumbnail(data.image_url.replace(".webp", ".gif"))
@@ -84,7 +78,7 @@ module.exports = {
             const oweeet = new Discord.MessageEmbed()
               .setDescription(
                 `<a:Sirona_loading:748854549703426118> [\`${data.card_name}\`](https://animesoul.com/cards/info/${data.card_id}) ` +
-                `Issue #: \`${data.issue}\` has been claimed!\n${settings.emoji} Added to <@${data.discord_id}>'s database.\n\u200b`
+                  `Issue #: \`${data.issue}\` has been claimed!\n${settings.emoji} Added to <@${data.discord_id}>'s database.\n\u200b`
               )
               .setFooter(
                 "Got a problem? Use s!support\nWant to invite the bot? Use s!invite"
@@ -96,7 +90,7 @@ module.exports = {
               const msg = await messageChannel.send(oweeet);
               setTimeout(() => msg.delete(), 15000);
             } catch (err) {
-              console.error(err);
+              console.log("error sending claim message");
             }
           }
         }
