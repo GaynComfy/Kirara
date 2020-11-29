@@ -69,6 +69,8 @@ module.exports = {
                 await logChannel.send(log);
               } catch (err) {
                 console.error(err);
+                // todo: remove once i find out what it is
+                console.error(data.image_url);
               }
             }
           }
