@@ -8,14 +8,14 @@ const info = {
   cooldown: 5,
 };
 const emotes = {
-  t1: "",
-  t2: "<:T2:754538833504370779>",
-  t3: "<:T3:754540393797910562>",
-  t4: "<:T4:754540393760161905>",
-  t5: "<:T5:754540394137518092>",
-  t6: "<:T6:754541597479403612>",
+  t1: "<:NewT1:781684991372689458>",
+  t2: "<:NewT2:781684993071251476>",
+  t3: "<:NewT3:781684993331953684>",
+  t4: "<:NewT4:781684993449001011>",
+  t5: "<:NewT5:781684993834352680>",
+  t6: "<:NewT6:781684992937558047>",
 };
-const allowed = ["t1", "t2", "t3", "t4", "t5", "t6"];
+const allowed = ["t3", "t4", "t5", "t6"];
 module.exports = {
   execute: async (instance, message, args) => {
     return withRights(message.member, async () => {
