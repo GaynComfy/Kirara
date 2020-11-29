@@ -12,6 +12,7 @@ module.exports = {
         continue;
       }
       const parts = word.split(" Tier: ");
+      const name = parts[0];
       const tier = parts[parts.length - 1];
       if (!allowed.includes(tier)) return;
       const result = await instance.database.simpleQuery("CARD_ROLES", {
@@ -22,7 +23,7 @@ module.exports = {
         await message.channel.send(
           `${tierInfo[`T${tier}`].emoji} <@&${
             result.rows[0].role_id
-          }> | \`T${tier} has spawned!\``
+          }> | \`${name} T${tier} has spawned!\``
         );
       }
     }
