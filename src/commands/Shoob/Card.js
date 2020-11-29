@@ -25,8 +25,9 @@ module.exports = {
     if (hasTier && args.length === 1) return false;
     const tier = hasTier ? args.shift()[1].toUpperCase() : "all";
     const name = args.join(" ");
+    let altName;
     if (space.test(name)) {
-      const altName = `${args.slice(0, -1).join(' ')} ${args.slice(-1).join(' ')}`;
+      altName = `${args.slice(0, -1).join(' ')} ${args.slice(-1).join(' ')}`;
     }
     const card = await Fetcher.fetchByName(instance, name, tier) ||
       (altName ? await Fetcher.fetchByName(instance, altName, tier) : null);
