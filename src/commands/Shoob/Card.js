@@ -133,7 +133,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "card [global] <tier> <name>",
+    usage: "card [g/global] [tier] <name>",
     examples: ["card global t6 Alice", "card t6 Rin"],
     description: "Fetch a card by tier & name",
   },

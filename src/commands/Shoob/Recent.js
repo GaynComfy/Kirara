@@ -68,6 +68,6 @@ module.exports = {
   help: {
     usage: "recent [T1|T2|T3|T4|T5|T6]",
     examples: ["recent t1"],
-    description: "Show last cards spawned by shoob",
+    description: "Show last cards spawned by Shoob",
   },
 };

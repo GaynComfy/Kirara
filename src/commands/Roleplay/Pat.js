@@ -28,7 +28,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "pat @user",
+    usage: "pat <@user>",
     examples: ["pat @~Nota~"],
     description: "Pats a user",
   },

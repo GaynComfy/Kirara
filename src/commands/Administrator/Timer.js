@@ -35,7 +35,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "timer on/off",
+    usage: "timer <on/off>",
     examples: ["timer on"],
     description: "Toggle the timer!",
   },

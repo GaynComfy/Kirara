@@ -58,8 +58,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "Set Roleplay embed size",
-    examples: ["rpsize small/big"],
-    description: "Set the embed size for RolePlay Commands",
+    usage: "rpsize <small/big>",
+    examples: ["rpsize big"],
+    description: "Set the embed size for Roleplay commands",
   },
 };

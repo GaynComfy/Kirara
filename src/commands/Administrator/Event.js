@@ -39,7 +39,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "event start|on|off|end",
+    usage: "event <start|on|off|end>",
     examples: ["event"],
     description: "Set a claiming event counter on your server!",
   },

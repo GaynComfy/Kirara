@@ -87,8 +87,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "profile @Jorgy",
-    examples: ["profile", "rank"],
+    usage: "profile [@user]",
+    examples: ["profile", "rank @JeDaYoshi"],
     description: "Profile!",
   },
 };

@@ -3,6 +3,7 @@ const humanizeDuration = require("humanize-duration");
 
 const info = {
   name: "nitro",
+  aliases: ['boost'],
   matchCase: false,
   category: "UwU",
   cooldown: 2,
@@ -37,8 +38,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "Nitro",
-    examples: ["nitro", "nitro @Kirara"],
-    description: "Show User Nitro!",
+    usage: "nitro <@user>",
+    examples: ["nitro @Alycans"],
+    description: "Show the time an user has been Nitro Boosting!",
   },
 };

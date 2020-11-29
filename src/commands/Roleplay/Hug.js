@@ -28,7 +28,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "hug @user",
+    usage: "hug <@user>",
     examples: ["hug @~Nota~"],
     description: "Hugs a user",
   },

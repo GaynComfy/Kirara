@@ -28,7 +28,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "kiss @user",
+    usage: "kiss <@user>",
     examples: ["kiss @~Nota~"],
     description: "Kisses a user",
   },

@@ -50,8 +50,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "evaluate eval",
+    usage: "eval <code>",
     examples: ["eval message.author.id"],
-    description: "Evaluate javascript code!",
+    description: "Evaluate JavaScript code! (Definitely not unsafe!)",
   },
 };

@@ -88,7 +88,7 @@ module.exports = {
                       cmd.help.examples.join("\n") || cmd.aliases[0]
                     }\`\`\``
       )
-      .setFooter("Syntax: [required] : <optional>");
+      .setFooter("Syntax: <required> | [optional]");
     return message.channel.send(embed);
   },
   info,

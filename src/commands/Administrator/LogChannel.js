@@ -51,8 +51,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "logs channel",
-    examples: ["logs", "log"],
+    usage: "logs [#channel]",
+    examples: ["logs #asn-shoob-logs", "log"],
     description: "Set Waifu Spawn Channel to your Server!",
   },
 };

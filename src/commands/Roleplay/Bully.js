@@ -28,7 +28,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "bully @user",
+    usage: "bully <@user>",
     examples: ["bully @~Nota~"],
     description: "Insults a user",
   },

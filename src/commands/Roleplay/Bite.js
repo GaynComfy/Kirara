@@ -28,7 +28,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "bite @user",
+    usage: "bite <@user>",
     examples: ["bite @~Nota~"],
     description: "Bites a user",
   },

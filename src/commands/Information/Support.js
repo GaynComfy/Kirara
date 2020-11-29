@@ -24,7 +24,7 @@ module.exports = {
   info,
   help: {
     usage: "support",
-    examples: ["suport"],
+    examples: ["support"],
     description: "Join the Support server!",
   },
 };

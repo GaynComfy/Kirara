@@ -28,8 +28,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "poke @user",
-    examples: ["poke @Nota"],
+    usage: "poke <@user>",
+    examples: ["poke @~Nota~"],
     description: "Pokes a user",
   },
 };
