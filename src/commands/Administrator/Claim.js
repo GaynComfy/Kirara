@@ -40,7 +40,7 @@ module.exports = {
         .setColor("RANDOM");
       message.channel.send({ embed });
       return true;
-    };
+    });
   },
   info,
   help: {
