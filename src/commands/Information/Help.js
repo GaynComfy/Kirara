@@ -94,7 +94,7 @@ module.exports = {
   info,
   help: {
     usage: "help",
-    examples: ["help", "comands", "h"],
-    description: "Display's the commands of the bot",
+    examples: ["help", "commands", "h bot"],
+    description: "Displays the commands of the bot",
   },
 };

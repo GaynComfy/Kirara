@@ -2,7 +2,8 @@ const { withRights } = require("../../utils/hooks");
 const { MessageEmbed } = require("discord.js");
 
 const info = {
-  name: "set",
+  name: "roleset",
+  aliases: ['tierping', 'set'],
   matchCase: false,
   category: "Administration",
   cooldown: 1,
@@ -31,7 +32,7 @@ module.exports = {
       if (server) {
         const serverId = Number.parseInt(server.id);
         const roleQuery = await instance.database.simpleQuery("CARD_ROLES", {
-          tier: args[0],
+          tier: args[0].toLowerCase(),
           server_id: serverId,
         });
         if (args[1] === "off") {
@@ -39,20 +40,20 @@ module.exports = {
             const embedz = new MessageEmbed()
               .setDescription(
                 `<a:Sirona_Tick:749202570341384202> No role set for ${args[0].toUpperCase()} pings! ${
-                  emotes[args[0]]
+                  emotes[args[0].toLowerCase()]
                 }`
               )
               .setColor("RANDOM");
             message.channel.send({ embed: embedz });
           } else {
             await instance.database.simpleDelete("CARD_ROLES", {
-              tier: args[0],
+              tier: args[0].toLowerCase(),
               server_id: serverId,
             });
             const embedz = new MessageEmbed()
               .setDescription(
                 `<a:Sirona_Tick:749202570341384202> removed ${args[0].toUpperCase()} pings! ${
-                  emotes[args[0]]
+                  emotes[args[0].toLowerCase()]
                 }`
               )
               .setColor("RANDOM");
@@ -64,7 +65,7 @@ module.exports = {
           if (roleQuery.rows.length === 0) {
             await instance.database.simpleInsert("CARD_ROLES", {
               server_id: serverId,
-              tier: args[0],
+              tier: args[0].toLowerCase(),
               role_id: role.id,
             });
           } else {
@@ -72,7 +73,7 @@ module.exports = {
               "CARD_ROLES",
               {
                 server_id: serverId,
-                tier: args[0],
+                tier: args[0].toLowerCase(),
               },
               {
                 role_id: role.id,
@@ -85,7 +86,7 @@ module.exports = {
               `<a:Sirona_Tick:749202570341384202> <@&${
                 role.id
               }> has been set for ${args[0].toUpperCase()} pings! ${
-                emotes[args[0]]
+                emotes[args[0].toLowerCase()]
               }`
             )
             .setColor("RANDOM");
@@ -99,8 +100,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "set [T1|T2|T3|T4|T5|T6] @role",
-    examples: ["set"],
-    description: "Set pinging card tiers for your server.",
+    usage: "roleset [T3|T4|T5|T6] @role",
+    examples: ["roleset t6 @T6"],
+    description: "Set card tiers role mentions for your server.",
   },
 };
