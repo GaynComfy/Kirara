@@ -22,7 +22,7 @@ module.exports = {
       const result = await instance.database.simpleQuery("SETTINGS", query);
 
       if (args.length === 0) {
-        const toggle = result.rows.length === 0 ? "off" : "on"
+        const toggle = result.rows.length === 0 ? "on" : "off"
         const embed = new MessageEmbed()
           .setDescription(
             `<a:Sirona_Tick:749202570341384202> Claim messages are turned ${toggle}.`
