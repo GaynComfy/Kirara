@@ -5,7 +5,7 @@ const info = {
   name: "set",
   matchCase: false,
   category: "Administration",
-  cooldown: 5,
+  cooldown: 1,
 };
 const emotes = {
   t1: "<:NewT1:781684991372689458>",
