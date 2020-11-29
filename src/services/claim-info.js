@@ -13,7 +13,7 @@ const tierSettings = {
 let client = null;
 module.exports = {
   start: async (instance) => {
-    const { config } = instance;
+    const { config, settings } = instance;
     client = redis.createClient(
       `redis://${config.cache.host}:${config.cache.port}`
     );
@@ -72,7 +72,10 @@ module.exports = {
               }
             }
           }
-          if (!data.claimed) return;
+
+          if (!data.claimed ||
+            instance.settings[message.guild.id]["claim:disabled"]) return;
+
           const messageChannel = guild.channels.cache.get(data.channel_id);
           if (messageChannel) {
             const oweeet = new Discord.MessageEmbed()
