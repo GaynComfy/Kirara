@@ -10,7 +10,8 @@ const allowed = ["on", "off"];
 module.exports = {
   execute: async (instance, message, args) => {
     return withRights(message.member, async () => {
-      if (!allowed.includes(args[0].toLowerCase())) return false;
+      if (args.length === 0 || !allowed.includes(args[0].toLowerCase()))
+        return false;
       const newState = args[0].toLowerCase() === "on";
       await instance.database.simpleUpdate(
         "SERVERS",
