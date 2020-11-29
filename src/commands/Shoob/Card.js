@@ -13,6 +13,7 @@ const info = {
   cooldown: 5,
 };
 const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
+const space = / /; // lol
 
 module.exports = {
   execute: async (instance, message, args) => {
@@ -24,7 +25,11 @@ module.exports = {
     if (hasTier && args.length === 1) return false;
     const tier = hasTier ? args.shift()[1].toUpperCase() : "all";
     const name = args.join(" ");
-    const card = await Fetcher.fetchByName(instance, name, tier);
+    if (space.test(name)) {
+      const altName = `${args.slice(0, -1).join(' ')} ${args.slice(-1).join(' ')}`;
+    }
+    const card = await Fetcher.fetchByName(instance, name, tier) ||
+      (altName ? await Fetcher.fetchByName(instance, altName, tier) : null);
     if (card === null) {
       const embedz = new MessageEmbed()
         .setDescription(
