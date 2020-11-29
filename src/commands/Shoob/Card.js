@@ -142,7 +142,7 @@ module.exports = {
   info,
   help: {
     usage: "card [event/global] [tier] <name>",
-    examples: ["card global t6 Alice", "card event t6 Rias", "card t6 Rin"],
+    examples: ["card global t6 Alice", "card event t4 Rem", "card t6 Rin"],
     description: "Fetch a card by tier & name",
   },
 };
