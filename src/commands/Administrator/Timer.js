@@ -5,6 +5,7 @@ const info = {
   name: "timer",
   matchCase: false,
   category: "Administration",
+  disabled: true
 };
 const allowed = ["on", "off"];
 module.exports = {

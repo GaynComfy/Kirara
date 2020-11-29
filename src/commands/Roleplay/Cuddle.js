@@ -5,6 +5,7 @@ const info = {
   matchCase: false,
   category: "Roleplay",
   cooldown: 60,
+  disabled: true
 };
 module.exports = {
   execute: async (instance, message, args) => {
