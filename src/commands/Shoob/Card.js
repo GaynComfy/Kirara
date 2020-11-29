@@ -27,7 +27,7 @@ module.exports = {
     const name = args.join(" ");
     let altName;
     if (space.test(name)) {
-      altName = `${args.slice(0, -1).join(' ')} ${args.slice(-1).join(' ')}`;
+      altName = [...args.slice(-1), ...args.slice(0, -1)].join(' ');
     }
     const card = await Fetcher.fetchByName(instance, name, tier) ||
       (altName ? await Fetcher.fetchByName(instance, altName, tier) : null);
