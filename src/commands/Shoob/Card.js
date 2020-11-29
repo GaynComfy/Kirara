@@ -23,6 +23,7 @@ module.exports = {
     const isGlobal =
       isEvent || (args[0].toLowerCase() === "global" || args[0].toLowerCase() === "g");
     if (isEvent || isGlobal) args.splice(0, 1);
+    if (args.length === 0) return false;
     const hasTier = allowed.includes(args[0].toLowerCase());
     if (hasTier && args.length === 1) return false;
     const tier = hasTier ? args.shift()[1].toUpperCase() : "all";
