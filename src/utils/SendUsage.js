@@ -5,6 +5,6 @@ module.exports = async (channel, info) => {
     .setDescription(`<:Sirona_NoCross:762606114444935168> Wrong command usage!`)
     .setColor(Color.red)
     .addField("Description", info.description, true)
-    .addField("Usage", info.usage);
+    .addField("Usage", `\`${info.usage}\``);
   channel.send(embed);
 };
