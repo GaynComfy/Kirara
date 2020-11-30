@@ -123,7 +123,7 @@ module.exports = {
           )
           .setFooter("React to ◀️ get back")
           .setColor(selectedColor.color);
-          if (!isGlobal) {
+          if (isGlobal) {
             embed.addField(
               `Top Claimers:`,
               mapped
@@ -133,7 +133,7 @@ module.exports = {
             );
           }
           embed.addField(
-            `__${isGlobal ? "Stored Global " : ""}Card Owners:__`,
+            `__${isGlobal ? "Stored " : ""}Card ${isGlobal ? "Owners" : "Claims"}:__`,
             claimers.length === 0
               ? "- No one! <:shoob:760021745905696808>"
               : claimers,
