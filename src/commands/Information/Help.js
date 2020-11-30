@@ -69,24 +69,23 @@ module.exports = {
           : message.author.displayAvatarURL({ type: "png" })
       )
       .setDescription(
-        `
-                    **Command Name**: \`${cmd.info.name}\`
-                    **Command Aliases**: ${`${
-                      (cmd.info.aliases || [])
-                        .map((x) => `\`${x}\``)
-                        .join(", ") || "No Alias"
-                    }`}
-                    **Command Cooldown**: \`${
-                      cmd.info.cooldown / 1000 + "s" || 0
-                    }\`
-                    **Owner Only**: \`${cmd.ownerOnly ? "Yes" : "No" || "No"}\`
-                    **Command Description**: ${
-                      cmd.help.description || "A command"
-                    }
-                    **Command Usage**: \`${cmd.help.usage || ""}\`
-                    **Command Examples**:\n\`\`\`diff\n+ ${
-                      cmd.help.examples.join("\n+ ") || cmd.aliases[0]
-                    }\`\`\``
+        `**Command Name**: \`${cmd.info.name}\`
+**Command Aliases**: ${
+  (cmd.info.aliases || [])
+    .map((x) => `\`${x}\``)
+    .join(", ") || "No Alias"
+}
+**Command Cooldown**: \`${
+  cmd.info.cooldown / 1000 + "s" || 0
+}\`
+**Owner Only**: \`${cmd.ownerOnly ? "Yes" : "No" || "No"}\`
+**Command Description**: ${
+  cmd.help.description || "A command"
+}
+**Command Usage**: \`${cmd.help.usage || ""}\`
+**Command Examples**:\n\`\`\`diff\n+ ${
+  cmd.help.examples.join("\n+ ") || cmd.aliases[0]
+}\`\`\``
       )
       .setFooter("Syntax: <required> | [optional]");
     return message.channel.send(embed);
