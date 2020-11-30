@@ -16,7 +16,6 @@ module.exports = {
       instance.client.shard.broadcastEval(
         "this.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)"
       ),
-      instance.client.shard.broadcastEval("this.guilds.cache"),
       instance.client.shard.broadcastEval(
         "this.guilds.cache.map((guild) => guild.channels.cache.size)"
       ),
@@ -30,7 +29,7 @@ module.exports = {
       (acc, memberCount) => acc + memberCount,
       0
     );
-    var channels = results[3].flat();
+    var channels = results[2].flat();
     const {
       rows: recentCards,
     } = await instance.database.pool.query(
@@ -57,30 +56,30 @@ module.exports = {
 = STATISTICS =
 • Mem Usage  :: ${cpu}
 • Uptime     :: ${upDays} Days, ${upHours} Hours, ${upMins} Minutes
-• Shard      :: ${instance.client.shard && instance.client.shard.ids[0] || 0}
+• Shard      :: ${(instance.client.shard && instance.client.shard.ids[0]) || 0}
 • Users      :: ${totalMembers.toLocaleString(undefined, {
-  style: "decimal",
-  maximumFractionDigits: 0,
-})}
+      style: "decimal",
+      maximumFractionDigits: 0,
+    })}
 • Servers    :: ${totalGuilds.toLocaleString(undefined, {
-  style: "decimal",
-  maximumFractionDigits: 0,
-})}
+      style: "decimal",
+      maximumFractionDigits: 0,
+    })}
 • Channels   :: ${channels
-  .reduce((a, b) => a + b, 0)
-  .toLocaleString(undefined, {
-    style: "decimal",
-    maximumFractionDigits: 0,
-  })}
+      .reduce((a, b) => a + b, 0)
+      .toLocaleString(undefined, {
+        style: "decimal",
+        maximumFractionDigits: 0,
+      })}
 
 = SERVER/GUILD =
 • Name       :: ${message.guild.name}
 • Claims     :: ${Number.parseInt(
-  recentCards[0].claims
-).toLocaleString(undefined, { style: "decimal", maximumFractionDigits: 0 })}
+      recentCards[0].claims
+    ).toLocaleString(undefined, { style: "decimal", maximumFractionDigits: 0 })}
 • Spawns     :: ${Number.parseInt(
-  recentCards[0].spawns
-).toLocaleString(undefined, { style: "decimal", maximumFractionDigits: 0 })}
+      recentCards[0].spawns
+    ).toLocaleString(undefined, { style: "decimal", maximumFractionDigits: 0 })}
 
 = TOP 5 SERVERS =
 ${topped.join("\n")}
