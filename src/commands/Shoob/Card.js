@@ -21,7 +21,8 @@ module.exports = {
     const isEvent =
       args[0].toLowerCase() === "event" || args[0].toLowerCase() === "e";
     const isGlobal =
-      isEvent || (args[0].toLowerCase() === "bot" || args[0].toLowerCase() === "b");
+      isEvent || (args[0].toLowerCase() === "servers" || args[0].toLowerCase() === "bot" ||
+        args[0].toLowerCase() === "s");
     const isOldGlobal =
       isEvent || (args[0].toLowerCase() === "global" || args[0].toLowerCase() === "g");
     if (isEvent || isGlobal || isOldGlobal) args.splice(0, 1);
@@ -146,8 +147,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "card [bot/event] [tier] <name>",
-    examples: ["card bot t6 Alice", "card event t4 Rem", "card t6 Rin"],
+    usage: "card [**e**vent/**s**ervers] [tier] <name>",
+    examples: ["card servers t6 Alice", "card event t4 Rem", "card t6 Rin"],
     description: "Fetch a card by tier & name",
   },
 };
