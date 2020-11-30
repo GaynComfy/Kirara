@@ -99,7 +99,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "roleset <T4|T5|T6> <@role>",
+    usage: "roleset <T3|T4|T5|T6> <@role>",
     examples: ["roleset t6 @T6"],
     description: "Set card tiers role mentions for your server.",
   },
