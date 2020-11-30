@@ -37,40 +37,28 @@ module.exports = {
               instance.logChannels[guild.id]
             );
             if (logChannel) {
-              const log = new Discord.MessageEmbed();
+              const log = new Discord.MessageEmbed()
+                .setAuthor(
+                  "Shoob",
+                  "https://cdn.animesoul.com/images/content/shoob/shoob-no-empty-space.png"
+                )
+                .setColor(settings.color)
+                .setThumbnail(encodeURI(data.image_url).replace(".webp", ".gif"))
+                .setFooter(data.server_name)
+                .setTimestamp();
               if (data.claimed) {
-                log
-                  .setAuthor(
-                    "Shoob",
-                    "https://cdn.animesoul.com/images/content/shoob/shoob-no-empty-space.png"
-                  )
-                  .setDescription(
+                log.setDescription(
                     `${settings.emoji} <@${member.user.id}> has claimed [${data.card_name} Tier: ${data.tier}](https://animesoul.com/cards/info/${data.card_id}) Issue: \`${data.issue}\``
-                  )
-                  .setColor(settings.color)
-                  .setThumbnail(data.image_url.replace(".webp", ".gif"))
-                  .setFooter(data.server_name)
-                  .setTimestamp();
+                  );
               } else {
-                log
-                  .setAuthor(
-                    "Shoob",
-                    "https://cdn.animesoul.com/images/content/shoob/shoob-no-empty-space.png"
-                  )
-                  .setDescription(
-                    `${settings.emoji} [${data.card_name} Tier: ${data.tier}](https://animesoul.com/cards/info/${data.card_id}) Despawned`
-                  )
-                  .setColor(settings.color)
-                  .setThumbnail(data.image_url.replace(".webp", ".gif"))
-                  .setFooter(data.server_name)
-                  .setTimestamp();
+                log.setDescription(
+                  `${settings.emoji} [${data.card_name} Tier: ${data.tier}](https://animesoul.com/cards/info/${data.card_id}) Despawned`
+                );
               }
               try {
                 await logChannel.send(log);
               } catch (err) {
                 console.error(err);
-                // todo: remove once i find out what it is
-                console.error(data.image_url);
               }
             }
           }
@@ -88,7 +76,7 @@ module.exports = {
                 "Got a problem? Use s!support\nWant to invite the bot? Use s!invite"
               )
               .setColor(settings.color)
-              .setThumbnail(data.image_url.replace(".webp", ".gif"));
+              .setThumbnail(encodeURI(data.image_url).replace(".webp", ".gif"));
 
             try {
               const msg = await messageChannel.send(oweeet);

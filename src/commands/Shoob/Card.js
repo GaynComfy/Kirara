@@ -97,7 +97,7 @@ module.exports = {
             }`
           )
           .setColor(selectedColor.color)
-          .setImage(card.image_url.replace(".webp", ".gif"))
+          .setImage(encodeURI(card.image_url).replace(".webp", ".gif"))
           .setFooter("React to ▶️ for more info");
       } else {
         const embed = new MessageEmbed()
@@ -117,7 +117,7 @@ module.exports = {
               card.claim_count
             }\`\n\`Source: ${card.series[0] || "-"}\``
           )
-          .setThumbnail(card.image_url.replace(".webp", ".gif"))
+          .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
           .setImage(
             "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
           )
