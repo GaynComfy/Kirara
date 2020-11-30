@@ -75,9 +75,7 @@ module.exports = {
     .map((x) => `\`${x}\``)
     .join(", ") || "No Alias"
 }
-**Command Cooldown**: \`${
-  cmd.info.cooldown / 1000 + "s" || 0
-}\`
+**Command Cooldown**: \`${cmd.info.cooldown || 0}s\`
 **Owner Only**: \`${cmd.ownerOnly ? "Yes" : "No" || "No"}\`
 **Command Description**: ${
   cmd.help.description || "A command"
