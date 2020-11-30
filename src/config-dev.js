@@ -1,15 +1,15 @@
 module.exports = {
-  prefix: "sb!",
+  prefix: "k!",
   database: {
-    host: "database",
-    user: "kirara",
-    database: "kirara",
-    password: "kirara",
+    host: "127.0.0.1",
+    user: "kirarabeta",
+    database: "kirarabeta",
     port: 5432,
   },
   cache: {
-    host: "redis",
+    host: "127.0.0.1",
     port: 6379,
+    db: 1
   },
   structure: {
     commands: "commands",
