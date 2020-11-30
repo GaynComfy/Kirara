@@ -64,7 +64,7 @@ module.exports = {
         ? user.username
             .replace(/[\u0080-\uF8FF]/g, "")
             .trim()
-            .substr(0, 15)
+            .substr(0, 14)
         : first
         ? "User Left"
         : "Some user";
