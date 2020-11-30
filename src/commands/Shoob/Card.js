@@ -53,10 +53,8 @@ module.exports = {
     if (isGlobal) {
       // Bot-tracked card search
       const query =
-        "SELECT aggregate.c, CARD_CLAIMS.discord_id, CARD_CLAIMS.issue, CARD_CLAIMS.id " +
-        "as extern_id FROM (SELECT id, COUNT(id) AS c FROM CARD_CLAIMS WHERE claimed=true " +
-        "AND card_id=$1 GROUP BY discord_id,id ORDER BY c DESC LIMIT 8) as aggregate " +
-        "JOIN CARD_CLAIMS ON CARD_CLAIMS.id=aggregate.id";
+        "SELECT COUNT (id) c, issue, discord_id FROM card_claims WHERE claimed=true " +
+        "AND card_id=$1 GROUP BY discord_id,issue ORDER BY issue ASC LIMIT 8";
       const { rows: entries } = await instance.database.pool.query(query, [
         card.id,
       ]);
