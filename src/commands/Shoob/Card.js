@@ -133,7 +133,7 @@ module.exports = {
             );
           }
           embed.addField(
-            `__${isGlobal ? "Stored " : ""}Card ${isGlobal ? "Owners" : "Claims"}:__`,
+            `__${isGlobal ? "Stored Card Claims" : "Card Owners"}:__`,
             claimers.length === 0
               ? "- No one! <:shoob:760021745905696808>"
               : claimers,
