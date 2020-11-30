@@ -69,19 +69,19 @@ module.exports = {
           : message.author.displayAvatarURL({ type: "png" })
       )
       .setDescription(
-        `**Command Name**: \`${cmd.info.name}\`
-**Command Aliases**: ${
+        `**Name**: \`${cmd.info.name}\`
+**Aliases**: ${
   (cmd.info.aliases || [])
     .map((x) => `\`${x}\``)
     .join(", ") || "No Alias"
 }
-**Command Cooldown**: \`${cmd.info.cooldown || 0}s\`
+**Cooldown**: \`${cmd.info.cooldown || 0}s\`
 **Owner Only**: \`${cmd.ownerOnly ? "Yes" : "No" || "No"}\`
-**Command Description**: ${
+**Description**: ${
   cmd.help.description || "A command"
 }
-**Command Usage**: \`${cmd.help.usage || ""}\`
-**Command Examples**:\n\`\`\`diff\n+ ${
+**Usage**: \`${cmd.help.usage || ""}\`
+**Examples**:\n\`\`\`diff\n+ ${
   cmd.help.examples.join("\n+ ") || cmd.aliases[0]
 }\`\`\``
       )
