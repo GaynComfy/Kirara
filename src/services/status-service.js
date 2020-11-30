@@ -1,27 +1,26 @@
 let interval = null;
 module.exports = {
   start: async (instance) => {
+    const status = {
+      type: "STREAMING",
+      url: "https://www.twitch.tv/FinalWords79",
+    };
     interval = setInterval(async () => {
       const pickedActivity = Math.floor(Math.random() * 4);
-      if (pickedActivity === 0) {
+      switch(pickedActivity) {
+      case 0:
         await instance.client.user.setActivity(
           `Help | ${instance.config.prefix}help`,
-          {
-            type: "STREAMING",
-            url: "https://www.twitch.tv/FinalWords79",
-          }
+          status
         );
-      }
-      if (pickedActivity === 1) {
+        break;
+      case 1:
         await instance.client.user.setActivity(
           `Prefix | ${instance.config.prefix}`,
-          {
-            type: "STREAMING",
-            url: "https://www.twitch.tv/FinalWords79",
-          }
+          status
         );
-      }
-      if (pickedActivity === 2) {
+        break;
+      case 2:
         try {
           const size = await instance.client.shard.fetchClientValues(
             "guilds.cache.size"
@@ -30,14 +29,11 @@ module.exports = {
             `Guilds | ${size
               .reduce((acc, guildCount) => acc + guildCount, 0)
               .toLocaleString(undefined, { style: "decimal" })}`,
-            {
-              type: "STREAMING",
-              url: "https://www.twitch.tv/FinalWords79",
-            }
+            status
           );
         } catch (ignored) {}
-      }
-      if (pickedActivity === 3) {
+        break;
+      case 3:
         const users = await instance.client.shard.broadcastEval(
           "this.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)"
         );
@@ -45,11 +41,9 @@ module.exports = {
           `Users | ${users
             .reduce((acc, memberCount) => acc + memberCount, 0)
             .toLocaleString(undefined, { style: "decimal" })}`,
-          {
-            type: "STREAMING",
-            url: "https://www.twitch.tv/FinalWords79",
-          }
+          status
         );
+        break;
       }
     }, 1000 * 60);
   },

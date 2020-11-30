@@ -21,8 +21,10 @@ module.exports = {
     const isEvent =
       args[0].toLowerCase() === "event" || args[0].toLowerCase() === "e";
     const isGlobal =
+      isEvent || (args[0].toLowerCase() === "bot" || args[0].toLowerCase() === "b");
+    const isOldGlobal =
       isEvent || (args[0].toLowerCase() === "global" || args[0].toLowerCase() === "g");
-    if (isEvent || isGlobal) args.splice(0, 1);
+    if (isEvent || isGlobal || isOldGlobal) args.splice(0, 1);
     if (args.length === 0) return false;
     const hasTier = allowed.includes(args[0].toLowerCase());
     if (hasTier && args.length === 1) return false;
@@ -48,15 +50,7 @@ module.exports = {
     const claimers = [];
     const mapped = [];
     if (isGlobal) {
-      const entries = await Fetcher.fetchOwners(instance, card.id, "8");
-      for (const claim of entries) {
-        const owners = claim.trade_history;
-        const username = owners[owners.length - 1].username;
-        claimers.push(
-          `> • \`Issue: ${claim.issue}\` | [__**${username}**__](https://animesoul.com/user/${claim.discord_id})`
-        );
-      }
-    } else {
+      // Bot-tracked card search
       const query =
         "SELECT aggregate.c, CARD_CLAIMS.discord_id, CARD_CLAIMS.issue, CARD_CLAIMS.id " +
         "as extern_id FROM (SELECT id, COUNT(id) AS c FROM CARD_CLAIMS WHERE claimed=true " +
@@ -75,6 +69,16 @@ module.exports = {
         mapped.push({ value: result.username, count: claim.c });
         claimers.push(
           `> • \`Issue: ${claim.issue}\` | [__**${result.username}**__](https://animesoul.com/user/${claim.discord_id})`
+        );
+      }
+    } else {
+      // AS card search
+      const entries = await Fetcher.fetchOwners(instance, card.id, "8");
+      for (const claim of entries) {
+        const owners = claim.trade_history;
+        const username = owners[owners.length - 1].username;
+        claimers.push(
+          `> • \`Issue: ${claim.issue}\` | [__**${username}**__](https://animesoul.com/user/${claim.discord_id})`
         );
       }
     }
@@ -129,7 +133,7 @@ module.exports = {
             );
           }
           embed.addField(
-            `__${isGlobal ? "Global " : ""}Card Owners:__`,
+            `__${isGlobal ? "Stored Global " : ""}Card Owners:__`,
             claimers.length === 0
               ? "- No one! <:shoob:760021745905696808>"
               : claimers,
@@ -142,8 +146,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "card [event/global] [tier] <name>",
-    examples: ["card global t6 Alice", "card event t4 Rem", "card t6 Rin"],
+    usage: "card [bot/event] [tier] <name>",
+    examples: ["card bot t6 Alice", "card event t4 Rem", "card t6 Rin"],
     description: "Fetch a card by tier & name",
   },
 };

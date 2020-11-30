@@ -57,7 +57,7 @@ module.exports = {
 = STATISTICS =
 • Mem Usage  :: ${cpu}
 • Uptime     :: ${upDays} Days, ${upHours} Hours, ${upMins} Minutes
-• Shards     :: 3
+• Shard      :: ${instance.client.shard && instance.client.shard.ids[0] || 0}
 • Users      :: ${totalMembers.toLocaleString(undefined, {
   style: "decimal",
   maximumFractionDigits: 0,
