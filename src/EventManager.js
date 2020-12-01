@@ -22,6 +22,7 @@ class EventManager {
     this.client.on("message", async (message) => {
       if (message.channel.type === "dm") return;
       if (message.content.toLowerCase().indexOf(this.config.prefix.toLowerCase()) === 0) {
+        if (message.author.bot) return;
         const args = message.content
           .slice(this.config.prefix.length)
           .trim()
