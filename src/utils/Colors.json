@@ -1,6 +1,7 @@
 {
-  "pink": "#FFC0CB",
-  "red": "#F44336",
-  "yellow": "#FFC04C",
-  "white": "#F8F8FF"
+  "default":"#ff1100",
+  "pink": "#ff03dd",
+  "red": "#ff1100",
+  "yellow": "#ffe100",
+  "white": "#f5f5f5"
 }
