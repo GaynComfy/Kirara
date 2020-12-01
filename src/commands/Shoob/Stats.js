@@ -1,5 +1,6 @@
 const { tierInfo } = require("../../utils/cardUtils");
 const { MessageEmbed } = require("discord.js");
+const Color = require("../../utils/Colors.json");
 
 const info = {
   name: "stats",
@@ -19,7 +20,7 @@ module.exports = {
           "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
         )*/
         .setThumbnail(member.displayAvatarURL({size: 2048, dynamic: true}))
-        .setColor("#f52fb3");
+        .setColor(Color.default);
 
       const query =
         "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE claimed=true AND discord_id=$1 AND season=$2 GROUP BY tier";
