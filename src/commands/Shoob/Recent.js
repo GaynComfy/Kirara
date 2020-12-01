@@ -1,6 +1,7 @@
 const { tierInfo } = require("../../utils/cardUtils");
 const moment = require("moment");
 const { MessageEmbed } = require("discord.js");
+const Color = require("../../utils/Colors.json");
 
 const info = {
   name: "recent",
@@ -33,7 +34,7 @@ module.exports = {
           } __Recent cards: ${args[0].toUpperCase()}__`
         : "__Recent cards__";
     const selectedColor =
-      args.length !== 0 ? tierInfo[args[0].toUpperCase()].color : "#eca8ff";
+      args.length !== 0 ? tierInfo[args[0].toUpperCase()].color : Color.default;
 
     const embed = new MessageEmbed()
       .setTitle(selectedTitle)
