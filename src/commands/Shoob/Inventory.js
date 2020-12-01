@@ -36,6 +36,9 @@ module.exports = {
       const embed = new MessageEmbed()
         .setTitle(` •  ${user.username} Inventory   • `)
         .setURL(`https://animesoul.com/user/${user.id}`)
+        .setFooter(
+          `Kirara | ${info.cooldown} Seconds cooldowm on this Command.`
+        )
         .setDescription(
           `Page: ${last !== -1 && page >= last ? "Last" : page + 1} ${
             tier ? `Tier: ${args[1].toUpperCase()}` : ""
