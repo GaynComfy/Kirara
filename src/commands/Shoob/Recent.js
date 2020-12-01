@@ -51,16 +51,16 @@ module.exports = {
 
       const cards = recentCards.map(
         (item) =>
-          `> \`\`T${item.tier}\`\` • [\`\`${item.card_name.substr(0, 15)}` +
-          `${parseInt(item.issue) > 0 ? ` V${item.issue}` : ''}\`\`]` +
+          `> \`T${item.tier}\` • [\`${item.card_name.substr(0, 15)}` +
+          `${parseInt(item.issue) > 0 ? ` V${item.issue}` : ''}\`]` +
           `(https://animesoul.com/cards/info/${item.card_id})`
       );
-      embed.addField("•   ``T `` • __**Cards:**__", cards, true);
+      embed.addField("•   `T ` • __**Cards:**__", cards, true);
       embed.addField("•   __**Claimed by:**__", claimers, true);
       const dates = recentCards[recentCards.length - 1].time;
       embed.setFooter(`Last card spawned: ${moment(dates).fromNow()}.`);
     } else {
-      embed.addField("Cards:", "``No cards have spawned yet.``", true);
+      embed.setDescription("No cards have spawned yet.");
     }
     message.channel.send(embed);
     return true;
