@@ -9,7 +9,7 @@ module.exports = (config, isProd) => {
       database: config.database.database,
       port: config.database.port,
     };
-    if (isProd || config.database.password) {
+    if (isProd || config.database.password || process.env.PG_PASSWORD) {
       connectionProps.password =
         config.database.password || process.env.PG_PASSWORD || null;
     }
