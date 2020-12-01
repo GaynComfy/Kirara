@@ -3,42 +3,48 @@ const FORWARD_SYMBOL = "\u25b6";
 
 const collectorOpts = { idle: 30 * 1000 };
 
-const createPagedResults = (message, maxPages, getMessageForPage) => {
+const createPagedResults = async (message, maxPages, getMessageForPage) => {
   const nextFilter = (reaction, user) =>
     reaction.emoji.name === FORWARD_SYMBOL && user.id === message.author.id;
   const backFilter = (reaction, user) =>
     reaction.emoji.name === BACK_SYMBOL && user.id === message.author.id;
-
   let page = 0;
-  return message.channel
-    .send(getMessageForPage(page, message.author))
-    .then((sentMessage) => {
-      if (maxPages < 2) {
-        return sentMessage;
-      }
-
-      sentMessage
-        .react(BACK_SYMBOL)
-        .then(() => sentMessage.react(FORWARD_SYMBOL));
-
-      sentMessage
-        .createReactionCollector(nextFilter, collectorOpts)
-        .on("collect", (r, user) => {
-          page = Math.min(page + 1, maxPages - 1);
-          sentMessage.edit(getMessageForPage(page, user));
-          r.users.remove(user);
-        });
-
-      sentMessage
-        .createReactionCollector(backFilter, collectorOpts)
-        .on("collect", (r, user) => {
-          page = Math.max(page - 1, 0);
-          sentMessage.edit(getMessageForPage(page, user));
-          r.users.remove(user);
-        });
-
+  const root = await getMessageForPage(page, message.author);
+  return message.channel.send(root).then((sentMessage) => {
+    if (maxPages < 2) {
       return sentMessage;
-    });
+    }
+
+    sentMessage
+      .react(BACK_SYMBOL)
+      .then(() => sentMessage.react(FORWARD_SYMBOL));
+
+    sentMessage
+      .createReactionCollector(nextFilter, collectorOpts)
+      .on("collect", async (r, user) => {
+        const newPage = Math.min(page + 1, maxPages - 1);
+        const res = await getMessageForPage(newPage, user);
+        if (res) {
+          sentMessage.edit(res);
+          page = newPage;
+        }
+        r.users.remove(user);
+      });
+
+    sentMessage
+      .createReactionCollector(backFilter, collectorOpts)
+      .on("collect", async (r, user) => {
+        const newPage = Math.max(page - 1, 0);
+        const res = await getMessageForPage(newPage, user);
+        if (res) {
+          sentMessage.edit(res);
+          page = newPage;
+        }
+        r.users.remove(user);
+      });
+
+    return sentMessage;
+  });
 };
 
 const pageThroughList = (message, list, mapToMessage, perPage = 10) => {
