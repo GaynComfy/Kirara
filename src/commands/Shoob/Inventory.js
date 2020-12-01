@@ -32,7 +32,7 @@ module.exports = {
       if (result.length < 8 && last === -1) {
         last = page;
       }
-      if (last !== -1 && page > last + 1) return null;
+      if (last !== -1 && page > last) return null;
       const embed = new MessageEmbed()
         .setTitle(` •  ${user.username} Inventory   • `)
         .setURL(`https://animesoul.com/user/${user.id}`)
