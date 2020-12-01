@@ -5,6 +5,8 @@ const { createPagedResults } = require("../../utils/PagedResults");
 const { tierInfo } = require("../../utils/cardUtils");
 const { map } = require("../../utils/GifFetcher");
 
+
+
 const info = {
   name: "inventory",
   aliases: ["inv"],
@@ -35,6 +37,7 @@ module.exports = {
       if (last !== -1 && page > last) return null;
       const embed = new MessageEmbed()
         .setTitle(` •  ${user.username} Inventory   • `)
+        .setColor(Color.default)
         .setURL(`https://animesoul.com/user/${user.id}`)
         .setFooter(
           `Kirara | ${info.cooldown} Seconds cooldowm on this Command.`
