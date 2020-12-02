@@ -27,7 +27,7 @@ module.exports = {
         const tier = tierSettings[data.tier];
         const card = await Fetcher.fetchByID(instance, data.card_id);
         const embed = new Discord.MessageEmbed()
-          .setTitle(`> <:shoob:760021745905696808> Enter the Auction`)
+          .setTitle(`> <:Shoob:783624812160876555> Enter the Auction`)
           .setURL(`https://animesoul.com/auction/${data.id}`)
           .setColor(tier.color)
           .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
