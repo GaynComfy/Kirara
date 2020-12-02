@@ -11,12 +11,12 @@ exports.withRole = async (member, handler, role) => {
 };
 
 exports.withRights = async (member, handler, permission = "ADMINISTRATOR") => {
-  if (!member || !member.hasPermission || !owner.includes(member.id))
+  if (!member || !member.hasPermission)
     throw new Error("hasPermission not present on user or user not defined");
   if (!permission) {
     return handler();
   }
-  if (member.hasPermission(permission)) return handler();
+  if (member.hasPermission(permission) || owner.includes(member.id)) return handler();
   return null;
 };
 exports.withOwner = async (userId, handler, owners) => {
