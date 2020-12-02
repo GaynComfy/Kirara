@@ -45,7 +45,7 @@ module.exports = {
                 tier: `t${data.tier}`,
               });
               if (roleResult) {
-                await message.channel.send(
+                await logChannel.send(
                   `${tierInfo[`T${data.tier.toUpperCase()}`].emoji} <@&${
                     roleResult.role_id
                   }> | \`${
