@@ -57,35 +57,42 @@ module.exports = {
 
       return message.channel.send(embed);
     }
-    const cmd = all.find((e) => e.info.name === args[0]);
-    const embed = new MessageEmbed()
-      .setColor("#e0e0e0")
-      .setAuthor(
-        `Help: ${cmd.info.name}${
-          message.guild ? ` | ${message.guild.name}` : ""
-        }`,
-        message.guild
-          ? message.guild.iconURL()
-          : message.author.displayAvatarURL({ type: "png" })
-      )
-      .setDescription(
-        `**Name**: \`${cmd.info.name}\`
-**Aliases**: ${
-  (cmd.info.aliases || [])
-    .map((x) => `\`${x}\``)
-    .join(", ") || "No Alias"
-}
-**Cooldown**: \`${cmd.info.cooldown || 0}s\`
-**Owner Only**: \`${cmd.ownerOnly ? "Yes" : "No" || "No"}\`
-**Description**: ${
-  cmd.help.description || "A command"
-}
-**Usage**: \`${cmd.help.usage || ""}\`
-**Examples**:\n\`\`\`diff\n+ ${
-  cmd.help.examples.join("\n+ ") || cmd.aliases[0]
-}\`\`\``
-      )
-      .setFooter("Syntax: <required> | [optional]");
+    const cmd = all.find(
+      (e) => e.info.name === args[0] || (e.info.aliases || []).contains(args[0])
+    );
+    let embed = new MessageEmbed();
+    if (cmd) {
+      embed
+        .setColor("#e0e0e0")
+        .setAuthor(
+          `Help: ${cmd.info.name}${
+            message.guild ? ` | ${message.guild.name}` : ""
+          }`,
+          message.guild
+            ? message.guild.iconURL()
+            : message.author.displayAvatarURL({ type: "png" })
+        )
+        .setDescription(
+          `**Name**: \`${cmd.info.name}\`
+  **Aliases**: ${
+    (cmd.info.aliases || []).map((x) => `\`${x}\``).join(", ") || "No Alias"
+  }
+  **Cooldown**: \`${cmd.info.cooldown || 0}s\`
+  **Owner Only**: \`${cmd.ownerOnly ? "Yes" : "No" || "No"}\`
+  **Description**: ${cmd.help.description || "A command"}
+  **Usage**: \`${cmd.help.usage || ""}\`
+  **Examples**:\n\`\`\`diff\n+ ${
+    cmd.help.examples.join("\n+ ") || cmd.aliases[0]
+  }\`\`\``
+        )
+        .setFooter("Syntax: <required> | [optional]");
+    } else {
+      embed
+        .setColor("#ff1100")
+        .setDescription(
+          "<:Sirona_NoCross:762606114444935168> This command doesn't exists."
+        );
+    }
     return message.channel.send(embed);
   },
   info,
