@@ -26,7 +26,7 @@ module.exports = {
         const tier = tierSettings[data.tier];
         const card = await Fetcher.fetchByID(instance, data.card_id);
         const embed = new Discord.MessageEmbed()
-          .setTitle(`> <:Shoob:783624812160876555> Enter the Minigame`)
+          .setTitle(`> <:SShoob:783636544720207903> Enter the Minigame`)
           .setURL(`https://animesoul.com/mini-game/${data.id}`)
           .setColor(tier.color)
           .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
