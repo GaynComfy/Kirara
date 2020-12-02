@@ -32,24 +32,15 @@ module.exports = {
             "https://cdn.animesoul.com/images/content/shoob/shoob-no-empty-space.png"
           )
           .setTimestamp()
-          .setTitle(
-            `${tier.emoji}  •  ${card.name}  •  ${
-              card.tier === "S"
-                ? "S"
-                : Array(Number.parseInt(card.tier))
-                    .fill()
-                    .map(() => "★")
-                    .join("")
-            }`
-          )
+          .setTitle(`> Auction on Anime Soul`)
           .setURL(`https://animesoul.com/auction/${data.id}`)
           .setDescription(
-            `[${data.card_name} #${data.version}](https://animesoul.com/card/info/${data.card_id}) ` +
-              `is being auctioned on Anime Soul!\n\n`
+            `${tier.emoji} [${data.card_name} T${data.tier} #${data.version}]` +
+              `(https://animesoul.com/card/info/${data.card_id}) is being auctioned!\n\n`
           )
           .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
           .setFooter("Ends at")
-          .setTimestamp(data.date_ending);
+          .setTimestamp(data.date_ending * 1000);
 
         for (const guild of instance.client.guilds.cache.array()) {
           const {
