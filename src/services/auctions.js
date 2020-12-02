@@ -25,7 +25,7 @@ module.exports = {
         const data = JSON.parse(message);
         if (!allowed.includes(data.tier)) return;
         const tier = tierSettings[data.tier];
-        const card = await Fetcher.fetchByID(instance, data.id);
+        const card = await Fetcher.fetchByID(instance, data.card_id);
         const embed = new Discord.MessageEmbed()
           .setAuthor(
             "Shoob",
