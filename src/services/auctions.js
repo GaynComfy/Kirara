@@ -38,7 +38,11 @@ module.exports = {
             `${tier.emoji} [${data.card_name} T${data.tier}]` +
               `(https://animesoul.com/cards/info/${data.card_id}) V${data.version} is being auctioned!`
           )
-          .addField("Starting Bid", `富${Math.round(data.bn * 0.21)}`, true)
+          .addField(
+            "Starting Bid",
+            `富${Math.round(data.bn / 5) + data.minimum}`,
+            true
+          )
           .addField("Buy Now", `富${data.bn}`, true)
           .addField("Min. Increment", `+富${data.minimum}`, true);
 
