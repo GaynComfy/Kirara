@@ -10,7 +10,7 @@ const tierSettings = {
   5: { emoji: "<:NewT5:781684993834352680>", num: 5, color: "#ffe814" },
   6: { emoji: "<:NewT6:781684992937558047>", num: 6, color: "#ff170f" },
 };
-const allowed = ["4", "5", "6", "S"];
+const allowed = ["3", "4", "5", "6", "S"];
 let client = null;
 module.exports = {
   start: async (instance) => {
@@ -34,35 +34,20 @@ module.exports = {
           .setDescription(`New Auction for ${data.card_name} T${data.tier}`);
 
         for (const guild of instance.client.guilds.cache.array()) {
-          if (instance.logChannels[guild.id]) {
-            const logChannel = guild.channels.cache.get(
-              instance.logChannels[guild.id]
-            );
-            if (logChannel) {
-              const {
-                rows: [roleResult],
-              } = await instance.database.simpleQuery("CARD_ROLES", {
-                server_id: instance.serverIds[guild.id],
-                tier: `t${data.tier}`,
-              });
-              try {
-                if (roleResult) {
-                  await logChannel.send(
-                    `${tierInfo[`T${data.tier.toUpperCase()}`].emoji} <@&${
-                      roleResult.role_id
-                    }> | \`${
-                      data.card_name
-                    } T${data.tier.toUpperCase()} has went on auction!\`\nhttps://animesoul.com/auction/${
-                      data.id
-                    }`
-                  );
-                } else {
-                  embed.setFooter(guild.name);
-                  await logChannel.send(embed);
-                }
-              } catch (err) {
-                console.log("failed to send message");
-              }
+          const {
+            rows: [result],
+          } = await instance.database.simpleQuery("SETTINGS", {
+            key: "notif_channel",
+            guild_id: guild.id,
+          });
+          if (!result) continue;
+          const logChannel = guild.channels.cache.get(result.value);
+          if (logChannel) {
+            try {
+              embed.setFooter(guild.name);
+              await logChannel.send(embed);
+            } catch (err) {
+              console.log("failed to send message");
             }
           }
         }
