@@ -22,18 +22,17 @@ module.exports = {
     client.on("message", async (channel, message) => {
       if (channel === "games") {
         const data = JSON.parse(message);
-
         if (!allowed.includes(data.tier)) return;
+        const tier = tierSettings[data.tier];
+        const card = await Fetcher.fetchByID(instance, data.card_id);
         const embed = new Discord.MessageEmbed()
-          .setAuthor(
-            "Shoob",
-            "https://cdn.animesoul.com/images/content/shoob/shoob-no-empty-space.png"
-          )
-          .setTimestamp()
-          .setTitle(`> New Minigame on AnimeSoul! <`)
+          .setTitle(`> <:Shoob:783624812160876555> Enter the Minigame`)
           .setURL(`https://animesoul.com/mini-game/${data.id}`)
+          .setColor(tier.color)
+          .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
           .setDescription(
-            `New Minigame for ${data.card_name} T${data.tier.toUpperCase()}`
+            `${tier.emoji} [\`${data.card_name}\` • \`T${data.tier}\`]` +
+              `(https://animesoul.com/cards/info/${data.card_id}) • \`V${data.version}\` is on a minigame!`
           );
 
         for (const guild of instance.client.guilds.cache.array()) {
@@ -46,9 +45,17 @@ module.exports = {
           if (!result) continue;
           const logChannel = guild.channels.cache.get(result.value);
           if (logChannel) {
+            const {
+              rows: [autodel],
+            } = await instance.database.simpleQuery("SETTINGS", {
+              key: "notif_autodelete",
+              guild_id: guild.id,
+            });
             try {
-              embed.setFooter(guild.name);
-              await logChannel.send(embed);
+              const msg = await logChannel.send(embed);
+              if (autodel && autodel.value) {
+                setTimeout(() => msg.delete(), autodel.value * 60 * 1000);
+              }
             } catch (err) {
               console.log("failed to send message");
             }

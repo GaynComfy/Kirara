@@ -56,7 +56,7 @@ module.exports = {
             const {
               rows: [autodel],
             } = await instance.database.simpleQuery("SETTINGS", {
-              key: "notifs_autodelete",
+              key: "notif_autodelete",
               guild_id: guild.id,
             });
             try {
