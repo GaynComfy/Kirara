@@ -32,16 +32,16 @@ module.exports = {
           .setColor(tier.color)
           .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
           .setDescription(
-            `${tier.emoji} [${data.card_name} T${data.tier}]` +
-              `(https://animesoul.com/cards/info/${data.card_id}) V${data.version} is being auctioned!`
+            `${tier.emoji} [\`${data.card_name}\` • \`T${data.tier}\`]` +
+              `(https://animesoul.com/cards/info/${data.card_id}) • \`V${data.version}\` is being auctioned!`
           )
           .addField(
             "Starting Bid",
-            `\`富${Math.round(data.bn / 5) + data.minimum}\``,
+            `\`富 ${Math.round(data.bn / 5) + data.minimum}\``,
             true
           )
-          .addField("Buy Now", `\`富${data.bn}\``, true)
-          .addField("Min. Increment", `\`+富${data.minimum}\``, true);
+          .addField("Buy Now", `\`富 ${data.bn}\``, true)
+          .addField("Min. Increment", `\`+富 ${data.minimum}\``, true);
 
         for (const guild of instance.client.guilds.cache.array()) {
           const {
@@ -54,7 +54,8 @@ module.exports = {
           const logChannel = guild.channels.cache.get(result.value);
           if (logChannel) {
             try {
-              await logChannel.send(embed);
+              const msg = await logChannel.send(embed);
+              setTimeout(() => msg.delete(), 600000);
             } catch (err) {
               console.log("failed to send message");
             }
