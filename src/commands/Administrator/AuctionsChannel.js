@@ -99,7 +99,7 @@ module.exports = {
             value: id,
           });
           instance.settings[message.guild.id]["notif_channel"] = id;
-          if (args.length === 2 && args[1] !== "off") {
+          if (args.length >= 2 && args[1] !== "off") {
             await instance.database.simpleInsert("SETTINGS", {
               key: "notif_autodelete",
               guild_id: message.guild.id,
@@ -112,7 +112,7 @@ module.exports = {
         embed.setDescription(
           `<a:Sirona_Tick:749202570341384202> Auction Notifications Channel Set to <#${id}>!` +
             (args.length >= 2 && args[1] !== "off"
-              ? `\n⏲️ Messages will be auto-deleted in ${args[1]} minutes.`
+              ? `\n⏲️ Messages will be auto-deleted after ${args[1]} minutes.`
               : "")
         );
       }

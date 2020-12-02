@@ -112,7 +112,7 @@ module.exports = {
         embed.setDescription(
           `<a:Sirona_Tick:749202570341384202> Minigames Notifications Channel Set to <#${id}>!` +
             (args.length >= 2 && args[1] !== "off"
-              ? `\n⏲️ Messages will be auto-deleted in ${args[1]} minutes.`
+              ? `\n⏲️ Messages will be auto-deleted after ${args[1]} minutes.`
               : "")
         );
       }

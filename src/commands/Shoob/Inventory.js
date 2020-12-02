@@ -5,8 +5,6 @@ const { createPagedResults } = require("../../utils/PagedResults");
 const { tierInfo } = require("../../utils/cardUtils");
 const { map } = require("../../utils/GifFetcher");
 
-
-
 const info = {
   name: "inventory",
   aliases: ["inv"],
@@ -63,7 +61,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "inventory @User [t1,t2,t3,t4,t5,t6.ts]",
+    usage: "inventory <@user> [t1/t2/t3/t4/t5/t6/ts]",
     examples: ["s!inventory @Alycans", "s!inv @Liz3 t6"],
     description: "Fetch a users inventory",
   },
