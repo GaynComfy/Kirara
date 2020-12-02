@@ -58,7 +58,7 @@ module.exports = {
       return message.channel.send(embed);
     }
     const cmd = all.find(
-      (e) => e.info.name === args[0] || (e.info.aliases || []).contains(args[0])
+      (e) => e.info.name === args[0] || (e.info.aliases || []).includes(args[0])
     );
     let embed = new MessageEmbed();
     if (cmd) {
