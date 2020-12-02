@@ -20,8 +20,14 @@ module.exports = {
         key: "notif_channel",
         guild_id: message.guild.id,
       });
+      const {
+        rows: [autodel],
+      } = await instance.database.simpleQuery("SETTINGS", {
+        key: "notif_autodelete",
+        guild_id: message.guild.id,
+      });
 
-      if (args.length === 1 && args[0] === "off") {
+      if (args.length >= 1 && args[0] === "off") {
         if (!result) {
           embed.setDescription("No Notification Channel set anyway!");
           message.channel.send(embed);
@@ -30,10 +36,31 @@ module.exports = {
         await instance.database.simpleDelete("SETTINGS", {
           id: result.id,
         });
+        if (autodel) {
+          await instance.database.simpleDelete("SETTINGS", {
+            id: autodel.id,
+          });
+        }
         embed.setDescription(
           `<a:Sirona_Tick:749202570341384202> Notification Channel removed!`
         );
       }
+      if (args.length >= 2 && args[1] === "off") {
+        if (!autodel) {
+          embed.setDescription("No Notification auto-delete set anyway!");
+          message.channel.send(embed);
+          return true;
+        }
+        await instance.database.simpleDelete("SETTINGS", {
+          id: autodel.id,
+        });
+        embed.setDescription(
+          `<a:Sirona_Tick:749202570341384202> Auction notification auto-delete removed!`
+        );
+        message.channel.send(embed);
+        return true;
+      }
+      if (args.length >= 2 && isNaN(args[1])) return false;
       if (message.mentions.channels.size === 1) {
         const { id, name } = message.mentions.channels.first();
         if (result) {
@@ -46,6 +73,17 @@ module.exports = {
               value: id,
             }
           );
+          if (autodel && args.length >= 2 && args[1] !== "off") {
+            await instance.database.simpleUpdate(
+              "SETTINGS",
+              {
+                id: autodel.id,
+              },
+              {
+                value: args[1],
+              }
+            );
+          }
         } else {
           await instance.database.simpleInsert("SETTINGS", {
             key: "notif_channel",
@@ -53,9 +91,22 @@ module.exports = {
             server_id: instance.serverIds[message.guild.id],
             value: id,
           });
+          if (args.length === 2 && args[1] !== "off") {
+            await instance.database.simpleInsert("SETTINGS", {
+              key: "notif_autodelete",
+              guild_id: message.guild.id,
+              server_id: instance.serverIds[message.guild.id],
+              value: args[1],
+            });
+          }
         }
         embed.setDescription(
-          `<a:Sirona_Tick:749202570341384202> Notifications Channel Set to ${name}!`
+          `<a:Sirona_Tick:749202570341384202> Notifications Channel Set to <#${id}>` +
+            `${
+              args.length >= 2 && args[1] !== "off"
+                ? `, with auto-delete to ${args[1]} minutes`
+                : ""
+            }!`
         );
       }
       message.channel.send(embed);
@@ -64,8 +115,12 @@ module.exports = {
   },
   info,
   help: {
-    usage: "notifs [#channel]",
-    examples: ["notifs #asn-shoob-logs", "notifs off"],
+    usage: "notifs <#channel> [autodelete in mins]",
+    examples: [
+      "notifs #asn-shoob-logs",
+      "notifs #asn-network-chet 5",
+      "notifs off",
+    ],
     description:
       "Set Notification Channel for Auctions/Minigames and the likes!",
   },

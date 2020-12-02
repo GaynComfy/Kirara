@@ -53,9 +53,17 @@ module.exports = {
           if (!result) continue;
           const logChannel = guild.channels.cache.get(result.value);
           if (logChannel) {
+            const {
+              rows: [autodel],
+            } = await instance.database.simpleQuery("SETTINGS", {
+              key: "notifs_autodelete",
+              guild_id: guild.id,
+            });
             try {
               const msg = await logChannel.send(embed);
-              setTimeout(() => msg.delete(), 600000);
+              if (autodel && autodel.value) {
+                setTimeout(() => msg.delete(), autodel.value * 60 * 1000);
+              }
             } catch (err) {
               console.log("failed to send message");
             }
