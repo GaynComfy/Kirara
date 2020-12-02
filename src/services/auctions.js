@@ -44,7 +44,7 @@ module.exports = {
           )
           .setURL(`https://animesoul.com/auction/${data.id}`)
           .setDescription(
-            `[${data.card_name} #${data.versions}](https://animesoul.com/card/info/${data.card_id} ` +
+            `[${data.card_name} #${data.version}](https://animesoul.com/card/info/${data.card_id}) ` +
               `is being auctioned on Anime Soul!\n\n`
           )
           .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
