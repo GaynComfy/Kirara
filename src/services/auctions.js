@@ -25,7 +25,13 @@ module.exports = {
         const data = JSON.parse(message);
         if (!allowed.includes(data.tier)) return;
         const tier = tierSettings[data.tier];
-        const card = await Fetcher.fetchByID(instance, data.card_id);
+        let card;
+        try {
+          card = await Fetcher.fetchByID(instance, data.card_id);
+        } catch (err) {
+          // temp event workaround, remove once Yann adds this to the event itself
+          card = await Fetcher.fetchByID(instance, data.card_id, true);
+        }
         const embed = new Discord.MessageEmbed()
           .setTitle(`> <:SShoob:783636544720207903> Enter the Auction`)
           .setURL(`https://animesoul.com/auction/${data.id}`)
