@@ -37,11 +37,11 @@ module.exports = {
           )
           .addField(
             "Starting Bid",
-            `富${Math.round(data.bn / 5) + data.minimum}`,
+            `\`富${Math.round(data.bn / 5) + data.minimum}\``,
             true
           )
-          .addField("Buy Now", `富${data.bn}`, true)
-          .addField("Min. Increment", `+富${data.minimum}`, true);
+          .addField("Buy Now", `\`富${data.bn}\``, true)
+          .addField("Min. Increment", `\`+富${data.minimum}\``, true);
 
         for (const guild of instance.client.guilds.cache.array()) {
           const {
