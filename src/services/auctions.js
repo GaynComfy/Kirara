@@ -1,6 +1,7 @@
 const redis = require("redis");
 const Discord = require("discord.js");
 const GuildDelete = require("../events/GuildDelete");
+const Fetcher = require("../../utils/CardFetcher");
 const { tierInfo } = require("../utils/cardUtils");
 const tierSettings = {
   1: { emoji: "<:NewT1:781684991372689458>", num: 1, color: "#e8e8e8" },
@@ -23,15 +24,32 @@ module.exports = {
       if (channel === "auctions") {
         const data = JSON.parse(message);
         if (!allowed.includes(data.tier)) return;
+        const tier = tierSettings[data.tier];
+        const card = await Fetcher.fetchByID(instance, data.id);
         const embed = new Discord.MessageEmbed()
           .setAuthor(
             "Shoob",
             "https://cdn.animesoul.com/images/content/shoob/shoob-no-empty-space.png"
           )
           .setTimestamp()
-          .setTitle(`> New Auction on AnimeSoul! <`)
+          .setTitle(
+            `${tier.emoji}  •  ${card.name}  •  ${
+              card.tier === "S"
+                ? "S"
+                : Array(Number.parseInt(card.tier))
+                    .fill()
+                    .map(() => "★")
+                    .join("")
+            }`
+          )
           .setURL(`https://animesoul.com/auction/${data.id}`)
-          .setDescription(`New Auction for ${data.card_name} T${data.tier}`);
+          .setDescription(
+            `[${data.card_name} #${data.versions}](https://animesoul.com/card/info/${data.card_id} ` +
+              `is being auctioned on Anime Soul!\n\n`
+          )
+          .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
+          .setFooter("Ends at")
+          .setTimestamp(data.date_ending);
 
         for (const guild of instance.client.guilds.cache.array()) {
           const {

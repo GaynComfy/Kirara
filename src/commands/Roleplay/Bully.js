@@ -2,6 +2,7 @@ const Fetcher = require("../../utils/GifFetcher");
 const { generateRolePlayEmbed } = require("./utils");
 const info = {
   name: "bully",
+  aliases: ["baka"],
   matchCase: false,
   category: "Roleplay",
   cooldown: 60,
