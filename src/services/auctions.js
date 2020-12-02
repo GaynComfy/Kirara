@@ -32,17 +32,20 @@ module.exports = {
             "https://cdn.animesoul.com/images/content/shoob/shoob-no-empty-space.png"
           )
           .setTimestamp()
-          .setTitle(`> Auction on Anime Soul`)
+          .setTitle(`> New Auction on Anime Soul`)
           .setURL(`https://animesoul.com/auction/${data.id}`)
           .setColor(tier.color)
           .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
           .setDescription(
             `${tier.emoji} [${data.card_name} T${data.tier}]` +
-              `(https://animesoul.com/card/info/${data.card_id}) #${data.version} is being auctioned!\n\n`
+              `(https://animesoul.com/cards/info/${data.card_id}) #${data.version} is being auctioned!\n\n`
           )
-          .addField("Starting bid", `富`, true)
+          .addField("Starting Bid", `富${.21 * data.bn}`, true)
           .addField("Buy Now", `富${data.bn}`, true)
-          .addField("Minimum Increments", `+富${data.minimum}`, true);
+          .addField("Minimum Increments", `+富${data.minimum}`, true)
+          .setFooter("Ends at")
+          .setTimestamp(data.date_ending * 1000);
+
 
         for (const guild of instance.client.guilds.cache.array()) {
           const {
