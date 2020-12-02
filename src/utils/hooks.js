@@ -1,3 +1,6 @@
+const isDev = process.env.NODE_ENV === "development";
+const { owner } = isDev ? require('../config-dev.js') : require('../config-prod.js');
+
 exports.withRole = async (member, handler, role) => {
   if (!member || !member.roles || !member.roles.cache)
     throw new Error("roles not present on user or user not defined");
@@ -8,7 +11,7 @@ exports.withRole = async (member, handler, role) => {
 };
 
 exports.withRights = async (member, handler, permission = "ADMINISTRATOR") => {
-  if (!member || !member.hasPermission)
+  if (!member || !member.hasPermission || !owner.includes(member.id))
     throw new Error("hasPermission not present on user or user not defined");
   if (!permission) {
     return handler();
