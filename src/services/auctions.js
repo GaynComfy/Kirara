@@ -1,7 +1,7 @@
 const redis = require("redis");
 const Discord = require("discord.js");
 const GuildDelete = require("../events/GuildDelete");
-const Fetcher = require("../../utils/CardFetcher");
+const Fetcher = require("../utils/CardFetcher");
 const { tierInfo } = require("../utils/cardUtils");
 const tierSettings = {
   1: { emoji: "<:NewT1:781684991372689458>", num: 1, color: "#e8e8e8" },
