@@ -62,7 +62,10 @@ module.exports = {
             try {
               const msg = await logChannel.send(embed);
               if (autodel && autodel.value) {
-                setTimeout(() => msg.delete(), autodel.value * 60 * 1000);
+                setTimeout(
+                  () => msg.delete(),
+                  parseInt(autodel.value) * 60 * 1000
+                );
               }
             } catch (err) {
               console.log("failed to send message");
