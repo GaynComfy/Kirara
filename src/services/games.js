@@ -24,18 +24,11 @@ module.exports = {
         const data = JSON.parse(message);
         if (!allowed.includes(data.tier)) return;
         const tier = tierSettings[data.tier];
-        let card;
-        try {
-          card = await Fetcher.fetchByID(instance, data.card_id);
-        } catch (err) {
-          // temp event workaround, remove once Yann adds this to the event itself
-          card = await Fetcher.fetchByID(instance, data.card_id, true);
-        }
         const embed = new Discord.MessageEmbed()
           .setTitle(`> <:SShoob:783636544720207903> Enter the Minigame`)
           .setURL(`https://animesoul.com/mini-game/${data.id}`)
           .setColor(tier.color)
-          .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
+          .setThumbnail(`https://animesoul.com/api/cardr/${data.card_id}`)
           .setDescription(
             `${tier.emoji} [\`${data.card_name}\` • \`T${data.tier}\`]` +
               `(https://animesoul.com/cards/info/${data.card_id}) • \`V${data.version}\` is on a minigame!`
