@@ -10,7 +10,7 @@ const tierSettings = {
   5: { emoji: "<:NewT5:781684993834352680>", num: 5, color: "#ffe814" },
   6: { emoji: "<:NewT6:781684992937558047>", num: 6, color: "#ff170f" },
 };
-
+const allowed = ["4", "5", "6", "S"];
 let client = null;
 module.exports = {
   start: async (instance) => {
@@ -22,6 +22,7 @@ module.exports = {
     client.on("message", async (channel, message) => {
       if (channel === "auctions") {
         const data = JSON.parse(message);
+        if (!allowed.includes(data.tier)) return;
         const embed = new Discord.MessageEmbed()
           .setAuthor(
             "Shoob",
@@ -44,19 +45,23 @@ module.exports = {
                 server_id: instance.serverIds[guild.id],
                 tier: `t${data.tier}`,
               });
-              if (roleResult) {
-                await logChannel.send(
-                  `${tierInfo[`T${data.tier.toUpperCase()}`].emoji} <@&${
-                    roleResult.role_id
-                  }> | \`${
-                    data.card_name
-                  } T${data.tier.toUpperCase()} has went on auction!\`\nhttps://animesoul.com/auction/${
-                    data.id
-                  }`
-                );
-              } else {
-                embed.setFooter(guild.name);
-                await logChannel.send(embed);
+              try {
+                if (roleResult) {
+                  await logChannel.send(
+                    `${tierInfo[`T${data.tier.toUpperCase()}`].emoji} <@&${
+                      roleResult.role_id
+                    }> | \`${
+                      data.card_name
+                    } T${data.tier.toUpperCase()} has went on auction!\`\nhttps://animesoul.com/auction/${
+                      data.id
+                    }`
+                  );
+                } else {
+                  embed.setFooter(guild.name);
+                  await logChannel.send(embed);
+                }
+              } catch (err) {
+                console.log("failed to send message");
               }
             }
           }
