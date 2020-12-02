@@ -2,8 +2,8 @@ const { withRights } = require("../../utils/hooks");
 const { MessageEmbed } = require("discord.js");
 
 const info = {
-  name: "notifs",
-  aliases: ["notifications"],
+  name: "aucnotifs",
+  aliases: ["auctionsnotifications"],
   matchCase: false,
   category: "Administration",
 };
@@ -29,7 +29,7 @@ module.exports = {
 
       if (args.length >= 1 && args[0] === "off") {
         if (!result) {
-          embed.setDescription("No Notification Channel set anyway!");
+          embed.setDescription("No Auction Notification Channel set anyway!");
           message.channel.send(embed);
           return;
         }
@@ -42,12 +42,14 @@ module.exports = {
           });
         }
         embed.setDescription(
-          `<a:Sirona_Tick:749202570341384202> Notification Channel removed!`
+          `<a:Sirona_Tick:749202570341384202> Auction Notification Channel removed!`
         );
       }
       if (args.length >= 2 && args[1] === "off") {
         if (!autodel) {
-          embed.setDescription("No Notification auto-delete set anyway!");
+          embed.setDescription(
+            "No Auction Notification auto-delete set anyway!"
+          );
           message.channel.send(embed);
           return true;
         }
@@ -101,7 +103,7 @@ module.exports = {
           }
         }
         embed.setDescription(
-          `<a:Sirona_Tick:749202570341384202> Notifications Channel Set to <#${id}>` +
+          `<a:Sirona_Tick:749202570341384202> Auction Notifications Channel Set to <#${id}>` +
             `${
               args.length >= 2 && args[1] !== "off"
                 ? `, with auto-delete to ${args[1]} minutes`
@@ -115,13 +117,12 @@ module.exports = {
   },
   info,
   help: {
-    usage: "notifs <#channel> [autodelete in mins]",
+    usage: "aucnotifs <#channel> [autodelete in mins]",
     examples: [
-      "notifs #asn-shoob-logs",
-      "notifs #asn-network-chet 5",
-      "notifs off",
+      "aucnotifs #asn-shoob-logs",
+      "aucnotifs #asn-network-chet 5",
+      "aucnotifs off",
     ],
-    description:
-      "Set Notification Channel for Auctions/Minigames and the likes!",
+    description: "Set Notification Channel for Auctions and the likes!",
   },
 };

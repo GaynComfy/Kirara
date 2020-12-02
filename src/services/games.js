@@ -39,7 +39,7 @@ module.exports = {
           const {
             rows: [result],
           } = await instance.database.simpleQuery("SETTINGS", {
-            key: "notif_channel",
+            key: "games_channel",
             guild_id: guild.id,
           });
           if (!result) continue;
@@ -48,7 +48,7 @@ module.exports = {
             const {
               rows: [autodel],
             } = await instance.database.simpleQuery("SETTINGS", {
-              key: "notif_autodelete",
+              key: "games_autodelete",
               guild_id: guild.id,
             });
             try {
