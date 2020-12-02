@@ -34,13 +34,15 @@ module.exports = {
           .setTimestamp()
           .setTitle(`> Auction on Anime Soul`)
           .setURL(`https://animesoul.com/auction/${data.id}`)
-          .setDescription(
-            `${tier.emoji} [${data.card_name} T${data.tier} #${data.version}]` +
-              `(https://animesoul.com/card/info/${data.card_id}) is being auctioned!\n\n`
-          )
+          .setColor(tier.color)
           .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
-          .setFooter("Ends at")
-          .setTimestamp(data.date_ending * 1000);
+          .setDescription(
+            `${tier.emoji} [${data.card_name} T${data.tier}]` +
+              `(https://animesoul.com/card/info/${data.card_id}) #${data.version} is being auctioned!\n\n`
+          )
+          .addField("Starting bid", `富`, true)
+          .addField("Buy Now", `富${data.bn}`, true)
+          .addField("Minimum Increments", `+富${data.minimum}`, true);
 
         for (const guild of instance.client.guilds.cache.array()) {
           const {
@@ -53,7 +55,6 @@ module.exports = {
           const logChannel = guild.channels.cache.get(result.value);
           if (logChannel) {
             try {
-              embed.setFooter(guild.name);
               await logChannel.send(embed);
             } catch (err) {
               console.log("failed to send message");
