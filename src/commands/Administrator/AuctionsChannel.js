@@ -36,10 +36,12 @@ module.exports = {
         await instance.database.simpleDelete("SETTINGS", {
           id: result.id,
         });
+        delete instance.settings[message.guild.id]["notif_channel"];
         if (autodel) {
           await instance.database.simpleDelete("SETTINGS", {
             id: autodel.id,
           });
+          delete instance.settings[message.guild.id]["notif_autodelete"];
         }
         embed.setDescription(
           `<a:Sirona_Tick:749202570341384202> Auction Notification Channel removed!`
@@ -56,6 +58,7 @@ module.exports = {
         await instance.database.simpleDelete("SETTINGS", {
           id: autodel.id,
         });
+        delete instance.settings[message.guild.id]["notif_autodelete"];
         embed.setDescription(
           `<a:Sirona_Tick:749202570341384202> Auction notification auto-delete removed!`
         );
@@ -75,6 +78,7 @@ module.exports = {
               value: id,
             }
           );
+          instance.settings[message.guild.id]["notif_channel"] = id;
           if (autodel && args.length >= 2 && args[1] !== "off") {
             await instance.database.simpleUpdate(
               "SETTINGS",
@@ -85,6 +89,7 @@ module.exports = {
                 value: args[1],
               }
             );
+            instance.settings[message.guild.id]["notif_autodelete"] = args[1];
           }
         } else {
           await instance.database.simpleInsert("SETTINGS", {
@@ -93,6 +98,7 @@ module.exports = {
             server_id: instance.serverIds[message.guild.id],
             value: id,
           });
+          instance.settings[message.guild.id]["notif_channel"] = id;
           if (args.length === 2 && args[1] !== "off") {
             await instance.database.simpleInsert("SETTINGS", {
               key: "notif_autodelete",
@@ -100,6 +106,7 @@ module.exports = {
               server_id: instance.serverIds[message.guild.id],
               value: args[1],
             });
+            instance.settings[message.guild.id]["notif_autodelete"] = args[1];
           }
         }
         embed.setDescription(

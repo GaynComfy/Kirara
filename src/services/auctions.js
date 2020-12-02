@@ -1,7 +1,6 @@
 const redis = require("redis");
 const Discord = require("discord.js");
 const GuildDelete = require("../events/GuildDelete");
-const Fetcher = require("../utils/CardFetcher");
 const { tierInfo } = require("../utils/cardUtils");
 const tierSettings = {
   1: { emoji: "<:NewT1:781684991372689458>", num: 1, color: "#e8e8e8" },
@@ -43,28 +42,15 @@ module.exports = {
           .addField("Min. Increment", `\`+富 ${data.minimum}\``, true);
 
         for (const guild of instance.client.guilds.cache.array()) {
-          const {
-            rows: [result],
-          } = await instance.database.simpleQuery("SETTINGS", {
-            key: "notif_channel",
-            guild_id: guild.id,
-          });
-          if (!result) continue;
-          const logChannel = guild.channels.cache.get(result.value);
+          const channel = instance.settings[guild.id]["notif_channel"];
+          if (!channel) continue;
+          const logChannel = guild.channels.cache.get(channel);
           if (logChannel) {
-            const {
-              rows: [autodel],
-            } = await instance.database.simpleQuery("SETTINGS", {
-              key: "notif_autodelete",
-              guild_id: guild.id,
-            });
+            const autodel = instance.settings[guild.id]["notif_autodelete"];
             try {
               const msg = await logChannel.send(embed);
-              if (autodel && autodel.value) {
-                setTimeout(
-                  () => msg.delete(),
-                  parseInt(autodel.value) * 60 * 1000
-                );
+              if (autodel) {
+                setTimeout(() => msg.delete(), parseInt(autodel) * 60 * 1000);
               }
             } catch (err) {
               console.log("failed to send message");
