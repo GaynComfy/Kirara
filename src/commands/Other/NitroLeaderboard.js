@@ -26,10 +26,9 @@ module.exports = {
         message.channel.stopTyping();
 
         if (allBoosters.size === 0) {
-          message.channel.send(
-            "\uD83D\uDCA2 **Nobody is boosting this server!**"
-          );
-          return;
+          return new MessageEmbed()
+            .setDescription("\uD83D\uDCA2 Nobody is boosting this server!")
+            .setColor("#ff1100");
         }
 
         pageThroughCollection(message, allBoosters, (boosters, page) => {

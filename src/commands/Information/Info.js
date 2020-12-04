@@ -13,10 +13,9 @@ const embed = new MessageEmbed()
     "Multi-purpose bot for Shoob activities and extras! Completely free with no restrictions. " +
       "Also partnered with [__**Gay & Comfy**__](https://discord.gg/comfy)!"
   )
-  .addField("Owner:", "`Nota#1576`")
-  .addField("Co-Owner:", "`🎀 𝒥𝑜𝓇𝑔𝓎 🎀#2024`, `Alycans#1693`")
+  .addField("Owners:", "`Nota#1576`, `🎀 𝒥𝑜𝓇𝑔𝓎 🎀#2024`, `Alycans#1693`")
   .addField(
-    "Main Devs:",
+    "Lead Devs:",
     "`JeDaYoshi#7942`, `offbeatwitch#8860`, `Liz3#0001`, `🎀 𝒥𝑜𝓇𝑔𝓎 🎀#2024`, `Nota#1576`"
   )
   .addField(
