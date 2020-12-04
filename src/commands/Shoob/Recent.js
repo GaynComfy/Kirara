@@ -59,7 +59,7 @@ module.exports = {
       embed.addField("•   __**Claimed by:**__", claimers, true);
       const since = humanizeDuration(
         Date.now() - recentCards[recentCards.length - 1].time,
-        { round: true, units: ["w", "d", "h", "m"] }
+        { round: true, units: ["d", "h", "m", "s"] }
       );
       embed.setFooter(`Last card spawned: ${since} ago.`);
     } else {
