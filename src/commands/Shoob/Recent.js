@@ -27,10 +27,10 @@ module.exports = {
             [instance.serverIds[message.guild.id], args[0][1].toUpperCase()]
           );
 
-    const tierSettings = tierInfo[args[0].toUpperCase()];
     const selectedTitle =
       args.length !== 0
-        ? `${tierSettings.emoji} __Recent cards: Tier ${tierSettings.num}__`
+        ? `${tierInfo[args[0].toUpperCase()].emoji} __Recent cards: ` +
+          `Tier ${tierInfo[args[0].toUpperCase()].num}__`
         : "<:Flame:783439293506519101> __Recent cards__";
     const selectedColor =
       args.length !== 0 ? tierInfo[args[0].toUpperCase()].color : Color.default;
@@ -69,7 +69,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "recent [T1|T2|T3|T4|T5|T6]",
+    usage: "recent [T1/T2/T3/T4/T5/T6]",
     examples: ["recent t1"],
     description: "Show last cards spawned by Shoob",
   },
