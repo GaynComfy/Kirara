@@ -153,7 +153,12 @@ module.exports = {
   info,
   help: {
     usage: "card [*e*vent/*s*ervers] [tier] <name>",
-    examples: ["card servers t6 Alice", "card event t4 Rem", "card t6 Rin"],
+    examples: [
+      "card servers t6 Alice",
+      "card event t4 Rem",
+      "card t6 Rin",
+      "card Nezuko",
+    ],
     description: "Fetch a card by tier & name",
   },
 };
