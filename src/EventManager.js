@@ -22,7 +22,11 @@ class EventManager {
     const otherHandlers = this.events["message"];
     this.client.on("message", async (message) => {
       if (message.channel.type === "dm") return; // ToDo: Reimplement
-      if (message.content.toLowerCase().indexOf(this.config.prefix.toLowerCase()) === 0) {
+      if (
+        message.content
+          .toLowerCase()
+          .indexOf(this.config.prefix.toLowerCase()) === 0
+      ) {
         if (message.author.bot) return;
         const args = message.content
           .slice(this.config.prefix.length)
@@ -81,18 +85,14 @@ class EventManager {
       });
     });
   }
-  commandExecution(mod, command, message, args) {
+  async commandExecution(mod, command, message, args) {
     await withCooldown(
       this.instance.cache,
       message.author.id,
       mod.info.name,
       async () => {
         try {
-          const result = await command.execute(
-            this.instance,
-            message,
-            args
-          );
+          const result = await command.execute(this.instance, message, args);
           if (result === false) sendUsage(message.channel, command.help);
           return result;
         } catch (err) {
