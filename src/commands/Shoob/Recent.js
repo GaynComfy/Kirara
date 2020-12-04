@@ -27,12 +27,11 @@ module.exports = {
             [instance.serverIds[message.guild.id], args[0][1].toUpperCase()]
           );
 
+    const tierSettings = tierInfo[args[0].toUpperCase()];
     const selectedTitle =
       args.length !== 0
-        ? `${
-            tierInfo[args[0].toUpperCase()].emoji
-          } __Recent cards: ${args[0].toUpperCase()}__`
-        : "__Recent cards__";
+        ? `${tierSettings.emoji} __Recent cards: Tier ${tierSettings.num}__`
+        : "<:Flame:783439293506519101> __Recent cards__";
     const selectedColor =
       args.length !== 0 ? tierInfo[args[0].toUpperCase()].color : Color.default;
 
@@ -61,7 +60,7 @@ module.exports = {
         Date.now() - recentCards[recentCards.length - 1].time,
         { round: true, units: ["d", "h", "m", "s"] }
       );
-      embed.setFooter(`Last card spawned: ${since} ago.`);
+      embed.setFooter(`Last card spawned: ${since} ago`);
     } else {
       embed.setDescription("No cards have spawned yet.");
     }

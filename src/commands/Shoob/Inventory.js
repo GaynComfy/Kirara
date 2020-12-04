@@ -16,10 +16,16 @@ const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
 
 module.exports = {
   execute: async (instance, message, args) => {
-    const user = message.mentions.users.first();
-    if (!user) return false;
-    const hasTier = args.length === 2 && allowed.includes(args[1]);
-    const tier = hasTier ? args[1][1].toUpperCase() : null;
+    let user = message.mentions.users.first();
+    if (user) {
+      args.splice(0, 1);
+    } else {
+      user = message.author;
+    }
+    if (args.length === 1 && !allowed.includes(args[0])) return false;
+    if (args.length >= 2) return false;
+    const hasTier = args.length === 1 && allowed.includes(args[0]);
+    const tier = hasTier ? args[0][1].toUpperCase() : null;
     let last = -1;
     createPagedResults(message, Infinity, async (page) => {
       const offset = (page > last && last !== -1 ? last : page) * 8;
@@ -34,15 +40,16 @@ module.exports = {
       }
       if (last !== -1 && page > last) return null;
       const embed = new MessageEmbed()
-        .setTitle(` •  ${user.username} Inventory   • `)
+        .setTitle(` •   ${user.username}'s Inventory   • `)
         .setColor(Color.default)
         .setURL(`https://animesoul.com/user/${user.id}`)
         .setFooter(
-          `Kirara | ${info.cooldown} Seconds cooldowm on this Command.`
+          `Kirara | ${info.cooldown} Seconds cooldown.`,
+          "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png"
         )
         .setDescription(
           `Page: ${last !== -1 && page >= last ? "Last" : page + 1} ${
-            tier ? `Tier: ${args[1].toUpperCase()}` : ""
+            tier ? `Tier: ${args[0].toUpperCase()}` : ""
           }`
         );
       embed.addField(
@@ -61,8 +68,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "inventory <@user> [t1/t2/t3/t4/t5/t6/ts]",
-    examples: ["s!inventory @Alycans", "s!inv @Liz3 t6"],
+    usage: "inventory [@user] [t1/t2/t3/t4/t5/t6/ts]",
+    examples: ["s!inventory @Alycans", "s!inv @Liz3 t6", "s!inv"],
     description: "Fetch a users inventory",
   },
 };
