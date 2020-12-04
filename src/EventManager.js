@@ -35,7 +35,7 @@ class EventManager {
         const commandName = args.shift();
         const command = this.commands[commandName];
         if (command) {
-          this.commandExecution(currentEntry, command, message, args);
+          this.commandExecution(command, message, args);
         } else {
           // not yet found. this isn't the best time complexity but it should be still okay
           for (const commandKey of Object.keys(this.commands)) {
@@ -49,14 +49,14 @@ class EventManager {
                     (e) => e.toLowerCase() === commandName.toLowerCase()
                   ))
               ) {
-                this.commandExecution(currentEntry, command, message, args);
+                this.commandExecution(currentEntry, message, args);
               }
             } else {
               if (
                 Array.isArray(currentEntry.info.aliases) &&
                 currentEntry.info.aliases.find((e) => e === commandName)
               ) {
-                this.commandExecution(currentEntry, command, message, args);
+                this.commandExecution(currentEntry, message, args);
               }
             }
           }
@@ -85,11 +85,11 @@ class EventManager {
       });
     });
   }
-  async commandExecution(mod, command, message, args) {
+  async commandExecution(command, message, args) {
     await withCooldown(
       this.instance.cache,
       message.author.id,
-      mod.info.name,
+      command.info.name,
       async () => {
         try {
           const result = await command.execute(this.instance, message, args);
@@ -100,7 +100,7 @@ class EventManager {
           console.error(err);
         }
       },
-      mod.info.cooldown || 0,
+      command.info.cooldown || 0,
       true
     );
   }
