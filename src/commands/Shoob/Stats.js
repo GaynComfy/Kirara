@@ -19,7 +19,7 @@ module.exports = {
         /*.setImage(
           "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
         )*/
-        .setThumbnail(member.displayAvatarURL({size: 2048, dynamic: true}))
+        .setThumbnail(member.displayAvatarURL({ size: 2048, dynamic: true }))
         .setColor(Color.default);
 
       const query =
@@ -30,17 +30,19 @@ module.exports = {
       ]);
       result.rows.forEach((entry) => {
         const tier = tierInfo["T" + entry.tier.toUpperCase()];
-          var text = `${tier.emoji} x ${entry.c}`
-          tiersArray.push(text)
+        var text = `${tier.emoji} x ${entry.c}`;
+        tiersArray.push(text);
         /*hugEmbed.addField(
           `Tier ${entry.tier}`,
           `》${tier.emoji} ${entry.c}x`,
           true
         );*/
       });
-      hugEmbed.setDescription(`<:733154673413980202:782165519146156062> **${member.username}'s claims**
+      hugEmbed.setDescription(`<:ID:782165519146156062> **${
+        member.username
+      }'s claims**
 ━━━━━━━━━━━━━━━
-${tiersArray.join(' | ')}
+${tiersArray.join(" | ")}
 ━━━━━━━━━━━━━━━`);
       await message.channel.send(hugEmbed);
     } else {

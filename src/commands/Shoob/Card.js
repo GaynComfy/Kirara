@@ -21,10 +21,14 @@ module.exports = {
     const isEvent =
       args[0].toLowerCase() === "event" || args[0].toLowerCase() === "e";
     const isGlobal =
-      isEvent || (args[0].toLowerCase() === "servers" || args[0].toLowerCase() === "bot" ||
-        args[0].toLowerCase() === "s");
+      isEvent ||
+      args[0].toLowerCase() === "servers" ||
+      args[0].toLowerCase() === "bot" ||
+      args[0].toLowerCase() === "s";
     const isOldGlobal =
-      isEvent || (args[0].toLowerCase() === "global" || args[0].toLowerCase() === "g");
+      isEvent ||
+      args[0].toLowerCase() === "global" ||
+      args[0].toLowerCase() === "g";
     if (isEvent || isGlobal || isOldGlobal) args.splice(0, 1);
     if (args.length === 0) return false;
     const hasTier = allowed.includes(args[0].toLowerCase());
@@ -33,10 +37,13 @@ module.exports = {
     const name = args.join(" ");
     let altName;
     if (space.test(name)) {
-      altName = [...args.slice(-1), ...args.slice(0, -1)].join(' ');
+      altName = [...args.slice(-1), ...args.slice(0, -1)].join(" ");
     }
-    const card = await Fetcher.fetchByName(instance, name, tier, isEvent) ||
-      (altName ? await Fetcher.fetchByName(instance, altName, tier, isEvent) : null);
+    const card =
+      (await Fetcher.fetchByName(instance, name, tier, isEvent)) ||
+      (altName
+        ? await Fetcher.fetchByName(instance, altName, tier, isEvent)
+        : null);
     if (card === null) {
       const embedz = new MessageEmbed()
         .setDescription(
@@ -122,23 +129,23 @@ module.exports = {
           )
           .setFooter("React to ◀️ get back")
           .setColor(selectedColor.color);
-          if (isGlobal) {
-            embed.addField(
-              `Top Claimers:`,
-              mapped
-                .slice(0, 3)
-                .map((user) => `\`${user.value} (${user.count}x)\``)
-                .join(" | ") || "- No one! <:shoob:760021745905696808>"
-            );
-          }
+        if (isGlobal) {
           embed.addField(
-            `__${isGlobal ? "Stored Card Claims" : "Card Owners"}:__`,
-            claimers.length === 0
-              ? "- No one! <:shoob:760021745905696808>"
-              : claimers,
-            true
+            `Top Claimers:`,
+            mapped
+              .slice(0, 3)
+              .map((user) => `\`${user.value} (${user.count}x)\``)
+              .join(" | ") || "- No one! <:SShoob:783636544720207903>"
           );
-          return embed;
+        }
+        embed.addField(
+          `__${isGlobal ? "Stored Card Claims" : "Card Owners"}:__`,
+          claimers.length === 0
+            ? "- No one! <:SShoob:783636544720207903>"
+            : claimers,
+          true
+        );
+        return embed;
       }
     });
     return true;
