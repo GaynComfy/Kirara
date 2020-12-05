@@ -138,7 +138,7 @@ module.exports = {
         for (const listing of listings) {
           market.push(
             `> • \`Issue: ${listing.item.issue}\` | Price: \`富 ${listing.price}\` | ` +
-              `Added: \`${moment(date_added * 1000).fromNow()}\``
+              `Added: \`${moment(listing.date_added * 1000).fromNow()}\``
           );
         }
 
