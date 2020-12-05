@@ -172,7 +172,7 @@ module.exports = {
               : market
           )
           .addField(
-            `__Latest Auctions__`,
+            `__Active Auctions__`,
             auctions.length === 0
               ? "- None! <:SShoob:783636544720207903>"
               : auctions
