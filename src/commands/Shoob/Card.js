@@ -1,9 +1,9 @@
+const moment = require("moment");
 const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
 const { MessageEmbed } = require("discord.js");
 const { createPagedResults } = require("../../utils/PagedResults");
 const { tierInfo } = require("../../utils/cardUtils");
-const { map } = require("../../utils/GifFetcher");
 
 const info = {
   name: "card",
@@ -79,7 +79,7 @@ module.exports = {
       }
     } else {
       // AS card search
-      const entries = await Fetcher.fetchOwners(instance, card.id, "8");
+      const entries = await Fetcher.fetchOwners(instance, card.id, "0", "8");
       for (const claim of entries) {
         const owners = claim.trade_history;
         const username = owners[owners.length - 1].username;
@@ -89,7 +89,7 @@ module.exports = {
       }
     }
 
-    createPagedResults(message, 2, (page) => {
+    createPagedResults(message, 2, async (page) => {
       if (page === 0) {
         return new MessageEmbed()
           .setTitle(
@@ -105,6 +105,81 @@ module.exports = {
           .setColor(selectedColor.color)
           .setImage(encodeURI(card.image_url).replace(".webp", ".gif"))
           .setFooter("React to ▶️ for more info");
+      } else if (page === 1 && !isGlobal) {
+        const auctions = [];
+        const market = [];
+
+        const aucs = await Fetcher.fetchAuctionsByCardId(
+          instance,
+          card.id,
+          "0",
+          "8"
+        );
+        for (const auc of aucs) {
+          const sbid = Math.round(auc.bn / 5) + auc.minimum;
+          let hbid = sbid;
+          const lbid = auc.bidders[auc.bidders.length - 1];
+          if (lbid) {
+            hbid = lbid.bid_amount;
+          }
+
+          auctions.push(
+            `> • \`Issue: ${auc.version}\` | Buy now: Bids: \`富 ${auc.bn}\` | ` +
+              `Latest bid (from \`${auc.bids}\`): \`富 ${hbid}\``
+          );
+        }
+
+        const listings = await Fetcher.fetchMarketByCardId(
+          instance,
+          card.id,
+          "0",
+          "8"
+        );
+        for (const listing of listings) {
+          market.push(
+            `> • \`Issue: ${listing.item.issue}\` | Price: \`富 ${listing.price}\` | ` +
+              `Added: \`${moment(date_added * 1000).fromNow()}\``
+          );
+        }
+
+        const embed = new MessageEmbed()
+          .setTitle(
+            `${selectedColor.emoji}  •  ${card.name}  •  ${
+              card.tier === "S"
+                ? "S"
+                : Array(Number.parseInt(card.tier))
+                    .fill()
+                    .map(() => "★")
+                    .join("")
+            }`
+          )
+          .setURL(`https://animesoul.com/cards/info/${card.id}`)
+          .setDescription(
+            `\`Tier: ${card.tier}\`\n\`Highest Issue: ${
+              card.claim_count
+            }\`\n\`Source: ${card.series[0] || "-"}\``
+          )
+          .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
+          .setImage(
+            "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
+          )
+          .setFooter("React to ▶️ for card owners")
+          .setColor(selectedColor.color)
+          .addField(
+            `__Market Listings__`,
+            market.length === 0
+              ? "- None! <:SShoob:783636544720207903>"
+              : market,
+            true
+          )
+          .addField(
+            `__Latest Auctions__`,
+            auctions.length === 0
+              ? "- None! <:SShoob:783636544720207903>"
+              : auctions,
+            true
+          );
+        return embed;
       } else {
         const embed = new MessageEmbed()
           .setTitle(
