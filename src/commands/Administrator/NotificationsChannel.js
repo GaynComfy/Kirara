@@ -129,7 +129,9 @@ const execute = async (instance, message, args, send = true) => {
       embed.setDescription(
         `<a:Sirona_Tick:749202570341384202> Notifications channel set to <#${id}>!` +
           (args.length >= 2 && args[1] !== "off" && args[1] !== "0"
-            ? `\n⏲️ Messages will be auto-deleted after ${args[1]} minutes.`
+            ? `\n⏲️ Messages will be auto-deleted after ${args[1]} ${
+                parseInt(args[1]) > 1 ? "minutes" : "minute"
+              }.`
             : "")
       );
     }
