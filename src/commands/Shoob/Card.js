@@ -124,7 +124,7 @@ module.exports = {
           }
 
           auctions.push(
-            `> [• \`Issue: ${auc.version}\` | Buy now: Bids: \`富 ${auc.bn}\` | ` +
+            `[> • \`Issue: ${auc.version}\` | Buy now: Bids: \`富 ${auc.bn}\` | ` +
               `Latest bid (from \`${auc.bids}\`): \`富 ${hbid}\`](https://animesoul.com/auction/${auc.id})`
           );
         }
@@ -137,8 +137,10 @@ module.exports = {
         );
         for (const listing of listings) {
           market.push(
-            `> • \`Issue: ${listing.item.issue}\` | Price: \`富 ${listing.price}\` | ` +
-              `Added: \`${moment(listing.date_added * 1000).fromNow()}\``
+            `[> • \`Issue: ${listing.item.issue}\` | Price: \`富 ${listing.price}\` | ` +
+              `Added: \`${moment(
+                listing.date_added * 1000
+              ).fromNow()}\`](https://animesoul.com/market)`
           );
         }
 
