@@ -91,7 +91,12 @@ const execute = async (instance, message, args, send = true) => {
           }
         );
         instance.settings[message.guild.id][`${type}_channel`] = id;
-        if (autodel && args.length >= 2 && args[1] !== "off") {
+        if (
+          autodel &&
+          args.length >= 2 &&
+          args[1] !== "off" &&
+          args[1] !== "0"
+        ) {
           await instance.database.simpleUpdate(
             "SETTINGS",
             {
@@ -111,7 +116,7 @@ const execute = async (instance, message, args, send = true) => {
           value: id,
         });
         instance.settings[message.guild.id][`${type}_channel`] = id;
-        if (args.length >= 2 && args[1] !== "off") {
+        if (args.length >= 2 && args[1] !== "off" && args[1] !== "0") {
           await instance.database.simpleInsert("SETTINGS", {
             key: `${type}_autodelete`,
             guild_id: message.guild.id,
@@ -123,7 +128,7 @@ const execute = async (instance, message, args, send = true) => {
       }
       embed.setDescription(
         `<a:Sirona_Tick:749202570341384202> Notifications channel set to <#${id}>!` +
-          (args.length >= 2 && args[1] !== "off"
+          (args.length >= 2 && args[1] !== "off" && args[1] !== "0"
             ? `\n⏲️ Messages will be auto-deleted after ${args[1]} minutes.`
             : "")
       );
