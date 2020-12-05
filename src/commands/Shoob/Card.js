@@ -89,7 +89,7 @@ module.exports = {
       }
     }
 
-    createPagedResults(message, 2, async (page) => {
+    createPagedResults(message, Infinity, async (page) => {
       if (page === 0) {
         return new MessageEmbed()
           .setTitle(

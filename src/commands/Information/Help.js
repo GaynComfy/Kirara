@@ -77,7 +77,9 @@ module.exports = {
   **Aliases**: ${
     (cmd.info.aliases || []).map((x) => `\`${x}\``).join(", ") || "No Alias"
   }
-  **Cooldown**: \`${cmd.info.cooldown || 0}s\`
+  **Cooldown**: \`${
+    cmd.info.cooldown > 0 ? `${cmd.info.cooldown || 0}s` : "None"
+  }\`
   **Owner Only**: \`${cmd.ownerOnly ? "Yes" : "No" || "No"}\`
   **Description**: ${cmd.help.description || "A command"}
   **Usage**: \`${cmd.help.usage || ""}\`
