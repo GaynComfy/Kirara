@@ -24,8 +24,8 @@ module.exports = {
         type = "games";
       } else if (type === "all") {
         // horrible hack. i don't feel well about this. todo change later
-        await this.execute(instance, message, ["auc", ...args], true);
-        return await this.execute(instance, message, ["mg", ...args], false);
+        await exports.execute(instance, message, ["auc", ...args], true);
+        return await exports.execute(instance, message, ["mg", ...args], false);
       } else return false;
 
       const {
