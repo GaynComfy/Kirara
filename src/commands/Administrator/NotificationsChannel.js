@@ -6,7 +6,7 @@ const games = ["games", "minigames", "mg"];
 
 const info = {
   name: "notifs",
-  aliases: ["notifications"],
+  aliases: ["notifications", "notif"],
   matchCase: false,
   category: "Administration",
 };
@@ -144,11 +144,13 @@ module.exports = {
   execute,
   info,
   help: {
-    usage: "notifs <auctions/minigames> <#channel/off> [autodelete in mins]",
+    usage:
+      "notifs <auctions/minigames> <#channel/off> [autodelete in mins/off]",
     examples: [
       "notifs auc #asn-auctions",
       "notifs games #asn-network-chet 5",
-      "notifs auctions off",
+      "notifs mg #asn-network-chet off",
+      "notifs all off",
     ],
     description: "Set up notifications for Auctions, Minigames and the likes!",
   },
