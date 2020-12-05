@@ -124,8 +124,8 @@ module.exports = {
           }
 
           auctions.push(
-            `> • \`Issue: ${auc.version}\` | Buy now: Bids: \`富 ${auc.bn}\` | ` +
-              `Latest bid (from \`${auc.bids}\`): \`富 ${hbid}\``
+            `> [• \`Issue: ${auc.version}\` | Buy now: Bids: \`富 ${auc.bn}\` | ` +
+              `Latest bid (from \`${auc.bids}\`): \`富 ${hbid}\`](https://animesoul.com/auction/${auc.id})`
           );
         }
 
@@ -169,15 +169,13 @@ module.exports = {
             `__Market Listings__`,
             market.length === 0
               ? "- None! <:SShoob:783636544720207903>"
-              : market,
-            true
+              : market
           )
           .addField(
             `__Latest Auctions__`,
             auctions.length === 0
               ? "- None! <:SShoob:783636544720207903>"
-              : auctions,
-            true
+              : auctions
           );
         return embed;
       } else {
@@ -217,8 +215,7 @@ module.exports = {
           `__${isGlobal ? "Stored Card Claims" : "Card Owners"}:__`,
           claimers.length === 0
             ? "- No one! <:SShoob:783636544720207903>"
-            : claimers,
-          true
+            : claimers
         );
         return embed;
       }
