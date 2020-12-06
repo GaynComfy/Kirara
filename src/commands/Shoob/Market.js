@@ -37,6 +37,7 @@ module.exports = {
         ? await Fetcher.fetchByName(instance, altName, tier, isEvent)
         : null);
     if (card === null) {
+      message.channel.stopTyping();
       const embedz = new MessageEmbed()
         .setDescription(
           `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
