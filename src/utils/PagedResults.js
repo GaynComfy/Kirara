@@ -1,3 +1,5 @@
+const sendError = require("./SendError");
+
 const BACK_SYMBOL = "\u25c0️";
 const FORWARD_SYMBOL = "\u25b6";
 
@@ -23,10 +25,16 @@ const createPagedResults = async (message, maxPages, getMessageForPage) => {
       .createReactionCollector(nextFilter, collectorOpts)
       .on("collect", async (r, user) => {
         const newPage = Math.min(page + 1, maxPages - 1);
-        const res = await getMessageForPage(newPage, user);
-        if (res) {
-          sentMessage.edit(res);
-          page = newPage;
+        if (newPage === page) return r.users.remove(user);
+        try {
+          const res = await getMessageForPage(newPage, user);
+          if (res) {
+            sentMessage.edit(res);
+            page = newPage;
+          }
+        } catch (err) {
+          sendError(sentMessage.channel);
+          console.error(err);
         }
         r.users.remove(user);
       });
@@ -35,10 +43,16 @@ const createPagedResults = async (message, maxPages, getMessageForPage) => {
       .createReactionCollector(backFilter, collectorOpts)
       .on("collect", async (r, user) => {
         const newPage = Math.max(page - 1, 0);
-        const res = await getMessageForPage(newPage, user);
-        if (res) {
-          sentMessage.edit(res);
-          page = newPage;
+        if (newPage === page) return r.users.remove(user);
+        try {
+          const res = await getMessageForPage(newPage, user);
+          if (res) {
+            sentMessage.edit(res);
+            page = newPage;
+          }
+        } catch (err) {
+          sendError(sentMessage.channel);
+          console.error(err);
         }
         r.users.remove(user);
       });

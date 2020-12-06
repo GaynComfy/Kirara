@@ -53,6 +53,17 @@ module.exports = {
       "300"
     );
     const sorted = listings.sort((a, b) => a.item.issue - b.item.issue);
+    message.channel.stopTyping();
+    if (sorted.length === 0) {
+      const embedz = new MessageEmbed()
+        .setDescription(
+          `<:Sirona_NoCross:762606114444935168> No active market listings for this card!`
+        )
+        .setColor(Color.red);
+      message.channel.send({ embed: embedz });
+      return null;
+    }
+
     const pages = Math.ceil(listings.length / 10);
     createPagedResults(message, pages, async (page) => {
       const entries = sorted.slice(page * 10, page * 10 + 10);
@@ -77,12 +88,15 @@ module.exports = {
         )
         .setURL(`https://animesoul.com/cards/info/${card.id}`)
         .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
-        .setColor(selectedColor.color)
-        .setFooter(
+        .setColor(selectedColor.color);
+
+      if (pages > 1) {
+        embed.setFooter(
           (pages > 1 ? `Page: ${page + 1}/${pages} | ` : "") +
-            (page + 1 < pages ? "React to ▶️ for next page | " : "") +
-            "React to ◀️ to go back"
+            (page + 1 < pages ? "React ▶️ for next page | " : "") +
+            "React ◀️ to go back"
         );
+      }
 
       if (page === 0) {
         embed.setDescription(
@@ -102,12 +116,12 @@ module.exports = {
   },
   info,
   help: {
-    usage: "market [tier] <name>",
+    usage: "market [event] [tier] <name>",
     examples: [
       "market t6 Alice",
       "market event t4 Rem",
       "market t6 Rin",
-      "market Nezuko",
+      "market Sora and Shiro",
     ],
     description: "Get Market entries for a card!",
   },
