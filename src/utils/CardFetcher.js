@@ -139,7 +139,7 @@ class CardFetcher {
     if (!result.data || result.data.length === 0) {
       return [];
     }
-    const owners = result.data;
+    const owners = result.data.sort((l, n) => l.issue - n.issue);
     instance.cache.setExpire(k, JSON.stringify(owners), 60 * 14);
     return owners;
   }
