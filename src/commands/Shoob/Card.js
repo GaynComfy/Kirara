@@ -175,7 +175,7 @@ module.exports = {
           "10"
         );
         const owners = [];
-        for (const claim of entries.data) {
+        for (const claim of entries) {
           const owners = claim.trade_history;
           const username = owners[owners.length - 1].username;
           owners.push(
