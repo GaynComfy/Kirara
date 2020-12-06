@@ -143,6 +143,19 @@ class CardFetcher {
     instance.cache.setExpire(k, JSON.stringify(owners), 60 * 14);
     return owners;
   }
+  async fetchCardCount(instance, cardId) {
+    const k = `cardcount:${cardId}`;
+    const exists = await instance.cache.exists(k);
+    if (exists) {
+      const e = await instance.cache.get(k);
+      const data = JSON.parse(e);
+      return data.count;
+    }
+    const result = await this.instance.get(`/inventory/count/${cardId}`);
+    instance.cache.setExpire(k, JSON.stringify(result.data), 60 * 14);
+    return result.data.count;
+  }
+
   async fetchTopOwners(instance, id, offset = "0", limit = "0") {
     // this can be so aggressive I am better processing it this way.
     // reduce queries on Anime Soul but fetch all data time

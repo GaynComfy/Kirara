@@ -81,8 +81,8 @@ module.exports = {
       }
     } else {
       // AS card search
-      const entries = await Fetcher.fetchOwners(instance, card.id, "0", "10");
-      claimersAmount = entries.total;
+      const entries = await Fetcher.fetchCardCount(instance, card.id);
+      claimersAmount = entries;
     }
 
     message.channel.stopTyping();
