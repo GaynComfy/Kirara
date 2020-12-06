@@ -166,19 +166,17 @@ module.exports = {
           .addField(
             `__Top Owners:__`,
             mapped.length === 0
-              ? "- None! <:SShoob:783636544720207903>"
+              ? "- No one <:SShoob:783636544720207903>"
               : mapped
           )
           .addField(
             `__Market Listings:__`,
-            market.length === 0
-              ? "- None! <:SShoob:783636544720207903>"
-              : market
+            market.length === 0 ? "- None <:SShoob:783636544720207903>" : market
           );
         return embed;
       } else {
         const pnum = page - 2;
-        if (pnum >= pages) return null;
+        if ((pages === 0 && pnum > 0) || pnum >= pages) return null;
 
         const offset = pnum * 10;
         const owners = claimers.slice(offset, offset + 10);
@@ -213,7 +211,7 @@ module.exports = {
           .addField(
             `__${isGlobal ? "Stored Card Claims" : "Card Owners"}:__`,
             owners.length === 0
-              ? "- No one! <:SShoob:783636544720207903>"
+              ? "- No one <:SShoob:783636544720207903>"
               : owners
           );
       }
