@@ -153,8 +153,8 @@ class CardFetcher {
       const e = await instance.cache.get(k);
       const data = JSON.parse(e);
       return {
-        data: e.slice(parseInt(offset), parseInt(offset) + parseInt(limit)),
-        total: e.length,
+        data: data.slice(parseInt(offset), parseInt(offset) + parseInt(limit)),
+        total: data.length,
       };
     }
     const result = await this.instance.get(`/inventory/top/${id}`);
