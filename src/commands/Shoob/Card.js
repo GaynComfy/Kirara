@@ -114,10 +114,9 @@ module.exports = {
         );
         const market = listings.map(
           (listing) =>
-            `[> • \`Issue: ${listing.item.issue}\` | Price: \`富 ${listing.price}\` | ` +
-            `Added: \`${moment(
-              listing.date_added * 1000
-            ).fromNow()}\`](https://animesoul.com/market)`
+            `[> • \`Issue: ${listing.item.issue}\`](https://animesoul.com/market) | ` +
+            `Price: \`富 ${listing.price}\` | ` +
+            `Added: \`${moment(listing.date_added * 1000).fromNow()}\``
         );
         let topOwners = mapped;
 
