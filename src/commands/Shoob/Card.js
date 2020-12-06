@@ -124,14 +124,18 @@ module.exports = {
         );
         let topOwners = mapped.map(
           (user) =>
-            `> • \`${user.count}x issues\` | [__**${user.username}**__](https://animesoul.com/user/${user.discord_id})`
+            `> • \`${user.count}x ${user.count > 1 ? "issues" : "issue"}\` | ` +
+            `[__**${user.username}**__](https://animesoul.com/user/${user.discord_id})`
         );
 
         if (!isGlobal) {
           const top = await Fetcher.fetchTopOwners(instance, card.id, "0", "5");
           topOwners = top.map(
             (user) =>
-              `> • \`${user.count}x issues\` | [__**${user.username}**__](https://animesoul.com/user/${user.discord_id})`
+              `> • \`${user.count}x ${
+                user.count > 1 ? "issues" : "issue"
+              }\` | ` +
+              `[__**${user.username}**__](https://animesoul.com/user/${user.discord_id})`
           );
         }
 
