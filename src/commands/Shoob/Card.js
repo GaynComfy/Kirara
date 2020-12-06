@@ -75,7 +75,11 @@ module.exports = {
             username: "Unknown user",
           };
         }
-        mapped.push({ value: result.username, count: claim.c });
+        mapped.push({
+          discord_id: claim.discord_id,
+          username: result.username,
+          count: claim.c,
+        });
         claimers.push(
           `> • \`Issue: ${claim.issue}\` | [__**${result.username}**__](https://animesoul.com/user/${claim.discord_id})`
         );
@@ -118,7 +122,10 @@ module.exports = {
             `Price: \`富 ${listing.price}\` | ` +
             `Added: \`${moment(listing.date_added * 1000).fromNow()}\``
         );
-        let topOwners = mapped;
+        let topOwners = mapped.map(
+          (user) =>
+            `> • \`${user.count}x issues\` | [__**${user.username}**__](https://animesoul.com/user/${user.discord_id})`
+        );
 
         if (!isGlobal) {
           const top = await Fetcher.fetchTopOwners(instance, card.id, "0", "5");
@@ -168,19 +175,24 @@ module.exports = {
           return null;
 
         const offset = pnum * 10;
-        const entries = await Fetcher.fetchOwners(
-          instance,
-          card.id,
-          `${offset}`,
-          "10"
-        );
-        const owners = [];
-        for (const claim of entries) {
-          const tradeHistory = claim.trade_history;
-          const username = tradeHistory[tradeHistory.length - 1].username;
-          owners.push(
-            `> • \`Issue: ${claim.issue}\` | [__**${username}**__](https://animesoul.com/user/${claim.discord_id})`
+        let owners = [];
+        if (isGlobal) {
+          // changing this to database querying in a sec
+          owners = claimers.slice(offset, offset + 10);
+        } else {
+          const entries = await Fetcher.fetchOwners(
+            instance,
+            card.id,
+            offset,
+            "10"
           );
+          for (const claim of entries) {
+            const tradeHistory = claim.trade_history;
+            const username = tradeHistory[tradeHistory.length - 1].username;
+            owners.push(
+              `> • \`Issue: ${claim.issue}\` | [__**${username}**__](https://animesoul.com/user/${claim.discord_id})`
+            );
+          }
         }
 
         return new MessageEmbed()
