@@ -19,7 +19,7 @@ class CardFetcher {
       return JSON.parse(e);
     }
     const result = await this.fetchAllByName(instance, name, tier, event);
-    if (result.length === 0) {
+    if (!result || result.length === 0) {
       return null;
     }
     const card =
@@ -43,7 +43,7 @@ class CardFetcher {
         tier === "all" ? "" : `?tier=${tier}`
       }`
     );
-    if (result.data.length === 0) {
+    if (!result.data || result.data.length === 0) {
       return [];
     }
     const cards = result.data;
@@ -61,7 +61,7 @@ class CardFetcher {
     const result = await this.instance.get(
       `/${event ? "eventcards" : "card"}/${id}`
     );
-    if (result.data.length === 0) {
+    if (!result.data || result.data.length === 0) {
       return null;
     }
     const card = result.data;
@@ -88,7 +88,7 @@ class CardFetcher {
           }`
         );
 
-    if (result.data.length === 0) {
+    if (!result.data || result.data.length === 0) {
       return [];
     }
     const cards = result.data;
@@ -97,7 +97,7 @@ class CardFetcher {
   }
   async fetchAuctionById(instance, id) {
     const result = await this.instance.get(`/auction/${id}`);
-    if (result.data.length === 0) {
+    if (!result.data || result.data.length === 0) {
       return null;
     }
     const auction = result.data;
@@ -105,7 +105,7 @@ class CardFetcher {
   }
   async fetchAuctionByInvId(instance, id) {
     const result = await this.instance.get(`/auctions/card/${id}`);
-    if (result.data.length === 0) {
+    if (!result.data || result.data.length === 0) {
       return null;
     }
     const listings = result.data;
@@ -117,7 +117,7 @@ class CardFetcher {
         limit === "0" ? "" : `&limit=${limit}`
       }`
     );
-    if (result.data.length === 0) {
+    if (!result.data || result.data.length === 0) {
       return [];
     }
     const listings = result.data;
@@ -136,7 +136,7 @@ class CardFetcher {
         limit === "0" ? "" : `&limit=${limit}`
       }`
     );
-    if (result.data.length === 0) {
+    if (!result.data || result.data.length === 0) {
       return [];
     }
     const owners = result.data;
@@ -157,7 +157,7 @@ class CardFetcher {
       );
     }
     const result = await this.instance.get(`/inventory/top/${id}`);
-    if (result.data.length === 0) {
+    if (!result.data || result.data.length === 0) {
       return [];
     }
     const owners = result.data;
