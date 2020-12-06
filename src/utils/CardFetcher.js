@@ -1,4 +1,7 @@
 const axios = require("axios");
+
+const tN = (tier) => (tier.toLowerCase() === "s" ? 8 : parseInt(tier));
+
 class CardFetcher {
   constructor(token) {
     this.instance = axios.create({
@@ -46,7 +49,7 @@ class CardFetcher {
     if (!result.data || result.data.length === 0) {
       return [];
     }
-    const cards = result.data;
+    const cards = result.data.sort((l, n) => tN(n.tier) - tN(l.tier));
     instance.cache.setExpire(k, JSON.stringify(cards), 60 * 30);
     return cards;
   }
