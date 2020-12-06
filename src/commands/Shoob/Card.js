@@ -176,7 +176,8 @@ module.exports = {
         return embed;
       } else {
         const pnum = page - 2;
-        if ((pages === 0 && pnum > 0) || pnum >= pages) return null;
+        if ((pages === 0 && pnum > 0) || (pages !== 0 && pnum >= pages))
+          return null;
 
         const offset = pnum * 10;
         const owners = claimers.slice(offset, offset + 10);
