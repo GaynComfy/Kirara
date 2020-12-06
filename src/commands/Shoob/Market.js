@@ -69,7 +69,7 @@ module.exports = {
       const entries = sorted.slice(page * 10, page * 10 + 10);
       const market = entries.map(
         (listing) =>
-          `[> • \`Issue: ${listing.item.issue}\`](https://animesoul.com/market) | ` +
+          `> [• \`Issue: ${listing.item.issue}\`](https://animesoul.com/market) | ` +
           `Price: \`富 ${listing.price}\` | ` +
           `Added: \`${moment(listing.date_added * 1000).fromNow()}\``
       );
