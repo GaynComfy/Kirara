@@ -206,7 +206,7 @@ module.exports = {
           )
           .setFooter(
             `Page: ${pnum + 1}/${pages} | ` +
-              (pnum >= last ? "React to ▶️ to see next page | " : "") +
+              (pnum + 1 < pages ? "React to ▶️ to see next page | " : "") +
               "React to ◀️ to go back"
           )
           .setColor(selectedColor.color)
