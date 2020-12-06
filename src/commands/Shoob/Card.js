@@ -55,7 +55,7 @@ module.exports = {
       return null;
     }
     const selectedColor = tierInfo[`T${card.tier}`];
-
+    let claimersAmount = 0;
     const claimers = [];
     const mapped = [];
     if (isGlobal) {
@@ -66,6 +66,7 @@ module.exports = {
       const { rows: entries } = await instance.database.pool.query(query, [
         card.id,
       ]);
+      claimersAmount = entries.length;
       for (const claim of entries) {
         let result = await instance.client.users.fetch(claim.discord_id);
         if (!result) {
@@ -80,20 +81,14 @@ module.exports = {
       }
     } else {
       // AS card search
-      const entries = await Fetcher.fetchOwners(instance, card.id, "0", "100");
-      for (const claim of entries) {
-        const owners = claim.trade_history;
-        const username = owners[owners.length - 1].username;
-        claimers.push(
-          `> • \`Issue: ${claim.issue}\` | [__**${username}**__](https://animesoul.com/user/${claim.discord_id})`
-        );
-      }
+      const entries = await Fetcher.fetchOwners(instance, card.id, "0", "10");
+      claimersAmount = entries.total;
     }
 
     message.channel.stopTyping();
 
-    const pages = Math.ceil(claimers.length / 10);
-    createPagedResults(message, Infinity, async (page) => {
+    const pages = Math.ceil(claimersAmount / 10);
+    createPagedResults(message, 2 + claimersAmount, async (page) => {
       if (page === 0) {
         return new MessageEmbed()
           .setTitle(
@@ -173,7 +168,20 @@ module.exports = {
           return null;
 
         const offset = pnum * 10;
-        const owners = claimers.slice(offset, offset + 10);
+        const entries = await Fetcher.fetchOwners(
+          instance,
+          card.id,
+          `${offset}`,
+          "10"
+        );
+        const owners = [];
+        for (const claim of entries.data) {
+          const owners = claim.trade_history;
+          const username = owners[owners.length - 1].username;
+          owners.push(
+            `> • \`Issue: ${claim.issue}\` | [__**${username}**__](https://animesoul.com/user/${claim.discord_id})`
+          );
+        }
 
         return new MessageEmbed()
           .setTitle(
