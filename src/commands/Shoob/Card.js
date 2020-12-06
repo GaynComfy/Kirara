@@ -205,8 +205,8 @@ module.exports = {
             "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
           )
           .setFooter(
-            `Page: ${pnum + 1}/${pages} | ` +
-              (pnum + 1 < pages ? "React to ▶️ to see next page | " : "") +
+            (pages > 1 ? `Page: ${pnum + 1}/${pages} | ` : "") +
+              (pnum + 1 < pages ? "React to ▶️ for next page | " : "") +
               "React to ◀️ to go back"
           )
           .setColor(selectedColor.color)
