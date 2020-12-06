@@ -18,7 +18,7 @@ module.exports = {
   execute: async (instance, message, args) => {
     let user = message.mentions.users.first();
     if (user) {
-      args.splice(0, 1);
+      args.shift();
     } else {
       user = message.author;
     }

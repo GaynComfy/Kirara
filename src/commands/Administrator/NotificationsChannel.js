@@ -16,7 +16,7 @@ const execute = async (instance, message, args, send = true) => {
     if (args.length <= 1) return false;
     const embed = new MessageEmbed().setColor("RANDOM");
     let type = args[0].toLowerCase();
-    args.splice(0, 1);
+    args.shift();
 
     if (auc.includes(type)) {
       type = "notif";

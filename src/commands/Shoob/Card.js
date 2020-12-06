@@ -29,10 +29,11 @@ module.exports = {
       isEvent ||
       args[0].toLowerCase() === "global" ||
       args[0].toLowerCase() === "g";
-    if (isEvent || isGlobal || isOldGlobal) args.splice(0, 1);
+    if (isEvent || isGlobal || isOldGlobal) args.shift();
     if (args.length === 0) return false;
     const hasTier = allowed.includes(args[0].toLowerCase());
     if (hasTier && args.length === 1) return false;
+    message.channel.startTyping();
     const tier = hasTier ? args.shift()[1].toUpperCase() : "all";
     const name = args.join(" ");
     let altName;
@@ -87,23 +88,9 @@ module.exports = {
           `> • \`Issue: ${claim.issue}\` | [__**${username}**__](https://animesoul.com/user/${claim.discord_id})`
         );
       }
-      const top = await Fetcher.fetchTopOwners(instance, card.id, "0", "5");
-      for (const group of top) {
-        mapped.push(
-          `> • \`${group.count}x issues\` | [__**${group.username}**__](https://animesoul.com/user/${group.discord_id})`
-        );
-        /*
-        mapped.push({ value: group.username, count: claim.count });
-        embed.addField(
-            `Top Claimers:`,
-            mapped
-              .slice(0, 3)
-              .map((user) => `\`${user.value} (${user.count}x)\``)
-              .join(" | ") || "- No one! <:SShoob:783636544720207903>"
-          );
-        */
-      }
     }
+
+    message.channel.stopTyping();
 
     const pages = Math.ceil(claimers.length / 10);
     createPagedResults(message, Infinity, async (page) => {
@@ -123,20 +110,26 @@ module.exports = {
           .setImage(encodeURI(card.image_url).replace(".webp", ".gif"))
           .setFooter("React to ▶️ for more info");
       } else if (page === 1) {
-        const market = [];
-
         const listings = await Fetcher.fetchMarketByCardId(
           instance,
           card.id,
           "0",
           "10"
         );
-        for (const listing of listings) {
-          market.push(
+        const market = listings.map(
+          (listing) =>
             `[> • \`Issue: ${listing.item.issue}\` | Price: \`富 ${listing.price}\` | ` +
-              `Added: \`${moment(
-                listing.date_added * 1000
-              ).fromNow()}\`](https://animesoul.com/market)`
+            `Added: \`${moment(
+              listing.date_added * 1000
+            ).fromNow()}\`](https://animesoul.com/market)`
+        );
+        let topOwners = mapped;
+
+        if (!isGlobal) {
+          const top = await Fetcher.fetchTopOwners(instance, card.id, "0", "5");
+          topOwners = top.map(
+            (user) =>
+              `> • \`${user.count}x issues\` | [__**${user.username}**__](https://animesoul.com/user/${user.discord_id})`
           );
         }
 
@@ -165,9 +158,9 @@ module.exports = {
           .setColor(selectedColor.color)
           .addField(
             `__Top Owners:__`,
-            mapped.length === 0
+            topOwners.length === 0
               ? "- No one <:SShoob:783636544720207903>"
-              : mapped
+              : topOwners
           )
           .addField(
             `__Market Listings:__`,
