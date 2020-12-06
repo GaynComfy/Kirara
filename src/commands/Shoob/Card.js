@@ -90,7 +90,7 @@ module.exports = {
       const top = await Fetcher.fetchTopOwners(instance, card.id, "0", "10");
       for (const group of top) {
         mapped.push(
-          `> • \`${claim.count}x issues\` | [__**${group.username}**__](https://animesoul.com/user/${group.discord_id})`
+          `> • \`${group.count}x issues\` | [__**${group.username}**__](https://animesoul.com/user/${group.discord_id})`
         );
         /*
         mapped.push({ value: group.username, count: claim.count });
