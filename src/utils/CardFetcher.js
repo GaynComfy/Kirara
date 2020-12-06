@@ -28,17 +28,10 @@ class CardFetcher {
     instance.cache.setExpire(k, JSON.stringify(card), 60 * 30);
     return card;
   }
-  async fetchAllByName(
-    instance,
-    name,
-    tier = "all",
-    event = false,
-    offset = "0",
-    limit = "0"
-  ) {
+  async fetchAllByName(instance, name, tier = "all", event = false) {
     const k = `cardlist${
       event ? ":event" : ""
-    }:${tier}:${name.toLowerCase().replace(/ /g, "-")}:${offset}:${limit}`;
+    }:${tier}:${name.toLowerCase().replace(/ /g, "-")}`;
 
     const exists = await instance.cache.exists(k);
     if (exists) {
@@ -46,9 +39,9 @@ class CardFetcher {
       return JSON.parse(e);
     }
     const result = await this.instance.get(
-      `/${event ? "eventcards" : "card"}/name/${name}?offset=${offset}${
-        limit === "0" ? "" : `&limit=${limit}`
-      }${tier === "all" ? "" : `&tier=${tier}`}`
+      `/${event ? "eventcards" : "card"}/name/${name}${
+        tier === "all" ? "" : `?tier=${tier}`
+      }`
     );
     if (result.data.length === 0) {
       return [];
@@ -57,7 +50,7 @@ class CardFetcher {
     instance.cache.setExpire(k, JSON.stringify(cards), 60 * 30);
     return cards;
   }
-  async fetchByID(instance, id, event = false) {
+  async fetchById(instance, id, event = false) {
     const k = `card${event ? ":event" : ""}:${id}`;
 
     const exists = await instance.cache.exists(k);
@@ -110,14 +103,10 @@ class CardFetcher {
     const auction = result.data;
     return auction;
   }
-  async fetchAuctionsByCardId(instance, id, offset = "0", limit = "0") {
-    const result = await this.instance.get(
-      `/auctions/card/${id}?offset=${offset}${
-        limit === "0" ? "" : `&limit=${limit}`
-      }`
-    );
+  async fetchAuctionByInvId(instance, id) {
+    const result = await this.instance.get(`/auctions/card/${id}`);
     if (result.data.length === 0) {
-      return [];
+      return null;
     }
     const listings = result.data;
     return listings;
@@ -154,5 +143,27 @@ class CardFetcher {
     instance.cache.setExpire(k, JSON.stringify(owners), 60 * 14);
     return owners;
   }
+  async fetchTopOwners(instance, id, offset = "0", limit = "0") {
+    // this can be so aggressive I am better processing it this way.
+    // reduce queries on Anime Soul but fetch all data time
+    const k = `cardtopowners:${id}`;
+
+    const exists = await instance.cache.exists(k);
+    if (exists) {
+      const e = await instance.cache.get(k);
+      return JSON.parse(e).slice(
+        parseInt(offset),
+        parseInt(offset) + parseInt(limit)
+      );
+    }
+    const result = await this.instance.get(`/inventory/top/${id}`);
+    if (result.data.length === 0) {
+      return [];
+    }
+    const owners = result.data;
+    instance.cache.setExpire(k, JSON.stringify(owners), 60 * 14);
+    return owners.slice(parseInt(offset), parseInt(offset) + parseInt(limit));
+  }
 }
+
 module.exports = new CardFetcher(process.env.AS_TOKEN);

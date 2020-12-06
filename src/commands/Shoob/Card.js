@@ -61,7 +61,7 @@ module.exports = {
       // Bot-tracked card search
       const query =
         "SELECT COUNT (id) c, issue, discord_id FROM card_claims WHERE claimed=true " +
-        "AND card_id=$1 GROUP BY discord_id,issue ORDER BY issue ASC LIMIT 8";
+        "AND card_id=$1 GROUP BY discord_id,issue ORDER BY issue ASC LIMIT 100";
       const { rows: entries } = await instance.database.pool.query(query, [
         card.id,
       ]);
@@ -79,7 +79,7 @@ module.exports = {
       }
     } else {
       // AS card search
-      const entries = await Fetcher.fetchOwners(instance, card.id, "0", "8");
+      const entries = await Fetcher.fetchOwners(instance, card.id, "0", "100");
       for (const claim of entries) {
         const owners = claim.trade_history;
         const username = owners[owners.length - 1].username;
@@ -87,8 +87,25 @@ module.exports = {
           `> • \`Issue: ${claim.issue}\` | [__**${username}**__](https://animesoul.com/user/${claim.discord_id})`
         );
       }
+      const top = await Fetcher.fetchTopOwners(instance, card.id, "0", "10");
+      for (const group of top) {
+        mapped.push(
+          `> • \`${claim.count}x issues\` | [__**${group.username}**__](https://animesoul.com/user/${group.discord_id})`
+        );
+        /*
+        mapped.push({ value: group.username, count: claim.count });
+        embed.addField(
+            `Top Claimers:`,
+            mapped
+              .slice(0, 3)
+              .map((user) => `\`${user.value} (${user.count}x)\``)
+              .join(" | ") || "- No one! <:SShoob:783636544720207903>"
+          );
+        */
+      }
     }
 
+    let last = -1;
     createPagedResults(message, Infinity, async (page) => {
       if (page === 0) {
         return new MessageEmbed()
@@ -105,35 +122,14 @@ module.exports = {
           .setColor(selectedColor.color)
           .setImage(encodeURI(card.image_url).replace(".webp", ".gif"))
           .setFooter("React to ▶️ for more info");
-      } else if (page === 1 && !isGlobal) {
-        const auctions = [];
+      } else if (page === 1) {
         const market = [];
-
-        const aucs = await Fetcher.fetchAuctionsByCardId(
-          instance,
-          card.id,
-          "0",
-          "8"
-        );
-        for (const auc of aucs) {
-          const sbid = Math.round(auc.bn / 5) + auc.minimum;
-          let hbid = sbid;
-          const lbid = auc.bidders[auc.bidders.length - 1];
-          if (lbid) {
-            hbid = lbid.bid_amount;
-          }
-
-          auctions.push(
-            `[> • \`Issue: ${auc.version}\` | Buy now: Bids: \`富 ${auc.bn}\` | ` +
-              `Latest bid (from \`${auc.bids}\`): \`富 ${hbid}\`](https://animesoul.com/auction/${auc.id})`
-          );
-        }
 
         const listings = await Fetcher.fetchMarketByCardId(
           instance,
           card.id,
           "0",
-          "8"
+          "10"
         );
         for (const listing of listings) {
           market.push(
@@ -168,20 +164,28 @@ module.exports = {
           .setFooter("React to ▶️ for card owners")
           .setColor(selectedColor.color)
           .addField(
-            `__Market Listings__`,
+            `__Top Owners:__`,
+            mapped.length === 0
+              ? "- None! <:SShoob:783636544720207903>"
+              : mapped
+          )
+          .addField(
+            `__Market Listings:__`,
             market.length === 0
               ? "- None! <:SShoob:783636544720207903>"
               : market
-          )
-          .addField(
-            `__Active Auctions__`,
-            auctions.length === 0
-              ? "- None! <:SShoob:783636544720207903>"
-              : auctions
           );
         return embed;
       } else {
-        const embed = new MessageEmbed()
+        const pnum = page - 2;
+        const offset = (pnum > last && last !== -1 ? last : pnum) * 10;
+        const owners = claimers.slice(offset, offset + 10);
+        if (result.length < 10 && last === -1) {
+          last = pnum;
+        }
+        if (last !== -1 && pnum > last) return null;
+
+        return new MessageEmbed()
           .setTitle(
             `${selectedColor.emoji}  •  ${card.name}  •  ${
               card.tier === "S"
@@ -202,24 +206,18 @@ module.exports = {
           .setImage(
             "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
           )
-          .setFooter("React to ◀️ get back")
-          .setColor(selectedColor.color);
-        if (isGlobal) {
-          embed.addField(
-            `Top Claimers:`,
-            mapped
-              .slice(0, 3)
-              .map((user) => `\`${user.value} (${user.count}x)\``)
-              .join(" | ") || "- No one! <:SShoob:783636544720207903>"
+          .setFooter(
+            `Page: ${pnum} | ` +
+              (pnum <= last ? "React to ▶️ to see next page | " : "") +
+              "React to ◀️ to go back"
+          )
+          .setColor(selectedColor.color)
+          .addField(
+            `__${isGlobal ? "Stored Card Claims" : "Card Owners"}:__`,
+            owners.length === 0
+              ? "- No one! <:SShoob:783636544720207903>"
+              : owners
           );
-        }
-        embed.addField(
-          `__${isGlobal ? "Stored Card Claims" : "Card Owners"}:__`,
-          claimers.length === 0
-            ? "- No one! <:SShoob:783636544720207903>"
-            : claimers
-        );
-        return embed;
       }
     });
     return true;
