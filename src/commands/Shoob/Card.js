@@ -87,7 +87,7 @@ module.exports = {
           `> • \`Issue: ${claim.issue}\` | [__**${username}**__](https://animesoul.com/user/${claim.discord_id})`
         );
       }
-      const top = await Fetcher.fetchTopOwners(instance, card.id, "0", "10");
+      const top = await Fetcher.fetchTopOwners(instance, card.id, "0", "5");
       for (const group of top) {
         mapped.push(
           `> • \`${group.count}x issues\` | [__**${group.username}**__](https://animesoul.com/user/${group.discord_id})`
@@ -180,7 +180,7 @@ module.exports = {
         const pnum = page - 2;
         const offset = (pnum > last && last !== -1 ? last : pnum) * 10;
         const owners = claimers.slice(offset, offset + 10);
-        if (result.length < 10 && last === -1) {
+        if (owners.length < 10 && last === -1) {
           last = pnum;
         }
         if (last !== -1 && pnum > last) return null;
