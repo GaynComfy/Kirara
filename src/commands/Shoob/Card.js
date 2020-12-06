@@ -106,9 +106,10 @@ module.exports = {
                     .join("")
             }`
           )
+          .setURL(`https://animesoul.com/cards/info/${card.id}`)
           .setColor(selectedColor.color)
           .setImage(encodeURI(card.image_url).replace(".webp", ".gif"))
-          .setFooter("React to ▶️ for more info");
+          .setFooter("React ▶️ for more info");
       } else if (page === 1) {
         const listings = await Fetcher.fetchMarketByCardId(
           instance,
@@ -160,16 +161,20 @@ module.exports = {
           .setImage(
             "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
           )
-          .setFooter("React to ▶️ for card owners")
-          .setColor(selectedColor.color)
+          .setFooter("React ▶️ for card owners")
+          .setColor(selectedColor.color);
+        if (card.ability) {
+          embed.addField(`**${card.ability_name}**`, card.ability_description);
+        }
+        embed
           .addField(
-            `__Top Owners:__`,
+            "__Top Owners:__",
             topOwners.length === 0
               ? "- No one <:SShoob:783636544720207903>"
               : topOwners
           )
           .addField(
-            `__Market Listings:__`,
+            "__Market Listings:__",
             market.length === 0 ? "- None <:SShoob:783636544720207903>" : market
           );
         return embed;
@@ -222,8 +227,8 @@ module.exports = {
           )
           .setFooter(
             (pages > 1 ? `Page: ${pnum + 1}/${pages} | ` : "") +
-              (pnum + 1 < pages ? "React to ▶️ for next page | " : "") +
-              "React to ◀️ to go back"
+              (pnum + 1 < pages ? "React ▶️ for next page | " : "") +
+              "React ◀️ to go back"
           )
           .setColor(selectedColor.color)
           .addField(
