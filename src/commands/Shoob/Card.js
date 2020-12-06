@@ -105,7 +105,7 @@ module.exports = {
       }
     }
 
-    let last = -1;
+    const pages = Math.round(claimers.length / 10);
     createPagedResults(message, Infinity, async (page) => {
       if (page === 0) {
         return new MessageEmbed()
@@ -178,12 +178,10 @@ module.exports = {
         return embed;
       } else {
         const pnum = page - 2;
-        const offset = (pnum > last && last !== -1 ? last : pnum) * 10;
+        if (pnum >= pages) return null;
+
+        const offset = pnum * 10;
         const owners = claimers.slice(offset, offset + 10);
-        if (owners.length < 10 && last === -1) {
-          last = pnum;
-        }
-        if (last !== -1 && pnum > last) return null;
 
         return new MessageEmbed()
           .setTitle(
@@ -207,8 +205,8 @@ module.exports = {
             "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
           )
           .setFooter(
-            `Page: ${pnum} | ` +
-              (pnum <= last ? "React to ▶️ to see next page | " : "") +
+            `Page: ${pnum + 1}/${pages} | ` +
+              (pnum >= last ? "React to ▶️ to see next page | " : "") +
               "React to ◀️ to go back"
           )
           .setColor(selectedColor.color)
