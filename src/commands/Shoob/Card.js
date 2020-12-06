@@ -105,7 +105,7 @@ module.exports = {
       }
     }
 
-    const pages = Math.round(claimers.length / 10);
+    const pages = Math.ceil(claimers.length / 10);
     createPagedResults(message, Infinity, async (page) => {
       if (page === 0) {
         return new MessageEmbed()
