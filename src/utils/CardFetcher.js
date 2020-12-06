@@ -165,10 +165,7 @@ class CardFetcher {
     if (exists) {
       const e = await instance.cache.get(k);
       const data = JSON.parse(e);
-      return {
-        data: data.slice(parseInt(offset), parseInt(offset) + parseInt(limit)),
-        total: data.length,
-      };
+      return data.slice(parseInt(offset), parseInt(offset) + parseInt(limit));
     }
     const result = await this.instance.get(`/inventory/top/${id}`);
     if (!result.data || result.data.length === 0) {
@@ -176,10 +173,7 @@ class CardFetcher {
     }
     const owners = result.data;
     instance.cache.setExpire(k, JSON.stringify(owners), 60 * 14);
-    return {
-      data: owners.slice(parseInt(offset), parseInt(offset) + parseInt(limit)),
-      total: owners.length,
-    };
+    return owners.slice(parseInt(offset), parseInt(offset) + parseInt(limit));
   }
 }
 
