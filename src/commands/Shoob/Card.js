@@ -46,6 +46,7 @@ module.exports = {
         ? await Fetcher.fetchByName(instance, altName, tier, isEvent)
         : null);
     if (card === null) {
+      message.channel.stopTyping();
       const embedz = new MessageEmbed()
         .setDescription(
           `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
@@ -88,7 +89,7 @@ module.exports = {
     message.channel.stopTyping();
 
     const pages = Math.ceil(claimersAmount / 10);
-    createPagedResults(message, 2 + pages, async (page) => {
+    createPagedResults(message, 2 + (pages > 0 ? pages : 1), async (page) => {
       if (page === 0) {
         return new MessageEmbed()
           .setTitle(
