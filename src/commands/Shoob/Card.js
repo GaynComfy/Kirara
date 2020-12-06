@@ -89,7 +89,7 @@ module.exports = {
     message.channel.stopTyping();
 
     const pages = Math.ceil(claimersAmount / 10);
-    createPagedResults(message, 2 + pages, async (page) => {
+    createPagedResults(message, 2 + (pages > 0 ? pages : 1), async (page) => {
       if (page === 0) {
         return new MessageEmbed()
           .setTitle(
