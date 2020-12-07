@@ -40,10 +40,10 @@ const createPagedResults = async (message, maxPages, getMessageForPage) => {
             newPage = 0;
             break;
           case BACK_SYMBOL:
-            newPage = Math.min(page + 1, maxPages - 1);
+            newPage = Math.max(page - 1, 0);
             break;
           case FORWARD_SYMBOL:
-            newPage = Math.max(page - 1, 0);
+            newPage = Math.min(page + 1, maxPages - 1);
             break;
           case FAST_FORWARD_SYMBOL:
             if (maxPages !== Infinity) newPage = maxPages - 1;
