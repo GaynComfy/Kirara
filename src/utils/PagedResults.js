@@ -1,15 +1,21 @@
 const sendError = require("./SendError");
 
+const FAST_REVERSE_SYMBOL = "\u23ea";
 const BACK_SYMBOL = "\u25c0️";
 const FORWARD_SYMBOL = "\u25b6";
+const FAST_FORWARD_SYMBOL = "\u23e9";
+const ALL_SYMBOLS = [
+  FAST_REVERSE_SYMBOL,
+  BACK_SYMBOL,
+  FORWARD_SYMBOL,
+  FAST_FORWARD_SYMBOL,
+];
 
-const collectorOpts = { idle: 30 * 1000 };
+const collectorOpts = { idle: 45 * 1000 };
 
 const createPagedResults = async (message, maxPages, getMessageForPage) => {
-  const nextFilter = (reaction, user) =>
-    reaction.emoji.name === FORWARD_SYMBOL && user.id === message.author.id;
-  const backFilter = (reaction, user) =>
-    reaction.emoji.name === BACK_SYMBOL && user.id === message.author.id;
+  const emojiFilter = (r, user) =>
+    r.emoji.name in ALL_SYMBOLS && user.id === message.author.id;
   let page = 0;
   const root = await getMessageForPage(page, message.author);
   return message.channel.send(root).then((sentMessage) => {
@@ -18,32 +24,28 @@ const createPagedResults = async (message, maxPages, getMessageForPage) => {
     }
 
     sentMessage
-      .react(BACK_SYMBOL)
-      .then(() => sentMessage.react(FORWARD_SYMBOL));
+      .react(FAST_REVERSE_SYMBOL)
+      .then(() => sentMessage.react(BACK_SYMBOL))
+      .then(() => sentMessage.react(FORWARD_SYMBOL))
+      .then(
+        () => maxPages !== Infinity && sentMessage.react(FAST_FORWARD_SYMBOL)
+      );
 
     sentMessage
-      .createReactionCollector(nextFilter, collectorOpts)
+      .createReactionCollector(emojiFilter, collectorOpts)
       .on("collect", async (r, user) => {
-        const newPage = Math.min(page + 1, maxPages - 1);
+        let newPage = page;
+        if (r.emoji.name === FAST_REVERSE_SYMBOL) newPage = 0;
+        else if (r.emoji.name === BACK_SYMBOL)
+          newPage = Math.min(page + 1, maxPages - 1);
+        else if (r.emoji.name === FORWARD_SYMBOL)
+          newPage = Math.max(page - 1, 0);
+        else if (r.emoji.name === FAST_FORWARD_SYMBOL) {
+          if (maxPages !== Infinity) newPage = maxPages - 1;
+          else return r.users.remove(user);
+        } else return;
         if (newPage === page) return r.users.remove(user);
-        try {
-          const res = await getMessageForPage(newPage, user);
-          if (res) {
-            sentMessage.edit(res);
-            page = newPage;
-          }
-        } catch (err) {
-          sendError(sentMessage.channel);
-          console.error(err);
-        }
-        r.users.remove(user);
-      });
 
-    sentMessage
-      .createReactionCollector(backFilter, collectorOpts)
-      .on("collect", async (r, user) => {
-        const newPage = Math.max(page - 1, 0);
-        if (newPage === page) return r.users.remove(user);
         try {
           const res = await getMessageForPage(newPage, user);
           if (res) {

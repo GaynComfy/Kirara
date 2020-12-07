@@ -45,7 +45,7 @@ module.exports = {
       const claimers = recentCards.map((item) => {
         if (!item.claimed) return "> ``No one``";
         //const user = instance.client.users.resolve(item.discord_id) || {};
-        return `> <@${item.discord_id}>`;
+        return `> <@!${item.discord_id}>`;
       });
 
       const cards = recentCards.map(
