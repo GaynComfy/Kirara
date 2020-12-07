@@ -15,7 +15,7 @@ const collectorOpts = { idle: 45 * 1000 };
 
 const createPagedResults = async (message, maxPages, getMessageForPage) => {
   const emojiFilter = (r, user) =>
-    r.emoji.name in ALL_SYMBOLS && user.id === message.author.id;
+    ALL_SYMBOLS.includes(r.emoji.name) && user.id === message.author.id;
   let page = 0;
   const root = await getMessageForPage(page, message.author);
   return message.channel.send(root).then((sentMessage) => {
@@ -35,15 +35,21 @@ const createPagedResults = async (message, maxPages, getMessageForPage) => {
       .createReactionCollector(emojiFilter, collectorOpts)
       .on("collect", async (r, user) => {
         let newPage = page;
-        if (r.emoji.name === FAST_REVERSE_SYMBOL) newPage = 0;
-        else if (r.emoji.name === BACK_SYMBOL)
-          newPage = Math.min(page + 1, maxPages - 1);
-        else if (r.emoji.name === FORWARD_SYMBOL)
-          newPage = Math.max(page - 1, 0);
-        else if (r.emoji.name === FAST_FORWARD_SYMBOL) {
-          if (maxPages !== Infinity) newPage = maxPages - 1;
-          else return r.users.remove(user);
-        } else return;
+        switch (r.emoji.name) {
+          case FAST_REVERSE_SYMBOL:
+            newPage = 0;
+            break;
+          case BACK_SYMBOL:
+            newPage = Math.min(page + 1, maxPages - 1);
+            break;
+          case FORWARD_SYMBOL:
+            newPage = Math.max(page - 1, 0);
+            break;
+          case FAST_FORWARD_SYMBOL:
+            if (maxPages !== Infinity) newPage = maxPages - 1;
+            else return;
+            break;
+        }
         if (newPage === page) return r.users.remove(user);
 
         try {
