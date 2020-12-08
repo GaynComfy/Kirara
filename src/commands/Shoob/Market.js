@@ -13,7 +13,32 @@ const info = {
   cooldown: 5,
 };
 const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
+const allowedSortings = [
+  "r",
+  "recent",
+  "pu",
+  "pd",
+  "priceup",
+  "pricedown",
+  "o",
+  "oldest",
+];
 const space = / /; // lol
+
+const sortListings = (arr, opt) => {
+  if (opt === "r" || opt === "recent")
+    return arr.sort((a, b) => b.date_added - a.date_added);
+
+  if (opt === "o" || opt === "oldest")
+    return arr.sort((a, b) => a.date_added - b.date_added);
+
+  if (opt === "pu" || opt === "priceup")
+    return arr.sort((a, b) => a.price - b.price);
+  if (opt === "pd" || opt === "pricedown")
+    return arr.sort((a, b) => b.price - a.price);
+
+  return arr.sort((a, b) => a.item.issue - b.item.issue);
+};
 
 module.exports = {
   execute: async (instance, message, args) => {
@@ -24,10 +49,13 @@ module.exports = {
     if (args.length === 0) return false;
     const hasTier = allowed.includes(args[0].toLowerCase());
     if (hasTier && args.length === 1) return false;
-    message.channel.startTyping();
     const tier = hasTier ? args.shift()[1].toUpperCase() : "all";
+    const hasOption = allowedSortings.includes(args[0].toLowerCase());
+    if (hasOption && args.length === 1) return false;
+    const option = hasOption ? args.shift().toLowerCase() : null;
     const name = args.join(" ");
     let altName;
+    message.channel.startTyping();
     if (space.test(name)) {
       altName = [...args.slice(-1), ...args.slice(0, -1)].join(" ");
     }
@@ -53,7 +81,7 @@ module.exports = {
       "0",
       "300"
     );
-    const sorted = listings.sort((a, b) => a.item.issue - b.item.issue);
+    const sorted = sortListings(listings, option);
     message.channel.stopTyping();
     if (sorted.length === 0) {
       const embedz = new MessageEmbed()
