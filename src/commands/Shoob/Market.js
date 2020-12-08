@@ -122,10 +122,10 @@ const processWithoutCard = async (instance, message) => {
     const market = result.map(
       (listing) =>
         `> • \`${
-          listing.item.name.length >= 20
-            ? listing.item.name.substr(0, 20)
+          listing.item.name.length >= 15
+            ? listing.item.name.substr(0, 15)
             : listing.item.name +
-              Array(20 - listing.item.name.length)
+              Array(15 - listing.item.name.length)
                 .fill()
                 .map((e) => " ")
                 .join("")
