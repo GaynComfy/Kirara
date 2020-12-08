@@ -133,11 +133,9 @@ const processWithoutCard = async (instance, message) => {
 
     if (last !== 0) {
       embed.setFooter(
-        `Page: ${isLast ? "Last" : page + 1}` + !isLast
-          ? ` | React ▶️ for next page`
-          : "" + page > 0
-          ? " | React ◀️ to go back"
-          : ""
+        `Page: ${isLast ? "Last" : page + 1}` +
+          (!isLast ? ` | React ▶️ for next page` : "") +
+          (page > 0 ? " | React ◀️ to go back" : "")
       );
     }
 
