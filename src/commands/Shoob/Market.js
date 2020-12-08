@@ -121,15 +121,7 @@ const processWithoutCard = async (instance, message) => {
 
     const market = result.map(
       (listing) =>
-        `> • \`${
-          listing.item.name.length >= 15
-            ? listing.item.name.substr(0, 15)
-            : listing.item.name +
-              Array(15 - listing.item.name.length)
-                .fill()
-                .map((e) => " ")
-                .join("")
-        } T${listing.item.tier}\` | ` +
+        `> • \`${listing.item.name.substr(0, 15)} T${listing.item.tier}\` | ` +
         `[• \`${listing.item.issue}\`](https://animesoul.com/market) | ` +
         `\`富 ${listing.price}\` | ` +
         ` \`${moment(listing.date_added * 1000).fromNow()}\``
