@@ -144,13 +144,15 @@ module.exports = {
   },
   info,
   help: {
-    usage: "market [event] [tier] <name>",
+    usage: "market [event] [tier] [option] <name>",
     examples: [
       "market t6 Alice",
       "market event t4 Rem",
       "market t6 Rin",
       "market Sora and Shiro",
     ],
-    description: "Get Market entries for a card!",
+    description:
+      "Get Market entries for a card!, Valid options: " +
+      allowedSortings.join(","),
   },
 };
