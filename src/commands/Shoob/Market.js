@@ -116,7 +116,7 @@ const processWithoutCard = async (instance, message) => {
     if (page > last && last !== -1) return null;
     const offset = page * 10;
     const result = await Fetcher.fetchMarket(instance, offset);
-    if (result.length < 15 && last === -1) last = page;
+    if (result.length < 10 && last === -1) last = page;
     const isLast = last !== -1 && page === last;
 
     const market = result.map(
