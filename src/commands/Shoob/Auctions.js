@@ -68,8 +68,11 @@ const computeListings = async (instance, page, tier, card_id) => {
 
   const cards = recent.map(
     (item, i) =>
-      `> **${i + 1}.** [\`${item.card_name.substr(0, 15)} V${item.version}\`]` +
-      `(https://animesoul.com/auction/${item.auction_id})` +
+      `> **${i + 1}.** [\`T${item.tier || "X"} ${item.card_name.substr(
+        0,
+        15
+      )}` +
+      ` V${item.version}\`](https://animesoul.com/auction/${item.auction_id})` +
       ` | Started ${moment(item.date_added).fromNow()}`
   );
   if (cards.length === 0 && page > 0) return { embed: null, recent: [] };
@@ -92,7 +95,7 @@ const computeListings = async (instance, page, tier, card_id) => {
   return { embed, recent };
 };
 
-const computeAuction = async (instance, aid, cardInfo) => {
+const computeAuction = async (instance, aid) => {
   // we need to fetch the auction from the Anime Soul API for live data
   let asAuc = null;
   try {
@@ -112,43 +115,20 @@ const computeAuction = async (instance, aid, cardInfo) => {
         `<:Sirona_NoCross:762606114444935168> This auction wasn't found.`
       )
       .setColor(Color.red);
-
-  // to fetch data properly, we need to.. yep, get the card.
-  let card = cardInfo;
-  // todo remove this creepy workaround, but IDK IF THIS IS AN EVENT CARD OR NOT
-  if (!card) {
-    try {
-      card = await Fetcher.fetchById(instance, localAuc.card_id);
-    } catch (err) {
-      if (!(err.response && err.response.status === 404)) console.error(err);
-      else
-        try {
-          card = await Fetcher.fetchById(instance, localAuc.card_id, true);
-        } catch (err) {}
-    }
-  }
+  const tier = asAuc.tier || localAuc.tier;
 
   // holy mess
   const embed = new MessageEmbed()
     .setTitle(
-      `${
-        card ? tierInfo[`T${card.tier}`].emoji : "<:Flame:783439293506519101>"
-      }` + `  •  Auction: ${localAuc.card_name}  •  V${localAuc.version}`
+      `${tier ? tierInfo[`T${tier}`].emoji : "<:Flame:783439293506519101>"}` +
+        `  •  Auction: ${localAuc.card_name}  •  V${localAuc.version}`
     )
     .setURL(`https://animesoul.com/auction/${aid}`)
-    .setThumbnail(
-      card
-        ? encodeURI(card.image_url).replace(".webp", ".gif")
-        : `https://animesoul.com/api/cardr/${localAuc.card_id}`
-    )
-    .setColor(card ? tierInfo[`T${card.tier}`].color : Color.default)
+    .setThumbnail(`https://animesoul.com/api/cardr/${localAuc.card_id}`)
+    .setColor(tier ? tierInfo[`T${tier}`].color : Color.default)
     .setDescription(
       (!asAuc ? "⏱️ **This auction is no longer active.**\n" : "") +
-        (card
-          ? `\`Tier: ${card.tier}\`\n\`Highest Issue: ${
-              card.claim_count
-            }\`\n\`Source: ${card.series[0] || "-"}\``
-          : "")
+        `\`Tier: ${tier || "X"}\``
     )
     .addField(
       "Starting Bid",
@@ -191,10 +171,10 @@ module.exports = {
     const hasAucId = args.length >= 1 ? cardId.test(args[0]) : false;
     const tier = hasTier ? args.shift()[1].toUpperCase() : null;
     const aucId = hasAucId ? cardId.exec(args.shift())[2] : null;
-    let card;
+    let card_id = null;
     if (!aucId && args.length >= 1) {
       const name = args.join(" ");
-      card =
+      const card =
         (await Fetcher.fetchByName(instance, name, tier ? tier : "all")) ||
         (space.test(name)
           ? await Fetcher.fetchByName(
@@ -211,8 +191,9 @@ module.exports = {
           .setColor(Color.red);
         return await message.channel.send({ embed });
       }
+      card_id = card.id;
     }
-    if ((aucId || tier) && !card && args.length >= 1) return false;
+    if ((aucId || tier) && !card_id && args.length >= 1) return false;
 
     if (aucId)
       return await message.channel.send(await auction(instance, aucId));
@@ -225,19 +206,14 @@ module.exports = {
       // allow refreshing but that's it, you need to exit first
       if (aucInfo !== false && p !== page) return null;
       if (aucInfo !== false) {
-        const auc = await computeAuction(instance, aucInfo, card);
+        const auc = await computeAuction(instance, aucInfo);
         auc.setFooter(
           "Send `exit` to go back to listings | `refresh` to refresh auction"
         );
         return auc;
       }
 
-      const query = await computeListings(
-        instance,
-        p,
-        tier,
-        card ? card.id : null
-      );
+      const query = await computeListings(instance, p, tier, card_id);
       if (query.recent.length !== 0) recent = query.recent;
 
       return query.embed;
