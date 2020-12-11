@@ -236,7 +236,7 @@ module.exports = {
       // allow refreshing but that's it, you need to exit first
       if (aucInfo !== false && p !== page) return null;
       if (aucInfo !== false) {
-        const auc = await auction(instance, aucInfo);
+        const auc = await auction(instance, aucInfo, card);
         auc.setFooter(
           "Send `exit` to go back to listings | `refresh` to refresh auction"
         );
