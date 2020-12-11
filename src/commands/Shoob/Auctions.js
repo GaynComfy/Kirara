@@ -115,7 +115,7 @@ const computeAuction = async (instance, aid) => {
         `<:Sirona_NoCross:762606114444935168> This auction wasn't found.`
       )
       .setColor(Color.red);
-  const tier = asAuc.tier || localAuc.tier;
+  const tier = asAuc ? asAuc.tier : null || localAuc.tier;
 
   // holy mess
   const embed = new MessageEmbed()
