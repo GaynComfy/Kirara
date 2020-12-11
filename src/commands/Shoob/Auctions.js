@@ -11,7 +11,7 @@ const info = {
   aliases: ["auc"],
   matchCase: false,
   category: "Shoob",
-  cooldown: 2,
+  cooldown: 25,
 };
 const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
 
@@ -30,7 +30,7 @@ const command = (msg) => {
     (digit.test(m) && parseInt(m))
   );
 };
-const collectorOpts = { idle: 45 * 1000 };
+const collectorOpts = { idle: 25 * 1000 };
 
 // why is this on a different function? who knows
 const getListings = async (instance, page, tier, card_id) => {
@@ -38,30 +38,18 @@ const getListings = async (instance, page, tier, card_id) => {
 
   if (card_id)
     query = await instance.database.pool.query(
-      "SELECT * FROM AUCTIONS WHERE active=true AND card_id=$1 ORDER BY id DESC LIMIT 8" +
-        page >
-        0
-        ? " OFFSET $2"
-        : "",
+      "SELECT * FROM AUCTIONS WHERE active=true AND card_id=$1 ORDER BY id DESC LIMIT 8 OFFSET $2",
       [card_id, page * 8]
     );
   else if (tier)
     // not working, we don't get tier from the auction events. TODO change
     query = await instance.database.pool.query(
-      "SELECT * FROM AUCTIONS WHERE active=true AND tier=$1 ORDER BY id DESC LIMIT 8" +
-        page >
-        0
-        ? " OFFSET $2"
-        : "",
+      "SELECT * FROM AUCTIONS WHERE active=true AND tier=$1 ORDER BY id DESC LIMIT 8 OFFSET $2",
       [tier, page * 8]
     );
   else
     query = await instance.database.pool.query(
-      "SELECT * FROM AUCTIONS WHERE active=true ORDER BY id DESC LIMIT 8" +
-        page >
-        0
-        ? " OFFSET $1"
-        : "",
+      "SELECT * FROM AUCTIONS WHERE active=true ORDER BY id DESC LIMIT 8 OFFSET $1",
       [page * 8]
     );
 
@@ -79,8 +67,9 @@ const listings = async (instance, page, tier, card_id) => {
 
   const cards = recent.map(
     (item, i) =>
-      `> **${i + 1}.** [\`${item.card_name.substr(0, 15)} V${item.version}]` +
-      `(https://animesoul.com/auction/${item.auction_id})`
+      `> **${i + 1}.** [\`${item.card_name.substr(0, 15)} V${item.version}\`]` +
+      `(https://animesoul.com/auction/${item.auction_id})` +
+      ` | Started ${moment(item.date_added).fromNow()}`
   );
   if (cards.length === 0 && page > 0) return { embed: null, recent: [] };
 
@@ -92,10 +81,9 @@ const listings = async (instance, page, tier, card_id) => {
       cards.length === 0 ? "- None <:SShoob:783636544720207903>" : cards
     )
     .setFooter(
-      `Page ${page + 1} | Send \`next\` for next page` +
-        (page !== 0
-          ? " | `back` to go back"
-          : "" + " | `refresh` to refresh list")
+      `Page ${page + 1} | View auc. sending its number | ` +
+        `Send \`next\` for next page` +
+        (page !== 0 ? " | `back` to go back" : "")
     );
 
   if (card_id) embed.setThumbnail(`https://animesoul.com/api/cardr/${card_id}`);
@@ -275,7 +263,7 @@ module.exports = {
           default:
             if (typeof cmd === "number" && aucInfo === false) {
               // go to an auction!
-              const index = cmd - 1 + page * 8;
+              const index = cmd - 1;
               aucInfo = recent[index] ? recent[index].auction_id : false;
             }
             break;
