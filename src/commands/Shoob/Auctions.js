@@ -43,7 +43,7 @@ const getListings = async (instance, page, tier, card_id) => {
         0
         ? " OFFSET $2"
         : "",
-      [card_id, page * 5]
+      [card_id, page * 8]
     );
   else if (tier)
     // not working, we don't get tier from the auction events. TODO change
@@ -53,7 +53,7 @@ const getListings = async (instance, page, tier, card_id) => {
         0
         ? " OFFSET $2"
         : "",
-      [tier, page * 5]
+      [tier, page * 8]
     );
   else
     query = await instance.database.pool.query(
@@ -62,7 +62,7 @@ const getListings = async (instance, page, tier, card_id) => {
         0
         ? " OFFSET $1"
         : "",
-      [page * 5]
+      [page * 8]
     );
 
   return query.rows;
@@ -273,7 +273,7 @@ module.exports = {
             aucInfo = false;
             break;
           default:
-            if (typeof cmd === "number" && aucInfo !== false) {
+            if (typeof cmd === "number" && aucInfo === false) {
               // go to an auction!
               const index = cmd - 1 + page * 8;
               aucInfo = recent[index] ? recent[index].auction_id : false;
