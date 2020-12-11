@@ -17,7 +17,7 @@ const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
 
 const cardId = /^(https?:\/\/animesoul\.com\/auction\/)?([a-z0-9]{24})$/;
 const space = / /; // lol
-const digit = /^[1-9]$/;
+const digit = /^[1-8]$/;
 
 const command = (msg) => {
   const m = msg.toLowerCase();
@@ -275,7 +275,7 @@ module.exports = {
           default:
             if (typeof cmd === "number" && aucInfo !== false) {
               // go to an auction!
-              const index = cmd * (page * 8);
+              const index = cmd - 1 + page * 8;
               aucInfo = recent[index] ? recent[index].auction_id : false;
             }
             break;
