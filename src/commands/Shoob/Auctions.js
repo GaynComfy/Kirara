@@ -68,7 +68,7 @@ const computeListings = async (instance, page, tier, card_id) => {
 
   const cards = recent.map(
     (item, i) =>
-      `> **${i + 1}.** \`T${item.tier || "X"}\` •` +
+      `> **${i + 1}.** \`T${item.tier || " "}\` •` +
       ` [\`${item.card_name.substr(0, 15)}` +
       ` V${item.version}\`](https://animesoul.com/auction/${item.auction_id})` +
       ` | Started ${moment(item.date_added).fromNow()}`
@@ -119,7 +119,7 @@ const computeAuction = async (instance, aid) => {
   const embed = new MessageEmbed()
     .setTitle(
       `${tier ? tierInfo[`T${tier}`].emoji : "<:Flame:783439293506519101>"}` +
-        `  •  Auction: T${tier || "X"} ${localAuc.card_name}` +
+        `  •  Auction: ${tier ? `T${tier} ` : ""}${localAuc.card_name}` +
         `  •  V${localAuc.version}`
     )
     .setURL(`https://animesoul.com/auction/${aid}`)
