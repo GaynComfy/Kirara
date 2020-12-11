@@ -5,6 +5,7 @@ const moment = require("moment");
 const { tierInfo } = require("../../utils/cardUtils");
 const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
+const sendError = require("../../utils/SendError");
 
 const info = {
   name: "auctions",
@@ -34,7 +35,7 @@ const collectorOpts = { idle: 25 * 1000 };
 
 // why is this on a different function? who knows
 const getListings = async (instance, page, tier, card_id) => {
-  let query = {};
+  let query;
 
   if (card_id)
     query = await instance.database.pool.query(
@@ -56,7 +57,7 @@ const getListings = async (instance, page, tier, card_id) => {
   return query.rows;
 };
 
-const listings = async (instance, page, tier, card_id) => {
+const computeListings = async (instance, page, tier, card_id) => {
   const recent = await getListings(instance, page, tier, card_id);
   const title =
     tier && !card_id
@@ -91,7 +92,7 @@ const listings = async (instance, page, tier, card_id) => {
   return { embed, recent };
 };
 
-const auction = async (instance, aid, cardInfo) => {
+const computeAuction = async (instance, aid, cardInfo) => {
   // we need to fetch the auction from the Anime Soul API for live data
   let asAuc = null;
   try {
@@ -101,10 +102,10 @@ const auction = async (instance, aid, cardInfo) => {
   }
   // and the local database for stored auctions (until they stop deleting them, perhaps?)
   const query = await instance.database.pool.query(
-    "SELECT * FROM AUCTIONS WHERE auction_id=$1 ORDER BY id DESC LIMIT 1",
+    "SELECT * FROM AUCTIONS WHERE auction_id=$1",
     [aid]
   );
-  const localAuc = query.rows && query.rows.length > 0 ? query.rows[0] : null;
+  const localAuc = query.rows.length > 0 ? query.rows[0] : null;
   if (!asAuc && !localAuc)
     return new MessageEmbed()
       .setDescription(
@@ -193,14 +194,14 @@ module.exports = {
     let card;
     if (!aucId && args.length >= 1) {
       const name = args.join(" ");
-      let altName;
-      if (space.test(name)) {
-        altName = [...args.slice(-1), ...args.slice(0, -1)].join(" ");
-      }
       card =
         (await Fetcher.fetchByName(instance, name, tier ? tier : "all")) ||
-        (altName
-          ? await Fetcher.fetchByName(instance, altName, tier ? tier : "all")
+        (space.test(name)
+          ? await Fetcher.fetchByName(
+              instance,
+              [...args.slice(-1), ...args.slice(0, -1)].join(" "),
+              tier ? tier : "all"
+            )
           : null);
       if (!card) {
         const embed = new MessageEmbed()
@@ -224,16 +225,21 @@ module.exports = {
       // allow refreshing but that's it, you need to exit first
       if (aucInfo !== false && p !== page) return null;
       if (aucInfo !== false) {
-        const auc = await auction(instance, aucInfo, card);
+        const auc = await computeAuction(instance, aucInfo, card);
         auc.setFooter(
           "Send `exit` to go back to listings | `refresh` to refresh auction"
         );
         return auc;
       }
 
-      const query = await listings(instance, page, tier, card ? card.id : null);
+      const query = await computeListings(
+        instance,
+        p,
+        tier,
+        card ? card.id : null
+      );
       if (query.recent.length !== 0) recent = query.recent;
-      position = page;
+
       return query.embed;
     };
 
