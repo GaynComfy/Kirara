@@ -11,8 +11,21 @@ const tierSettings = {
 };
 
 let client = null;
+let deleteInterval = null;
+const deleteMap = {};
+
 module.exports = {
   start: async (instance) => {
+    deleteInterval = setInterval(() => {
+      const now = Date.now();
+      for (const k of Object.keys(deleteMap)) {
+        const e = deleteMap[k];
+        if (e.time < now) continue;
+        e.msg.delete();
+        delete deleteMap[k];
+      }
+    }, 1000);
+
     const { config, settings } = instance;
     client = redis.createClient(
       `redis://${config.cache.host}:${config.cache.port}`
@@ -43,13 +56,15 @@ module.exports = {
                   "https://cdn.animesoul.com/images/content/shoob/shoob-no-empty-space.png"
                 )
                 .setColor(settings.color)
-                .setThumbnail(encodeURI(data.image_url).replace(".webp", ".gif"))
+                .setThumbnail(
+                  encodeURI(data.image_url).replace(".webp", ".gif")
+                )
                 .setFooter(data.server_name)
                 .setTimestamp();
               if (data.claimed) {
                 log.setDescription(
-                    `${settings.emoji} <@${member.user.id}> has claimed [${data.card_name} Tier: ${data.tier}](https://animesoul.com/cards/info/${data.card_id}) Issue: \`${data.issue}\``
-                  );
+                  `${settings.emoji} <@${member.user.id}> has claimed [${data.card_name} Tier: ${data.tier}](https://animesoul.com/cards/info/${data.card_id}) Issue: \`${data.issue}\``
+                );
               } else {
                 log.setDescription(
                   `${settings.emoji} [${data.card_name} Tier: ${data.tier}](https://animesoul.com/cards/info/${data.card_id}) Despawned`
@@ -63,7 +78,11 @@ module.exports = {
             }
           }
 
-          if (!data.claimed || instance.settings[data.server_id]["claim:disabled"]) return;
+          if (
+            !data.claimed ||
+            instance.settings[data.server_id]["claim:disabled"]
+          )
+            return;
 
           const messageChannel = guild.channels.cache.get(data.channel_id);
           if (messageChannel) {
@@ -80,7 +99,7 @@ module.exports = {
 
             try {
               const msg = await messageChannel.send(oweeet);
-              setTimeout(() => msg.delete(), 15000);
+              deleteMap[msg.id] = { msg, time: Date.now() + 15 * 60 * 1000 };
             } catch (err) {
               console.log("error sending claim message");
             }
@@ -90,6 +109,7 @@ module.exports = {
     });
   },
   stop: async (instance) => {
+    if (deleteInterval) clearInterval(deleteInterval);
     if (client !== null) {
       client.removeAllListeners("message");
       client.end(true);

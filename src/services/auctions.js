@@ -12,8 +12,19 @@ const tierSettings = {
 };
 const allowed = ["3", "4", "5", "6", "S"];
 let client = null;
+let deleteInterval = null;
+const deleteMap = {};
 module.exports = {
   start: async (instance) => {
+    deleteInterval = setInterval(() => {
+      const now = Date.now();
+      for (const k of Object.keys(deleteMap)) {
+        const e = deleteMap[k];
+        if (e.time < now) continue;
+        e.msg.delete();
+        delete deleteMap[k];
+      }
+    }, 1000);
     const { config, settings } = instance;
     client = redis.createClient(
       `redis://${config.cache.host}:${config.cache.port}`
@@ -50,7 +61,10 @@ module.exports = {
             try {
               const msg = await logChannel.send(embed);
               if (autodel) {
-                setTimeout(() => msg.delete(), parseInt(autodel) * 60 * 1000);
+                deleteMap[msg.id] = {
+                  msg,
+                  time: Date.now() + parseInt(autodel) * 60 * 1000,
+                };
               }
             } catch (err) {
               console.log("failed to send message");
@@ -61,6 +75,7 @@ module.exports = {
     });
   },
   stop: async (instance) => {
+    if (deleteInterval) clearInterval(deleteInterval);
     if (client !== null) {
       client.removeAllListeners("message");
       client.end(true);
