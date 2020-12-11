@@ -4,16 +4,23 @@ const FAST_REVERSE_SYMBOL = "\u23ea";
 const BACK_SYMBOL = "\u25c0️";
 const FORWARD_SYMBOL = "\u25b6";
 const FAST_FORWARD_SYMBOL = "\u23e9";
+const REPEAT_SYMBOL = "\ud83d\udd01";
 const ALL_SYMBOLS = [
   FAST_REVERSE_SYMBOL,
   BACK_SYMBOL,
   FORWARD_SYMBOL,
   FAST_FORWARD_SYMBOL,
+  REPEAT_SYMBOL,
 ];
 
 const collectorOpts = { idle: 45 * 1000 };
 
-const createPagedResults = async (message, maxPages, getMessageForPage) => {
+const createPagedResults = async (
+  message,
+  maxPages,
+  getMessageForPage,
+  refresh = false
+) => {
   const emojiFilter = (r, user) =>
     ALL_SYMBOLS.includes(r.emoji.name) && user.id === message.author.id;
   let page = 0;
@@ -29,7 +36,8 @@ const createPagedResults = async (message, maxPages, getMessageForPage) => {
       .then(() => sentMessage.react(FORWARD_SYMBOL))
       .then(
         () => maxPages !== Infinity && sentMessage.react(FAST_FORWARD_SYMBOL)
-      );
+      )
+      .then(() => refresh && sentMessage.react(REPEAT_SYMBOL));
 
     sentMessage
       .createReactionCollector(emojiFilter, collectorOpts)
@@ -50,7 +58,7 @@ const createPagedResults = async (message, maxPages, getMessageForPage) => {
             else return;
             break;
         }
-        if (newPage === page) return r.users.remove(user);
+        if (newPage === page && !repeat) return r.users.remove(user);
 
         try {
           const res = await getMessageForPage(newPage, user);
@@ -63,7 +71,8 @@ const createPagedResults = async (message, maxPages, getMessageForPage) => {
           console.error(err);
         }
         r.users.remove(user);
-      });
+      })
+      .on("end", () => sentMessage.reactions.removeAll());
 
     return sentMessage;
   });

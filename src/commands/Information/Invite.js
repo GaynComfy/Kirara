@@ -4,7 +4,6 @@ const info = {
   name: "invite",
   matchCase: false,
   category: "Information",
-  cooldown: 60,
 };
 const InviteEmbed = new MessageEmbed()
   .setAuthor("Kirara", "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png")
