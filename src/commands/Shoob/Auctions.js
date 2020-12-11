@@ -192,7 +192,7 @@ module.exports = {
     if ((aucId || tier) && !card_id && args.length >= 1) return false;
 
     if (aucId)
-      return await message.channel.send(await auction(instance, aucId));
+      return await message.channel.send(await computeAuction(instance, aucId));
 
     let recent;
     let aucInfo = false;
