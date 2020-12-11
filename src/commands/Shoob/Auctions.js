@@ -68,10 +68,8 @@ const computeListings = async (instance, page, tier, card_id) => {
 
   const cards = recent.map(
     (item, i) =>
-      `> **${i + 1}.** [\`T${item.tier || "X"} ${item.card_name.substr(
-        0,
-        15
-      )}` +
+      `> **${i + 1}.** \`T${item.tier || "X"}\` •` +
+      ` [\`${item.card_name.substr(0, 15)}` +
       ` V${item.version}\`](https://animesoul.com/auction/${item.auction_id})` +
       ` | Started ${moment(item.date_added).fromNow()}`
   );
@@ -121,15 +119,13 @@ const computeAuction = async (instance, aid) => {
   const embed = new MessageEmbed()
     .setTitle(
       `${tier ? tierInfo[`T${tier}`].emoji : "<:Flame:783439293506519101>"}` +
-        `  •  Auction: ${localAuc.card_name}  •  V${localAuc.version}`
+        `  •  Auction: T${tier || "X"} ${localAuc.card_name}` +
+        `  •  V${localAuc.version}`
     )
     .setURL(`https://animesoul.com/auction/${aid}`)
     .setThumbnail(`https://animesoul.com/api/cardr/${localAuc.card_id}`)
     .setColor(tier ? tierInfo[`T${tier}`].color : Color.default)
-    .setDescription(
-      (!asAuc ? "⏱️ **This auction is no longer active.**\n" : "") +
-        `\`Tier: ${tier || "X"}\``
-    )
+    .setDescription(!asAuc ? "⏱️ **This auction is no longer active.**\n" : "")
     .addField(
       "Starting Bid",
       `\`富 ${Math.round(localAuc.bn / 5) + localAuc.minimum}\``,
