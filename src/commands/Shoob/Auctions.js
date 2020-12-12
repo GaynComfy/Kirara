@@ -134,12 +134,10 @@ const computeAuction = async (instance, aid) => {
     )
     .addField("Buy Now", `\`富 ${localAuc.bn}\``, true)
     .addField("Min. Increment", `\`+富 ${localAuc.minimum}\``, true)
-    .addField("Added", `\`${moment(localAuc.date_added).fromNow()}\``, true)
+    .addField("Added", moment(localAuc.date_added).fromNow(), true)
     .addField(
       "Ending",
-      `\`${moment(
-        asAuc ? asAuc.date_ending * 1000 : localAuc.date_ending
-      ).fromNow()}\``,
+      moment(asAuc ? asAuc.date_ending * 1000 : localAuc.date_ending).fromNow(),
       true
     )
     .addField("Owner", localAuc.username, true);
@@ -150,7 +148,7 @@ const computeAuction = async (instance, aid) => {
       .slice(0, 5)
       .map(
         (bid) =>
-          `> \`富 ${bid.bid_amount}\` | ` +
+          `> • \`富 ${bid.bid_amount}\` | ` +
           `[${bid.username}](https://animesoul.com/user/${bid.discord_id}) | ` +
           `\`${moment(bid.date_added * 1000).fromNow()}\``
       );
