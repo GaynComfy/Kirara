@@ -39,7 +39,7 @@ module.exports = {
         last = page;
       }
       if (last !== -1 && page > last) return null;
-      const singlePage = last === page && page === 1;
+      const singlePage = last === page && page === 0;
       const tierSettings = tier ? tierInfo[`T${tier}`] : null;
       const embed = new MessageEmbed()
         .setAuthor(
@@ -50,7 +50,7 @@ module.exports = {
         .setURL(`https://animesoul.com/user/${user.id}`)
         .setFooter(
           (!singlePage
-            ? `\`Page: ${last !== -1 && page >= last ? "Last" : page + 1}\` | `
+            ? `Page: ${last !== -1 && page >= last ? "Last" : page + 1} | `
             : "") +
             (!last ? "React ▶️ for next page | " : "") +
             (!singlePage && page !== 0 ? "React ◀️ to go back" : "")
