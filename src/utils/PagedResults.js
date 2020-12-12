@@ -58,7 +58,7 @@ const createPagedResults = async (
             else return;
             break;
         }
-        if (newPage === page && !repeat) return r.users.remove(user);
+        if (newPage === page && !refresh) return r.users.remove(user);
 
         try {
           const res = await getMessageForPage(newPage, user);
