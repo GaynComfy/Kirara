@@ -109,15 +109,16 @@ const processWithCard = async (instance, message, tier, option, card) => {
   });
 };
 
-const processWithoutCard = async (instance, message) => {
+const processWithoutCard = async (instance, message, tier) => {
   let last = -1;
 
   createPagedResults(message, Infinity, async (page) => {
     if (page > last && last !== -1) return null;
     const offset = page * 10;
-    const result = await Fetcher.fetchMarket(instance, offset);
+    const result = await Fetcher.fetchMarket(instance, offset, tier);
     if (result.length < 10 && last === -1) last = page;
     const isLast = last !== -1 && page === last;
+    const tierSettings = tier !== "all" ? tierInfo[`T${tier}`] : null;
 
     const market = result.map(
       (listing) =>
@@ -131,9 +132,13 @@ const processWithoutCard = async (instance, message) => {
     );
 
     const embed = new MessageEmbed()
-      .setTitle(`<:Flame:783439293506519101> Market: Most recent entries`)
+      .setTitle(
+        tierSettings
+          ? `${tierSettings.emoji} Market: Most recent T${tier} entries`
+          : "<:Flame:783439293506519101> Market: Most recent entries"
+      )
       .setURL(`https://animesoul.com/market`)
-      .setColor(Color.default);
+      .setColor(tierSettings ? tierSettings.color : Color.default);
 
     if (last !== 0) {
       embed.setFooter(
@@ -155,14 +160,14 @@ const processWithoutCard = async (instance, message) => {
 
 module.exports = {
   execute: async (instance, message, args) => {
-    if (args.length === 0) return processWithoutCard(instance, message);
     const isEvent =
       args[0].toLowerCase() === "event" || args[0].toLowerCase() === "e";
     if (isEvent) args.shift();
-    if (args.length === 0) return false;
     const hasTier = allowed.includes(args[0].toLowerCase());
     if (hasTier && args.length === 1) return false;
     const tier = hasTier ? args.shift()[1].toUpperCase() : "all";
+    if (args.length === 0)
+      return await processWithoutCard(instance, message, tier);
     const hasOption = allowedSortings.includes(args[0].toLowerCase());
     if (hasOption && args.length === 1) return false;
     const option = hasOption ? args.shift().toLowerCase() : null;

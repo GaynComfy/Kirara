@@ -3,14 +3,13 @@ const Color = require("../../utils/Colors.json");
 const { MessageEmbed } = require("discord.js");
 const { createPagedResults } = require("../../utils/PagedResults");
 const { tierInfo } = require("../../utils/cardUtils");
-const { map } = require("../../utils/GifFetcher");
 
 const info = {
   name: "inventory",
   aliases: ["inv"],
   matchCase: false,
   category: "Shoob",
-  cooldown: 25,
+  cooldown: 5,
 };
 const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
 
@@ -40,6 +39,7 @@ module.exports = {
         last = page;
       }
       if (last !== -1 && page > last) return null;
+      const singlePage = last === page && page === 1;
       const tierSettings = tier ? tierInfo[`T${tier}`] : null;
       const embed = new MessageEmbed()
         .setAuthor(
@@ -49,15 +49,11 @@ module.exports = {
         .setColor(tier ? tierSettings.color : Color.default)
         .setURL(`https://animesoul.com/user/${user.id}`)
         .setFooter(
-          `Kirara | ${info.cooldown} seconds cooldown`,
-          "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png"
-        )
-        .setDescription(
-          `\`Page: ${last !== -1 && page >= last ? "Last" : page + 1}\` ${
-            tier
-              ? `• ${tierSettings.emoji} \`Tier: ${args[0].toUpperCase()}\``
-              : ""
-          }`
+          (!singlePage
+            ? `\`Page: ${last !== -1 && page >= last ? "Last" : page + 1}\` | `
+            : "") +
+            (!last ? "React ▶️ for next page | " : "") +
+            (!singlePage && page !== 0 ? "React ◀️ to go back" : "")
         );
       embed.addField(
         `__Cards__`,
@@ -68,7 +64,7 @@ module.exports = {
                 `[\`${e.name}\`](https://animesoul.com/cards/info/${e.card_id}) ` +
                 `| \`Issue: ${e.issue}\``
             )
-          : "- No cards! Empty as it could be <:SShoob:783636544720207903>"
+          : "- No cards <:SShoob:783636544720207903>"
       );
       return embed;
     });

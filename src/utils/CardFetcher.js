@@ -159,7 +159,7 @@ class CardFetcher {
     return result.data.count;
   }
 
-  async fetchMarket(instance, offset) {
+  async fetchMarket(instance, offset, tier = "all") {
     const k = `market:${offset}`;
     const exists = await instance.cache.exists(k);
     if (exists) {
@@ -167,7 +167,11 @@ class CardFetcher {
       const data = JSON.parse(e);
       return data;
     }
-    const result = await this.instance.get(`/market?offset=${offset}&limit=10`);
+    const result = await this.instance.get(
+      `/market?offset=${offset}&limit=10${
+        tier !== "all" ? `&tier=${tier}` : ""
+      }`
+    );
     instance.cache.setExpire(k, JSON.stringify(result.data), 60 * 5);
     return result.data;
   }
