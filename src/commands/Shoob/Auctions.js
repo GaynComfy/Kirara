@@ -12,7 +12,7 @@ const info = {
   aliases: ["auc"],
   matchCase: false,
   category: "Shoob",
-  cooldown: 25,
+  cooldown: 5,
 };
 const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
 
