@@ -36,14 +36,15 @@ module.exports = {
     message.channel.startTyping();
     const tier = hasTier ? args.shift()[1].toUpperCase() : "all";
     const name = args.join(" ");
-    let altName;
-    if (space.test(name)) {
-      altName = [...args.slice(-1), ...args.slice(0, -1)].join(" ");
-    }
     const card =
       (await Fetcher.fetchByName(instance, name, tier, isEvent)) ||
-      (altName
-        ? await Fetcher.fetchByName(instance, altName, tier, isEvent)
+      (space.test(name)
+        ? await Fetcher.fetchByName(
+            instance,
+            [...args.slice(-1), ...args.slice(0, -1)].join(" "),
+            tier,
+            isEvent
+          )
         : null);
     if (card === null) {
       message.channel.stopTyping();

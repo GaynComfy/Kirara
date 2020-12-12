@@ -71,7 +71,7 @@ const computeListings = async (instance, page, tier, card_id) => {
       `> **${i + 1}.** \`T${item.tier || " "}\` •` +
       ` [\`${item.card_name.substr(0, 15)}` +
       ` V${item.version}\`](https://animesoul.com/auction/${item.auction_id})` +
-      ` | Started ${moment(item.date_added).fromNow()}`
+      ` | Started \`${moment(item.date_added).fromNow()}\``
   );
   if (cards.length === 0 && page > 0) return { embed: null, recent: [] };
 
@@ -133,7 +133,7 @@ const computeAuction = async (instance, aid) => {
     )
     .addField("Buy Now", `\`富 ${localAuc.bn}\``, true)
     .addField("Min. Increment", `\`+富 ${localAuc.minimum}\``, true)
-    .addField("Added", moment(localAuc.date_added).fromNow(), true)
+    .addField("Added", `\`${moment(localAuc.date_added).fromNow()}\``, true)
     .addField(
       "Ending",
       moment(asAuc ? asAuc.date_ending * 1000 : localAuc.date_ending).fromNow(),
@@ -258,6 +258,7 @@ module.exports = {
         }
         m.delete();
       });
+    return true;
   },
   info,
   help: {

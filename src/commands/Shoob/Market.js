@@ -167,24 +167,25 @@ module.exports = {
     if (hasOption && args.length === 1) return false;
     const option = hasOption ? args.shift().toLowerCase() : null;
     const name = args.join(" ");
-    let altName;
     message.channel.startTyping();
-    if (space.test(name)) {
-      altName = [...args.slice(-1), ...args.slice(0, -1)].join(" ");
-    }
     const card =
       (await Fetcher.fetchByName(instance, name, tier, isEvent)) ||
-      (altName
-        ? await Fetcher.fetchByName(instance, altName, tier, isEvent)
+      (space.test(name)
+        ? await Fetcher.fetchByName(
+            instance,
+            [...args.slice(-1), ...args.slice(0, -1)].join(" "),
+            tier,
+            isEvent
+          )
         : null);
     if (card === null) {
       message.channel.stopTyping();
-      const embedz = new MessageEmbed()
+      const embed = new MessageEmbed()
         .setDescription(
           `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
         )
         .setColor(Color.red);
-      message.channel.send({ embed: embedz });
+      message.channel.send({ embed });
       return null;
     }
     await processWithCard(instance, message, tier, option, card);
