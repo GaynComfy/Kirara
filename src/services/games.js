@@ -20,7 +20,7 @@ module.exports = {
       const now = Date.now();
       for (const k of Object.keys(deleteMap)) {
         const e = deleteMap[k];
-        if (e.time < now) continue;
+        if (e.time > now) continue;
         e.msg.delete();
         delete deleteMap[k];
       }
