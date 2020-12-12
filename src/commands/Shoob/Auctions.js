@@ -77,6 +77,7 @@ const computeListings = async (instance, page, tier, card_id) => {
 
   const embed = new MessageEmbed()
     .setTitle(title)
+    .setURL("https://animesoul.com/auction")
     .setColor(colour)
     .addField(
       `__Latest Auctions:__`,
@@ -151,7 +152,7 @@ const computeAuction = async (instance, aid) => {
         (bid) =>
           `> \`富 ${bid.bid_amount}\` | ` +
           `[${bid.username}](https://animesoul.com/user/${bid.discord_id}) | ` +
-          moment(bid.date_added * 1000).fromNow()
+          `\`${moment(bid.date_added * 1000).fromNow()}\``
       );
     embed.addField(
       `${asAuc.bids} ${asAuc.bids === 1 ? "Bid" : "Bids"}`,

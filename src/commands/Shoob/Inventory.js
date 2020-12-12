@@ -40,28 +40,35 @@ module.exports = {
         last = page;
       }
       if (last !== -1 && page > last) return null;
+      const tierSettings = tier ? tierInfo[`T${tier}`] : null;
       const embed = new MessageEmbed()
-        .setTitle(` •   ${user.username}'s Inventory   • `)
-        .setColor(Color.default)
+        .setAuthor(
+          `${user.username}'s Inventory`,
+          user.displayAvatarURL({ format: "png" })
+        )
+        .setColor(tier ? tierSettings.color : Color.default)
         .setURL(`https://animesoul.com/user/${user.id}`)
         .setFooter(
           `Kirara | ${info.cooldown} seconds cooldown`,
           "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png"
         )
         .setDescription(
-          `Page: ${last !== -1 && page >= last ? "Last" : page + 1} ${
-            tier ? `Tier: ${args[0].toUpperCase()}` : ""
+          `\`Page: ${last !== -1 && page >= last ? "Last" : page + 1}\` ${
+            tier
+              ? `• ${tierSettings.emoji} \`Tier: ${args[0].toUpperCase()}\``
+              : ""
           }`
         );
       embed.addField(
-        `•**Cards**•`,
+        `__Cards__`,
         result.length > 0
           ? result.map(
               (e) =>
-                `[${e.name}](https://animesoul.com/cards/info/${e.card_id}) | Issue: ${e.issue}`
+                `> \`T${e.tier.toUpperCase()}\` • ` +
+                `[\`${e.name}\`](https://animesoul.com/cards/info/${e.card_id}) ` +
+                `| \`Issue: ${e.issue}\``
             )
-          : "No Cards found",
-        true
+          : "- No cards! Empty as it could be <:SShoob:783636544720207903>"
       );
       return embed;
     });

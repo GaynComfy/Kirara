@@ -56,7 +56,7 @@ module.exports = {
       message.channel.send({ embed: embedz });
       return null;
     }
-    const selectedColor = tierInfo[`T${card.tier}`];
+    const tierSettings = tierInfo[`T${card.tier}`];
     let claimersAmount = 0;
     const claimers = [];
     const mapped = [];
@@ -98,7 +98,7 @@ module.exports = {
       if (page === 0) {
         return new MessageEmbed()
           .setTitle(
-            `${selectedColor.emoji}  •  ${card.name}  •  ${
+            `${tierSettings.emoji}  •  ${card.name}  •  ${
               card.tier === "S"
                 ? "S"
                 : Array(Number.parseInt(card.tier))
@@ -108,7 +108,7 @@ module.exports = {
             }`
           )
           .setURL(`https://animesoul.com/cards/info/${card.id}`)
-          .setColor(selectedColor.color)
+          .setColor(tierSettings.color)
           .setImage(encodeURI(card.image_url).replace(".webp", ".gif"))
           .setFooter("React ▶️ for more info");
       } else if (page === 1) {
@@ -143,7 +143,7 @@ module.exports = {
 
         const embed = new MessageEmbed()
           .setTitle(
-            `${selectedColor.emoji}  •  ${card.name}  •  ${
+            `${tierSettings.emoji}  •  ${card.name}  •  ${
               card.tier === "S"
                 ? "S"
                 : Array(Number.parseInt(card.tier))
@@ -163,7 +163,7 @@ module.exports = {
             "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
           )
           .setFooter("React ▶️ for card owners")
-          .setColor(selectedColor.color);
+          .setColor(tierSettings.color);
         if (card.ability) {
           embed.addField(`**${card.ability_name}**`, card.ability_description);
         }
@@ -207,7 +207,7 @@ module.exports = {
 
         return new MessageEmbed()
           .setTitle(
-            `${selectedColor.emoji}  •  ${card.name}  •  ${
+            `${tierSettings.emoji}  •  ${card.name}  •  ${
               card.tier === "S"
                 ? "S"
                 : Array(Number.parseInt(card.tier))
@@ -231,7 +231,7 @@ module.exports = {
               (pnum + 1 < pages ? "React ▶️ for next page | " : "") +
               "React ◀️ to go back"
           )
-          .setColor(selectedColor.color)
+          .setColor(tierSettings.color)
           .addField(
             `__${isGlobal ? "Stored Card Claims" : "Card Owners"}:__`,
             owners.length === 0
