@@ -52,8 +52,8 @@ module.exports = {
           (!singlePage
             ? `Page: ${last !== -1 && page >= last ? "Last" : page + 1}`
             : "") +
-            (page < last ? " | React ▶️ for next page" : "") +
-            (!singlePage && page !== 0 ? " | React ◀️ to go back" : "")
+            (last === -1 || page < last ? " | React ▶️ for next page" : "") +
+            (page !== 0 ? " | React ◀️ to go back" : "")
         );
       embed.addField(
         `__Cards__`,
