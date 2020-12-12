@@ -50,10 +50,10 @@ module.exports = {
         .setURL(`https://animesoul.com/user/${user.id}`)
         .setFooter(
           (!singlePage
-            ? `Page: ${last !== -1 && page >= last ? "Last" : page + 1} | `
+            ? `Page: ${last !== -1 && page >= last ? "Last" : page + 1}`
             : "") +
-            (last === -1 || page <= last ? "React ▶️ for next page | " : "") +
-            (!singlePage && page !== 0 ? "React ◀️ to go back" : "")
+            (page < last ? " | React ▶️ for next page" : "") +
+            (!singlePage && page !== 0 ? " | React ◀️ to go back" : "")
         );
       embed.addField(
         `__Cards__`,
