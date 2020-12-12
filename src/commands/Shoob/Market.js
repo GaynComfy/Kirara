@@ -161,14 +161,17 @@ const processWithoutCard = async (instance, message, tier) => {
 module.exports = {
   execute: async (instance, message, args) => {
     const isEvent =
-      args[0].toLowerCase() === "event" || args[0].toLowerCase() === "e";
+      args.length > 0 &&
+      (args[0].toLowerCase() === "event" || args[0].toLowerCase() === "e");
     if (isEvent) args.shift();
-    const hasTier = allowed.includes(args[0].toLowerCase());
-    if (hasTier && args.length === 1) return false;
+    const hasTier =
+      args.length > 0 ? allowed.includes(args[0].toLowerCase()) : false;
     const tier = hasTier ? args.shift()[1].toUpperCase() : "all";
     if (args.length === 0)
       return await processWithoutCard(instance, message, tier);
-    const hasOption = allowedSortings.includes(args[0].toLowerCase());
+
+    const hasOption =
+      args.length > 0 ? allowedSortings.includes(args[0].toLowerCase()) : false;
     if (hasOption && args.length === 1) return false;
     const option = hasOption ? args.shift().toLowerCase() : null;
     const name = args.join(" ");
