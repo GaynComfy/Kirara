@@ -160,7 +160,7 @@ class CardFetcher {
   }
 
   async fetchMarket(instance, offset, tier = "all") {
-    const k = `market:${offset}`;
+    const k = `market:${offset}:${tier}`;
     const exists = await instance.cache.exists(k);
     if (exists) {
       const e = await instance.cache.get(k);

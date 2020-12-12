@@ -52,7 +52,7 @@ module.exports = {
           (!singlePage
             ? `Page: ${last !== -1 && page >= last ? "Last" : page + 1} | `
             : "") +
-            (!last ? "React ▶️ for next page | " : "") +
+            (last === -1 || page <= last ? "React ▶️ for next page | " : "") +
             (!singlePage && page !== 0 ? "React ◀️ to go back" : "")
         );
       embed.addField(
