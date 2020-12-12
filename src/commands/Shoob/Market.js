@@ -121,8 +121,11 @@ const processWithoutCard = async (instance, message) => {
 
     const market = result.map(
       (listing) =>
-        `> • \`${listing.item.name.substr(0, 15)} T${listing.item.tier}\` | ` +
-        `[• \`${listing.item.issue}\`](https://animesoul.com/market) | ` +
+        `> • \`T${listing.item.tier}\` • \`${listing.item.name.substr(
+          0,
+          15
+        )}\` | ` +
+        `[• \`V${listing.item.issue}\`](https://animesoul.com/market) | ` +
         `\`富 ${listing.price}\` | ` +
         ` \`${moment(listing.date_added * 1000).fromNow()}\``
     );
@@ -189,15 +192,16 @@ module.exports = {
   },
   info,
   help: {
-    usage: "market [event] [tier] [option] <name>",
+    usage: "market [event] [tier] [option] [name]",
     examples: [
+      "mk",
       "market t6 Alice",
       "market event t4 Rem",
       "market t6 Rin",
       "market Sora and Shiro",
     ],
     description:
-      "Get Market entries for a card!, Valid options: " +
+      "Get Market entries for a card! Valid options: " +
       allowedSortings.join(","),
   },
 };

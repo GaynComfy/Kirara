@@ -83,7 +83,7 @@ const computeListings = async (instance, page, tier, card_id) => {
       cards.length === 0 ? "- None <:SShoob:783636544720207903>" : cards
     )
     .setFooter(
-      `Page ${page + 1} | View auc. sending its number | ` +
+      `Page: ${page + 1} | View auc. sending its number | ` +
         `Send \`next\` for next page` +
         (page !== 0 ? " | `back` to go back" : "")
     );
