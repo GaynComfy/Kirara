@@ -19,7 +19,7 @@ const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
 const cardId = /^(https?:\/\/animesoul\.com\/auction\/)?([a-z0-9]{24})$/;
 const space = / /; // lol
 const digit = /^[1-8]$/;
-
+const userMap = {};
 const command = (msg) => {
   const m = msg.toLowerCase();
   return (
@@ -193,7 +193,8 @@ module.exports = {
       card_id = card.id;
     }
     if ((aucId || tier) && !card_id && args.length >= 1) return false;
-
+    const s = Symbol();
+    userMap[message.author.id] = s;
     if (aucId)
       return await message.channel.send(await computeAuction(instance, aucId));
 
@@ -226,6 +227,7 @@ module.exports = {
     msg.channel
       .createMessageCollector(filter, collectorOpts)
       .on("collect", async (m) => {
+        if (s !== userMap[message.author.id]) return;
         let newPage = page;
         const cmd = command(m.content);
         switch (cmd) {
