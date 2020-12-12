@@ -99,7 +99,7 @@ module.exports = {
 
             try {
               const msg = await messageChannel.send(oweeet);
-              deleteMap[msg.id] = { msg, time: Date.now() + 15 * 60 * 1000 };
+              deleteMap[msg.id] = { msg, time: Date.now() + 15 * 1000 };
             } catch (err) {
               console.log("error sending claim message");
             }
