@@ -271,7 +271,7 @@ module.exports = {
       "auc t6",
       "auc t5 Konata Izumi",
       "auc 5fd246b9c797c534105c637b",
-      "auc https://animesoul.com/auction/5fd322dd72dbae34b1083bf3",
+      "auc https://animesoul.com/auction/5fd41e3f8030b66973438e3a",
     ],
     description: "Watch active auctions and their information live!",
   },

@@ -40,7 +40,7 @@ const sortListings = (arr, opt) => {
   return arr.sort((a, b) => a.item.issue - b.item.issue);
 };
 
-const processWithCard = async (instance, message, tier, option, card) => {
+const processWithCard = async (instance, message, option, card) => {
   const selectedColor = tierInfo[`T${card.tier}`];
   const listings = await Fetcher.fetchMarketByCardId(
     instance,
@@ -51,12 +51,12 @@ const processWithCard = async (instance, message, tier, option, card) => {
   const sorted = sortListings(listings, option);
   message.channel.stopTyping();
   if (sorted.length === 0) {
-    const embedz = new MessageEmbed()
+    const embed = new MessageEmbed()
       .setDescription(
         `<:Sirona_NoCross:762606114444935168> No active market listings for this card!`
       )
       .setColor(Color.red);
-    message.channel.send({ embed: embedz });
+    message.channel.send({ embed });
     return null;
   }
 
@@ -196,7 +196,7 @@ module.exports = {
       message.channel.send({ embed });
       return null;
     }
-    await processWithCard(instance, message, tier, option, card);
+    await processWithCard(instance, message, option, card);
     return true;
   },
   info,
