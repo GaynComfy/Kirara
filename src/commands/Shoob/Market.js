@@ -131,9 +131,9 @@ const processWithoutCard = async (instance, message) => {
     );
 
     const embed = new MessageEmbed()
-      .setTitle(`Market: Most recent entries`)
+      .setTitle(`<:Flame:783439293506519101> Market: Most recent entries`)
       .setURL(`https://animesoul.com/market`)
-      .setColor("RANDOM");
+      .setColor(Color.default);
 
     if (last !== 0) {
       embed.setFooter(

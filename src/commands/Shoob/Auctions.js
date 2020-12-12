@@ -136,7 +136,9 @@ const computeAuction = async (instance, aid) => {
     .addField("Added", `\`${moment(localAuc.date_added).fromNow()}\``, true)
     .addField(
       "Ending",
-      moment(asAuc ? asAuc.date_ending * 1000 : localAuc.date_ending).fromNow(),
+      `\`${moment(
+        asAuc ? asAuc.date_ending * 1000 : localAuc.date_ending
+      ).fromNow()}\``,
       true
     )
     .addField("Owner", localAuc.username, true);
