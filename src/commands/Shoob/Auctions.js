@@ -86,7 +86,7 @@ const computeListings = async (instance, page, tier, card_id, active) => {
     .setURL("https://animesoul.com/auction")
     .setColor(colour)
     .addField(
-      `__Latest Auctions:__`,
+      `__${active ? "Active" : "Latest"} Auctions:__`,
       cards.length === 0 ? "- None <:SShoob:783636544720207903>" : cards
     )
     .setFooter(
