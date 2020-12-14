@@ -19,7 +19,6 @@ const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
 const cardId = /^(https?:\/\/animesoul\.com\/auction\/)?([a-z0-9]{24})$/;
 const space = / /; // lol
 const digit = /^[1-8]$/;
-const userMap = {};
 const command = (msg) => {
   const m = msg.toLowerCase();
   return (
@@ -31,34 +30,41 @@ const command = (msg) => {
     (digit.test(m) && parseInt(m))
   );
 };
-const collectorOpts = { idle: 25 * 1000 };
+const collectorOpts = { idle: 45 * 1000 };
+const userMap = {};
 
 // why is this on a different function? who knows
-const getListings = async (instance, page, tier, card_id) => {
+const getListings = async (instance, page, tier, card_id, active) => {
   let query;
 
   if (card_id)
     query = await instance.database.pool.query(
-      "SELECT * FROM AUCTIONS WHERE active=true AND card_id=$1 ORDER BY id DESC LIMIT 8 OFFSET $2",
+      `SELECT * FROM AUCTIONS WHERE ${
+        active ? "active=true AND " : ""
+      }card_id=$1 ORDER BY id DESC LIMIT 8 OFFSET $2`,
       [card_id, page * 8]
     );
   else if (tier)
     // not working, we don't get tier from the auction events. TODO change
     query = await instance.database.pool.query(
-      "SELECT * FROM AUCTIONS WHERE active=true AND tier=$1 ORDER BY id DESC LIMIT 8 OFFSET $2",
+      `SELECT * FROM AUCTIONS WHERE ${
+        active ? "active=true AND " : ""
+      }tier=$1 ORDER BY id DESC LIMIT 8 OFFSET $2`,
       [tier, page * 8]
     );
   else
     query = await instance.database.pool.query(
-      "SELECT * FROM AUCTIONS WHERE active=true ORDER BY id DESC LIMIT 8 OFFSET $1",
+      `SELECT * FROM AUCTIONS ${
+        active ? "WHERE active=true " : ""
+      }ORDER BY id DESC LIMIT 8 OFFSET $1`,
       [page * 8]
     );
 
   return query.rows;
 };
 
-const computeListings = async (instance, page, tier, card_id) => {
-  const recent = await getListings(instance, page, tier, card_id);
+const computeListings = async (instance, page, tier, card_id, active) => {
+  const recent = await getListings(instance, page, tier, card_id, active);
   const title =
     tier && !card_id
       ? `${tierInfo[`T${tier}`].emoji} Auctions: Most recent ` +
@@ -163,6 +169,11 @@ const computeAuction = async (instance, aid) => {
 
 module.exports = {
   execute: async (instance, message, args) => {
+    const hasAll =
+      args.length >= 1
+        ? args[0].toLowerCase() === "all" || args[0].toLowerCase() === "a"
+        : false;
+    if (hasAll) args.shift();
     const hasTier =
       args.length >= 1 ? allowed.includes(args[0].toLowerCase()) : false;
     const hasAucId = args.length >= 1 ? cardId.test(args[0]) : false;
@@ -191,11 +202,11 @@ module.exports = {
       card_id = card.id;
     }
     if ((aucId || tier) && !card_id && args.length >= 1) return false;
-    const s = Symbol();
-    userMap[message.author.id] = s;
     if (aucId)
       return await message.channel.send(await computeAuction(instance, aucId));
 
+    const s = Symbol();
+    userMap[message.author.id] = s;
     let recent;
     let aucInfo = false;
     let page = 0;
@@ -211,7 +222,7 @@ module.exports = {
         return auc;
       }
 
-      const query = await computeListings(instance, p, tier, card_id);
+      const query = await computeListings(instance, p, tier, card_id, !hasAll);
       if (query.recent.length !== 0) recent = query.recent;
 
       return query.embed;
@@ -220,12 +231,13 @@ module.exports = {
     // paged results except that using both reaction and message collectors are a mess
     // so here you go, a collector based off pure message commands. please help me
     const filter = (m) =>
-      m.author.id == message.author.id && command(m.content);
+      s === userMap[message.author.id] && // no other command is running with us
+      m.author.id == message.author.id && // it's sent by the user who requested the list
+      command(m.content); // is a valid command
     const msg = await message.channel.send(await handler(page));
     msg.channel
       .createMessageCollector(filter, collectorOpts)
       .on("collect", async (m) => {
-        if (s !== userMap[message.author.id]) return;
         let newPage = page;
         const cmd = command(m.content);
         switch (cmd) {
@@ -265,11 +277,11 @@ module.exports = {
   },
   info,
   help: {
-    usage: "auctions [[tier] [name]/[auction ID/link]]",
+    usage: "auctions [[all] [tier] [name]/[auction ID/link]]",
     examples: [
       "auctions",
       "auc t6",
-      "auc t5 Konata Izumi",
+      "auc all t5 Konata Izumi",
       "auc 5fd246b9c797c534105c637b",
       "auc https://animesoul.com/auction/5fd41e3f8030b66973438e3a",
     ],
