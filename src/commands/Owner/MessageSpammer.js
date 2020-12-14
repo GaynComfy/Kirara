@@ -23,8 +23,11 @@ module.exports = {
         if (args.length < 3) return false;
         const id = args.shift();
         const t = 1000 * 60 * Number.parseInt(args.shift());
-        const message = args.join(" ");
-        client.publish("msg_msg", JSON.stringify({ id, t, message }));
+        const messageText = args.join(" ");
+        client.publish(
+          "msg_msg",
+          JSON.stringify({ id, t, message: messageText })
+        );
         message.reply("done");
       },
       instance.config.owner
