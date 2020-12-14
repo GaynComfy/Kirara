@@ -37,11 +37,11 @@ module.exports = {
           const offset = page.index * page.perPage;
 
           return new MessageEmbed()
-            .setTitle(
-              `Server Boost Leaderboard | ${page.index + 1}/${page.total} | ${
-                message.guild.name
-              }`
+            .setAuthor(
+              `Server Boost Leaderboard in ${message.guild.name}`,
+              message.guild.iconURL()
             )
+            .setColor("#ba30ba")
             .setDescription(
               boosters.map(
                 (member, index) =>
@@ -53,7 +53,15 @@ module.exports = {
                   )})*`
               )
             )
-            .setColor("#ba30ba");
+            .setFooter(
+              (page.total > 1
+                ? `Page: ${page.index + 1}/${page.total} | `
+                : "") +
+                (page.index + 1 < page.total
+                  ? "React ▶️ for next page | "
+                  : "") +
+                (page.total > 1 ? "React ◀️ to go back" : "")
+            );
         });
       })
       .catch((err) => {
