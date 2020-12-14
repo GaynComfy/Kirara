@@ -1,11 +1,12 @@
 const Fetcher = require("../../utils/GifFetcher");
 const { generateRolePlayEmbed } = require("./utils");
+const { withCount } = require("../../utils/rolePlayHooks.js");
 const info = {
   name: "cuddle",
   matchCase: false,
   category: "Roleplay",
   cooldown: 60,
-  disabled: true
+  disabled: true,
 };
 module.exports = {
   execute: async (instance, message, args) => {
@@ -23,8 +24,19 @@ module.exports = {
     )
       embed.setThumbnail(url);
     else embed.setImage(url);
+    withCount(
+      instance,
+      "cuddle",
+      message.author.id,
+      message.mentions.users.first().id,
+      ({ send, received }) => {
+        embed.setFooter(
+          `${message.author.username} cuddled others ${send} times and received ${received} cuddles themselfs`
+        );
+        message.channel.send(embed);
+      }
+    );
 
-    await message.channel.send(embed);
     return true;
   },
   info,

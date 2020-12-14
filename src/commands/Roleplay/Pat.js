@@ -1,5 +1,6 @@
 const Fetcher = require("../../utils/GifFetcher");
 const { generateRolePlayEmbed } = require("./utils");
+const { withCount } = require("../../utils/rolePlayHooks.js");
 const info = {
   name: "pat",
   matchCase: false,
@@ -23,7 +24,19 @@ module.exports = {
       embed.setThumbnail(url);
     else embed.setImage(url);
 
-    await message.channel.send(embed);
+    withCount(
+      instance,
+      "patpat",
+      message.author.id,
+      message.mentions.users.first().id,
+      ({ send, received }) => {
+        embed.setFooter(
+          `${message.author.username} gave others ${send} pats and received ${received} pats`
+        );
+        message.channel.send(embed);
+      }
+    );
+
     return true;
   },
   info,

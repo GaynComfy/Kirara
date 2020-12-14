@@ -1,5 +1,6 @@
 const Fetcher = require("../../utils/GifFetcher");
 const { generateRolePlayEmbed } = require("./utils");
+const { withCount } = require("../../utils/rolePlayHooks.js");
 const info = {
   name: "bite",
   aliases: ["nom"],
@@ -23,8 +24,19 @@ module.exports = {
     )
       embed.setThumbnail(url);
     else embed.setImage(url);
+    withCount(
+      instance,
+      "bite",
+      message.author.id,
+      message.mentions.users.first().id,
+      ({ send, received }) => {
+        embed.setFooter(
+          `${message.author.username} bite others ${send} times  and got biten ${received} times`
+        );
+        message.channel.send(embed);
+      }
+    );
 
-    await message.channel.send(embed);
     return true;
   },
   info,

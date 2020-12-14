@@ -1,5 +1,7 @@
 const isDev = process.env.NODE_ENV === "development";
-const { owner } = isDev ? require('../config-dev.js') : require('../config-prod.js');
+const { owner } = isDev
+  ? require("../config-dev.js")
+  : require("../config-prod.js");
 
 exports.withRole = async (member, handler, role) => {
   if (!member || !member.roles || !member.roles.cache)
@@ -16,7 +18,8 @@ exports.withRights = async (member, handler, permission = "ADMINISTRATOR") => {
   if (!permission) {
     return handler();
   }
-  if (member.hasPermission(permission) || owner.includes(member.id)) return handler();
+  if (member.hasPermission(permission) || owner.includes(member.id))
+    return handler();
   return null;
 };
 exports.withOwner = async (userId, handler, owners) => {
@@ -25,7 +28,6 @@ exports.withOwner = async (userId, handler, owners) => {
 
   if (owners.includes(userId)) return handler();
 };
-
 exports.withCooldown = async (
   cache,
   id,
