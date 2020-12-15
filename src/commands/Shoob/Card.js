@@ -13,6 +13,8 @@ const info = {
   cooldown: 5,
 };
 const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
+
+const cardId = /^(https?:\/\/animesoul\.com\/cards\/info\/)?([a-z0-9]{24})$/;
 const space = / /; // lol
 
 module.exports = {
@@ -32,20 +34,31 @@ module.exports = {
     if (isEvent || isGlobal || isOldGlobal) args.shift();
     if (args.length === 0) return false;
     const hasTier = allowed.includes(args[0].toLowerCase());
+    const hasCardId = cardId.test(args[0]);
     if (hasTier && args.length === 1) return false;
     message.channel.startTyping();
     const tier = hasTier ? args.shift()[1].toUpperCase() : "all";
-    const name = args.join(" ");
-    const card =
-      (await Fetcher.fetchByName(instance, name, tier, isEvent)) ||
-      (space.test(name)
-        ? await Fetcher.fetchByName(
-            instance,
-            [...args.slice(-1), ...args.slice(0, -1)].join(" "),
-            tier,
-            isEvent
-          )
-        : null);
+    const cardId = hasCardId ? cardId.exec(args.shift())[2] : null;
+    let card = null;
+    if (cardId) {
+      card =
+        (await Fetcher.fetchByName(instance, name, tier, isEvent)) ||
+        (!isEvent
+          ? await Fetcher.fetchByName(instance, name, tier, !isEvent)
+          : null);
+    } else {
+      const name = args.join(" ");
+      card =
+        (await Fetcher.fetchByName(instance, name, tier, isEvent)) ||
+        (space.test(name)
+          ? await Fetcher.fetchByName(
+              instance,
+              [...args.slice(-1), ...args.slice(0, -1)].join(" "),
+              tier,
+              isEvent
+            )
+          : null);
+    }
     if (card === null) {
       message.channel.stopTyping();
       const embedz = new MessageEmbed()

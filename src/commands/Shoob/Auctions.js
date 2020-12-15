@@ -45,7 +45,6 @@ const getListings = async (instance, page, tier, card_id, active) => {
       [card_id, page * 8]
     );
   else if (tier)
-    // not working, we don't get tier from the auction events. TODO change
     query = await instance.database.pool.query(
       `SELECT * FROM AUCTIONS WHERE ${
         active ? "active=true AND " : ""
