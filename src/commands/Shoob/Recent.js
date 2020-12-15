@@ -41,13 +41,11 @@ module.exports = {
           [instance.serverIds[message.guild.id]]
         );
 
-    const selectedTitle =
-      args.length !== 0
-        ? `${tierInfo[args[0].toUpperCase()].emoji} __Recent cards: ` +
-          `Tier ${tierInfo[args[0].toUpperCase()].num}__`
-        : "<:Flame:783439293506519101> __Recent cards__";
-    const selectedColor =
-      args.length !== 0 ? tierInfo[args[0].toUpperCase()].color : Color.default;
+    const selectedTitle = hasTier
+      ? `${tierInfo[tier].emoji} __Recent cards: ` +
+        `Tier ${tierInfo[tier].num}__`
+      : "<:Flame:783439293506519101> __Recent cards__";
+    const selectedColor = hasTier ? tierInfo[tier].color : Color.default;
 
     const embed = new MessageEmbed()
       .setTitle(selectedTitle)
