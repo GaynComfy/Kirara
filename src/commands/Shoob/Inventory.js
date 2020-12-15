@@ -19,12 +19,13 @@ module.exports = {
     if (user) {
       // if (args.length >= 1 && MessageMentions.USERS_PATTERN.test(args[0]))
       //   args.shift();
+      args.shift();
     } else {
       user = message.author;
     }
     if (args.length === 1 && !allowed.includes(args[0].toLowerCase()))
       return false;
-    //    if (args.length >= 2) return false;
+    if (args.length >= 2) return false;
     const hasTier =
       args.length === 1 && allowed.includes(args[0].toLowerCase());
     const tier = hasTier ? args[0][1].toUpperCase() : null;
