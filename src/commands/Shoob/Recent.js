@@ -60,16 +60,22 @@ module.exports = {
     if (recentCards.length !== 0) {
       recentCards.reverse();
 
-      const claimers = recentCards.map((item) => {
-        if (!item.claimed) return "> `No one`";
-        if (isGlobal) {
-          const user = instance.client.users.resolve(item.discord_id);
-          if (user) return `> \`${user.username}#${user.discriminator}\``;
-          else return "> `Unknown user`";
-        } else {
-          return `> <@!${item.discord_id}>`;
+      const claimers = [];
+      for (const item of recentCards) {
+        if (!item.claimed) {
+          claimers.append("> `No one`");
+          continue;
         }
-      });
+
+        if (isGlobal) {
+          const user = await instance.client.users.fetch(item.discord_id);
+          if (user)
+            claimers.append(`> \`${user.username}#${user.discriminator}\``);
+          else claimers.append("> `Unknown user`");
+        } else {
+          claimers.append(`> <@!${item.discord_id}>`);
+        }
+      }
 
       const cards = recentCards.map(
         (item) =>
