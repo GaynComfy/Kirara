@@ -64,8 +64,8 @@ module.exports = {
         if (!item.claimed) return "> `No one`";
         if (isGlobal) {
           const user = instance.client.users.resolve(item.discord_id);
-          if (user) return "> `Unknown user`";
-          else return `> ${user.username}#${user.discriminator}`;
+          if (user) return `> ${user.username}#${user.discriminator}`;
+          else return "> `Unknown user`";
         } else {
           return `> <@!${item.discord_id}>`;
         }
