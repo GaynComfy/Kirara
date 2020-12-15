@@ -21,6 +21,7 @@ module.exports = {
     const hasTier = args.length >= 1 && allowed.includes(args[0].toLowerCase());
     if (args.length > 0 && !hasTier) return false;
     const tier = hasTier ? args.shift()[1].toUpperCase() : null;
+    const tierSettings = hasTier ? tierInfo[`T${tier}`] : {};
     const member = message.meber || {};
     const { rows: recentCards } = isGlobal
       ? hasTier
@@ -42,10 +43,9 @@ module.exports = {
         );
 
     const selectedTitle = hasTier
-      ? `${tierInfo[tier].emoji} __Recent cards: ` +
-        `Tier ${tierInfo[tier].num}__`
+      ? `${tierSettings.emoji} __Recent cards: ` + `Tier ${tierSettings.num}__`
       : "<:Flame:783439293506519101> __Recent cards__";
-    const selectedColor = hasTier ? tierInfo[tier].color : Color.default;
+    const selectedColor = hasTier ? tierSettings.color : Color.default;
 
     const embed = new MessageEmbed()
       .setTitle(selectedTitle)
