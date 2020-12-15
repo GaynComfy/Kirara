@@ -38,9 +38,9 @@ module.exports = {
     if (hasTier && args.length === 1) return false;
     message.channel.startTyping();
     const tier = hasTier ? args.shift()[1].toUpperCase() : "all";
-    const cardId = hasCardId ? cardId.exec(args.shift())[2] : null;
+    const card_id = hasCardId ? cardId.exec(args.shift())[2] : null;
     let card = null;
-    if (cardId) {
+    if (card_id) {
       card =
         (await Fetcher.fetchByName(instance, name, tier, isEvent)) ||
         (!isEvent
@@ -257,12 +257,13 @@ module.exports = {
   },
   info,
   help: {
-    usage: "card [*e*vent/*s*ervers] [tier] <name>",
+    usage: "card <[*e*vent/*s*ervers] [tier] <name>/[auction ID/link]>",
     examples: [
       "card servers t6 Alice",
       "card event t4 Rem",
       "card t6 Rin",
       "card Nezuko",
+      "card https://animesoul.com/cards/info/5d7577216f818277a57e5698",
     ],
     description: "Fetch a card by tier & name",
   },
