@@ -1,6 +1,7 @@
 const Color = require("./Colors.json");
 const { MessageEmbed } = require("discord.js");
 module.exports = async (channel) => {
+  channel.stopTyping();
   try {
     const embed = new MessageEmbed()
       .setDescription(

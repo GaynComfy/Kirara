@@ -42,7 +42,7 @@ class CardFetcher {
       return JSON.parse(e);
     }
     const result = await this.instance.get(
-      `/${event ? "eventcards" : "card"}/name/${name}${
+      `/${event ? "eventcards" : "card"}/name/${urlencode(name)}${
         tier === "all" ? "" : `?tier=${tier}`
       }`
     );
