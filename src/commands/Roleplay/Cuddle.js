@@ -5,7 +5,7 @@ const info = {
   name: "cuddle",
   matchCase: false,
   category: "Roleplay",
-  cooldown: 60,
+  cooldown: 10,
   disabled: true,
 };
 module.exports = {

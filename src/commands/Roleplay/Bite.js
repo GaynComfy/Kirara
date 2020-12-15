@@ -6,7 +6,7 @@ const info = {
   aliases: ["nom"],
   matchCase: false,
   category: "Roleplay",
-  cooldown: 60,
+  cooldown: 10,
 };
 module.exports = {
   execute: async (instance, message, args) => {
