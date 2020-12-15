@@ -9,12 +9,12 @@ const info = {
 };
 
 const tierPositions = [
-  { tier: "1", x: 510, y: 280 },
-  { tier: "2", x: 735, y: 280 },
-  { tier: "3", x: 935, y: 280 },
-  { tier: "4", x: 510, y: 360 },
-  { tier: "5", x: 735, y: 360 },
-  { tier: "6", x: 935, y: 360 },
+  { t: "1", x: 510, y: 280 },
+  { t: "2", x: 735, y: 280 },
+  { t: "3", x: 935, y: 280 },
+  { t: "4", x: 510, y: 360 },
+  { t: "5", x: 735, y: 360 },
+  { t: "6", x: 935, y: 360 },
 ];
 
 module.exports = {
@@ -68,7 +68,7 @@ module.exports = {
 
     // Fill in tier counts
     tierPositions.forEach((tier) => {
-      const claims = cards.find((t) => t.tier === tier);
+      const claims = cards.find((t) => t.tier === tier.t);
       const c = claims ? claims.c : "0";
       ctx.fillText(`${c}x`, tier.x, tier.y);
     });
