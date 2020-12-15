@@ -15,7 +15,7 @@ module.exports = {
     }
     const { url } = await Fetcher.request("handhold");
     const embed = generateRolePlayEmbed(
-      "cuddles",
+      "holds hands with",
       message.author.id,
       message.mentions.users.first().id
     );
