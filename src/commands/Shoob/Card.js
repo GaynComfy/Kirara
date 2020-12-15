@@ -42,9 +42,9 @@ module.exports = {
     let card = null;
     if (card_id) {
       card =
-        (await Fetcher.fetchByName(instance, name, tier, isEvent)) ||
+        (await Fetcher.fetchById(instance, card_id, isEvent)) ||
         (!isEvent
-          ? await Fetcher.fetchByName(instance, name, tier, !isEvent)
+          ? await Fetcher.fetchById(instance, card_id, !isEvent)
           : null);
     } else {
       const name = args.join(" ");
