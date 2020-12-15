@@ -63,17 +63,17 @@ module.exports = {
       const claimers = [];
       for (const item of recentCards) {
         if (!item.claimed) {
-          claimers.append("> `No one`");
+          claimers.push("> `No one`");
           continue;
         }
 
         if (isGlobal) {
           const user = await instance.client.users.fetch(item.discord_id);
           if (user)
-            claimers.append(`> \`${user.username}#${user.discriminator}\``);
-          else claimers.append("> `Unknown user`");
+            claimers.push(`> \`${user.username}#${user.discriminator}\``);
+          else claimers.push("> `Unknown user`");
         } else {
-          claimers.append(`> <@!${item.discord_id}>`);
+          claimers.push(`> <@!${item.discord_id}>`);
         }
       }
 
