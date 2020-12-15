@@ -29,7 +29,11 @@ module.exports = {
           "msg_msg",
           JSON.stringify({ id, t, message: messageText })
         );
-        message.reply("done");
+        const msg = await message.reply("done");
+        setTimeout(() => {
+          msg.delete();
+          message.delete();
+        }, 2500);
       },
       instance.config.owner
     );
