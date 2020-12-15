@@ -46,7 +46,7 @@ ${tiersArray.join(" | ")}
 ━━━━━━━━━━━━━━━`);
       await message.channel.send(hugEmbed);
     } else {
-      if (!allowed.includes(args[0])) return false;
+      if (!allowed.includes(args[0].toLowerCase())) return false;
       const query =
         "SELECT * FROM CARD_CLAIMS WHERE discord_id=$1 AND tier=$2 AND claimed=true AND season=$3 ORDER BY id DESC";
       const result = await instance.database.pool.query(query, [
