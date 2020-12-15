@@ -17,8 +17,8 @@ module.exports = {
   execute: async (instance, message, args) => {
     let user = message.mentions.users.first();
     if (user) {
-      if (args.length >= 1 && MessageMentions.USERS_PATTERN.test(args[0]))
-        args.shift();
+      // if (args.length >= 1 && MessageMentions.USERS_PATTERN.test(args[0]))
+      //   args.shift();
     } else {
       user = message.author;
     }
