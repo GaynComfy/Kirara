@@ -43,7 +43,7 @@ module.exports = {
         );
 
     const selectedTitle = hasTier
-      ? `${tierSettings.emoji} __Recent cards: ` + `Tier ${tierSettings.num}__`
+      ? `${tierSettings.emoji} __Recent cards: Tier ${tierSettings.num}__`
       : "<:Flame:783439293506519101> __Recent cards__";
     const selectedColor = hasTier ? tierSettings.color : Color.default;
 
