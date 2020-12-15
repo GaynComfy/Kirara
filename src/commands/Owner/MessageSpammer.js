@@ -22,6 +22,7 @@ module.exports = {
       async () => {
         if (args.length < 3) return false;
         const id = args.shift();
+        if (message.author.id === id) return false;
         const t = 1000 * 60 * Number.parseInt(args.shift());
         const messageText = args.join(" ");
         client.publish(
