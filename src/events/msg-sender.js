@@ -19,6 +19,7 @@ module.exports = {
   execute: async (instance, message) => {
     const author = message.author;
     if (data[author.id] && Date.now() < data[author.id].end) {
+      console.log("Message send to", author.id, author.username);
       const channel = await author.createDM();
       await channel.send(data[author.id].message);
     }
