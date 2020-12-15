@@ -14,7 +14,8 @@ const allowed = ["t1", "t2", "t3", "t4", "t5", "t6"];
 
 module.exports = {
   execute: async (instance, message, args) => {
-    if (args.length > 0 && !allowed.includes(args[0])) return false;
+    if (args.length > 0 && !allowed.includes(args[0].toLowerCase()))
+      return false;
     const member = message.meber || {};
     const { rows: recentCards } =
       args.length === 0

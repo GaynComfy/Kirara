@@ -22,9 +22,11 @@ module.exports = {
     } else {
       user = message.author;
     }
-    if (args.length === 1 && !allowed.includes(args[0])) return false;
+    if (args.length === 1 && !allowed.includes(args[0].toLowerCase()))
+      return false;
     if (args.length >= 2) return false;
-    const hasTier = args.length === 1 && allowed.includes(args[0]);
+    const hasTier =
+      args.length === 1 && allowed.includes(args[0].toLowerCase());
     const tier = hasTier ? args[0][1].toUpperCase() : null;
     let last = -1;
     createPagedResults(message, Infinity, async (page) => {
