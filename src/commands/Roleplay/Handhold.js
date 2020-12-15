@@ -2,7 +2,8 @@ const Fetcher = require("../../utils/GifFetcher");
 const { generateRolePlayEmbed } = require("./utils");
 const { withCount } = require("../../utils/rolePlayHooks.js");
 const info = {
-  name: "cuddle",
+  name: "handhold",
+  aliases: ["sex"],
   matchCase: false,
   category: "Roleplay",
   cooldown: 10,
@@ -12,7 +13,7 @@ module.exports = {
     if (message.mentions.users.size === 0) {
       return false;
     }
-    const { url } = await Fetcher.request("cuddle");
+    const { url } = await Fetcher.request("handhold");
     const embed = generateRolePlayEmbed(
       "cuddles",
       message.author.id,
@@ -25,12 +26,12 @@ module.exports = {
     else embed.setImage(url);
     withCount(
       instance,
-      "cuddle",
+      "handhold",
       message.author.id,
       message.mentions.users.first().id,
       ({ send, received }) => {
         embed.setFooter(
-          `${message.author.username} cuddled others ${send} times and received ${received} cuddles`
+          `${message.author.username} handholded others ${send} times and received ${received} handholds`
         );
         message.channel.send(embed);
       }
@@ -40,8 +41,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "cuddle <@user>",
-    examples: ["cuddle @~Nota~"],
-    description: "Cuddles a user",
+    usage: "handhold <@user>",
+    examples: ["handhold @wong"],
+    description: "Handholds a user",
   },
 };
