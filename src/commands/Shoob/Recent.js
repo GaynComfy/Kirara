@@ -22,17 +22,22 @@ module.exports = {
     if (args.length > 0 && !hasTier) return false;
     const tier = hasTier ? args.shift()[1].toUpperCase() : null;
     const member = message.meber || {};
-    const { rows: recentCards } = hasTier
+    const { rows: recentCards } = isGlobal
+      ? hasTier
+        ? await instance.database.pool.query(
+            `SELECT * FROM CARD_CLAIMS WHERE tier=$1 ORDER BY id DESC LIMIT 5`,
+            [tier]
+          )
+        : await instance.database.pool.query(
+            `SELECT * FROM CARD_CLAIMS ORDER BY id DESC LIMIT 5`
+          )
+      : hasTier
       ? await instance.database.pool.query(
-          `SELECT * FROM CARD_CLAIMS WHERE ${
-            isGlobal ? "" : "server_id=$1 AND "
-          }tier=$2 ORDER BY id DESC LIMIT 5`,
+          `SELECT * FROM CARD_CLAIMS WHERE server_id=$1 AND tier=$2 ORDER BY id DESC LIMIT 5`,
           [instance.serverIds[message.guild.id], tier]
         )
       : await instance.database.pool.query(
-          `SELECT * FROM CARD_CLAIMS ${
-            isGlobal ? "" : "WHERE server_id=$1 "
-          }ORDER BY id DESC LIMIT 5`,
+          `SELECT * FROM CARD_CLAIMS WHERE server_id=$1 ORDER BY id DESC LIMIT 5`,
           [instance.serverIds[message.guild.id]]
         );
 
