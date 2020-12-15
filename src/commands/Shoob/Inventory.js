@@ -1,6 +1,6 @@
 const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
-const { MessageEmbed, MessageMentions } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const { createPagedResults } = require("../../utils/PagedResults");
 const { tierInfo } = require("../../utils/cardUtils");
 
@@ -17,9 +17,8 @@ module.exports = {
   execute: async (instance, message, args) => {
     let user = message.mentions.users.first();
     if (user) {
-      // if (args.length >= 1 && MessageMentions.USERS_PATTERN.test(args[0]))
-      //   args.shift();
-      args.shift();
+      if (args.length >= 1 && !allowed.includes(args[0].toLowerCase()))
+        args.shift();
     } else {
       user = message.author;
     }
