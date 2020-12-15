@@ -14,19 +14,27 @@ const allowed = ["t1", "t2", "t3", "t4", "t5", "t6"];
 
 module.exports = {
   execute: async (instance, message, args) => {
-    if (args.length > 0 && !allowed.includes(args[0].toLowerCase()))
-      return false;
+    const isGlobal =
+      args.length >= 1 &&
+      (args[0].toLowerCase() === "global" || args[0].toLowerCase() === "g");
+    if (isGlobal) args.shift();
+    const hasTier = args.length >= 1 && allowed.includes(args[0].toLowerCase());
+    if (args.length > 0 && !hasTier) return false;
+    const tier = hasTier ? args.shift()[1].toUpperCase() : null;
     const member = message.meber || {};
-    const { rows: recentCards } =
-      args.length === 0
-        ? await instance.database.pool.query(
-            "SELECT * FROM CARD_CLAIMS WHERE server_id=$1 ORDER BY id DESC LIMIT 5",
-            [instance.serverIds[message.guild.id]]
-          )
-        : await instance.database.pool.query(
-            "SELECT * FROM CARD_CLAIMS WHERE server_id=$1 AND tier=$2 ORDER BY id DESC LIMIT 5",
-            [instance.serverIds[message.guild.id], args[0][1].toUpperCase()]
-          );
+    const { rows: recentCards } = hasTier
+      ? await instance.database.pool.query(
+          `SELECT * FROM CARD_CLAIMS WHERE ${
+            isGlobal ? "" : "server_id=$1 AND "
+          }tier=$2 ORDER BY id DESC LIMIT 5`,
+          [instance.serverIds[message.guild.id], tier]
+        )
+      : await instance.database.pool.query(
+          `SELECT * FROM CARD_CLAIMS ${
+            isGlobal ? "" : "WHERE server_id=$1 "
+          }ORDER BY id DESC LIMIT 5`,
+          [instance.serverIds[message.guild.id]]
+        );
 
     const selectedTitle =
       args.length !== 0
@@ -39,14 +47,23 @@ module.exports = {
     const embed = new MessageEmbed()
       .setTitle(selectedTitle)
       .setColor(selectedColor)
-      .setDescription(`Showing \`\`${message.guild.name}\`\``);
+      .setDescription(
+        `Showing ${
+          isGlobal ? "global claims" : `claims in \`${message.guild.name}\``
+        }`
+      );
     if (recentCards.length !== 0) {
       recentCards.reverse();
 
       const claimers = recentCards.map((item) => {
-        if (!item.claimed) return "> ``No one``";
-        //const user = instance.client.users.resolve(item.discord_id) || {};
-        return `> <@!${item.discord_id}>`;
+        if (!item.claimed) return "> `No one`";
+        if (isGlobal) {
+          const user = instance.client.users.resolve(item.discord_id);
+          if (user) return "> `Unknown user`";
+          else return `> ${user.username}#${user.discriminator}`;
+        } else {
+          return `> <@!${item.discord_id}>`;
+        }
       });
 
       const cards = recentCards.map(
@@ -70,7 +87,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "recent [T1/T2/T3/T4/T5/T6]",
+    usage: "recent [global] [T1/T2/T3/T4/T5/T6]",
     examples: ["recent t1"],
     description: "Show last cards spawned by Shoob",
   },
