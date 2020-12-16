@@ -8,6 +8,7 @@ const info = {
   matchCase: false,
   category: "Roleplay",
   cooldown: 5,
+  disabled: true,
 };
 module.exports = {
   execute: async (instance, message, args) => {
