@@ -31,16 +31,23 @@ module.exports = {
         member.id,
         instance.config.season,
       ]);
-      result.rows.forEach((entry) => {
-        const tier = tierInfo["T" + entry.tier.toUpperCase()];
-        const text = `${tier.emoji} x ${entry.c}`;
+      allowed.forEach((t) => {
+        const tier = tierInfo[t.toUpperCase()];
+        const entry = result.rows.find((e) => e.tier === t[1]);
+        const count = entry ? entry.c : "0";
+
+        const text = `${tier.emoji} x ${count}`;
         tiers.push(text);
       });
+      const tiers1 = tiers.slice(0, 3);
+      const tiers2 = tiers.slice(3, 6);
+
       hugEmbed.setDescription(`<:ID:782165519146156062> **${
         member.username
       }'s claims**
 ━━━━━━━━━━━━━━━
-${tiers.join(" | ")}
+${tiers1.join(" | ")}
+${tiers2.join(" | ")}
 ━━━━━━━━━━━━━━━`);
       await message.channel.send(hugEmbed);
     } else {
@@ -60,7 +67,7 @@ ${tiers.join(" | ")}
         .setTitle(`${tier.emoji} Tier ${tier.num} Stats`)
         .setThumbnail(member.displayAvatarURL())
         .setDescription(
-          `For this season you have claimed \`${result.rows.length}\` T${tier.num}'s`
+          `<@!${member.id}> has claimed \`${result.rows.length}\` T${tier.num}'s this season`
         )
         .setImage(
           "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
