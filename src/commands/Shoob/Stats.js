@@ -62,12 +62,16 @@ ${tiers2.join(" | ")}
       const tier = tierInfo[args[0].toUpperCase()];
       const toDisplay = result.rows
         .slice(0, 5)
-        .map((e) => `Issue: \`${e.issue}\` • \`${e.card_name}\``);
+        .map(
+          (e) =>
+            `> Issue: \`${e.issue}\` • ` +
+            `[\`${e.card_name}\`](https://animesoul.com/cards/info/${e.card_id}`
+        );
       const embed = new MessageEmbed()
         .setTitle(`${tier.emoji} Tier ${tier.num} Stats`)
         .setThumbnail(member.displayAvatarURL())
         .setDescription(
-          `<@!${member.id}> has claimed \`${result.rows.length}\` T${tier.num}'s this season`
+          `<@!${member.id}> has claimed **\`${result.rows.length}\` T${tier.num}s** this season`
         )
         .setImage(
           "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
@@ -75,13 +79,9 @@ ${tiers2.join(" | ")}
         .setColor(tier.color);
 
       if (result.rows.length === 0) {
-        embed.addField(
-          `Recently claimed T${tier.num}'s:`,
-          "``No cards claimed yet.``",
-          true
-        );
+        embed.addField(`Recent claims:`, "``No cards claimed yet.``", true);
       } else {
-        embed.addField(`Recently claimed T${tier.num}'s:`, toDisplay);
+        embed.addField(`Recent claims:`, toDisplay);
       }
 
       message.channel.send(embed);
