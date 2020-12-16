@@ -65,7 +65,7 @@ ${tiers2.join(" | ")}
         .map(
           (e) =>
             `> Issue: \`${e.issue}\` • ` +
-            `[\`${e.card_name}\`](https://animesoul.com/cards/info/${e.card_id}`
+            `[\`${e.card_name}\`](https://animesoul.com/cards/info/${e.card_id})`
         );
       const embed = new MessageEmbed()
         .setTitle(`${tier.emoji} Tier ${tier.num} Stats`)
