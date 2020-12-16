@@ -12,37 +12,35 @@ const allowed = ["t1", "t2", "t3", "t4", "t5", "t6"];
 
 module.exports = {
   execute: async (instance, message, args) => {
-    const member = message.author || {};
+    let member = message.mentions.users.first();
+    if (member) {
+      if (args.length >= 1 && !allowed.includes(args[0].toLowerCase()))
+        args.shift();
+    } else {
+      member = message.author;
+    }
     if (args.length === 0) {
-      let tiersArray = [];
+      let tiers = [];
       const hugEmbed = new MessageEmbed()
-        /*.setImage(
-          "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
-        )*/
         .setThumbnail(member.displayAvatarURL({ size: 2048, dynamic: true }))
         .setColor(Color.default);
 
       const query =
         "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE claimed=true AND discord_id=$1 AND season=$2 GROUP BY tier";
       const result = await instance.database.pool.query(query, [
-        message.author.id,
+        member.id,
         instance.config.season,
       ]);
       result.rows.forEach((entry) => {
         const tier = tierInfo["T" + entry.tier.toUpperCase()];
-        var text = `${tier.emoji} x ${entry.c}`;
-        tiersArray.push(text);
-        /*hugEmbed.addField(
-          `Tier ${entry.tier}`,
-          `》${tier.emoji} ${entry.c}x`,
-          true
-        );*/
+        const text = `${tier.emoji} x ${entry.c}`;
+        tiers.push(text);
       });
       hugEmbed.setDescription(`<:ID:782165519146156062> **${
         member.username
       }'s claims**
 ━━━━━━━━━━━━━━━
-${tiersArray.join(" | ")}
+${tiers.join(" | ")}
 ━━━━━━━━━━━━━━━`);
       await message.channel.send(hugEmbed);
     } else {
@@ -50,7 +48,7 @@ ${tiersArray.join(" | ")}
       const query =
         "SELECT * FROM CARD_CLAIMS WHERE discord_id=$1 AND tier=$2 AND claimed=true AND season=$3 ORDER BY id DESC";
       const result = await instance.database.pool.query(query, [
-        message.author.id,
+        member.id,
         args[0][1].toUpperCase(),
         instance.config.season,
       ]);
@@ -86,8 +84,8 @@ ${tiersArray.join(" | ")}
   },
   info,
   help: {
-    usage: "stats [T1|T2|T3|T4|T5|T6]",
-    examples: ["stats t1"],
-    description: "Show your claiming stats in certain tiers.",
+    usage: "stats [@user] [T1|T2|T3|T4|T5|T6]",
+    examples: ["stats t1", "stats @JeDaYoshi t6"],
+    description: "Show an user's claiming stats in certain tiers.",
   },
 };
