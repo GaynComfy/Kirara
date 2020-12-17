@@ -4,6 +4,7 @@ const Color = require("../../utils/Colors.json");
 
 const info = {
   name: "stats",
+  aliases: ["s"],
   matchCase: false,
   category: "Shoob",
   cooldown: 5,
@@ -64,14 +65,14 @@ ${tiers2.join(" | ")}
         .slice(0, 5)
         .map(
           (e) =>
-            `> Issue: \`${e.issue}\` • ` +
+            `> \`Issue: ${e.issue}\` • ` +
             `[\`${e.card_name}\`](https://animesoul.com/cards/info/${e.card_id})`
         );
       const embed = new MessageEmbed()
         .setTitle(`${tier.emoji} Tier ${tier.num} Stats`)
         .setThumbnail(member.displayAvatarURL())
         .setDescription(
-          `<@!${member.id}> has claimed **\`${result.rows.length}\` T${tier.num}s** this season`
+          `<@!${member.id}> has claimed **\`${result.rows.length}\` T${tier.num}s** this season!`
         )
         .setImage(
           "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"

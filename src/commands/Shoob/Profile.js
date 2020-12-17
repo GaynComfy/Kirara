@@ -3,7 +3,7 @@ const { MessageEmbed, MessageAttachment } = require("discord.js");
 const { createCanvas, loadImage } = require("canvas");
 const info = {
   name: "profile",
-  aliases: ["rank"],
+  aliases: ["rank", "p"],
   matchCase: false,
   category: "Shoob",
 };
@@ -33,9 +33,9 @@ module.exports = {
       [member.id, instance.serverIds[message.guild.id]]
     );
 
-    var background1 = await loadImage("./src/assets/profile.png");
-    var background2 = await loadImage("./src/assets/profile_anim.gif");
-    var avatar = await loadImage(
+    const background1 = await loadImage("./src/assets/profile.png");
+    const background2 = await loadImage("./src/assets/profile_anim.gif");
+    const avatar = await loadImage(
       member.displayAvatarURL({ format: "png" }) + "?size=2048"
     );
 

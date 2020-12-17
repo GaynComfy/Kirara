@@ -97,7 +97,7 @@ module.exports = {
   info,
   help: {
     usage: "recent [global] [T1/T2/T3/T4/T5/T6]",
-    examples: ["recent t1"],
+    examples: ["recent t1", "recent g t6"],
     description: "Show last cards spawned by Shoob",
   },
 };

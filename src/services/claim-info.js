@@ -99,7 +99,9 @@ module.exports = {
 
             try {
               const msg = await messageChannel.send(oweeet);
-              deleteMap[msg.id] = { msg, time: Date.now() + 15 * 1000 };
+              // With T6 spawns being corrupted, I believe it'd be better to do this.
+              if (data.tier !== "6")
+                deleteMap[msg.id] = { msg, time: Date.now() + 15 * 1000 };
             } catch (err) {
               console.log("error sending claim message");
             }
