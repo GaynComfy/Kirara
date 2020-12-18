@@ -168,9 +168,7 @@ class CardFetcher {
       return data;
     }
     const result = await this.instance.get(
-      `/market?offset=${offset}&limit=10${
-        tier !== "all" ? `&tier=${tier}` : ""
-      }`
+      `/market?offset=${offset}&limit=8${tier !== "all" ? `&tier=${tier}` : ""}`
     );
     instance.cache.setExpire(k, JSON.stringify(result.data), 60 * 5);
     return result.data;
