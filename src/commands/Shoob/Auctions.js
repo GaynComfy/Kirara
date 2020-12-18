@@ -230,8 +230,8 @@ module.exports = {
     // paged results except that using both reaction and message collectors are a mess
     // so here you go, a collector based off pure message commands. please help me
     const filter = (m) =>
-      s === userMap[message.author.id] && // no other command is running with us
       m.author.id == message.author.id && // it's sent by the user who requested the list
+      s === userMap[message.author.id] && // no other command is running with us
       command(m.content); // is a valid command
     const msg = await message.channel.send(await handler(page));
     msg.channel
