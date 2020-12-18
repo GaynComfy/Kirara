@@ -30,15 +30,15 @@ module.exports = {
     const tier = hasTier ? args[0][1].toUpperCase() : null;
     let last = -1;
     createPagedResults(message, Infinity, async (page) => {
-      const offset = (page > last && last !== -1 ? last : page) * 10;
+      const offset = (page > last && last !== -1 ? last : page) * 8;
       const result = await Fetcher.fetchInventory(
         instance,
         user.id,
         tier,
         offset,
-        "10"
+        "8"
       );
-      if (result.length < 10 && last === -1) {
+      if (result.length < 8 && last === -1) {
         last = page;
       }
       if (last !== -1 && page > last) return null;
