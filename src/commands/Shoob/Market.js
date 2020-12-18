@@ -122,10 +122,10 @@ const processWithoutCard = async (instance, message, tier) => {
 
     const market = result.map(
       (listing) =>
-        `> • \`T${listing.item.tier}\` • \`${listing.item.name.substr(
+        `> • \`T${listing.item.tier}\` • [\`${listing.item.name.substr(
           0,
           15
-        )}\` | ` +
+        )}\`](https://animesoul.com/cards/info/${listing.item.id}) | ` +
         `[• \`V${listing.item.issue}\`](https://animesoul.com/market) | ` +
         `\`富 ${listing.price}\` | ` +
         ` \`${moment(listing.date_added * 1000).fromNow()}\``
