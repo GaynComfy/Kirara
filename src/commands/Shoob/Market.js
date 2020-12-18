@@ -114,15 +114,17 @@ const processWithoutCard = async (instance, message, tier) => {
 
   createPagedResults(message, Infinity, async (page) => {
     if (page > last && last !== -1) return null;
-    const offset = page * 8;
+    const offset = page * 6;
     const result = await Fetcher.fetchMarket(instance, offset, tier);
-    if (result.length < 8 && last === -1) last = page;
+    if (result.length < 6 && last === -1) last = page;
     const isLast = last !== -1 && page === last;
     const tierSettings = tier !== "all" ? tierInfo[`T${tier}`] : null;
 
     const market = result.map(
-      (listing) =>
-        `> • \`T${listing.item.tier}\` • [\`${listing.item.name.substr(
+      (listing, i) =>
+        `> **${i + 1}.** \`T${
+          listing.item.tier
+        }\` • [\`${listing.item.name.substr(
           0,
           15
         )}\`](https://animesoul.com/cards/info/${listing.item.id}) | ` +
