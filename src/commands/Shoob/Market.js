@@ -114,9 +114,9 @@ const processWithoutCard = async (instance, message, tier) => {
 
   createPagedResults(message, Infinity, async (page) => {
     if (page > last && last !== -1) return null;
-    const offset = page * 10;
+    const offset = page * 8;
     const result = await Fetcher.fetchMarket(instance, offset, tier);
-    if (result.length < 10 && last === -1) last = page;
+    if (result.length < 8 && last === -1) last = page;
     const isLast = last !== -1 && page === last;
     const tierSettings = tier !== "all" ? tierInfo[`T${tier}`] : null;
 
