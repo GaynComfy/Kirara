@@ -72,7 +72,8 @@ class CardFetcher {
     if (
       !result.data ||
       result.data.length === 0 ||
-      result.data.message === "not_found"
+      result.data.message === "not_found" ||
+      result.data.id === "000000000000000000000000"
     ) {
       return null;
     }
