@@ -31,8 +31,9 @@ const createPagedResults = async (
   const emojiFilter = (r, user) =>
     ALL_SYMBOLS.includes(r.emoji.name) && user.id === message.author.id;
   let page = 0;
+  let root = embed;
   try {
-    const root = await getMessageForPage(page, message.author);
+    root = await getMessageForPage(page, message.author);
   } catch (err) {
     console.error(err);
     sendError(message.channel);
