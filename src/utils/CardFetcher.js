@@ -54,7 +54,7 @@ class CardFetcher {
     ) {
       return [];
     }
-    const cards = result.data.sort((l, n) => tN(n.tier) - tN(l.tier));
+    const cards = (result.data || []).sort((l, n) => tN(n.tier) - tN(l.tier));
     instance.cache.setExpire(k, JSON.stringify(cards), 60 * 30);
     return cards;
   }

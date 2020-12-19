@@ -15,18 +15,13 @@ const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
 
 const cardId = /^(https?:\/\/animesoul\.com\/cards\/info\/)?([a-z0-9]{24})$/;
 const space = / /; // lol
+const mention = /<@!?(\d{17,19})>/g;
 
 module.exports = {
   execute: async (instance, message, args) => {
     let user = message.mentions.users.first();
     if (user) {
-      if (
-        args.length >= 1 &&
-        !allowed.includes(args[0].toLowerCase()) &&
-        args[0].toLowerCase() !== "event" &&
-        args[0].toLowerCase() === "e"
-      )
-        args.shift();
+      if (args.length >= 1 && mention.test(args[0])) args.shift();
     } else {
       user = message.author;
     }
@@ -34,6 +29,7 @@ module.exports = {
       args.length >= 1 &&
       (args[0].toLowerCase() === "event" || args[0].toLowerCase() === "e");
     if (isEvent) args.shift();
+    if (isEvent && args.length === 0) return false;
     const hasTier = args.length >= 1 && allowed.includes(args[0].toLowerCase());
     const hasCardId = args.length >= 1 && cardId.test(args[0]);
     if (isEvent && hasTier && args.length === 1) return false;
