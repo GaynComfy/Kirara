@@ -11,13 +11,13 @@ const info = {
 };
 const allowed = ["t1", "t2", "t3", "t4", "t5", "t6"];
 
+const mention = /<@!?(\d{17,19})>/;
+
 module.exports = {
   execute: async (instance, message, args) => {
     let member = message.mentions.users.first();
-    if (member) {
-      if (args.length >= 1 && !allowed.includes(args[0].toLowerCase()))
-        args.shift();
-    } else {
+    if (args.length >= 1 && mention.test(args[0])) args.shift();
+    if (!member) {
       member = message.author;
     }
     if (args.length === 0) {

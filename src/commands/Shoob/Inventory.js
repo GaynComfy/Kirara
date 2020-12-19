@@ -15,28 +15,12 @@ const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
 
 const cardId = /^(https?:\/\/animesoul\.com\/cards\/info\/)?([a-z0-9]{24})$/;
 const space = / /; // lol
-const mention = /<@!?(\d{17,19})>/g;
+const mention = /<@!?(\d{17,19})>/;
 
 module.exports = {
   execute: async (instance, message, args) => {
     let user = message.mentions.users.first();
-    if (args.length >= 1 && mention.test(args[0])) {
-      // dammit discord
-      if (!user) {
-        const uid = mention.exec(args[0])[1];
-        user = await message.guild.members.fetch(uid);
-        if (!user) {
-          const embed = new MessageEmbed()
-            .setDescription(
-              `<:Sirona_NoCross:762606114444935168> User not found!`
-            )
-            .setColor(Color.red);
-          message.channel.send(embed);
-          return null;
-        }
-      }
-      args.shift();
-    }
+    if (args.length >= 1 && mention.test(args[0])) args.shift();
     if (!user) {
       user = message.author;
     }
