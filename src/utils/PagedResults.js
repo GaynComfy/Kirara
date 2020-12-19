@@ -1,4 +1,5 @@
 const sendError = require("./SendError");
+const Color = require("./Colors.json");
 const { MessageEmbed } = require("discord.js");
 
 const FAST_REVERSE_SYMBOL = "\u23ea";
