@@ -144,10 +144,10 @@ module.exports = {
         );
         const makers = card.creators
           .filter((c) => c.type === "maker")
-          .map((maker) => `[${maker.name}](${maker.link})`);
+          .map((maker) => `[__**${maker.name}**__](${maker.link})`);
         const artists = card.creators
           .filter((c) => c.type === "artist")
-          .map((artist) => `[${artist.name}](${artist.link})`);
+          .map((artist) => `[__**${artist.name}**__](${artist.link})`);
 
         if (!isGlobal) {
           const top = await Fetcher.fetchTopOwners(instance, card.id, "0", "5");
@@ -175,16 +175,16 @@ module.exports = {
           .setDescription(
             `\`Tier: ${card.tier}\`\n\`Highest Issue: ${
               card.claim_count
-            }\`\n\`Source: ${card.series[0] || "-"}\`` +
+            }\`\n\`Source: ${card.series[0] || "-"}\`\n` +
               (makers.length !== 0
-                ? `\nCard ${
+                ? `\n**Card ${
                     makers.length === 1 ? "Maker" : "Makers"
-                  }: ${makers.join(", ")}`
+                  }**: ${makers.join(", ")}`
                 : "") +
               (artists.length !== 0
-                ? `\n${
+                ? `\n**${
                     artists.length === 1 ? "Artist" : "Artists"
-                  }: ${artists.join(", ")}`
+                  }**: ${artists.join(", ")}`
                 : "")
           )
           .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
