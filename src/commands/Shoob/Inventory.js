@@ -20,9 +20,24 @@ const mention = /<@!?(\d{17,19})>/g;
 module.exports = {
   execute: async (instance, message, args) => {
     let user = message.mentions.users.first();
-    if (user) {
-      if (args.length >= 1 && mention.test(args[0])) args.shift();
-    } else {
+    if (args.length >= 1 && mention.test(args[0])) {
+      // dammit discord
+      if (!user) {
+        const uid = mention.exec(args[0])[1];
+        user = await message.guild.members.fetch(uid);
+        if (!user) {
+          const embed = new MessageEmbed()
+            .setDescription(
+              `<:Sirona_NoCross:762606114444935168> User not found!`
+            )
+            .setColor(Color.red);
+          message.channel.send(embed);
+          return null;
+        }
+      }
+      args.shift();
+    }
+    if (!user) {
       user = message.author;
     }
     const isEvent =
@@ -58,12 +73,12 @@ module.exports = {
     }
     if (card === null && (card_id || args.length >= 1)) {
       message.channel.stopTyping();
-      const embedz = new MessageEmbed()
+      const embed = new MessageEmbed()
         .setDescription(
           `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
         )
         .setColor(Color.red);
-      message.channel.send({ embed: embedz });
+      message.channel.send(embed);
       return null;
     }
     message.channel.stopTyping();
@@ -73,7 +88,7 @@ module.exports = {
       const result = await Fetcher.fetchInventory(
         instance,
         user.id,
-        tier,
+        tier !== "all" ? tier : null,
         offset,
         "8",
         card ? card.id : null
