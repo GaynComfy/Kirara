@@ -175,16 +175,16 @@ module.exports = {
           .setDescription(
             `\`Tier: ${card.tier}\`\n\`Highest Issue: ${
               card.claim_count
-            }\`\n\`Source: ${card.series[0] || "-"}\`\n` +
+            }\`\n\`Source: ${card.series[0] || "-"}\`` +
               (makers.length !== 0
-                ? `\n**Card ${
+                ? `\nCard ${
                     makers.length === 1 ? "Maker" : "Makers"
-                  }**: ${makers.join(", ")}`
+                  }: ${makers.join(", ")}`
                 : "") +
               (artists.length !== 0
-                ? `\n**${
+                ? `\n${
                     artists.length === 1 ? "Artist" : "Artists"
-                  }**: ${artists.join(", ")}`
+                  }: ${artists.join(", ")}`
                 : "")
           )
           .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
