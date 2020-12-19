@@ -118,7 +118,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "inventory [@user] [tier] [card name/ID/link]",
+    usage: "inventory [@user] [event] [tier] [card name/ID/link]",
     examples: [
       "s!inventory @Alycans",
       "s!inv @Liz3 t6",
