@@ -47,7 +47,7 @@ module.exports = {
         (!isEvent
           ? await Fetcher.fetchById(instance, card_id, !isEvent)
           : null);
-    } else {
+    } else if (args.length >= 1) {
       const name = args.join(" ");
       card =
         (await Fetcher.fetchByName(instance, name, tier, isEvent)) ||
@@ -60,7 +60,7 @@ module.exports = {
             )
           : null);
     }
-    if (card === null) {
+    if (card === null && (card_id || args.length >= 1)) {
       message.channel.stopTyping();
       const embedz = new MessageEmbed()
         .setDescription(
