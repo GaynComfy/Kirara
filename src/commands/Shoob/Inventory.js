@@ -33,7 +33,7 @@ module.exports = {
     const hasCardId = args.length >= 1 && cardId.test(args[0]);
     if (isEvent && hasTier && args.length === 1) return false;
     message.channel.startTyping();
-    const tier = hasTier ? args.shift()[1].toUpperCase() : "all";
+    let tier = hasTier ? args.shift()[1].toUpperCase() : "all";
     const card_id = hasCardId ? cardId.exec(args.shift())[2] : null;
     let card = null;
     if (card_id) {
@@ -65,6 +65,7 @@ module.exports = {
       message.channel.send(embed);
       return null;
     }
+    if (card) tier = card.tier;
     message.channel.stopTyping();
     let last = -1;
     createPagedResults(message, Infinity, async (page) => {
