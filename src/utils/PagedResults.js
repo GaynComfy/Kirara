@@ -2,7 +2,7 @@ const sendError,
   { embed } = require("./SendError");
 
 const FAST_REVERSE_SYMBOL = "\u23ea";
-const BACK_SYMBOL = "\u25c0️";
+const BACK_SYMBOL = "\u25c0";
 const FORWARD_SYMBOL = "\u25b6";
 const FAST_FORWARD_SYMBOL = "\u23e9";
 const REPEAT_SYMBOL = "\ud83d\udd01";
