@@ -1,4 +1,5 @@
-const sendError = require("./SendError");
+const sendError,
+  { embed } = require("./SendError");
 
 const FAST_REVERSE_SYMBOL = "\u23ea";
 const BACK_SYMBOL = "\u25c0️";
@@ -24,7 +25,13 @@ const createPagedResults = async (
   const emojiFilter = (r, user) =>
     ALL_SYMBOLS.includes(r.emoji.name) && user.id === message.author.id;
   let page = 0;
-  const root = await getMessageForPage(page, message.author);
+  try {
+    const root = await getMessageForPage(page, message.author);
+  } catch (err) {
+    console.error(err);
+    sendError(message.channel);
+    return false;
+  }
   return message.channel
     .send(root)
     .then((sentMessage) => {
@@ -69,8 +76,8 @@ const createPagedResults = async (
               page = newPage;
             }
           } catch (err) {
-            sendError(sentMessage.channel);
             console.error(err);
+            sentMessage.edit(embed);
           }
           r.users.remove(user);
         })
@@ -79,8 +86,8 @@ const createPagedResults = async (
       return sentMessage;
     })
     .catch((err) => {
-      sendError(message.channel);
       console.error(err);
+      sendError(message.channel);
     });
 };
 
