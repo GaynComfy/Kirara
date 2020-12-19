@@ -47,14 +47,10 @@ class CardFetcher {
         tier === "all" ? "" : `?tier=${tier}`
       }`
     );
-    if (
-      !result.data ||
-      result.data.length === 0 ||
-      result.data.message === "not_found"
-    ) {
+    if (!result.data || result.data.length === 0 || result.data.message) {
       return [];
     }
-    const cards = (result.data || []).sort((l, n) => tN(n.tier) - tN(l.tier));
+    const cards = result.data.sort((l, n) => tN(n.tier) - tN(l.tier));
     instance.cache.setExpire(k, JSON.stringify(cards), 60 * 30);
     return cards;
   }
@@ -72,7 +68,7 @@ class CardFetcher {
     if (
       !result.data ||
       result.data.length === 0 ||
-      result.data.message === "not_found" ||
+      result.data.message ||
       result.data.id === "000000000000000000000000"
     ) {
       return null;
@@ -111,11 +107,7 @@ class CardFetcher {
             }${cardId ? `&card=${cardId}` : ""}`
           );
 
-    if (
-      !result.data ||
-      result.data.length === 0 ||
-      result.data.message === "not_found"
-    ) {
+    if (!result.data || result.data.length === 0 || result.data.message) {
       return [];
     }
     const cards = result.data;
@@ -124,11 +116,7 @@ class CardFetcher {
   }
   async fetchAuctionById(instance, id) {
     const result = await this.instance.get(`/auction/${id}`);
-    if (
-      !result.data ||
-      result.data.length === 0 ||
-      result.data.message === "not_found"
-    ) {
+    if (!result.data || result.data.length === 0 || result.data.message) {
       return null;
     }
     const auction = result.data;
@@ -136,11 +124,7 @@ class CardFetcher {
   }
   async fetchAuctionByInvId(instance, id) {
     const result = await this.instance.get(`/auctions/card/${id}`);
-    if (
-      !result.data ||
-      result.data.length === 0 ||
-      result.data.message === "not_found"
-    ) {
+    if (!result.data || result.data.length === 0 || result.data.message) {
       return null;
     }
     const listings = result.data;
@@ -152,11 +136,7 @@ class CardFetcher {
         limit === "0" ? "" : `&limit=${limit}`
       }`
     );
-    if (
-      !result.data ||
-      result.data.length === 0 ||
-      result.data.message === "not_found"
-    ) {
+    if (!result.data || result.data.length === 0 || result.data.message) {
       return [];
     }
     const listings = result.data;
@@ -175,11 +155,7 @@ class CardFetcher {
         limit === "0" ? "" : `&limit=${limit}`
       }`
     );
-    if (
-      !result.data ||
-      result.data.length === 0 ||
-      result.data.message === "not_found"
-    ) {
+    if (!result.data || result.data.length === 0 || result.data.message) {
       return [];
     }
     const owners = result.data.sort((l, n) => l.issue - n.issue);
@@ -226,11 +202,7 @@ class CardFetcher {
       return data.slice(parseInt(offset), parseInt(offset) + parseInt(limit));
     }
     const result = await this.instance.get(`/inventory/top/${id}`);
-    if (
-      !result.data ||
-      result.data.length === 0 ||
-      result.data.message === "not_found"
-    ) {
+    if (!result.data || result.data.length === 0 || result.data.message) {
       return [];
     }
     const owners = result.data;

@@ -34,7 +34,7 @@ module.exports = {
     const hasCardId = args.length >= 1 && cardId.test(args[0]);
     if (isEvent && hasTier && args.length === 1) return false;
     message.channel.startTyping();
-    const tier = hasTier ? args.shift()[1].toUpperCase() : null;
+    const tier = hasTier ? args.shift()[1].toUpperCase() : "all";
     const card_id = hasCardId ? cardId.exec(args.shift())[2] : null;
     let card = null;
     if (card_id) {
@@ -83,10 +83,10 @@ module.exports = {
       }
       if (last !== -1 && page > last) return null;
       const singlePage = last === page && page === 0;
-      const tierSettings = tier ? tierInfo[`T${tier}`] : null;
+      const tierSettings = tier !== "all" ? tierInfo[`T${tier}`] : null;
       const embed = new MessageEmbed()
         .setAuthor(`${user.username}'s Inventory`, user.displayAvatarURL())
-        .setColor(tier ? tierSettings.color : Color.default)
+        .setColor(tier !== "all" ? tierSettings.color : Color.default)
         .setURL(`https://animesoul.com/user/${user.id}`)
         .setFooter(
           (!singlePage
