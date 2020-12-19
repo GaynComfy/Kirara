@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const notFound = (d) => d.message && d.message === "not_found";
+const notFound = (d) => d.message === "not_found";
 const tN = (tier) => (tier.toLowerCase() === "s" ? 8 : parseInt(tier));
 
 class CardFetcher {
