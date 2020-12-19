@@ -9,6 +9,7 @@ class CardFetcher {
       headers: {
         Authorization: token,
       },
+      validateStatus: (s) => s < 500,
     });
   }
   async fetchByName(instance, name, tier = "all", event = false) {

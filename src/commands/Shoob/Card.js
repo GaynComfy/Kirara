@@ -142,10 +142,10 @@ module.exports = {
             `> • \`${user.count}x ${user.count > 1 ? "issues" : "issue"}\` | ` +
             `[__**${user.username}**__](https://animesoul.com/user/${user.discord_id})`
         );
-        const makers = card.creators
+        const makers = (card.creators || [])
           .filter((c) => c.type === "maker")
           .map((maker) => `[__**${maker.name}**__](${maker.link})`);
-        const artists = card.creators
+        const artists = (card.creators || [])
           .filter((c) => c.type === "artist")
           .map((artist) => `[__**${artist.name}**__](${artist.link})`);
 
