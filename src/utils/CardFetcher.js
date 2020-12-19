@@ -81,25 +81,35 @@ class CardFetcher {
     instance.cache.setExpire(k, JSON.stringify(card), 60 * 30);
     return card;
   }
-  async fetchInventory(instance, id, tier, offset = "0", limit = "0") {
-    const k = `inventory:${id}:${tier || "all"}:${offset}:${limit}`;
+  async fetchInventory(
+    instance,
+    id,
+    tier,
+    offset = "0",
+    limit = "0",
+    cardId = null
+  ) {
+    const k = `inventory:${id}:${tier || "all"}:${
+      cardId || "all"
+    }:${offset}:${limit}`;
 
     const exists = await instance.cache.exists(k);
     if (exists) {
       const e = await instance.cache.get(k);
       return JSON.parse(e);
     }
-    const result = tier
-      ? await this.instance.get(
-          `/inventory/user/${id}/${tier}?offset=${offset}${
-            limit === "0" ? "" : `&limit=${limit}`
-          }`
-        )
-      : await this.instance.get(
-          `/inventory/user/${id}?offset=${offset}${
-            limit === "0" ? "" : `&limit=${limit}`
-          }`
-        );
+    const result =
+      tier && !cardId
+        ? await this.instance.get(
+            `/inventory/user/${id}/${tier}?offset=${offset}${
+              limit === "0" ? "" : `&limit=${limit}`
+            }`
+          )
+        : await this.instance.get(
+            `/inventory/user/${id}?offset=${offset}${
+              limit === "0" ? "" : `&limit=${limit}`
+            }${cardId ? `&card=${card}` : ""}`
+          );
 
     if (
       !result.data ||

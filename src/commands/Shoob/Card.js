@@ -272,7 +272,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "card <[*e*vent/*s*ervers] [tier] <name>/[auction ID/link]>",
+    usage: "card [*e*vent/*s*ervers] [tier] <name/card ID/link>",
     examples: [
       "card servers t6 Alice",
       "card event t4 Rem",
