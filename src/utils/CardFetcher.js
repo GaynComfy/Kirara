@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const notFound = { message: "not_found" };
+const notFound = (d) => d.message && d.message === "not_found";
 const tN = (tier) => (tier.toLowerCase() === "s" ? 8 : parseInt(tier));
 
 class CardFetcher {
@@ -48,7 +48,7 @@ class CardFetcher {
         tier === "all" ? "" : `?tier=${tier}`
       }`
     );
-    if (!result.data || result.data.length === 0 || result.data === notFound) {
+    if (!result.data || result.data.length === 0 || notFound(result.data)) {
       return [];
     }
     const cards = result.data.sort((l, n) => tN(n.tier) - tN(l.tier));
@@ -66,7 +66,7 @@ class CardFetcher {
     const result = await this.instance.get(
       `/${event ? "eventcards" : "card"}/${id}`
     );
-    if (!result.data || result.data.length === 0 || result.data === notFound) {
+    if (!result.data || result.data.length === 0 || notFound(result.data)) {
       return null;
     }
     const card = result.data;
@@ -93,7 +93,7 @@ class CardFetcher {
           }`
         );
 
-    if (!result.data || result.data.length === 0 || result.data === notFound) {
+    if (!result.data || result.data.length === 0 || notFound(result.data)) {
       return [];
     }
     const cards = result.data;
@@ -102,7 +102,7 @@ class CardFetcher {
   }
   async fetchAuctionById(instance, id) {
     const result = await this.instance.get(`/auction/${id}`);
-    if (!result.data || result.data.length === 0 || result.data === notFound) {
+    if (!result.data || result.data.length === 0 || notFound(result.data)) {
       return null;
     }
     const auction = result.data;
@@ -110,7 +110,7 @@ class CardFetcher {
   }
   async fetchAuctionByInvId(instance, id) {
     const result = await this.instance.get(`/auctions/card/${id}`);
-    if (!result.data || result.data.length === 0 || result.data === notFound) {
+    if (!result.data || result.data.length === 0 || notFound(result.data)) {
       return null;
     }
     const listings = result.data;
@@ -122,7 +122,7 @@ class CardFetcher {
         limit === "0" ? "" : `&limit=${limit}`
       }`
     );
-    if (!result.data || result.data.length === 0 || result.data === notFound) {
+    if (!result.data || result.data.length === 0 || notFound(result.data)) {
       return [];
     }
     const listings = result.data;
@@ -141,7 +141,7 @@ class CardFetcher {
         limit === "0" ? "" : `&limit=${limit}`
       }`
     );
-    if (!result.data || result.data.length === 0 || result.data === notFound) {
+    if (!result.data || result.data.length === 0 || notFound(result.data)) {
       return [];
     }
     const owners = result.data.sort((l, n) => l.issue - n.issue);
@@ -188,7 +188,7 @@ class CardFetcher {
       return data.slice(parseInt(offset), parseInt(offset) + parseInt(limit));
     }
     const result = await this.instance.get(`/inventory/top/${id}`);
-    if (!result.data || result.data.length === 0 || result.data === notFound) {
+    if (!result.data || result.data.length === 0 || notFound(result.data)) {
       return [];
     }
     const owners = result.data;
