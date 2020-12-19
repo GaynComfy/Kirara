@@ -108,7 +108,7 @@ class CardFetcher {
         : await this.instance.get(
             `/inventory/user/${id}?offset=${offset}${
               limit === "0" ? "" : `&limit=${limit}`
-            }${cardId ? `&card=${card}` : ""}`
+            }${cardId ? `&card=${cardId}` : ""}`
           );
 
     if (
