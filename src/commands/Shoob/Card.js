@@ -23,14 +23,11 @@ module.exports = {
     const isEvent =
       args[0].toLowerCase() === "event" || args[0].toLowerCase() === "e";
     const isGlobal =
-      isEvent ||
       args[0].toLowerCase() === "servers" ||
       args[0].toLowerCase() === "bot" ||
       args[0].toLowerCase() === "s";
     const isOldGlobal =
-      isEvent ||
-      args[0].toLowerCase() === "global" ||
-      args[0].toLowerCase() === "g";
+      args[0].toLowerCase() === "global" || args[0].toLowerCase() === "g";
     if (isEvent || isGlobal || isOldGlobal) args.shift();
     if (args.length === 0) return false;
     const hasTier = allowed.includes(args[0].toLowerCase());
