@@ -36,7 +36,6 @@ module.exports = {
     if (isEvent) args.shift();
     const hasTier = args.length >= 1 && allowed.includes(args[0].toLowerCase());
     const hasCardId = args.length >= 1 && cardId.test(args[0]);
-    if (hasTier && args.length === 1) return false;
     message.channel.startTyping();
     const tier = hasTier ? args.shift()[1].toUpperCase() : null;
     const card_id = hasCardId ? cardId.exec(args.shift())[2] : null;
