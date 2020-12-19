@@ -6,7 +6,6 @@ const embed = new MessageEmbed()
     "<:Sirona_NoCross:762606114444935168> An unexpected error has occurred on command execution."
   )
   .setColor(Color.red);
-exports.embed = embed;
 
 module.exports = async (channel) => {
   channel.stopTyping();

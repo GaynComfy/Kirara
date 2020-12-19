@@ -1,5 +1,4 @@
-const sendError,
-  { embed } = require("./SendError");
+const sendError = require("./SendError");
 
 const FAST_REVERSE_SYMBOL = "\u23ea";
 const BACK_SYMBOL = "\u25c0";
@@ -15,6 +14,11 @@ const ALL_SYMBOLS = [
 ];
 
 const collectorOpts = { idle: 45 * 1000 };
+const embed = new MessageEmbed()
+  .setDescription(
+    "<:Sirona_NoCross:762606114444935168> An unexpected error has occurred on command execution."
+  )
+  .setColor(Color.red);
 
 const createPagedResults = async (
   message,
