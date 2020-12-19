@@ -142,6 +142,12 @@ module.exports = {
             `> • \`${user.count}x ${user.count > 1 ? "issues" : "issue"}\` | ` +
             `[__**${user.username}**__](https://animesoul.com/user/${user.discord_id})`
         );
+        const makers = card.creators
+          .filter((c) => c.type === "maker")
+          .map((maker) => `[${maker.name}](${maker.link})`);
+        const artists = card.creators
+          .filter((c) => c.type === "artist")
+          .map((artist) => `[${artist.name}](${artist.link})`);
 
         if (!isGlobal) {
           const top = await Fetcher.fetchTopOwners(instance, card.id, "0", "5");
@@ -169,11 +175,23 @@ module.exports = {
           .setDescription(
             `\`Tier: ${card.tier}\`\n\`Highest Issue: ${
               card.claim_count
-            }\`\n\`Source: ${card.series[0] || "-"}\``
+            }\`\n\`Source: ${card.series[0] || "-"}\`` +
+              (makers.length !== 0
+                ? `\nCard ${
+                    makers.length === 1 ? "Maker" : "Makers"
+                  }: ${makers.join(", ")}`
+                : "") +
+              (artists.length !== 0
+                ? `\n${
+                    artists.length === 1 ? "Artist" : "Artists"
+                  }: ${artists.join(", ")}`
+                : "")
           )
           .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
           .setImage(
-            "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
+            card.ability
+              ? card.ability_gif
+              : "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
           )
           .setFooter("React ▶️ for card owners")
           .setColor(tierSettings.color);
