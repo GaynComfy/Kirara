@@ -120,7 +120,7 @@ const computeAuction = async (instance, aid) => {
         `<:Sirona_NoCross:762606114444935168> This auction wasn't found.`
       )
       .setColor(Color.red);
-  const tier = asAuc ? asAuc.tier : null || localAuc.tier;
+  const tier = (asAuc && asAuc.tier) || localAuc.tier;
 
   // holy mess
   const embed = new MessageEmbed()
@@ -142,7 +142,9 @@ const computeAuction = async (instance, aid) => {
     .addField("Min. Increment", `\`+富 ${localAuc.minimum}\``, true)
     .addField("Added", moment(localAuc.date_added).fromNow(), true)
     .addField(
-      "Ending",
+      (asAuc ? asAuc.date_ending * 1000 : localAuc.date_ending) > Date.now()
+        ? "Ending"
+        : "Ended",
       moment(asAuc ? asAuc.date_ending * 1000 : localAuc.date_ending).fromNow(),
       true
     )
