@@ -47,7 +47,12 @@ class CardFetcher {
         tier === "all" ? "" : `?tier=${tier}`
       }`
     );
-    if (!result.data || result.data.length === 0 || result.data.message) {
+    if (
+      !result.data ||
+      result.data.length === 0 ||
+      result.data.message ||
+      result.data === "Not Found"
+    ) {
       return [];
     }
     const cards = result.data.sort((l, n) => tN(n.tier) - tN(l.tier));

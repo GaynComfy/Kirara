@@ -16,7 +16,8 @@ const info = {
 };
 const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
 
-const cardId = /^(https?:\/\/animesoul\.com\/auction\/)?([a-z0-9]{24})$/;
+const cardId = /^(https?:\/\/animesoul\.com\/cards\/info\/)([a-z0-9]{24})$/;
+const aucId = /^(https?:\/\/animesoul\.com\/auction\/)?([a-z0-9]{24})$/;
 const space = / /; // lol
 const digit = /^[1-8]$/;
 const command = (msg) => {
@@ -175,11 +176,13 @@ module.exports = {
     if (hasAll) args.shift();
     const hasTier =
       args.length >= 1 ? allowed.includes(args[0].toLowerCase()) : false;
-    const hasAucId = args.length >= 1 ? cardId.test(args[0]) : false;
+    const hasCardId = args.length >= 1 ? cardId.test(args[0]) : false;
+    const hasAucId =
+      args.length >= 1 && !hasCardId ? aucId.test(args[0]) : false;
     const tier = hasTier ? args.shift()[1].toUpperCase() : null;
-    const aucId = hasAucId ? cardId.exec(args.shift())[2] : null;
-    let card_id = null;
-    if (!aucId && args.length >= 1) {
+    const auc_id = hasAucId ? aucId.exec(args.shift())[2] : null;
+    let card_id = hasCardId ? cardId.exec(args.shift())[2] : null;
+    if (!auc_id && !card_id && args.length >= 1) {
       const name = args.join(" ");
       const card =
         (await Fetcher.fetchByName(instance, name, tier ? tier : "all")) ||
@@ -200,9 +203,9 @@ module.exports = {
       }
       card_id = card.id;
     }
-    if ((aucId || tier) && !card_id && args.length >= 1) return false;
-    if (aucId)
-      return await message.channel.send(await computeAuction(instance, aucId));
+    if ((auc_id || tier) && !card_id && args.length >= 1) return false;
+    if (auc_id)
+      return await message.channel.send(await computeAuction(instance, auc_id));
 
     const s = Symbol();
     userMap[message.author.id] = s;
