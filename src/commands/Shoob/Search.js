@@ -133,9 +133,9 @@ module.exports = {
       "search event t4 Rem",
       "search t6 Rin",
       "search Nezuko",
-      "search https://animesoul.com/cards/info/5d7577216f818277a57e5698",
+      "search 5d7577216f818277a57e5698",
     ],
     description:
-      "Fetch all cards by tier & name. Returns the card info if only one was found",
+      "Fetch all cards by tier & name. Returns the card info if only one was found.",
   },
 };

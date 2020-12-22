@@ -76,7 +76,7 @@ module.exports = {
       "card event t4 Rem",
       "card t6 Rin",
       "card Nezuko",
-      "card https://animesoul.com/cards/info/5d7577216f818277a57e5698",
+      "card 5d7577216f818277a57e5698",
     ],
     description: "Fetch a card by tier & name",
   },
