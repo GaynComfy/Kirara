@@ -61,7 +61,7 @@ const processWithCard = async (instance, message, option, card) => {
   }
 
   const pages = Math.ceil(listings.length / 10);
-  createPagedResults(message, pages, async (page) => {
+  return await createPagedResults(message, pages, async (page) => {
     const entries = sorted.slice(page * 10, page * 10 + 10);
     const market = entries.map(
       (listing) =>
@@ -105,6 +105,10 @@ const processWithCard = async (instance, message, option, card) => {
       market.length === 0 ? "- None <:SShoob:783636544720207903>" : market
     );
 
+    if (last === 0) {
+      await message.channel.send(embed);
+      return false;
+    }
     return embed;
   });
 };
@@ -112,7 +116,7 @@ const processWithCard = async (instance, message, option, card) => {
 const processWithoutCard = async (instance, message, tier) => {
   let last = -1;
 
-  createPagedResults(message, Infinity, async (page) => {
+  return await createPagedResults(message, Infinity, async (page) => {
     if (page > last && last !== -1) return null;
     const offset = page * 6;
     const result = await Fetcher.fetchMarket(instance, offset, tier);
@@ -163,9 +167,12 @@ const processWithoutCard = async (instance, message, tier) => {
       market.length === 0 ? "- None <:SShoob:783636544720207903>" : market
     );
 
+    if (last === 0) {
+      await message.channel.send(embed);
+      return false;
+    }
     return embed;
   });
-  return true;
 };
 
 module.exports = {

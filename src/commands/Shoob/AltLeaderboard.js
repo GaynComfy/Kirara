@@ -21,7 +21,7 @@ module.exports = {
 
     let last = -1;
 
-    createPagedResults(message, Infinity, async (page) => {
+    return await createPagedResults(message, Infinity, async (page) => {
       const offset = (page > last && last !== -1 ? last : page) * 8;
       const { rows: claimers } = event
         ? await instance.database.pool.query(
@@ -34,6 +34,15 @@ module.exports = {
               "AND server_id=$1 GROUP BY discord_id ORDER BY c DESC LIMIT 8 OFFSET $2",
             [server.id, offset]
           );
+      if (claimers.length === 0 && page === 0) {
+        const embed = new MessageEmbed()
+          .setDescription(
+            "<:Sirona_NoCross:762606114444935168> This server has no claimed cards."
+          )
+          .setColor(Color.red);
+        await message.channel.send(embed);
+        return false;
+      }
       if (claimers.length < 8 && last === -1) {
         last = page;
       }
@@ -63,21 +72,16 @@ module.exports = {
             : "") +
             (last === -1 || page < last ? " | React ▶️ for next page" : "") +
             (page !== 0 ? " | React ◀️ to go back" : "")
-        );
+        )
+        .addField(`•   __User__`, users, true)
+        .addField(`•   __Claims__`, claims, true);
 
-      if (claimers.length === 0) {
-        embed.setDescription(
-          "<:Sirona_NoCross:762606114444935168> This server has no claimed cards."
-        );
-      } else {
-        embed.addField(`•   __User__`, users, true);
-        embed.addField(`•   __Claims__`, claims, true);
+      if (last === 0) {
+        await message.channel.send(embed);
+        return false;
       }
-
       return embed;
     });
-
-    return true;
   },
   info,
   help: {

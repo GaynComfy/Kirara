@@ -68,7 +68,7 @@ module.exports = {
     if (card) tier = card.tier;
     message.channel.stopTyping();
     let last = -1;
-    createPagedResults(message, Infinity, async (page) => {
+    return await createPagedResults(message, Infinity, async (page) => {
       const offset = (page > last && last !== -1 ? last : page) * 8;
       const result = await Fetcher.fetchInventory(
         instance,
@@ -108,9 +108,12 @@ module.exports = {
             )
           : "- No cards <:SShoob:783636544720207903>"
       );
+      if (last === 0) {
+        await message.channel.send(embed);
+        return false;
+      }
       return embed;
     });
-    return true;
   },
   info,
   help: {
