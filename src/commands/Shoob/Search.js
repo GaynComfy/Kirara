@@ -70,6 +70,8 @@ module.exports = {
     }
     message.channel.stopTyping();
     if (card) return await getCard(instance, message, card, isGlobal);
+    if (cards.length === 1)
+      return await getCard(instance, message, cards[0], isGlobal);
 
     const tierSettings = tier !== "all" ? tierInfo[`T${tier}`] : null;
     let last = false;
@@ -94,10 +96,12 @@ module.exports = {
       const names = [];
       const source = [];
 
-      for (const item of cards) {
+      for (const [i, item] of cards) {
         names.push(
-          `> \`T${item.tier}\` • [\`${item.name.substr(0, 18)}\`]` +
-            `(https://animesoul.com/cards/info/${item.id})`
+          `> **${i + 1}.** \`T${item.tier}\` • [\`${item.name.substr(
+            0,
+            18
+          )}\`]` + `(https://animesoul.com/cards/info/${item.id})`
         );
         if (isEvent)
           source.push(
@@ -119,7 +123,7 @@ module.exports = {
             cards.length > 2 ? `1-${cards.length}` : "1"
           }** to view a specific card.`
         )
-        .addField("•   `T ` • __**Cards**__", names, true)
+        .addField("•   **N.** `T ` • __**Cards**__", names, true)
         .addField(`•   __${isEvent ? "Event" : "Source"}__`, source, true);
     };
 
