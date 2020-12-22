@@ -107,7 +107,7 @@ module.exports = {
         const series = (item.series || []).filter(
           (s) => s.toLowerCase() !== item.name.toLowerCase()
         );
-        let src = series[0];
+        let src = item.series[0];
         if (isEvent) src = series[series.length - 1];
         source.push(`> \`${src.substr(0, 24) || "-"}\``);
       }

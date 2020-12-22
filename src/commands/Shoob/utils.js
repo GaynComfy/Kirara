@@ -29,7 +29,7 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
   const description =
     `\`Tier: ${card.tier}\`\n` +
     `\`Highest Issue: ${card.claim_count}\`\n` +
-    `\`Source: ${series[0] || "-"}\`` +
+    `\`Source: ${card.series[0] || "-"}\`` +
     (event ? `\n\`Event: ${event}\`` : "") +
     (batch ? `\n\`${batch}\`` : "") +
     (makers.length !== 0
