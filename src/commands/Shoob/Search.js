@@ -105,9 +105,9 @@ module.exports = {
         );
         if (isEvent)
           source.push(
-            `> \`${item.series[item.series.length - 1].substr(0, 18) || "-"}\``
+            `> \`${item.series[item.series.length - 1].substr(0, 24) || "-"}\``
           );
-        else source.push(`> \`${item.series[0].substr(0, 18) || "-"}\``);
+        else source.push(`> \`${item.series[0].substr(0, 24) || "-"}\``);
       }
 
       return new MessageEmbed()
