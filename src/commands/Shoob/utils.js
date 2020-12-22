@@ -144,7 +144,7 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
           .setThumbnail(cardImage)
           .setDescription(description)
           .addField(
-            `__${isGlobal ? "Stored Card Claims" : "Card Owners"}:__`,
+            `__${tracked ? "Stored Card Claims" : "Card Owners"}:__`,
             owners.length === 0
               ? "- No one <:SShoob:783636544720207903>"
               : owners
