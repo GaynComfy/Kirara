@@ -77,7 +77,7 @@ module.exports = {
 
       const cards = recentCards.map(
         (item) =>
-          `> \`T${item.tier}\` • [\`${item.card_name.substr(0, 15)}` +
+          `> \`T${item.tier}\` • [\`${item.card_name.substr(0, 16)}` +
           `${parseInt(item.issue) > 0 ? ` V${item.issue}` : ""}\`]` +
           `(https://animesoul.com/cards/info/${item.card_id})`
       );

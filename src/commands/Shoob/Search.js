@@ -78,7 +78,7 @@ module.exports = {
     const handler = async (page, author, index, msg) => {
       const opts = cards.slice(page * 7, page * 7 + 7);
       if (index !== false) {
-        const selectCard = opts[index] ? opts[index].auction_id : false;
+        const selectCard = opts[index] ? opts[index] : false;
         if (!selectCard) return null;
         const embed = await getCard(
           instance,
@@ -98,12 +98,14 @@ module.exports = {
 
       for (const item of cards) {
         names.push(
-          `> \`T${item.tier}\` • [\`${item.name.substr(0, 15)}]` +
+          `> \`T${item.tier}\` • [\`${item.name.substr(0, 16)}\`]` +
             `(https://animesoul.com/cards/info/${item.id})`
         );
         if (isEvent)
-          source.push(item.series[item.series.length - 1].substr(0, 15) || "-");
-        else source.push(item.series[0].substr(0, 15) || "-");
+          source.push(
+            `> ${item.series[item.series.length - 1].substr(0, 16) || "-"}`
+          );
+        else source.push(`> ${item.series[0].substr(0, 16) || "-"}`);
       }
 
       return new MessageEmbed()

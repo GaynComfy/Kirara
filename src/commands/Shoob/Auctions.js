@@ -72,7 +72,7 @@ const computeListings = async (instance, page, tier, card_id, active) => {
   const cards = recent.map(
     (item, i) =>
       `> **${i + 1}.** \`T${item.tier || " "}\` •` +
-      ` [\`${item.card_name.substr(0, 15)}` +
+      ` [\`${item.card_name.substr(0, 16)}` +
       ` V${item.version}\`](https://animesoul.com/auction/${item.auction_id})` +
       ` | Started \`${moment(item.date_added).fromNow()}\``
   );
