@@ -44,18 +44,18 @@ class DbFetcher {
   }
 
   async fetchOwners(instance, id, offset = "0", limit = "0") {
-    const result = await this.fetchById(id);
+    const result = await this.fetchById(instance, id);
     return result.users.slice(
       parseInt(offset),
       parseInt(offset) + parseInt(limit)
     );
   }
   async fetchCardCount(instance, id) {
-    const result = await this.fetchById(id);
+    const result = await this.fetchById(instance, id);
     return result.claims;
   }
   async fetchTopOwners(instance, id, offset = "0", limit = "0") {
-    const result = await this.fetchById(id);
+    const result = await this.fetchById(instance, id);
     return result.top.slice(
       parseInt(offset),
       parseInt(offset) + parseInt(limit)
