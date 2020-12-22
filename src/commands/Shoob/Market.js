@@ -87,9 +87,9 @@ const processWithCard = async (instance, message, option, card) => {
 
     if (pages > 1) {
       embed.setFooter(
-        (pages > 1 ? `Page: ${page + 1}/${pages} | ` : "") +
-          (page + 1 < pages ? "React ▶️ for next page | " : "") +
-          "React ◀️ to go back"
+        (pages > 1 ? `Page: ${page + 1}/${pages}` : "") +
+          (page + 1 < pages ? " | React ▶️ for next page" : "") +
+          (page !== 0 ? " | React ◀️ to go back" : "")
       );
     }
 
@@ -105,10 +105,6 @@ const processWithCard = async (instance, message, option, card) => {
       market.length === 0 ? "- None <:SShoob:783636544720207903>" : market
     );
 
-    if (last === 0) {
-      await message.channel.send(embed);
-      return false;
-    }
     return embed;
   });
 };
