@@ -21,8 +21,9 @@ const tierPositions = [
 
 module.exports = {
   execute: async (instance, message, args) => {
+    message.channel.startTyping();
     const member = message.mentions.users.first() || message.author;
-    const user = Fetcher.fetchProfile(instance, member.id);
+    const user = await Fetcher.fetchProfile(instance, member.id);
     const {
       rows: cards,
     } = await instance.database.pool.query(
@@ -93,7 +94,7 @@ module.exports = {
       .setDescription(
         `<:Flame:783439293506519101> [Anime Soul Profile](https://animesoul.com/user/${member.id})` +
           viewer
-          ? `\nLast viewed by [**__${viewer.username}__**](https://animesoul.com/user/${viewer.id})`
+          ? `\nLast viewed by [**__${viewer.username}__**](https://animesoul.com/user/${viewer.discord_id})`
           : "" + badges.length !== 0
           ? `\n${badges.join(" | ")}`
           : ""
@@ -108,6 +109,7 @@ module.exports = {
         .addField("Views", user.views, true);
     }
 
+    message.channel.stopTyping();
     message.channel.send({ embed: embed });
   },
   info,

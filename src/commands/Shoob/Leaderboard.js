@@ -21,6 +21,7 @@ const applyText = (canvas, text) => {
 };
 module.exports = {
   execute: async (instance, message, args) => {
+    message.channel.startTyping();
     const {
       rows: [server],
     } = await instance.database.simpleQuery("SERVERS", {
@@ -39,6 +40,7 @@ module.exports = {
         );
 
     if (claimers.length === 0) {
+      message.channel.stopTyping();
       const embed = new MessageEmbed()
         .setDescription(
           "<:Sirona_NoCross:762606114444935168> This server has no claimed cards."
@@ -100,12 +102,14 @@ module.exports = {
       canvas.toBuffer(),
       "leaderboard.png"
     );
-    const hugEmbed = new MessageEmbed()
+    const embed = new MessageEmbed()
       .setColor("#f49e17")
       .setAuthor(message.guild.name + "'s Leaderboard", message.guild.iconURL())
       .attachFiles([attachment])
       .setImage("attachment://leaderboard.png");
-    message.channel.send({ embed: hugEmbed });
+
+    message.channel.stopTyping();
+    message.channel.send({ embed });
     return true;
   },
   info,
