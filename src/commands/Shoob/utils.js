@@ -45,7 +45,7 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
     message,
     2 + (pages > 0 ? pages : 1),
     async (page) => {
-      const embed = MessageEmbed()
+      const embed = new MessageEmbed()
         .setTitle(
           `${tierSettings.emoji}  •  ${card.name}  •  ${
             card.tier === "S"
