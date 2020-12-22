@@ -31,8 +31,8 @@ const command = (msg, maxPages, refresh) => {
     (maxPages > 2 &&
       (((m === "start" || m === "s") && "start") ||
         ((m === "back" || m === "b") && "back") ||
-        ((m === "next" || m === "n") && "next") ||
-        ((m === "exit" || m === "e") && "exit"))) ||
+        ((m === "next" || m === "n") && "next"))) ||
+    ((m === "exit" || m === "e") && "exit") ||
     (refresh && (m === "refresh" || m === "r") && "refresh") ||
     (digit.test(m) && parseInt(m))
   );

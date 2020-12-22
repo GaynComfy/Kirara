@@ -116,7 +116,7 @@ module.exports = {
         .setColor(tierSettings ? tierSettings.color : Color.default)
         .setDescription(
           `✏️ Send **${
-            opts.length > 2 ? `1-${opts.length}` : "1"
+            cards.length > 2 ? `1-${cards.length}` : "1"
           }** to view a specific card.`
         )
         .addField("•   `T ` • __**Cards**__", names, true)
