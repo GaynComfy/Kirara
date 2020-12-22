@@ -8,7 +8,7 @@ const { createMessagePagedResults } = require("../../utils/PagedResults");
 
 const info = {
   name: "search",
-  aliases: ["find", "f"],
+  aliases: ["s", "find", "f"],
   matchCase: false,
   category: "Shoob",
   cooldown: 5,
@@ -120,12 +120,7 @@ module.exports = {
           }** to view a specific card.`
         )
         .addField("•   `T ` • __**Cards**__", names, true)
-        .addField(`•   __${isEvent ? "Event" : "Source"}__`, source, true)
-        .setFooter(
-          `Page: ${page + 1}/${pages} | ` +
-            (page + 1 !== pages ? `Send "next" for next page` : "") +
-            (page !== 0 ? ` | "back" to go back` : "")
-        );
+        .addField(`•   __${isEvent ? "Event" : "Source"}__`, source, true);
     };
 
     return await createMessagePagedResults(message, 1, handler);

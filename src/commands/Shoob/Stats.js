@@ -4,7 +4,7 @@ const Color = require("../../utils/Colors.json");
 
 const info = {
   name: "stats",
-  aliases: ["s"],
+  aliases: ["t"],
   matchCase: false,
   category: "Shoob",
   cooldown: 5,
