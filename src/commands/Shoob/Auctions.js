@@ -9,7 +9,7 @@ const { createMessagePagedResults } = require("../../utils/PagedResults");
 
 const info = {
   name: "auctions",
-  aliases: ["auc"],
+  aliases: ["auc", "auction"],
   matchCase: false,
   category: "Shoob",
   cooldown: 5,

@@ -14,7 +14,10 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
   const claims = tracked
     ? await DbFetcher.fetchCardCount(instance, card.id)
     : await Fetcher.fetchCardCount(instance, card.id);
-  const batch = (card.series || []).find((c) => c.startsWith("Batch "));
+  const series = (card.series || []).filter(
+    (s) => s.toLowerCase() !== card.name.toLowerCase()
+  );
+  const batch = series.find((c) => c.startsWith("Batch "));
   const makers = (card.creators || [])
     .filter((c) => c.type === "maker")
     .map((maker) => `[__**${maker.name}**__](${maker.link})`);
@@ -22,11 +25,11 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
     .filter((c) => c.type === "artist")
     .map((artist) => `[__**${artist.name}**__](${artist.link})`);
   const cardImage = encodeURI(card.image_url).replace(".webp", ".gif");
-  const event = card.event ? card.series[card.series.length - 1] : null;
+  const event = card.event ? series[series.length - 1] : null;
   const description =
     `\`Tier: ${card.tier}\`\n` +
     `\`Highest Issue: ${card.claim_count}\`\n` +
-    `\`Source: ${(card.series && card.series[0]) || "-"}\`` +
+    `\`Source: ${series[0] || "-"}\`` +
     (event ? `\n\`Event: ${event}\`` : "") +
     (batch ? `\n\`${batch}\`` : "") +
     (makers.length !== 0
