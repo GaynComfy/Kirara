@@ -130,7 +130,7 @@ const createMessagePagedResults = async (
   const filter = (m) =>
     m.author.id == message.author.id && // it's sent by the user who requested the list
     s === userMap[`${message.channel.id}:${message.author.id}`] && // no other command is running with us
-    command(m.content, refresh, maxPages); // is a valid command
+    command(m.content, maxPages, refresh); // is a valid command
   let page = 0;
   let root = embed;
   let inSubPage = false;
@@ -154,7 +154,7 @@ const createMessagePagedResults = async (
       .on("collect", async (m, user) => {
         let newPage = page;
         let index = inSubPage;
-        const cmd = command(m.content, refresh, maxPages);
+        const cmd = command(m.content, maxPages, refresh);
         switch (cmd) {
           case "start":
             newPage = 0;
