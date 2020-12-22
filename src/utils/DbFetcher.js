@@ -10,9 +10,7 @@ class DbFetcher {
     const query =
       "SELECT COUNT (id) c, issue, discord_id FROM card_claims WHERE claimed=true " +
       "AND card_id=$1 GROUP BY discord_id,issue ORDER BY issue";
-    const { rows: claims } = await instance.database.pool.query(query, [
-      card.id,
-    ]);
+    const { rows: claims } = await instance.database.pool.query(query, [id]);
     const top = [];
     const users = [];
     for (const claim of claims) {
