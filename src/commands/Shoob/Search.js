@@ -96,7 +96,7 @@ module.exports = {
       const names = [];
       const source = [];
 
-      for (const [i, item] of cards) {
+      for (const [i, item] of cards.entries()) {
         names.push(
           `> **${i + 1}.** \`T${item.tier}\` • [\`${item.name.substr(
             0,
