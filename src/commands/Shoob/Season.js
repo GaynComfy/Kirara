@@ -49,7 +49,7 @@ module.exports = {
       );
       s = {
         claimed,
-        despawns: despawn.c,
+        despawns: (despawn[0] || {}).c || 0,
         claimers: {
           c: claimers.length,
           top: claimers.slice(0, 3),
