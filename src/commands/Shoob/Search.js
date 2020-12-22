@@ -3,7 +3,7 @@ const Color = require("../../utils/Colors.json");
 const { MessageEmbed } = require("discord.js");
 const { createPagedResults } = require("../../utils/PagedResults");
 const { tierInfo } = require("../../utils/cardUtils");
-const { getCard } = reqire("./utils");
+const { getCard } = require("./utils");
 const { createMessagePagedResults } = require("../../utils/PagedResults");
 
 const info = {

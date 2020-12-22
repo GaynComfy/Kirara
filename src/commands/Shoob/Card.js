@@ -1,7 +1,7 @@
 const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
 const { MessageEmbed } = require("discord.js");
-const { getCard } = reqire("./utils");
+const { getCard } = require("./utils");
 
 const info = {
   name: "card",
