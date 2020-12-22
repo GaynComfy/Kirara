@@ -25,13 +25,14 @@ const embed = new MessageEmbed()
   )
   .setColor(Color.red);
 
-const command = (msg, refresh) => {
+const command = (msg, maxPages, refresh) => {
   const m = msg.toLowerCase();
   return (
-    ((m === "start" || m === "s") && "start") ||
-    ((m === "back" || m === "b") && "back") ||
-    ((m === "next" || m === "n") && "next") ||
-    ((m === "exit" || m === "e") && "exit") ||
+    (maxPages > 2 &&
+      (((m === "start" || m === "s") && "start") ||
+        ((m === "back" || m === "b") && "back") ||
+        ((m === "next" || m === "n") && "next") ||
+        ((m === "exit" || m === "e") && "exit"))) ||
     (refresh && (m === "refresh" || m === "r") && "refresh") ||
     (digit.test(m) && parseInt(m))
   );
@@ -129,7 +130,7 @@ const createMessagePagedResults = async (
   const filter = (m) =>
     m.author.id == message.author.id && // it's sent by the user who requested the list
     s === userMap[`${message.channel.id}:${message.author.id}`] && // no other command is running with us
-    command(m.content, refresh); // is a valid command
+    command(m.content, refresh, maxPages); // is a valid command
   let page = 0;
   let root = embed;
   let inSubPage = false;
@@ -148,16 +149,12 @@ const createMessagePagedResults = async (
   const sentMessage = await message.channel.send(root);
 
   try {
-    if (maxPages < 2) {
-      return sentMessage;
-    }
-
     sentMessage.channel
       .createMessageCollector(filter, collectorOpts)
       .on("collect", async (m, user) => {
         let newPage = page;
         let index = inSubPage;
-        const cmd = command(m.content);
+        const cmd = command(m.content, refresh, maxPages);
         switch (cmd) {
           case "start":
             newPage = 0;

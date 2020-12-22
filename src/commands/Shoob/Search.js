@@ -58,7 +58,7 @@ module.exports = {
             )
           : []);
     }
-    if (cards === [] && card === null) {
+    if (cards.length === 0 && card === null) {
       message.channel.stopTyping();
       const embed = new MessageEmbed()
         .setDescription(
@@ -72,13 +72,11 @@ module.exports = {
     if (card) return await getCard(instance, message, card, isGlobal);
 
     const tierSettings = tier !== "all" ? tierInfo[`T${tier}`] : null;
-    const pages = Math.ceil(cards.length / 7);
     let last = false;
 
     const handler = async (page, author, index, msg) => {
-      const opts = cards.slice(page * 7, page * 7 + 7);
       if (index !== false) {
-        const selectCard = opts[index] ? opts[index] : false;
+        const selectCard = cards[index] || false;
         if (!selectCard) return null;
         const embed = await getCard(
           instance,
@@ -98,14 +96,14 @@ module.exports = {
 
       for (const item of cards) {
         names.push(
-          `> \`T${item.tier}\` • [\`${item.name.substr(0, 16)}\`]` +
+          `> \`T${item.tier}\` • [\`${item.name.substr(0, 18)}\`]` +
             `(https://animesoul.com/cards/info/${item.id})`
         );
         if (isEvent)
           source.push(
-            `> ${item.series[item.series.length - 1].substr(0, 16) || "-"}`
+            `> \`${item.series[item.series.length - 1].substr(0, 18) || "-"}\``
           );
-        else source.push(`> ${item.series[0].substr(0, 16) || "-"}`);
+        else source.push(`> \`${item.series[0].substr(0, 18) || "-"}\``);
       }
 
       return new MessageEmbed()
@@ -114,6 +112,7 @@ module.exports = {
             tierSettings ? tierSettings.emoji : "<:Flame:783439293506519101>"
           } Card Search`
         )
+        .setURL("https://animesoul.com/cards")
         .setColor(tierSettings ? tierSettings.color : Color.default)
         .setDescription(
           `✏️ Send **${
@@ -129,7 +128,7 @@ module.exports = {
         );
     };
 
-    return await createMessagePagedResults(message, pages, handler);
+    return await createMessagePagedResults(message, 1, handler);
   },
   info,
   help: {
