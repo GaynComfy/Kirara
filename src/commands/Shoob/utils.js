@@ -27,7 +27,8 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
     `\`Tier: ${card.tier}\`\n` +
     `\`Highest Issue: ${card.claim_count}\`\n` +
     `\`Source: ${card.series[0] || "-"}\`` +
-    (event ? `\n\`Event: ${event}\`` : "")(batch ? `\n\`${batch}\`` : "") +
+    (event ? `\n\`Event: ${event}\`` : "") +
+    (batch ? `\n\`${batch}\`` : "") +
     (makers.length !== 0
       ? `\nCard ${makers.length === 1 ? "Maker" : "Makers"}: ${makers.join(
           ", "
