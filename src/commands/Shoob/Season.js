@@ -19,26 +19,25 @@ module.exports = {
         top: [],
       },
     };
-    const k = `season:${instance.serverIds[message.guild.id]}`;
+    const k = `season:${message.guild.id}`;
 
     const exists = await instance.cache.exists(k);
     if (exists) {
       const e = await instance.cache.get(k);
       s = JSON.parse(e);
     } else {
-      // ToDo: optimise database queries. really need to practice SQL again smh
       const {
         rows: claimed,
       } = await instance.database.pool.query(
-        "SELECT COUNT(id) c, COUNT(discord_id) uc, tier FROM CARD_CLAIMS WHERE claimed=true " +
+        "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE claimed=true " +
           "AND server_id=$1 AND season=$2 GROUP BY tier",
         [instance.serverIds[message.guild.id], instance.config.season]
       );
       const {
         rows: despawn,
       } = await instance.database.pool.query(
-        "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE claimed=false " +
-          "AND server_id=$1 AND season=$2 GROUP BY tier",
+        "SELECT COUNT(id) c FROM CARD_CLAIMS WHERE claimed=false " +
+          "AND server_id=$1 AND season=$2",
         [instance.serverIds[message.guild.id], instance.config.season]
       );
       const {
@@ -50,7 +49,7 @@ module.exports = {
       );
       s = {
         claimed,
-        despawn,
+        despawns: despawn.c,
         claimers: {
           c: claimers.length,
           top: claimers.slice(0, 3),
@@ -61,7 +60,6 @@ module.exports = {
 
     const tiers = [];
     let claims = 0;
-    let despawns = 0;
     let total = 0;
     Object.keys(tierInfo).forEach((t) => {
       if (t === "TS") return;
@@ -75,10 +73,7 @@ module.exports = {
       claims = claims + parseInt(count);
       total = total + parseInt(count);
     });
-    s.despawn.forEach((entry, i) => {
-      despawns = despawns + parseInt(entry.c);
-      total = total + parseInt(entry.c);
-    });
+    total = total + parseInt(s.despawns);
 
     const top3 = s.claimers.top.map(
       (entry, i) =>
@@ -104,7 +99,7 @@ module.exports = {
           `\n` +
           tiers2.join(" | ") +
           `\n...for a total of **${claims} claims**!\n\n` +
-          `<:KiraraShrug:784849773454557204> **${despawns} cards** have despawned.\n` +
+          `<:KiraraShrug:784849773454557204> **${s.despawns} cards** have despawned.\n` +
           `**${s.claimers.c} users** have claimed cards on this server.` +
           (s.claimers.c > 0 ? `\n\n${top3.join("\n")}` : "")
       );
