@@ -1,7 +1,7 @@
 const { withRights } = require("../../utils/hooks");
 const { MessageEmbed } = require("discord.js");
-const { getLilliePing } = require('./utils');
-const { version } = require('../../../package.json');
+const { getLilliePing } = require("./utils");
+const { version } = require("../../../package.json");
 const isDev = process.env.NODE_ENV === "development";
 
 const info = {
@@ -54,7 +54,7 @@ module.exports = {
   execute: async (instance, message, args) => {
     try {
       const ping = Math.round(Date.now() - message.createdTimestamp);
-      const lillie  = await getLilliePing();
+      const lillie = await getLilliePing();
       const { totalGuilds, totalMembers, channels } = await fetchData(instance);
       const shardid = instance.client.shard.ids[0] + 1;
       const guildSize = instance.client.guilds.cache.size;
@@ -66,23 +66,27 @@ module.exports = {
       const InviteEmbed = new MessageEmbed()
         .setAuthor(`Kirara v${version}`)
         .setDescription(
-          `🏓 Command: \`${ping}ms\`\n` +
-          `💓 Gateway: \`${Math.round(instance.client.ws.ping)}ms\`\n` +
-          `🖍️ lillie: \`${lillie.ping}\`` +
-          (lillie.version ? `, v${lillie.version}` : '')
+          `<:KiraraBoop:784849773291110460> [Invite me]` +
+            `(https://discord.com/oauth2/authorize?client_id=748100524246564894&permissions=511040&scope=bot)\n` +
+            `<a:KiraraHearto:775767859786809384> [Donate]` +
+            `(https://donatebot.io/checkout/378599231583289346?buyer=${message.author.id})\n\n` +
+            `🏓 Command: \`${ping}ms\`\n` +
+            `💓 Gateway: \`${Math.round(instance.client.ws.ping)}ms\`\n` +
+            `🖍️ lillie: \`${lillie.ping}\`` +
+            (lillie.version ? `, v${lillie.version}` : "")
         )
         .setColor("#e0e0e0")
         .addField(
           "**🖥️ Bot Details:**",
           `${numberWithCommas(totalGuilds)} Servers\n` +
-          `${numberWithCommas(totalMembers)} Users\n` +
-          `${numberWithCommas(channels)} Channels`
+            `${numberWithCommas(totalMembers)} Users\n` +
+            `${numberWithCommas(channels)} Channels`
         )
         .addField(
           `**🟢 Shard: ${shardid}**`,
           `${numberWithCommas(guildSize)} Servers\n` +
-          `${numberWithCommas(userSize)} Users\n` +
-          `${numberWithCommas(channelSize)} Channels`
+            `${numberWithCommas(userSize)} Users\n` +
+            `${numberWithCommas(channelSize)} Channels`
         );
 
       message.channel.send({ embed: InviteEmbed });
