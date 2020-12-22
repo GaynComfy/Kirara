@@ -126,7 +126,6 @@ const createMessagePagedResults = async (
   refresh = false
 ) => {
   const s = Symbol();
-  userMap[`${message.channel.id}:${message.author.id}`] = s;
   const filter = (m) =>
     m.author.id == message.author.id && // it's sent by the user who requested the list
     s === userMap[`${message.channel.id}:${message.author.id}`] && // no other command is running with us
@@ -145,6 +144,7 @@ const createMessagePagedResults = async (
 
   // we are expecting for the function to handle it.
   if (!root) return null;
+  userMap[`${message.channel.id}:${message.author.id}`] = s;
 
   const sentMessage = await message.channel.send(root);
 
