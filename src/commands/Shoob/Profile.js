@@ -81,23 +81,25 @@ module.exports = {
           (user.premium && Color.premium))) ||
       Color.default;
 
-    const badges = [];
-    if (user.card_game_senpai) badges.push("**Card Game Sensei**");
-    if (user.trusted) badges.push("**Trusted**");
-
     const viewer = user ? user.last_viewer : null;
 
     const attachment = new MessageAttachment(canvas.toBuffer(), "profile.png");
     const embed = new MessageEmbed()
       .setAuthor(`${member.username}'s profile`, message.guild.iconURL())
       .setColor(color)
+      .setURL(`https://animesoul.com/user/${member.id}`)
       .setDescription(
         `<:Flame:783439293506519101> [Anime Soul Profile](https://animesoul.com/user/${member.id})` +
-          viewer
-          ? `\nLast viewed by [**__${viewer.username}__**](https://animesoul.com/user/${viewer.discord_id})`
-          : "" + badges.length !== 0
-          ? `\n${badges.join(" | ")}`
-          : ""
+          (viewer
+            ? `\n<:KiraraPeek:784849772272025600> ` +
+              `Last viewed by [**__${viewer.username}__**](https://animesoul.com/user/${viewer.discord_id})`
+            : "") +
+          (user.card_game_senpai
+            ? `\n<:KiraraFufu:784849773160431626> **Card Game Sensei**`
+            : "") +
+          (user.trusted
+            ? `\n<:KiraraSleepy:784849773097517086> **Trusted!**`
+            : "")
       )
       .attachFiles([attachment])
       .setImage("attachment://profile.png");
