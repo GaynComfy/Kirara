@@ -22,9 +22,10 @@ const applyText = (canvas, text) => {
 module.exports = {
   execute: async (instance, message, args) => {
     const isTotal =
-      args[0].toLowerCase() === "total" ||
-      args[0].toLowerCase() === "t" ||
-      args[0].toLowerCase() === "a";
+      args.length >= 1 &&
+      (args[0].toLowerCase() === "total" ||
+        args[0].toLowerCase() === "t" ||
+        args[0].toLowerCase() === "a");
     if (isTotal) args.shift();
 
     message.channel.startTyping();

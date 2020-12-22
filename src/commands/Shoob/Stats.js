@@ -21,12 +21,14 @@ module.exports = {
       member = message.author;
     }
     const isServer =
-      args[0].toLowerCase() === "server" || args[0].toLowerCase() === "s";
+      args.length >= 1 &&
+      (args[0].toLowerCase() === "server" || args[0].toLowerCase() === "s");
     if (isServer) args.shift();
     const isTotal =
-      args[0].toLowerCase() === "total" ||
-      args[0].toLowerCase() === "t" ||
-      args[0].toLowerCase() === "a";
+      args.length >= 1 &&
+      (args[0].toLowerCase() === "total" ||
+        args[0].toLowerCase() === "t" ||
+        args[0].toLowerCase() === "a");
     if (isTotal) args.shift();
 
     if (args.length === 0) {
