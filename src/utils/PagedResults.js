@@ -140,7 +140,7 @@ const createMessagePagedResults = async (
   } catch (err) {
     console.error(err);
     sendError(message.channel);
-    return false;
+    return null;
   }
 
   // we are expecting for the function to handle it.
@@ -206,6 +206,7 @@ const createMessagePagedResults = async (
     console.error(err);
     if (sentMessage) sentMessage.edit(embed);
     else sendError(message.channel);
+    return null;
   }
 };
 

@@ -59,7 +59,7 @@ const computeListings = async (instance, page, tier, card_id, active) => {
         }!`
       )
       .setColor(Color.red);
-    message.channel.send(embed);
+    return { embed, recent: [] };
   }
   if (recent.length === 0) return { embed: null, recent: [] };
 
@@ -230,6 +230,10 @@ module.exports = {
 
       const query = await computeListings(instance, p, tier, card_id, !hasAll);
       if (query.recent.length !== 0) recent = query.recent;
+      if (query.recent.length === 0 && page === 0) {
+        await message.channel.send(query.embed);
+        return false;
+      }
 
       return query.embed;
     };
