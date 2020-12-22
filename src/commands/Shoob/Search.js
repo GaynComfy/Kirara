@@ -103,11 +103,14 @@ module.exports = {
             18
           )}\`]` + `(https://animesoul.com/cards/info/${item.id})`
         );
+        const series = (item.series || []).filter(
+          (s) => s.toLowerCase() !== item.name.toLowerCase()
+        );
         if (isEvent)
           source.push(
-            `> \`${item.series[item.series.length - 1].substr(0, 24) || "-"}\``
+            `> \`${series[series.length - 1].substr(0, 24) || "-"}\``
           );
-        else source.push(`> \`${item.series[0].substr(0, 24) || "-"}\``);
+        else source.push(`> \`${series[0].substr(0, 24) || "-"}\``);
       }
 
       return new MessageEmbed()
