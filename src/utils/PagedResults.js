@@ -15,7 +15,7 @@ const ALL_SYMBOLS = [
   REPEAT_SYMBOL,
 ];
 
-const digit = /^[1-8]$/;
+const digit = /^([1-9]|10)$/;
 
 const collectorOpts = { idle: 45 * 1000 };
 const userMap = {};

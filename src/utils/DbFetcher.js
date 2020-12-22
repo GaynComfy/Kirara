@@ -1,6 +1,6 @@
 class DbFetcher {
   async fetchById(instance, id) {
-    const k = `card:${id}`;
+    const k = `db:card:${id}`;
     const exists = await instance.cache.exists(k);
     if (exists) {
       const e = await instance.cache.get(k);

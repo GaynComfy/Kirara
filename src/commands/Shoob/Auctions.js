@@ -227,6 +227,7 @@ module.exports = {
         );
         return auc;
       }
+      page = p;
 
       const query = await computeListings(instance, p, tier, card_id, !hasAll);
       if (query.recent.length !== 0) recent = query.recent;
