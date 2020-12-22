@@ -74,7 +74,7 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
           "10"
         );
 
-        const topOwners = mapped.map(
+        const topOwners = top.map(
           (user) =>
             `> • \`${user.count}x ${user.count > 1 ? "issues" : "issue"}\` | ` +
             `[__**${user.username}**__](https://animesoul.com/user/${user.discord_id})`
