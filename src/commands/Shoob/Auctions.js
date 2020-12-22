@@ -94,7 +94,7 @@ const computeListings = async (instance, page, tier, card_id, active) => {
   if (cards.length !== 0) {
     embed.setDescription(
       `✏️ Send **${
-        cards.length > 2 ? `1-${card.length}` : "1"
+        cards.length > 2 ? `1-${cards.length}` : "1"
       }** to view a specific auction.`
     );
   }

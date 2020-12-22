@@ -186,12 +186,12 @@ const createMessagePagedResults = async (
         try {
           const res = await handler(newPage, user, index, sentMessage);
           if (res) {
-            if (res !== true) msg.edit(res);
+            if (res !== true) sentMessage.edit(res);
             page = newPage;
             inSubPage = index;
           }
         } catch (err) {
-          sendError(msg.channel);
+          sendError(sentMessage.channel);
           console.error(err);
         }
         m.delete();
