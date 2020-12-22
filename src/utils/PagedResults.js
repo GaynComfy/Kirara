@@ -184,7 +184,12 @@ const createMessagePagedResults = async (
             break;
         }
         try {
-          const res = await handler(newPage, user, index, sentMessage);
+          const res = await getMessageForPage(
+            newPage,
+            user,
+            index,
+            sentMessage
+          );
           if (res) {
             if (res !== true) sentMessage.edit(res);
             page = newPage;
