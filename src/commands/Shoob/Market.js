@@ -117,6 +117,15 @@ const processWithoutCard = async (instance, message, tier) => {
     const offset = page * 6;
     const result = await Fetcher.fetchMarket(instance, offset, tier);
     if (result.length < 6 && last === -1) last = page;
+    if (result.length === 0 && page === 0) {
+      const embed = new MessageEmbed()
+        .setDescription(
+          `<:Sirona_NoCross:762606114444935168> No active market listings!`
+        )
+        .setColor(Color.red);
+      message.channel.send({ embed });
+      return false;
+    }
     const isLast = last !== -1 && page === last;
     const tierSettings = tier !== "all" ? tierInfo[`T${tier}`] : null;
 

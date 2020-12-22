@@ -1,11 +1,11 @@
 // this is probably the most complex command in the bot
 
-const { MessageEmbed } = require("discord.js");
 const moment = require("moment");
-const { tierInfo } = require("../../utils/cardUtils");
 const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
-const sendError = require("../../utils/SendError");
+const { MessageEmbed } = require("discord.js");
+const { tierInfo } = require("../../utils/cardUtils");
+const { createMessagePagedResults } = require("../../utils/PagedResults");
 
 const info = {
   name: "auctions",
@@ -19,20 +19,6 @@ const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
 const cardId = /^(https?:\/\/animesoul\.com\/cards\/info\/)([a-z0-9]{24})$/;
 const aucId = /^(https?:\/\/animesoul\.com\/auction\/)?([a-z0-9]{24})$/;
 const space = / /; // lol
-const digit = /^[1-8]$/;
-const command = (msg) => {
-  const m = msg.toLowerCase();
-  return (
-    ((m === "start" || m === "s") && "start") ||
-    ((m === "back" || m === "b") && "back") ||
-    ((m === "next" || m === "n") && "next") ||
-    ((m === "refresh" || m === "r") && "refresh") ||
-    ((m === "exit" || m === "e") && "exit") ||
-    (digit.test(m) && parseInt(m))
-  );
-};
-const collectorOpts = { idle: 45 * 1000 };
-const userMap = {};
 
 // why is this on a different function? who knows
 const getListings = async (instance, page, tier, card_id, active) => {
@@ -65,13 +51,24 @@ const getListings = async (instance, page, tier, card_id, active) => {
 
 const computeListings = async (instance, page, tier, card_id, active) => {
   const recent = await getListings(instance, page, tier, card_id, active);
+  if (recent.length === 0 && page === 0) {
+    const embed = new MessageEmbed()
+      .setDescription(
+        `<:Sirona_NoCross:762606114444935168> No active auctions${
+          card_id ? " for this card" : ""
+        }!`
+      )
+      .setColor(Color.red);
+    message.channel.send(embed);
+  }
+  if (recent.length === 0) return { embed: null, recent: [] };
+
   const title =
     tier && !card_id
       ? `${tierInfo[`T${tier}`].emoji} Auctions: Most recent ` +
         `T${tier} entries`
       : "<:Flame:783439293506519101> Auctions: Most recent entries";
   const colour = tier ? tierInfo[`T${tier}`].color : Color.default;
-
   const cards = recent.map(
     (item, i) =>
       `> **${i + 1}.** \`T${item.tier || " "}\` •` +
@@ -79,7 +76,6 @@ const computeListings = async (instance, page, tier, card_id, active) => {
       ` V${item.version}\`](https://animesoul.com/auction/${item.auction_id})` +
       ` | Started \`${moment(item.date_added).fromNow()}\``
   );
-  if (cards.length === 0 && page > 0) return { embed: null, recent: [] };
 
   const embed = new MessageEmbed()
     .setTitle(title)
@@ -90,11 +86,18 @@ const computeListings = async (instance, page, tier, card_id, active) => {
       cards.length === 0 ? "- None <:SShoob:783636544720207903>" : cards
     )
     .setFooter(
-      `Page: ${page + 1} | View auc. sending its number | ` +
-        `Send \`next\` for next page` +
-        (page !== 0 ? " | `back` to go back" : "")
+      `Page: ${page + 1} | ` +
+        `Send "next" for next page` +
+        (page !== 0 ? ` | "back" to go back` : "")
     );
 
+  if (cards.length !== 0) {
+    embed.setDescription(
+      `✏️ Send **${
+        cards.length > 2 ? `1-${card.length}` : "1"
+      }** to view a specific auction.`
+    );
+  }
   if (card_id) embed.setThumbnail(`https://animesoul.com/api/cardr/${card_id}`);
 
   return { embed, recent };
@@ -209,19 +212,18 @@ module.exports = {
     if (auc_id)
       return await message.channel.send(await computeAuction(instance, auc_id));
 
-    const s = Symbol();
-    userMap[message.author.id] = s;
     let recent;
-    let aucInfo = false;
     let page = 0;
 
-    const handler = async (p) => {
+    const handler = async (p, author, index) => {
       // allow refreshing but that's it, you need to exit first
-      if (aucInfo !== false && p !== page) return null;
-      if (aucInfo !== false) {
+      if (index !== false && p !== page) return null;
+      if (index !== false) {
+        const aucInfo = recent[index] ? recent[index].auction_id : false;
+        if (!aucInfo) return null;
         const auc = await computeAuction(instance, aucInfo);
         auc.setFooter(
-          "Send `exit` to go back to listings | `refresh` to refresh auction"
+          `Send "exit" to go back to listings | "refresh" to refresh auction`
         );
         return auc;
       }
@@ -232,62 +234,18 @@ module.exports = {
       return query.embed;
     };
 
-    // paged results except that using both reaction and message collectors are a mess
-    // so here you go, a collector based off pure message commands. please help me
-    const filter = (m) =>
-      m.author.id == message.author.id && // it's sent by the user who requested the list
-      s === userMap[message.author.id] && // no other command is running with us
-      command(m.content); // is a valid command
-    const msg = await message.channel.send(await handler(page));
-    msg.channel
-      .createMessageCollector(filter, collectorOpts)
-      .on("collect", async (m) => {
-        let newPage = page;
-        const cmd = command(m.content);
-        switch (cmd) {
-          case "start":
-            newPage = 0;
-            break;
-          case "back":
-            newPage = Math.max(page - 1, 0);
-            break;
-          case "next":
-            newPage = page + 1;
-            break;
-          case "exit":
-            aucInfo = false;
-            break;
-          default:
-            if (typeof cmd === "number" && aucInfo === false) {
-              // go to an auction!
-              const index = cmd - 1;
-              aucInfo = recent[index] ? recent[index].auction_id : false;
-            }
-            break;
-        }
-        try {
-          const res = await handler(newPage);
-          if (res) {
-            msg.edit(res);
-            page = newPage;
-          }
-        } catch (err) {
-          sendError(msg.channel);
-          console.error(err);
-        }
-        m.delete();
-      });
-    return true;
+    return await createMessagePagedResults(message, Infinity, handler, true);
   },
   info,
   help: {
-    usage: "auctions [[all] [tier] [name]/[auction ID/link]]",
+    usage: "auctions [all] [[tier] [name]/[card link]/[auction ID/link]]",
     examples: [
       "auctions",
       "auc t6",
       "auc all t5 Konata Izumi",
       "auc 5fd246b9c797c534105c637b",
       "auc https://animesoul.com/auction/5fd41e3f8030b66973438e3a",
+      "auc a https://animesoul.com/cards/info/5fdbd604b3395a516de95394",
     ],
     description: "Watch active auctions and their information live!",
   },

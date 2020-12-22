@@ -52,7 +52,10 @@ module.exports = {
     const tiers2 = tiers.slice(3, 6);
 
     const embed = new MessageEmbed()
-      .setAuthor(`${message.guild.name} Season stats`, message.guild.iconURL())
+      .setAuthor(
+        `${message.guild.name}'s Season stats`,
+        message.guild.iconURL()
+      )
       .setColor(Color.pink)
       .setDescription(
         `In this season **${total} cards** have spawned:\n\n` +

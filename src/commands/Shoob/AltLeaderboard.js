@@ -1,4 +1,5 @@
 const Color = require("../../utils/Colors.json");
+const Constants = require("../../utils/Constants.json");
 const { MessageEmbed } = require("discord.js");
 const { createPagedResults } = require("../../utils/PagedResults");
 
@@ -46,7 +47,7 @@ module.exports = {
         const user = await instance.client.users.fetch(entry.discord_id);
         const mention = user ? `<@!${user.id}>` : "`User left`";
         users.push(`> ${mention}`);
-        claims.push(`\`${entry.c} ${entry.c === 1 ? "claim" : "claims"}\``);
+        claims.push(`> \`${entry.c} ${entry.c === 1 ? "claim" : "claims"}\``);
       }
 
       const embed = new MessageEmbed()
@@ -55,9 +56,7 @@ module.exports = {
           message.guild.iconURL()
         )
         .setColor(claimers.length > 0 ? "#f49e17" : Color.red)
-        .setImage(
-          "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"
-        )
+        .setImage(Constants.footer)
         .setFooter(
           (!singlePage
             ? `Page: ${last !== -1 && page >= last ? "Last" : page + 1}`
@@ -67,12 +66,12 @@ module.exports = {
         );
 
       if (claimers.length === 0) {
-        embed.addDescription(
+        embed.setDescription(
           "<:Sirona_NoCross:762606114444935168> This server has no claimed cards."
         );
       } else {
-        embed.addField(`__User__`, users, true);
-        embed.addField(`__Claims__`, claims, true);
+        embed.addField(`•   __User__`, users, true);
+        embed.addField(`•   __Claims__`, claims, true);
       }
 
       return embed;

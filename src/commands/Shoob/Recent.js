@@ -81,8 +81,8 @@ module.exports = {
           `${parseInt(item.issue) > 0 ? ` V${item.issue}` : ""}\`]` +
           `(https://animesoul.com/cards/info/${item.card_id})`
       );
-      embed.addField("•   `T ` • __**Cards:**__", cards, true);
-      embed.addField("•   __**Claimed by:**__", claimers, true);
+      embed.addField("•   `T ` • __**Cards**__", cards, true);
+      embed.addField("•   __**Claimed by**__", claimers, true);
       const since = humanizeDuration(
         Date.now() - recentCards[recentCards.length - 1].time,
         { round: true, units: ["d", "h", "m", "s"] }
