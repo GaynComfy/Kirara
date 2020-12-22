@@ -34,7 +34,7 @@ module.exports = {
     } = await instance.database.pool.query(
       "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
         "AND server_id=$1 GROUP BY discord_id ORDER BY c DESC",
-      [server.id]
+      [instance.serverIds[message.guild.id]]
     );
     Object.keys(tierInfo).forEach((t) => {
       if (t === "TS") return;
