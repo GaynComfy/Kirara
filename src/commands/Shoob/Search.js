@@ -98,8 +98,8 @@ module.exports = {
 
       for (const item of cards) {
         names.push(
-          `> \`T${item.tier}\` • [\`${item.card_name.substr(0, 15)}]` +
-            `(https://animesoul.com/cards/info/${item.card_id})`
+          `> \`T${item.tier}\` • [\`${item.name.substr(0, 15)}]` +
+            `(https://animesoul.com/cards/info/${item.id})`
         );
         if (isEvent)
           source.push(item.series[item.series.length - 1].substr(0, 15) || "-");
