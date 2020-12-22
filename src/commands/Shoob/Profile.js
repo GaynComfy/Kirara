@@ -1,6 +1,8 @@
+const Fetcher = require("../../utils/CardFetcher");
+const Color = require("../../utils/Colors.json");
 const { MessageEmbed, MessageAttachment } = require("discord.js");
-
 const { createCanvas, loadImage } = require("canvas");
+
 const info = {
   name: "profile",
   aliases: ["rank", "p"],
@@ -20,6 +22,7 @@ const tierPositions = [
 module.exports = {
   execute: async (instance, message, args) => {
     const member = message.mentions.users.first() || message.author;
+    const user = Fetcher.fetchProfile(instance, member.id);
     const {
       rows: cards,
     } = await instance.database.pool.query(
@@ -50,10 +53,7 @@ module.exports = {
     ctx.fillStyle = "#ffffff";
     ctx.fillText(`#${member.discriminator}`, 1060, 75);
 
-    const name =
-      member.username.length > 12
-        ? member.username.substr(0, 12)
-        : member.username;
+    const name = member.username.substr(0, 12);
     const total = (cards || []).reduce(
       (prev, curr) => parseInt(prev) + parseInt(curr.c),
       0
@@ -73,18 +73,40 @@ module.exports = {
       ctx.fillText(`${c}x`, tier.x, tier.y);
     });
 
+    const color =
+      (user &&
+        ((user.card_game_senpai && Color.sensei) ||
+          (user.trusted && Color.trusted) ||
+          (user.premium && Color.premium))) ||
+      Color.default;
+
+    const badges = [];
+    if (user.card_game_senpai) badges.push("**Card Game Sensei**");
+    if (user.trusted) badges.push("**Trusted**");
+
+    const viewer = user ? user.last_viewer : null;
+
     const attachment = new MessageAttachment(canvas.toBuffer(), "profile.png");
     const embed = new MessageEmbed()
+      .setAuthor(`${member.username}'s profile`, message.guild.iconURL())
+      .setColor(color)
       .setDescription(
-        `<:shoob:760021745905696808> [Anime Soul Profile](https://animesoul.com/user/${member.id})`
-      )
-      .setColor("#17bcff")
-      .setAuthor(
-        `${member.username}'s Claims in ${message.guild.name}`,
-        message.guild.iconURL()
+        `<:Flame:783439293506519101> [Anime Soul Profile](https://animesoul.com/user/${member.id})` +
+          viewer
+          ? `\nLast viewed by [**__${viewer.username}__**](https://animesoul.com/user/${viewer.id})`
+          : "" + badges.length !== 0
+          ? `\n${badges.join(" | ")}`
+          : ""
       )
       .attachFiles([attachment])
       .setImage("attachment://profile.png");
+
+    if (user) {
+      embed
+        .addField("Premium", user.premium ? "Yes" : "No", true)
+        .addField("Votes", user.votes, true)
+        .addField("Views", user.views, true);
+    }
 
     message.channel.send({ embed: embed });
   },

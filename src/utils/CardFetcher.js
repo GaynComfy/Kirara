@@ -189,8 +189,7 @@ class CardFetcher {
     const exists = await instance.cache.exists(k);
     if (exists) {
       const e = await instance.cache.get(k);
-      const data = JSON.parse(e);
-      return data;
+      return JSON.parse(e);
     }
     const result = await this.instance.get(
       `/market?offset=${offset}&limit=6${tier !== "all" ? `&tier=${tier}` : ""}`
@@ -217,6 +216,22 @@ class CardFetcher {
     const owners = result.data;
     instance.cache.setExpire(k, JSON.stringify(owners), 60 * 14);
     return owners.slice(parseInt(offset), parseInt(offset) + parseInt(limit));
+  }
+
+  // why is this here lol
+  async fetchProfile(instance, id) {
+    const k = `user:${id}`;
+    const exists = await instance.cache.exists(k);
+    if (exists) {
+      const e = await instance.cache.get(k);
+      return JSON.parse(e);
+    }
+    const result = await this.instance.get(`/user/${id}`);
+    if (!result.data || result.data.length === 0 || result.data.message) {
+      return null;
+    }
+    instance.cache.setExpire(k, JSON.stringify(result.data), 60 * 5);
+    return result.data;
   }
 }
 

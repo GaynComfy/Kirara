@@ -3,5 +3,9 @@
   "pink": "#ff03dd",
   "red": "#ff1100",
   "yellow": "#ffe100",
-  "white": "#f5f5f5"
+  "white": "#f5f5f5",
+
+  "sensei": "#d9152e",
+  "trusted": "#17bcff",
+  "premium": "#ffa939"
 }
