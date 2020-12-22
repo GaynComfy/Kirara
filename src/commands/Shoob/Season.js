@@ -59,7 +59,7 @@ module.exports = {
         (entry, i) =>
           `> ` +
           (i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.**`) +
-          ` <@!${entry.discord_id}> - ${entry.c} ${
+          ` <@!${entry.discord_id}> - \`${entry.c} ${
             entry.c === 1 ? "claim" : "claims"
           }\``
       );
