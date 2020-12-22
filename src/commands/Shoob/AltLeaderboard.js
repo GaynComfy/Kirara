@@ -12,6 +12,7 @@ const info = {
 
 module.exports = {
   execute: async (instance, message, args) => {
+    message.channel.startTyping();
     const isTotal =
       args.length >= 1 &&
       (args[0].toLowerCase() === "total" ||
@@ -27,6 +28,7 @@ module.exports = {
     const event = server.event;
 
     let last = -1;
+    message.channel.stopTyping();
 
     return await createPagedResults(message, Infinity, async (page) => {
       const offset = (page > last && last !== -1 ? last : page) * 8;
