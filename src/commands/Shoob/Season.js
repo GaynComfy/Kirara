@@ -15,7 +15,7 @@ module.exports = {
       claimed: [],
       despawn: [],
       claimers: {
-        length: 0,
+        c: 0,
         top: [],
       },
     };
@@ -52,7 +52,7 @@ module.exports = {
         claimed,
         despawn,
         claimers: {
-          length: claimers.length,
+          c: claimers.length,
           top: claimers.slice(0, 3),
         },
       };
@@ -105,8 +105,8 @@ module.exports = {
           tiers2.join(" | ") +
           `\n...for a total of **${claims} claims**!\n\n` +
           `<:KiraraShrug:784849773454557204> **${despawns} cards** have despawned.\n` +
-          `**${claimers.length} users** have claimed cards on this server.` +
-          (claimers.length > 0 ? `\n\n${top3.join("\n")}` : "")
+          `**${s.claimers.c} users** have claimed cards on this server.` +
+          (s.claimers.c > 0 ? `\n\n${top3.join("\n")}` : "")
       );
     message.channel.send(embed);
     return true;
