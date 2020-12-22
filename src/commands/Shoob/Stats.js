@@ -20,18 +20,48 @@ module.exports = {
     if (!member) {
       member = message.author;
     }
+    const isServer =
+      args[0].toLowerCase() === "server" || args[0].toLowerCase() === "s";
+    if (isServer) args.shift();
+    const isTotal =
+      args[0].toLowerCase() === "total" ||
+      args[0].toLowerCase() === "t" ||
+      args[0].toLowerCase() === "a";
+    if (isTotal) args.shift();
+
     if (args.length === 0) {
       let tiers = [];
       const hugEmbed = new MessageEmbed()
         .setThumbnail(member.displayAvatarURL({ size: 2048, dynamic: true }))
         .setColor(Color.default);
 
-      const query =
-        "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE claimed=true AND discord_id=$1 AND season=$2 GROUP BY tier";
-      const result = await instance.database.pool.query(query, [
-        member.id,
-        instance.config.season,
-      ]);
+      const result = isServer
+        ? isTotal
+          ? await instance.database.pool.query(
+              "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE claimed=true " +
+                "AND discord_id=$1 AND server_id=$2 GROUP BY tier",
+              [member.id, instance.serverIds[message.guild.id]]
+            )
+          : await instance.database.pool.query(
+              "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE claimed=true " +
+                "AND discord_id=$1 AND server_id=$2 AND season=$3 GROUP BY tier",
+              [
+                member.id,
+                instance.serverIds[message.guild.id],
+                instance.config.season,
+              ]
+            )
+        : isTotal
+        ? await instance.database.pool.query(
+            "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE claimed=true " +
+              "AND discord_id=$1 GROUP BY tier",
+            [member.id]
+          )
+        : await instance.database.pool.query(
+            "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE claimed=true " +
+              "AND discord_id=$1 AND season=$2 GROUP BY tier",
+            [member.id, instance.config.season]
+          );
       allowed.forEach((t) => {
         const tier = tierInfo[t.toUpperCase()];
         const entry = result.rows.find((e) => e.tier === t[1]);
@@ -45,7 +75,7 @@ module.exports = {
 
       hugEmbed.setDescription(`<:ID:782165519146156062> **${
         member.username
-      }'s claims**
+      }'s ${isTotal ? "total " : ""}${isServer ? "server " : ""}claims**
 ━━━━━━━━━━━━━━━
 ${tiers1.join(" | ")}
 ${tiers2.join(" | ")}
@@ -53,13 +83,38 @@ ${tiers2.join(" | ")}
       await message.channel.send(hugEmbed);
     } else {
       if (!allowed.includes(args[0].toLowerCase())) return false;
-      const query =
-        "SELECT * FROM CARD_CLAIMS WHERE discord_id=$1 AND tier=$2 AND claimed=true AND season=$3 ORDER BY id DESC";
-      const result = await instance.database.pool.query(query, [
-        member.id,
-        args[0][1].toUpperCase(),
-        instance.config.season,
-      ]);
+      const result = isServer
+        ? isTotal
+          ? await instance.database.pool.query(
+              "SELECT * FROM CARD_CLAIMS WHERE discord_id=$1 AND tier=$2 " +
+                "AND server_id=$3 AND claimed=true ORDER BY id DESC",
+              [
+                member.id,
+                args[0][1].toUpperCase(),
+                instance.serverIds[message.guild.id],
+              ]
+            )
+          : await instance.database.pool.query(
+              "SELECT * FROM CARD_CLAIMS WHERE discord_id=$1 AND tier=$2 " +
+                "AND server_id=$3 AND season=$4 AND claimed=true ORDER BY id DESC",
+              [
+                member.id,
+                args[0][1].toUpperCase(),
+                instance.serverIds[message.guild.id],
+                instance.config.season,
+              ]
+            )
+        : isTotal
+        ? await instance.database.pool.query(
+            "SELECT * FROM CARD_CLAIMS WHERE discord_id=$1 AND tier=$2 " +
+              "AND claimed=true ORDER BY id DESC",
+            [member.id, args[0][1].toUpperCase()]
+          )
+        : await instance.database.pool.query(
+            "SELECT * FROM CARD_CLAIMS WHERE discord_id=$1 AND tier=$2 " +
+              "AND season=$3 AND claimed=true ORDER BY id DESC",
+            [member.id, args[0][1].toUpperCase(), instance.config.season]
+          );
       const tier = tierInfo[args[0].toUpperCase()];
       const toDisplay = result.rows
         .slice(0, 5)
@@ -69,7 +124,10 @@ ${tiers2.join(" | ")}
             `[\`${e.card_name}\`](https://animesoul.com/cards/info/${e.card_id})`
         );
       const embed = new MessageEmbed()
-        .setTitle(`${tier.emoji} Tier ${tier.num} Stats`)
+        .setTitle(
+          `<:ID:782165519146156062> **${member.username}'s ` +
+            `${isTotal ? "total " : ""}${isServer ? "server " : ""}claims**`
+        )
         .setThumbnail(member.displayAvatarURL())
         .setDescription(
           `<@!${member.id}> has claimed **\`${result.rows.length}\` T${tier.num}s** this season!`
@@ -92,7 +150,7 @@ ${tiers2.join(" | ")}
   },
   info,
   help: {
-    usage: "stats [@user] [T1|T2|T3|T4|T5|T6]",
+    usage: "stats [@user] [server] [total] [T1|T2|T3|T4|T5|T6]",
     examples: ["stats t1", "stats @JeDaYoshi t6"],
     description: "Show an user's claiming stats in certain tiers.",
   },

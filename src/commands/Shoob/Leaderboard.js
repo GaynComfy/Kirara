@@ -21,6 +21,12 @@ const applyText = (canvas, text) => {
 };
 module.exports = {
   execute: async (instance, message, args) => {
+    const isTotal =
+      args[0].toLowerCase() === "total" ||
+      args[0].toLowerCase() === "t" ||
+      args[0].toLowerCase() === "a";
+    if (isTotal) args.shift();
+
     message.channel.startTyping();
     const {
       rows: [server],
@@ -30,20 +36,36 @@ module.exports = {
     const event = server.event;
 
     const { rows: claimers } = event
+      ? isTotal
+        ? await instance.database.pool.query(
+            "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
+              "AND server_id=$1 AND time > $2 GROUP BY discord_id ORDER BY c DESC LIMIT 8",
+            [server.id, server.event_time]
+          )
+        : await instance.database.pool.query(
+            "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
+              "AND server_id=$1 AND time > $2 AND season=$3 GROUP BY discord_id ORDER BY c DESC LIMIT 8",
+            [server.id, server.event_time, instance.config.season]
+          )
+      : isTotal
       ? await instance.database.pool.query(
-          "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true AND server_id=$1 AND time > $2 GROUP BY discord_id ORDER BY c DESC LIMIT 8",
-          [server.id, server.event_time]
+          "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
+            "AND server_id=$1 GROUP BY discord_id ORDER BY c DESC LIMIT 8",
+          [server.id]
         )
       : await instance.database.pool.query(
-          "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true AND server_id=$1 GROUP BY discord_id ORDER BY c DESC LIMIT 8",
-          [server.id]
+          "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
+            "AND server_id=$1 AND season=$2 GROUP BY discord_id ORDER BY c DESC LIMIT 8",
+          [server.id, instance.config.season]
         );
 
     if (claimers.length === 0) {
       message.channel.stopTyping();
       const embed = new MessageEmbed()
         .setDescription(
-          "<:Sirona_NoCross:762606114444935168> This server has no claimed cards."
+          `<:Sirona_NoCross:762606114444935168> This server has no claimed cards${
+            isTotal ? "" : " this season"
+          }.`
         )
         .setColor(Color.red);
       return await message.channel.send(embed);
@@ -104,7 +126,10 @@ module.exports = {
     );
     const embed = new MessageEmbed()
       .setColor("#f49e17")
-      .setAuthor(message.guild.name + "'s Leaderboard", message.guild.iconURL())
+      .setAuthor(
+        `${message.guild.name}'s ${isTotal ? "Total " : ""}Leaderboard`,
+        message.guild.iconURL()
+      )
       .attachFiles([attachment])
       .setImage("attachment://leaderboard.png");
 

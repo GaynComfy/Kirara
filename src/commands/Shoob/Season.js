@@ -13,7 +13,7 @@ module.exports = {
   execute: async (instance, message, args) => {
     let s = {
       claimed: [],
-      despawn: [],
+      despawns: 0,
       claimers: {
         c: 0,
         top: [],
@@ -44,8 +44,8 @@ module.exports = {
         rows: claimers,
       } = await instance.database.pool.query(
         "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
-          "AND server_id=$1 GROUP BY discord_id ORDER BY c DESC",
-        [instance.serverIds[message.guild.id]]
+          "AND server_id=$1 AND season=$2 GROUP BY discord_id ORDER BY c DESC",
+        [instance.serverIds[message.guild.id], instance.config.season]
       );
       s = {
         claimed,
