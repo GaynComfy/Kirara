@@ -29,8 +29,8 @@ module.exports = {
       const embed = new MessageEmbed()
         .setDescription(
           newState
-            ? "<:T6:754541597479403612> A new event for this server has just started!"
-            : "<:T6:754541597479403612> The event of this server just ended!"
+            ? "<:Flame:783439293506519101> A new event for this server has just started!"
+            : "<:Flame:783439293506519101> The event of this server just ended!"
         )
         .setColor("RANDOM");
       message.channel.send({ embed: embed });
