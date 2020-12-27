@@ -9,7 +9,7 @@ module.exports = {
   cache: {
     host: "redis",
     port: 6379,
-    db: 1
+    db: 1,
   },
   structure: {
     commands: "commands",
@@ -22,8 +22,8 @@ module.exports = {
     "77256980288253952", // Alycans#1693
     "195906408561115137", // Liz3#0001
     "175408504427905025", // JeDaYoshi#7942
-    "97707213690249216" // offbeatwitch#8860
+    "97707213690249216", // offbeatwitch#8860
   ],
   shardCount: 2,
-  season: 1
+  season: 2,
 };
