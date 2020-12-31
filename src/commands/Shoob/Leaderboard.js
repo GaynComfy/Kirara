@@ -114,7 +114,7 @@ module.exports = {
         ctx.fillText(name, 172, 363);
       }
       ctx.font = "30px Century Gothic";
-      ctx.fillStyle = first ? "#ffffff" : "#f49e17";
+      ctx.fillStyle = first ? "#ffffff" : "#d5417c";
       ctx.textAlign = "left";
       ctx.fillText(name, 405, 176 + 53 * index);
       ctx.font = "24px Century Gothic";
@@ -126,7 +126,7 @@ module.exports = {
       "leaderboard.png"
     );
     const embed = new MessageEmbed()
-      .setColor("#f49e17")
+      .setColor("#d5417c")
       .setAuthor(
         `${message.guild.name}'s ${isTotal ? "Total " : ""}Leaderboard`,
         message.guild.iconURL()
