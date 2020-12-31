@@ -73,10 +73,13 @@ module.exports = {
     }
 
     const background = await loadImage("./src/assets/leaderboard2.png");
-    const icon = await loadImage(message.guild.iconURL({ format: "png" }));
+    const iconURL = message.guild.iconURL({ format: "png" });
     const canvas = createCanvas(800, 600);
     const ctx = canvas.getContext("2d");
-    ctx.drawImage(icon, 360, 55, 58, 58);
+    if (iconURL) {
+      const icon = await loadImage(iconURL);
+      ctx.drawImage(icon, 360, 55, 58, 58);
+    }
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
     ctx.textAlign = "center";
 
