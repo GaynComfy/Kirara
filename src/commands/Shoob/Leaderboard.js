@@ -72,7 +72,7 @@ module.exports = {
       return await message.channel.send(embed);
     }
 
-    const background = await loadImage("./src/assets/leaderboard.png");
+    const background = await loadImage("./src/assets/leaderboard2.png");
     const icon = await loadImage(message.guild.iconURL({ format: "png" }));
     const canvas = createCanvas(800, 600);
     const ctx = canvas.getContext("2d");
