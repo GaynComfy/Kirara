@@ -88,7 +88,7 @@ module.exports = {
       embed.addField("•   `T ` • __**Cards**__", cards, true);
       embed.addField("•   __**Claimed by**__", claimers, true);
       const since = humanizeDuration(
-        Date.now() - recentCards[recentCards.length - 1].time,
+        Date.now() - recentCards[reverse ? 0 : recentCards.length - 1].time,
         { round: true, units: ["d", "h", "m", "s"] }
       );
       embed.setFooter(`Last card spawned: ${since} ago`);
