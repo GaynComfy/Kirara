@@ -2,6 +2,10 @@ const Instance = require("./Instance");
 const { withCooldown } = require("./utils/hooks");
 const sendError = require("./utils/SendError");
 const sendUsage = require("./utils/SendUsage");
+const isDev = process.env.NODE_ENV === "development";
+const { owner } = isDev
+  ? require("../config-dev.js")
+  : require("../config-prod.js");
 
 class EventManager {
   /**
@@ -86,6 +90,18 @@ class EventManager {
     });
   }
   async commandExecution(command, message, args) {
+    if (
+      (this.instance.settings[message.guild.id][
+        `category:${command.info.category.toLowerCase()}:disabled`
+      ] ||
+        this.instance.settings[message.guild.id][
+          `cmd:${command.info.name}:disabled`
+        ]) &&
+      !message.author.hasPermission("ADMINISTRATOR") &&
+      !owner.includes(message.author.id)
+    )
+      return; // command is disabled and they're not an admin/owner, nothing to do here
+
     await withCooldown(
       this.instance.cache,
       message.author.id,

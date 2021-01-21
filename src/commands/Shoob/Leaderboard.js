@@ -143,8 +143,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "lb",
-    examples: ["lb", "leaderboard"],
+    usage: "lb [total]",
+    examples: ["lb", "leaderboard total"],
     description: "Top claims on the server!",
   },
 };
