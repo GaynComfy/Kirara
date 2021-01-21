@@ -30,7 +30,7 @@ exports.withOwner = async (userId, handler, owners) => {
 };
 exports.withCooldown = async (
   cache,
-  id,
+  userId,
   command,
   handler,
   cd = 25,
@@ -40,8 +40,9 @@ exports.withCooldown = async (
     await handler();
     return;
   }
-  if (await cache.exists(`cmdcooldown:${id}:${command}`)) return;
+  if (await cache.exists(`cmdcooldown:${userId}:${command}`)) return;
   const result = await handler();
   if (returnOnFalse === true && result === false) return;
-  await cache.setExpire(`cmdcooldown:${id}:${command}`, "1", cd);
+  if (!owner.includes(userId))
+    await cache.setExpire(`cmdcooldown:${userId}:${command}`, "1", cd);
 };
