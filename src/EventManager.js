@@ -97,7 +97,7 @@ class EventManager {
         this.instance.settings[message.guild.id][
           `cmd:${command.info.name}:disabled`
         ]) &&
-      !message.author.hasPermission("ADMINISTRATOR") &&
+      !message.member.hasPermission("ADMINISTRATOR") &&
       !owner.includes(message.author.id)
     )
       return; // command is disabled and they're not an admin/owner, nothing to do here
