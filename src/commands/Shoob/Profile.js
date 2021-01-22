@@ -4,8 +4,8 @@ const { MessageEmbed, MessageAttachment } = require("discord.js");
 const { createCanvas, loadImage } = require("canvas");
 const isDev = process.env.NODE_ENV === "development";
 const { owner } = isDev
-  ? require("../../../config-dev.js")
-  : require("../../../config-prod.js");
+  ? require("../../config-dev.js")
+  : require("../../config-prod.js");
 
 const info = {
   name: "profile",
