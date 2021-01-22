@@ -13,7 +13,7 @@ module.exports = {
     return withRights(message.member, async () => {
       if (args.length === 0) return false;
 
-      let cmd;
+      let cmd, category;
       if (!instance.eventManager.commands[args[0]]) {
         for (const commandKey of Object.keys(instance.eventManager.commands)) {
           const currentEntry = instance.eventManager.commands[commandKey];
@@ -26,6 +26,7 @@ module.exports = {
                 ))
             ) {
               cmd = currentEntry.info.name;
+              category = currentEntry.info.category;
             }
           } else {
             if (
@@ -33,11 +34,13 @@ module.exports = {
               currentEntry.info.aliases.find((e) => e === args[0])
             ) {
               cmd = currentEntry.info.name;
+              category = currentEntry.info.category;
             }
           }
         }
       } else {
         cmd = args[0];
+        category = instance.eventManager.commands[args[0]].info.category;
       }
 
       if (!cmd) return false;
@@ -52,9 +55,15 @@ module.exports = {
 
       if (args.length === 1) {
         const toggle = result.rows.length === 0 ? "enabled" : "disabled";
+        const ctoggle = !instance.settings[message.guild.id][
+          `category:${category.toLowerCase()}:disabled`
+        ]
+          ? "enabled"
+          : "disabled";
         const embed = new MessageEmbed()
           .setDescription(
-            `<a:Sirona_Tick:749202570341384202> \`${cmd}\` is ${toggle}.`
+            `<a:Sirona_Tick:749202570341384202> \`${cmd}\` is ${toggle}.\n` +
+              `<a:Sirona_star:748985391360507924> The category \`${category}\` is ${ctoggle}.`
           )
           .setColor("RANDOM");
         message.channel.send({ embed });
