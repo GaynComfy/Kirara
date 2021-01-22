@@ -50,7 +50,7 @@ module.exports = {
       };
       const result = await instance.database.simpleQuery("SETTINGS", query);
 
-      if (args.length === 0) {
+      if (args.length === 1) {
         const toggle = result.rows.length === 0 ? "enabled" : "disabled";
         const embed = new MessageEmbed()
           .setDescription(
