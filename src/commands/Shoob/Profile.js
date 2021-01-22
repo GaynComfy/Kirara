@@ -2,6 +2,7 @@ const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
 const { MessageEmbed, MessageAttachment } = require("discord.js");
 const { createCanvas, loadImage } = require("canvas");
+const isDev = process.env.NODE_ENV === "development";
 const { owner } = isDev
   ? require("../../../config-dev.js")
   : require("../../../config-prod.js");
