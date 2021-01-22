@@ -3,8 +3,8 @@ const Color = require("../../utils/Colors.json");
 const { MessageEmbed, MessageAttachment } = require("discord.js");
 const { createCanvas, loadImage } = require("canvas");
 const { owner } = isDev
-  ? require("../../config-dev.js")
-  : require("../../config-prod.js");
+  ? require("../../../config-dev.js")
+  : require("../../../config-prod.js");
 
 const info = {
   name: "profile",
