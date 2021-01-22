@@ -2,6 +2,9 @@ const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
 const { MessageEmbed, MessageAttachment } = require("discord.js");
 const { createCanvas, loadImage } = require("canvas");
+const { owner } = isDev
+  ? require("../../config-dev.js")
+  : require("../../config-prod.js");
 
 const info = {
   name: "profile",
@@ -99,6 +102,9 @@ module.exports = {
             : "") +
           (user.trusted
             ? `\n<:KiraraSleepy:784849773097517086> **Trusted!**`
+            : "") +
+          (owner.includes(member.id)
+            ? `\n<:KiraraHugHeart:798460293491326986> **Kirara Developer <3**`
             : "")
       )
       .attachFiles([attachment])
