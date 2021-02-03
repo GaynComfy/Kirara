@@ -19,9 +19,9 @@ const embed = new MessageEmbed()
     "`JeDaYoshi#7942`, `offbeatwitch#8860`, `Liz3#0001`, `🎀 𝒥𝑜𝓇𝑔𝓎 🎀#2024`, `Nota#1576`"
   )
   .addField(
-    "All Devs:",
-    "`Boxu#0001`, `JeDaYoshi#7942`, `offbeatwitch#8860`, `Liz3#0001`, " +
-      "`🎀 𝒥𝑜𝓇𝑔𝓎 🎀#2024`, `Nota#1576`, `Riku#1111`, `Tranuka#4474`, `rjt#2336`"
+    "Team:",
+    "`JeDaYoshi#7942`, `offbeatwitch#8860`, `Liz3#0001`, " +
+      "`🎀 𝒥𝑜𝓇𝑔𝓎 🎀#2024`, `Nota#1576`, `Riku#1111`, `Tranuka#4474`"
   );
 
 module.exports = {
