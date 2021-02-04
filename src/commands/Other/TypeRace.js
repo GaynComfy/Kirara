@@ -58,7 +58,7 @@ module.exports = {
 
     let captcha;
     if (diff === "shoob") {
-      captcha = CaptchaGenerator({ width: 260, height: 70 })
+      captcha = new CaptchaGenerator({ width: 260, height: 70 })
         .setCaptcha({ characters: difficulty[diff], color: "#111111" })
         .setDecoy({ opacity: 0 })
         .setTrace({ color: "#111111" })
