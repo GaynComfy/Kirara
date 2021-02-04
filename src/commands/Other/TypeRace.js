@@ -49,7 +49,7 @@ module.exports = {
     const s = Symbol();
     channelMap[message.channel.id] = s;
 
-    const diff = diffs[args.length > 0 && args.shift()[0]] || "easy";
+    const diff = diffs[args.length > 0 && args.shift()[0]] || "medium";
     const results = [];
     const resultsw = [];
     const timer = [];
@@ -58,7 +58,7 @@ module.exports = {
 
     const captcha = new CaptchaGenerator(
       diff === "shoob"
-        ? { height: 260, width: 70 }
+        ? { height: 70, width: 260 }
         : { height: 200, width: 600 }
     )
       .setCaptcha({
@@ -66,7 +66,10 @@ module.exports = {
         color: diff === "shoob" ? "#111111" : "#8cbaff",
       })
       .setDecoy({ opacity: difficulty[diff] >= 8 ? 0.8 : 0 })
-      .setTrace({ color: diff === "shoob" ? "#111111" : "#8cbaff" }); // CANVAS
+      .setTrace({
+        color: diff === "shoob" ? "#111111" : "#8cbaff",
+        opacity: difficulty[diff] === 6 ? 0 : 1,
+      }); // CANVAS
     if (diff === "shoob") captcha.setBackground(whiteBg);
 
     const buffer = await captcha.generateSync(); // IMG TO ATTACH
