@@ -14,8 +14,6 @@ const end = (startTime) => {
   // strip the ms
   timeDiff /= 1000;
 
-  // get seconds
-  // const seconds = Math.round(timeDiff);
   return timeDiff;
 };
 
@@ -61,11 +59,11 @@ module.exports = {
 
     collector.on("collect", async (msg) => {
       const took = end(startTime);
-      const wpm = Math.round(txt.length / 5 / (took / 60));
-      results.push(`${msg.author.tag}`);
-      resultsw.push(`${wpm}`);
-      timer.push(`${took}s`);
-      msg.react(results.length === 1 ? "🥇" : "✅");
+      const wpm = Math.round((txt.length / 5 / took) * 60);
+      results.push(`\`${msg.author.tag}\``);
+      resultsw.push(`\`${wpm}\``);
+      timer.push(`\`${took}s\``);
+      msg.react(results.length === 1 ? "🏅" : "✅");
     });
 
     collector.on("end", (collected) => {
