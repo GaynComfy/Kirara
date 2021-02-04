@@ -28,7 +28,7 @@ const embed = new MessageEmbed()
 const command = (msg, maxPages, refresh) => {
   const m = msg.toLowerCase();
   return (
-    (maxPages > 2 &&
+    (maxPages > 1 &&
       (((m === "start" || m === "s") && "start") ||
         ((m === "back" || m === "b") && "back") ||
         ((m === "next" || m === "n") && "next"))) ||
@@ -175,7 +175,7 @@ const createMessagePagedResults = async (
           default:
             if (typeof cmd === "number" && inSubPage === false) {
               index = cmd - 1;
-            } else {
+            } else if (!inSubPage) {
               return;
             }
             break;
