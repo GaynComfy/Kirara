@@ -25,17 +25,22 @@ const diffs = {
   h: "hard",
   i: "impossible",
 };
+const difficulty = {
+  easy: 6,
+  medium: 8,
+  hard: 10,
+  impossible: 16,
+};
 
 module.exports = {
   execute: async (instance, message, args) => {
-    const diff = diffs[args.length > 0 && args.slice()[0]] || "e";
+    const diff = diffs[args.length > 0 && args.slice()[0]] || "easy";
     const results = [];
     const resultsw = [];
     const timer = [];
 
     let startTime = new Date();
 
-    const difficulty = { easy: 6, medium: 8, hard: 10, impossible: 16 };
     const captcha = new CaptchaGenerator({ height: 200, width: 600 })
       .setCaptcha({ characters: difficulty[diff], color: "#8cbaff" })
       .setTrace({ color: "#8cbaff" }); // CANVAS
