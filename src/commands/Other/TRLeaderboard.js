@@ -23,7 +23,6 @@ module.exports = {
     if (args.length >= 1 && !Object.keys(diffs).includes(di)) return false;
 
     message.channel.startTyping();
-    let last = -1;
     message.channel.stopTyping();
 
     if (!di) {
@@ -35,11 +34,11 @@ module.exports = {
         .setColor(stats.length > 0 ? Color.default : Color.red)
         .setImage(Constants.footer);
 
-      Object.values(diffs).forEach((diff) => {
+      await Object.values(diffs).forEach(async (diff) => {
         const ds = stats.find((d) => d.difficulty === diff);
         if (!ds) return;
 
-        const top = ds.users.map(async (u, i) => {
+        const top = await ds.users.map(async (u, i) => {
           const user = await instance.client.users.fetch(u.discord_id);
           const name = user ? `\`${user.tag}\`` : `<@!${u.discord_id}>`;
           const cpm = getCpm(diff, u.top);
@@ -59,6 +58,7 @@ module.exports = {
       // multiple pages for per-difficulty typerace lb
       const diff = diffs[di];
       const dName = diff.charAt(0).toUpperCase() + diff.slice(1);
+      let last = -1;
 
       return await createPagedResults(message, Infinity, async (page) => {
         const offset = (page > last && last !== -1 ? last : page) * 8;
