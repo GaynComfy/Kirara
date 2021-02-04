@@ -69,6 +69,8 @@ module.exports = {
       .attachFiles([attachment])
       .setColor(Color.default)
       .setImage("attachment://captcha.png");
+    if (diff === "shoob")
+      embed.setDescription("To claim, use: `claim [captcha code]`");
 
     await message.channel.send(embed);
     startTime = new Date();
