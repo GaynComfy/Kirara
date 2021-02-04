@@ -103,7 +103,8 @@ module.exports = {
 
       const result = new MessageEmbed()
         .setTitle(
-          `Type race results: ${diff.charAt(0).toUpperCase() + diff.slice(1)}`
+          `Type race results: ${diff.charAt(0).toUpperCase() + diff.slice(1)}` +
+            (diff === "shoob" ? ` <:SShoob:783636544720207903>` : "")
         )
         .setColor(Color.white);
 

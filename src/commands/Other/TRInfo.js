@@ -64,7 +64,7 @@ module.exports = {
           `\n**Total games**: \`${won}/${total} games\`` +
           (cpm.length >= 1
             ? `\n**Average CPM**: \`${Math.round(allCpm / cpm.length)} CPM\``
-            : ``)
+            : "")
       );
 
       await message.channel.send(embed);
@@ -90,10 +90,10 @@ module.exports = {
               ? `\n**Total games**: \`${stats.first}/${stats.total} games\`` +
                 (stats.top > 0
                   ? `\n**Top record**: \`${stats.top}s\` (\`${topCpm} CPM\`)`
-                  : ``) +
+                  : "") +
                 (stats.last > 0
                   ? `\n**Last game**: \`${stats.last}s\` (\`${lastCpm} CPM\`)`
-                  : ``)
+                  : "")
               : `\nNo games yet!`)
         );
 
