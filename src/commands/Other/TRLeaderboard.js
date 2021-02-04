@@ -27,15 +27,12 @@ module.exports = {
     message.channel.stopTyping();
 
     if (!di) {
-      // single page, leaderboard for all difficulties.
+      // leaderboard for all difficulties.
       const stats = await getTopPlayers(instance, 3);
+      const diffR = Object.values(diffs).reverse();
+      const tops = {};
 
-      const embed = new MessageEmbed()
-        .setAuthor(`Typerace Leaderboard`, message.guild.iconURL())
-        .setColor(stats.length > 0 ? Color.default : Color.red)
-        .setImage(Constants.footer);
-
-      for (const diff of Object.values(diffs).reverse()) {
+      for (const diff of diffR) {
         const ds = stats.find((d) => d.difficulty === diff);
         if (!ds) continue;
 
@@ -54,11 +51,24 @@ module.exports = {
         }
 
         if (top.length > 0)
-          embed.addField(diff.charAt(0).toUpperCase() + diff.slice(1), top);
+          tops[diff.charAt(0).toUpperCase() + diff.slice(1)] = top;
       }
 
-      await message.channel.send(embed);
-      return true;
+      const last = Object.keys(tops).length / 3 - 1;
+      return await createPagedResults(message, last, async (page) => {
+        const offset = (page > last ? last : page) * 3;
+
+        const embed = new MessageEmbed()
+          .setAuthor(`Typerace Leaderboard`, message.guild.iconURL())
+          .setColor(stats.length > 0 ? Color.default : Color.red)
+          .setImage(Constants.footer);
+
+        Object.keys(tops)
+          .slice(offset, offset + 3)
+          .forEach((t) => embed.addField(t, tops[t]));
+
+        return embed;
+      });
     } else {
       // multiple pages for per-difficulty typerace lb
       const diff = diffs[di];
