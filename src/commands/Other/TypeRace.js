@@ -7,6 +7,7 @@ const info = {
   aliases: ["tr"],
   matchCase: false,
   category: "UwU",
+  cooldown: 15,
 };
 
 const end = (startTime) => {
