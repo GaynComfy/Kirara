@@ -55,7 +55,9 @@ module.exports = {
     await message.channel.send(embed);
     startTime = new Date();
     const collector = message.channel.createMessageCollector(
-      (msg) => msg.content.toLowerCase() === txt,
+      (msg) =>
+        msg.content.toLowerCase() === txt &&
+        results.indexOf(`\`${msg.author.tag}\``) === -1,
       { time: 15000 }
     );
 
