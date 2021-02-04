@@ -30,7 +30,7 @@ module.exports = {
 
     const difficulty = { e: 6, m: 8, h: 10, i: 16 };
     const captcha = new CaptchaGenerator({ height: 200, width: 600 })
-      .setCaptcha({ characters: difficulty[argsd], color: "#8cbaff" })
+      .setCaptcha({ characters: difficulty[diff], color: "#8cbaff" })
       .setTrace({ color: "#8cbaff" }); // CANVAS
     const buffer = await captcha.generateSync(); // IMG TO ATTACH
     const txt = captcha.text.toLowerCase(); // TEXT FOR VAR
