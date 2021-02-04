@@ -56,7 +56,7 @@ module.exports = {
       wpm.forEach((d) => (allWpm += d));
 
       embed.setDescription(
-        `<:Sirona_yesh:762603569538531328> **${member.username}'s Typerace stats**` +
+        `<:Sirona_yesh:762603569538531328> **${member.username}'s Typerace stats**\n` +
           `\n**Total games**: \`${won}/${total} games\`` +
           (wpm.length >= 1
             ? `\n**Average WPM**: \`${Math.round(allWpm / wpm.length)} WPM\``
@@ -81,7 +81,7 @@ module.exports = {
         .setThumbnail(member.displayAvatarURL({ size: 2048, dynamic: true }))
         .setColor(Color.default)
         .setDescription(
-          `<:Sirona_yesh:762603569538531328> **${member.username}'s ${dName} Typerace stats**` +
+          `<:Sirona_yesh:762603569538531328> **${member.username}'s ${dName} Typerace stats**\n` +
             (stats.played
               ? `\n**Total games**: \`${stats.first}/${stats.total} games\`` +
                 (stats.top > 0
