@@ -5,6 +5,7 @@ const {
   difficulty,
   userAllInfo,
   userInfo,
+  getWpm,
 } = require("../../utils/typeRaceUtils");
 
 const info = {
