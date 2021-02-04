@@ -26,7 +26,7 @@ module.exports = {
     let last = -1;
     message.channel.stopTyping();
 
-    if (args.length === 0) {
+    if (!di) {
       // single page, leaderboard for all difficulties.
       const stats = await getTopPlayers(instance, 3);
 
@@ -53,7 +53,7 @@ module.exports = {
         embed.addField(diff.charAt(0).toUpperCase() + diff.slice(1), top);
       });
 
-      await message.chnanel.send(embed);
+      await message.channel.send(embed);
       return true;
     } else {
       // multiple pages for per-difficulty typerace lb
