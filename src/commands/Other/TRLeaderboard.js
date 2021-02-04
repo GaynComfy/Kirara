@@ -20,8 +20,8 @@ const info = {
 
 module.exports = {
   execute: async (instance, message, args) => {
-    const di = args.length >= 1 && args.shift()[0].toLowerCase();
-    if (!Object.keys(diffs).includes(di)) return false;
+    const di = args.length >= 1 ? args.shift()[0].toLowerCase() : false;
+    if (di !== false && !Object.keys(diffs).includes(di)) return false;
 
     message.channel.startTyping();
     message.channel.stopTyping();

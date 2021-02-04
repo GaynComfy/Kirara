@@ -29,8 +29,8 @@ const channelMap = [];
 module.exports = {
   execute: async (instance, message, args) => {
     if (channelMap[message.channel.id]) return;
-    const di = args.length > 0 && args.shift()[0].toLowerCase();
-    if (!Object.keys(diffs).includes(di)) return false;
+    const di = args.length > 0 ? args.shift()[0].toLowerCase() : false;
+    if (di !== false && !Object.keys(diffs).includes(di)) return false;
 
     const s = Symbol();
     channelMap[message.channel.id] = s;
