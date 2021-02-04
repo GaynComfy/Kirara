@@ -81,7 +81,7 @@ module.exports = {
         .setThumbnail(member.displayAvatarURL({ size: 2048, dynamic: true }))
         .setColor(Color.default)
         .setDescription(
-          `<:Sirona_yesh:762603569538531328> **${member.username}'s ${dname} Typerace stats**\n` +
+          `<:Sirona_yesh:762603569538531328> **${member.username}'s ${dName} Typerace stats**\n` +
             (stats.played
               ? `\nTotal games: \`${stats.first}/${stats.total} games\`` +
                 (stats.top > 0
