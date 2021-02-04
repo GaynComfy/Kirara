@@ -54,9 +54,9 @@ module.exports = {
           tops[diff.charAt(0).toUpperCase() + diff.slice(1)] = top;
       }
 
-      const last = Object.keys(tops).length / 3 - 1;
+      const last = Object.keys(tops).length / 3;
       return await createPagedResults(message, last, async (page) => {
-        const offset = (page > last ? last : page) * 3;
+        const offset = (page > last - 1 ? last - 1 : page) * 3;
 
         const embed = new MessageEmbed()
           .setAuthor(`Typerace Leaderboard`, message.guild.iconURL())
