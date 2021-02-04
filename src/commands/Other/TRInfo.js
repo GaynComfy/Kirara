@@ -68,7 +68,7 @@ module.exports = {
     } else {
       // get stats for a specific typerace
       const di = args.shift()[0].toLowerCase();
-      if (!diffs.includes(di)) return false;
+      if (!Object.keys(diffs).includes(di)) return false;
       const diff = diffs[di];
       const stats = await userInfo(instance, member.id, diff);
       const dName = diff.charAt(0).toUpperCase() + diff.slice(1);
