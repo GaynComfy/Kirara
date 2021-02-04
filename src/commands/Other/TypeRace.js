@@ -6,7 +6,7 @@ const {
   diffs,
   difficulty,
   userPlay,
-  getWpm,
+  getCpm,
 } = require("../../utils/typeRaceUtils");
 
 const info = {
@@ -78,9 +78,9 @@ module.exports = {
 
     collector.on("collect", async (msg) => {
       const took = end(startTime);
-      const wpm = getWpm(diff, took);
+      const cpm = getCpm(diff, took);
       results.push(`\`${msg.author.tag}\``);
-      resultsw.push(`\`${wpm}\``);
+      resultsw.push(`\`${cpm}\``);
       timer.push(`\`${took}s\``);
 
       const first = results.length === 1;
@@ -112,7 +112,7 @@ module.exports = {
       } else {
         result
           .addField("__User__", results, true)
-          .addField("__WPM__", resultsw, true)
+          .addField("__CPM__", resultsw, true)
           .addField("__Time__", timer, true);
       }
       message.channel.send(result);

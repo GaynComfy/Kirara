@@ -102,11 +102,11 @@ const userPlay = async (instance, userId, diff, first, last) => {
   }
 };
 
-const getWpm = (diff, time) => {
+const getCpm = (diff, time) => {
   const chars = difficulty[diff];
   if (chars === null) return 0;
 
-  return Math.round((chars / 5 / parseFloat(time)) * 60);
+  return Math.round((chars / parseFloat(time)) * 60);
 };
 
 module.exports = {
@@ -115,5 +115,5 @@ module.exports = {
   userAllInfo,
   userInfo,
   userPlay,
-  getWpm,
+  getCpm,
 };

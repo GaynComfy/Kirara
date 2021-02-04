@@ -5,7 +5,7 @@ const {
   difficulty,
   userAllInfo,
   userInfo,
-  getWpm,
+  getCpm,
 } = require("../../utils/typeRaceUtils");
 
 const info = {
@@ -27,8 +27,8 @@ module.exports = {
     if (args.length === 0) {
       // get all stats
       const stats = await userAllInfo(instance, member.id);
-      const wpm = [];
-      let allWpm = 0;
+      const cpm = [];
+      let allCpm = 0;
       let total = 0;
       let won = 0;
 
@@ -39,27 +39,27 @@ module.exports = {
 
       stats.diffs.forEach((d) => {
         if (d.played) {
-          const topWpm = getWpm(d.difficulty, d.top);
-          const lastWpm = getWpm(d.difficulty, d.last);
+          const topCpm = getCpm(d.difficulty, d.top);
+          const lastCpm = getCpm(d.difficulty, d.last);
           const dName =
             d.difficulty.charAt(0).toUpperCase() + d.difficulty.slice(1);
           embed.addField(
             dName,
-            `**Top**: \`${d.top}s\` (\`${topWpm} WPM\`) | **Last**: \`${d.last}s\` (\`${lastWpm} WPM\`)\n` +
+            `**Top**: \`${d.top}s\` (\`${topCpm} CPM\`) | **Last**: \`${d.last}s\` (\`${lastCpm} CPM\`)\n` +
               `**${d.total} games**, where has been first **${d.first}** times! <:KiraraHugHeart:798460293491326986>`
           );
-          wpm.push(topWpm);
+          cpm.push(topCpm);
           total += d.total;
           won += d.first;
         }
       });
-      wpm.forEach((d) => (allWpm += d));
+      cpm.forEach((d) => (allCpm += d));
 
       embed.setDescription(
         `<:Sirona_yesh:762603569538531328> **${member.username}'s Typerace stats**\n` +
           `\n**Total games**: \`${won}/${total} games\`` +
-          (wpm.length >= 1
-            ? `\n**Average WPM**: \`${Math.round(allWpm / wpm.length)} WPM\``
+          (cpm.length >= 1
+            ? `\n**Average CPM**: \`${Math.round(allCpm / cpm.length)} CPM\``
             : ``)
       );
 
@@ -73,8 +73,8 @@ module.exports = {
       const stats = await userInfo(instance, member.id, diff);
       const dName = diff.charAt(0).toUpperCase() + diff.slice(1);
 
-      const topWpm = getWpm(diff, stats.top);
-      const lastWpm = getWpm(diff, stats.last);
+      const topCpm = getCpm(diff, stats.top);
+      const lastCpm = getCpm(diff, stats.last);
 
       // build cute embed
       const embed = new MessageEmbed()
@@ -85,10 +85,10 @@ module.exports = {
             (stats.played
               ? `\n**Total games**: \`${stats.first}/${stats.total} games\`` +
                 (stats.top > 0
-                  ? `\n**Top record**: \`${stats.top}s\` (\`${topWpm} WPM\`)`
+                  ? `\n**Top record**: \`${stats.top}s\` (\`${topCpm} CPM\`)`
                   : ``) +
                 (stats.last > 0
-                  ? `\n**Last game**: \`${stats.last}s\` (\`${lastWpm} WPM\`)`
+                  ? `\n**Last game**: \`${stats.last}s\` (\`${lastCpm} CPM\`)`
                   : ``)
               : `\nNo games yet!`)
         );
