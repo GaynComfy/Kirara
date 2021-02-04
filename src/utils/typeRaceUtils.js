@@ -51,7 +51,7 @@ const getTopPlayersByDiff = async (instance, diff, limit, offset) => {
   const {
     rows,
   } = await instance.database.pool.query(
-    "SELECT * FROM TYPERACE_STATS WHERE DIFFICULTY = $1 LIMIT $2 OFFSET $3",
+    "SELECT * FROM TYPERACE_STATS WHERE DIFFICULTY = $1 ORDER BY top DESC LIMIT $2 OFFSET $3",
     [diff, limit, offset]
   );
 
