@@ -54,14 +54,20 @@ module.exports = {
           tops[diff.charAt(0).toUpperCase() + diff.slice(1)] = top;
       }
 
-      const last = Math.ceil(Object.keys(tops).length / 3);
-      return await createPagedResults(message, last, async (page) => {
-        const offset = (page > last - 1 ? last - 1 : page) * 3;
+      const pages = Math.ceil(Object.keys(tops).length / 3);
+      return await createPagedResults(message, pages, async (page) => {
+        const offset = (page > pages - 1 ? pages - 1 : page) * 3;
 
         const embed = new MessageEmbed()
           .setAuthor(`Typerace Leaderboard`, message.guild.iconURL())
           .setColor(stats.length > 0 ? Color.default : Color.red)
-          .setImage(Constants.footer);
+          .setImage(Constants.footer)
+          .setFooter(
+            pages > 1
+              ? (page !== pages - 1 ? "React ▶️ for next page | " : "") +
+                  "React ◀️ to go back"
+              : ""
+          );
 
         Object.keys(tops)
           .slice(offset, offset + 3)
