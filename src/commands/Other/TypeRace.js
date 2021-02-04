@@ -5,8 +5,8 @@ const Color = require("../../utils/Colors.json");
 const {
   diffs,
   difficulty,
-  userPlay,
   getCpm,
+  userPlay,
 } = require("../../utils/typeRaceUtils");
 
 const info = {
@@ -79,9 +79,9 @@ module.exports = {
     collector.on("collect", async (msg) => {
       const took = end(startTime);
       const cpm = getCpm(diff, took);
-      results.push(`\`${msg.author.tag}\``);
-      resultsw.push(`\`${cpm}\``);
-      timer.push(`\`${took}s\``);
+      results.push(`> \`${msg.author.tag}\``);
+      resultsw.push(`> \`${cpm}\``);
+      timer.push(`> \`${took}s\``);
 
       const first = results.length === 1;
       msg.react(first ? "🏅" : "✅");

@@ -20,6 +20,44 @@ const defs = {
   total: 0,
 };
 
+const getCpm = (diff, time) => {
+  const chars = difficulty[diff];
+  if (chars === null) return 0;
+
+  return Math.round((chars / parseFloat(time)) * 60);
+};
+
+const getTopPlayers = async (instance, limit) => {
+  const diffPlayers = [];
+
+  Object.values(diffs).forEach(async (diff) => {
+    const {
+      rows,
+    } = await instance.database.pool.query(
+      "SELECT * FROM TYPERACE_STATS WHERE DIFFICULTY = $1 LIMIT $2",
+      [diff, limit]
+    );
+
+    diffPlayers.push({
+      difficulty: diff,
+      users: rows,
+    });
+  });
+
+  return [];
+};
+
+const getTopPlayersByDiff = async (instance, diff, limit, offset) => {
+  const {
+    rows,
+  } = await instance.database.pool.query(
+    "SELECT * FROM TYPERACE_STATS WHERE DIFFICULTY = $1 LIMIT $2 OFFSET $3",
+    [diff, limit, offset]
+  );
+
+  return rows;
+};
+
 const userAllInfo = async (instance, userId) => {
   const {
     rows,
@@ -102,18 +140,13 @@ const userPlay = async (instance, userId, diff, first, last) => {
   }
 };
 
-const getCpm = (diff, time) => {
-  const chars = difficulty[diff];
-  if (chars === null) return 0;
-
-  return Math.round((chars / parseFloat(time)) * 60);
-};
-
 module.exports = {
   diffs,
   difficulty,
+  getCpm,
+  getTopPlayers,
+  getTopPlayersByDiff,
   userAllInfo,
   userInfo,
   userPlay,
-  getCpm,
 };

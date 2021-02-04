@@ -1,11 +1,11 @@
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const Color = require("../../utils/Colors.json");
 const {
   diffs,
   difficulty,
+  getCpm,
   userAllInfo,
   userInfo,
-  getCpm,
 } = require("../../utils/typeRaceUtils");
 
 const info = {
@@ -37,8 +37,9 @@ module.exports = {
         .setThumbnail(member.displayAvatarURL({ size: 2048, dynamic: true }))
         .setColor(Color.default);
 
-      stats.diffs.forEach((d) => {
-        if (d.played) {
+      stats.diffs
+        .filter((d) => d.played)
+        .forEach((d) => {
           const topCpm = getCpm(d.difficulty, d.top);
           const lastCpm = getCpm(d.difficulty, d.last);
           const dName =
@@ -55,20 +56,18 @@ module.exports = {
           cpm.push(topCpm);
           total += d.total;
           won += d.first;
-        }
-      });
+        });
       cpm.forEach((d) => (allCpm += d));
 
       embed.setDescription(
-        `<:Sirona_yesh:762603569538531328> **${member.username}'s Typerace stats**\n` +
-          `\n**Total games**: \`${won}/${total} games\`` +
+        `<:Sirona_yesh:762603569538531328> **${member.username}'s Typerace stats**\n\n` +
+          `**Total games**: \`${won}/${total} games\`` +
           (cpm.length >= 1
             ? `\n**Average CPM**: \`${Math.round(allCpm / cpm.length)} CPM\``
             : "")
       );
 
       await message.channel.send(embed);
-      return true;
     } else {
       // get stats for a specific typerace
       const di = args.shift()[0].toLowerCase();
@@ -85,20 +84,18 @@ module.exports = {
         .setThumbnail(member.displayAvatarURL({ size: 2048, dynamic: true }))
         .setColor(Color.default)
         .setDescription(
-          `<:Sirona_yesh:762603569538531328> **${member.username}'s ${dName} Typerace stats**\n` +
+          `<:Sirona_yesh:762603569538531328> **${member.username}'s ${dName} Typerace stats**\n\n` +
             (stats.played
-              ? `\n**Total games**: \`${stats.first}/${stats.total} games\`` +
-                (stats.top > 0
-                  ? `\n**Top record**: \`${stats.top}s\` (\`${topCpm} CPM\`)`
-                  : "") +
-                (stats.last > 0
-                  ? `\n**Last game**: \`${stats.last}s\` (\`${lastCpm} CPM\`)`
-                  : "")
-              : `\nNo games yet!`)
+              ? `**Total games**: \`${stats.first}/${stats.total} games\`\n` +
+                `**Top record**: \`${stats.top}s\` (\`${topCpm} CPM\`)\n` +
+                `**Last game**: \`${stats.last}s\` (\`${lastCpm} CPM\`)`
+              : `No games yet!`)
         );
 
       await message.channel.send(embed);
     }
+
+    return true;
   },
   info,
   help: {
