@@ -34,7 +34,7 @@ const difficulty = {
 
 module.exports = {
   execute: async (instance, message, args) => {
-    const diff = diffs[args.length > 0 && args.slice()[0]] || "easy";
+    const diff = diffs[args.length > 0 && args.shift()[0]] || "easy";
     const results = [];
     const resultsw = [];
     const timer = [];
