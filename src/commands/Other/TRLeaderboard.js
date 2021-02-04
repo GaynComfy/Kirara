@@ -15,6 +15,7 @@ const info = {
   aliases: ["trlb"],
   matchCase: false,
   category: "UwU",
+  cooldown: 10,
 };
 
 module.exports = {
