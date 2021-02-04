@@ -1,5 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const Color = require("../../utils/Colors.json");
+const Constants = require("../../utils/Constants.json");
 const { createPagedResults } = require("../../utils/PagedResults");
 const {
   diffs,
