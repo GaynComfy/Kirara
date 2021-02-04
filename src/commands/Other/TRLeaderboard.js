@@ -54,7 +54,7 @@ module.exports = {
           tops[diff.charAt(0).toUpperCase() + diff.slice(1)] = top;
       }
 
-      const last = Object.keys(tops).length / 3;
+      const last = Math.ceil(Object.keys(tops).length / 3);
       return await createPagedResults(message, last, async (page) => {
         const offset = (page > last - 1 ? last - 1 : page) * 3;
 
