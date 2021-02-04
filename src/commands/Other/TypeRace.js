@@ -10,7 +10,7 @@ const info = {
 
 const end = (startTime) => {
   const endTime = new Date();
-  const timeDiff = endTime - startTime; //in ms
+  let timeDiff = endTime - startTime; // in ms
   // strip the ms
   timeDiff /= 1000;
 
@@ -19,16 +19,23 @@ const end = (startTime) => {
   return timeDiff;
 };
 
+const diffs = {
+  e: "easy",
+  m: "medium",
+  h: "hard",
+  i: "impossible",
+};
+
 module.exports = {
   execute: async (instance, message, args) => {
-    const diff = args.length > 0 ? args[0][0] : "e";
+    const diff = diffs[args.length > 0 && args.splice()[0]] || "e";
     const results = [];
     const resultsw = [];
     const timer = [];
 
     let startTime = new Date();
 
-    const difficulty = { e: 6, m: 8, h: 10, i: 16 };
+    const difficulty = { easy: 6, medium: 8, hard: 10, impossible: 16 };
     const captcha = new CaptchaGenerator({ height: 200, width: 600 })
       .setCaptcha({ characters: difficulty[diff], color: "#8cbaff" })
       .setTrace({ color: "#8cbaff" }); // CANVAS
@@ -57,10 +64,18 @@ module.exports = {
     });
 
     collector.on("end", (collected) => {
-      const result = new MessageEmbed()
-        .addField("__User__", results, true)
-        .addField("__WPM__", resultsw, true)
-        .addField("__Time__", timer, true);
+      const result = new MessageEmbed().setTitle(
+        `Type race results: ${diff.charAt(0).toUpperCase() + diff.slice(1)}`
+      );
+
+      if (results.length === 0) {
+        result.setDescription("No participants!");
+      } else {
+        result
+          .addField("__User__", results, true)
+          .addField("__WPM__", resultsw, true)
+          .addField("__Time__", timer, true);
+      }
       message.channel.send(result);
     });
   },
