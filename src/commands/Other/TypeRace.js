@@ -1,5 +1,6 @@
 const { MessageAttachment, MessageEmbed } = require("discord.js");
 const { CaptchaGenerator } = require("captcha-canvas");
+const { createCanvas } = require("canvas");
 const Color = require("../../utils/Colors.json");
 
 const info = {
@@ -19,18 +20,28 @@ const end = (startTime) => {
 };
 
 const diffs = {
+  s: "shoob",
   e: "easy",
   m: "medium",
   h: "hard",
   i: "impossible",
 };
 const difficulty = {
+  shoob: 5,
   easy: 6,
   medium: 8,
   hard: 10,
   impossible: 14,
 };
 const channelMap = [];
+
+const whiteBg = (() => {
+  const c = createCanvas(260, 70);
+  const ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#FFFFFF";
+  ctx.fill();
+  return canvas.toBuffer();
+})();
 
 module.exports = {
   execute: async (instance, message, args) => {
@@ -45,10 +56,20 @@ module.exports = {
 
     let startTime = new Date();
 
-    const captcha = new CaptchaGenerator({ height: 200, width: 600 })
-      .setCaptcha({ characters: difficulty[diff], color: "#8cbaff" })
-      .setTrace({ color: "#8cbaff" }); // CANVAS
-    const buffer = await captcha.generateSync(); // IMG TO ATTACH
+    const captcha = new CaptchaGenerator(
+      diff === "shoob"
+        ? { height: 260, width: 70 }
+        : { height: 200, width: 600 }
+    )
+      .setCaptcha({
+        characters: difficulty[diff],
+        color: diff === "shoob" ? "#111111" : "#8cbaff",
+      })
+      .setDecoy({ opacity: difficulty[diff] >= 8 ? 0.8 : 0 })
+      .setTrace({ color: diff === "shoob" ? "#111111" : "#8cbaff" }); // CANVAS
+    const buffer = await captcha.generateSync({
+      background: diff === "shoob" ? whiteBg : null,
+    }); // IMG TO ATTACH
     const txt = captcha.text.toLowerCase(); // TEXT FOR VAR
 
     const attachment = new MessageAttachment(buffer, "captcha.png");
@@ -63,7 +84,8 @@ module.exports = {
     const collector = message.channel.createMessageCollector(
       (msg) =>
         channelMap[message.channel.id] === s &&
-        msg.content.toLowerCase() === txt &&
+        msg.content.toLowerCase() ===
+          (diff === "shoob" ? `claim ${txt}` : txt) &&
         results.indexOf(`\`${msg.author.tag}\``) === -1,
       { time: diff === "impossible" ? 15000 : 10000 }
     );
