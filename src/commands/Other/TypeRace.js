@@ -62,10 +62,9 @@ module.exports = {
       const captcha = new CaptchaGenerator({ width: 260, height: 70 })
         .setCaptcha({ characters: difficulty[diff], color: "#111111" })
         .setDecoy({ opacity: 0 })
-        .setTrace({ color: "#111111" })
-        .setBackground(whiteBg);
+        .setTrace({ color: "#111111" });
 
-      buffer = await captcha.generateSync();
+      buffer = await captcha.generateSync({ background: whiteBg });
       txt = captcha.text.toLowerCase();
     } else {
       const captcha = new CaptchaGenerator({ width: 600, height: 200 })
