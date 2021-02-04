@@ -49,6 +49,7 @@ module.exports = {
     const attachment = new MessageAttachment(buffer, "captcha.png");
     const embed = new MessageEmbed()
       .attachFiles([attachment])
+      .setColor(Color.default)
       .setImage("attachment://captcha.png");
 
     await message.channel.send(embed);
@@ -72,7 +73,7 @@ module.exports = {
         .setTitle(
           `Type race results: ${diff.charAt(0).toUpperCase() + diff.slice(1)}`
         )
-        .setColor(Color.pink);
+        .setColor(Color.white);
 
       if (results.length === 0) {
         result.setDescription("No participants!");
