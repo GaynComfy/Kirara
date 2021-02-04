@@ -51,7 +51,7 @@ module.exports = {
           wpm.push(topWpm);
           total += d.total;
           won += d.first;
-        } else embed.addField(d.difficulty, `No games yet!`);
+        }
       });
       wpm.forEach((d) => (allWpm += d));
 

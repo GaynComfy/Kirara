@@ -98,7 +98,7 @@ const userPlay = async (instance, userId, diff, first, last) => {
       total: 1,
     });
 
-    return 0;
+    return Infinity;
   }
 };
 
