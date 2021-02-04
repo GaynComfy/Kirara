@@ -19,6 +19,7 @@ exports.userPlay = async (instance, userId, diff, first, last) => {
     return 0;
   } else {
     const result = rows[0];
+    const lastTop = parseFloat(result.top);
 
     await instance.database.simpleUpdate(
       "TYPERACE_STATS",
@@ -27,13 +28,13 @@ exports.userPlay = async (instance, userId, diff, first, last) => {
         difficulty: diff,
       },
       {
-        top: last > result.top ? last : result.top,
+        top: last > lastTop ? last : lastTop,
         last,
         first: parseInt(result.first) + fNum,
         total: parseInt(result.total) + 1,
       }
     );
 
-    return result.top;
+    return lastTop;
   }
 };
