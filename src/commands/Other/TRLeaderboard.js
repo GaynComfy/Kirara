@@ -28,7 +28,7 @@ module.exports = {
 
     if (args.length === 0) {
       // single page, leaderboard for all difficulties.
-      const stats = getTopPlayers(instance, 3);
+      const stats = await getTopPlayers(instance, 3);
 
       const embed = new MessageEmbed()
         .setAuthor(`Typerace Leaderboard`, message.guild.iconURL())
@@ -62,7 +62,7 @@ module.exports = {
 
       return await createPagedResults(message, Infinity, async (page) => {
         const offset = (page > last && last !== -1 ? last : page) * 8;
-        const stats = getTopPlayersByDiff(instance, diff, 8, offset);
+        const stats = await getTopPlayersByDiff(instance, diff, 8, offset);
         if (stats.length === 0 && page === 0) {
           const embed = new MessageEmbed()
             .setDescription(
