@@ -37,13 +37,16 @@ module.exports = {
       Object.values(diffs).forEach((diff) => {
         const ds = stats.find((d) => d.difficulty === diff);
         if (!ds) return;
-        const top = [];
 
-        ds.users.forEach(async (u) => {
+        const top = ds.users.map(async (u, i) => {
           const user = await instance.client.users.fetch(u.discord_id);
           const name = user ? `\`${user.tag}\`` : `<@!${u.discord_id}>`;
           const cpm = getCpm(diff, u.top);
-          top.push(`> ${name} - \`${u.top}s\` (\`${cpm} CPM\`)`);
+          return (
+            `> ` +
+            (i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.**`) +
+            ` ${name} - \`${u.top}s\` (\`${cpm} CPM\`)`
+          );
         });
 
         embed.addField(diff.charAt(0).toUpperCase() + diff.slice(1), top);
