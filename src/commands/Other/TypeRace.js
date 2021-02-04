@@ -2,6 +2,7 @@ const { MessageAttachment, MessageEmbed } = require("discord.js");
 const { CaptchaGenerator } = require("captcha-canvas");
 const tcaptcha = require("trek-captcha");
 const Color = require("../../utils/Colors.json");
+const { userPlay } = require("../../utils/typeRaceUtils");
 
 const info = {
   name: "typerace",
@@ -90,7 +91,13 @@ module.exports = {
       results.push(`\`${msg.author.tag}\``);
       resultsw.push(`\`${wpm}\``);
       timer.push(`\`${took}s\``);
-      msg.react(results.length === 1 ? "🏅" : "✅");
+
+      const first = results.length === 1;
+      msg.react(first ? "🏅" : "✅");
+      const lastTop = userPlay(instance, msg.author.id, diff, first, took);
+      if (took > lastTop) {
+        msg.react("<a:Sirona_star:748985391360507924>");
+      }
     });
 
     collector.on("end", (collected) => {
@@ -118,7 +125,7 @@ module.exports = {
   info,
   help: {
     usage: "typerace [shoob/easy/medium/hard]",
-    examples: ["typerace", "tr m"],
+    examples: ["typerace", "tr s"],
     description: "See who's the fastest resolving the captcha!",
   },
 };
