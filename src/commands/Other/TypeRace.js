@@ -28,7 +28,7 @@ const diffs = {
 
 module.exports = {
   execute: async (instance, message, args) => {
-    const diff = diffs[args.length > 0 && args.splice()[0]] || "e";
+    const diff = diffs[args.length > 0 && args.slice()[0]] || "e";
     const results = [];
     const resultsw = [];
     const timer = [];
