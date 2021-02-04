@@ -1,6 +1,6 @@
 const { MessageAttachment, MessageEmbed } = require("discord.js");
 const { CaptchaGenerator } = require("captcha-canvas");
-const { createCanvas } = require("canvas");
+const tcaptcha = require("trek-captcha");
 const Color = require("../../utils/Colors.json");
 
 const info = {
@@ -35,14 +35,6 @@ const difficulty = {
 };
 const channelMap = [];
 
-const whiteBg = (() => {
-  const c = createCanvas(260, 70);
-  const ctx = c.getContext("2d");
-  ctx.fillStyle = "#FFFFFF";
-  ctx.fillRect(0, 0, c.width, c.height);
-  return c;
-})();
-
 module.exports = {
   execute: async (instance, message, args) => {
     if (channelMap[message.channel.id]) return;
@@ -58,14 +50,10 @@ module.exports = {
 
     let buffer, txt;
     if (diff === "shoob") {
-      // ToDo: Change to another captcha when I know which one Shoob uses
-      const captcha = new CaptchaGenerator({ width: 260, height: 70 })
-        .setCaptcha({ characters: difficulty[diff], color: "#111111" })
-        .setDecoy({ opacity: 0 })
-        .setTrace({ color: "#111111" });
+      const captcha = await tcaptcha({ style: 0 });
 
-      buffer = await captcha.generateSync({ background: whiteBg });
-      txt = captcha.text.toLowerCase();
+      buffer = captcha.buffer;
+      txt = captcha.token;
     } else {
       const captcha = new CaptchaGenerator({ width: 600, height: 200 })
         .setCaptcha({ characters: difficulty[diff], color: "#8cbaff" })
@@ -127,7 +115,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "typerace [easy/medium/hard]",
+    usage: "typerace [shoob/easy/medium/hard]",
     examples: ["typerace", "tr m"],
     description: "See who's the fastest resolving the captcha!",
   },
