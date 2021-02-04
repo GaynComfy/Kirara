@@ -132,7 +132,9 @@ ${tiers2.join(" | ")}
         )
         .setThumbnail(member.displayAvatarURL())
         .setDescription(
-          `<@!${member.id}> has claimed **\`${result.rows.length}\` T${tier.num}s** this season!`
+          `<@!${member.id}> has claimed **\`${result.rows.length}\` T${
+            tier.num
+          }s**${isTotal ? "" : " this season"}!`
         )
         .setImage(
           "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif"

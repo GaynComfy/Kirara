@@ -65,7 +65,7 @@ module.exports = {
       const embed = new MessageEmbed()
         .setDescription(
           `<:Sirona_NoCross:762606114444935168> This server has no claimed cards${
-            isTotal ? "" : " this season"
+            isTotal ? "" : ` this ${event ? "event" : "season"}`
           }.`
         )
         .setColor(Color.red);
