@@ -30,19 +30,21 @@ const getCpm = (diff, time) => {
 const getTopPlayers = async (instance, limit) => {
   const diffPlayers = [];
 
-  await Object.values(diffs).forEach(async (diff) => {
-    const {
-      rows,
-    } = await instance.database.pool.query(
-      "SELECT top, * FROM TYPERACE_STATS WHERE DIFFICULTY = $1 ORDER BY top DESC LIMIT $2",
-      [diff, limit]
-    );
+  await Promise.all(
+    Object.values(diffs).forEach(async (diff) => {
+      const {
+        rows,
+      } = await instance.database.pool.query(
+        "SELECT * FROM TYPERACE_STATS WHERE DIFFICULTY = $1 ORDER BY top ASC LIMIT $2",
+        [diff, limit]
+      );
 
-    diffPlayers.push({
-      difficulty: diff,
-      users: rows,
-    });
-  });
+      diffPlayers.push({
+        difficulty: diff,
+        users: rows,
+      });
+    })
+  );
 
   return diffPlayers;
 };
@@ -51,7 +53,7 @@ const getTopPlayersByDiff = async (instance, diff, limit, offset) => {
   const {
     rows,
   } = await instance.database.pool.query(
-    "SELECT top, * FROM TYPERACE_STATS WHERE DIFFICULTY = $1 ORDER BY top DESC LIMIT $2 OFFSET $3",
+    "SELECT * FROM TYPERACE_STATS WHERE DIFFICULTY = $1 ORDER BY top ASC LIMIT $2 OFFSET $3",
     [diff, limit, offset]
   );
 

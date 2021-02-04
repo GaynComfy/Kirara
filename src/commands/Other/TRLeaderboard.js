@@ -34,23 +34,29 @@ module.exports = {
         .setColor(stats.length > 0 ? Color.default : Color.red)
         .setImage(Constants.footer);
 
-      await Object.values(diffs).forEach(async (diff) => {
-        const ds = stats.find((d) => d.difficulty === diff);
-        if (!ds) return;
+      await Promise.all(
+        Object.values(diffs).forEach(async (diff) => {
+          const ds = stats.find((d) => d.difficulty === diff);
+          if (!ds) return;
 
-        const top = await ds.users.map(async (u, i) => {
-          const user = await instance.client.users.fetch(u.discord_id);
-          const name = user ? `\`${user.tag}\`` : `<@!${u.discord_id}>`;
-          const cpm = getCpm(diff, u.top);
-          return (
-            `> ` +
-            (i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.**`) +
-            ` ${name} - \`${u.top}s\` (\`${cpm} CPM\`)`
+          const top = await Promise.all(
+            ds.users.map(async (u, i) => {
+              const user = await instance.client.users.fetch(u.discord_id);
+              const name = user ? `\`${user.tag}\`` : `<@!${u.discord_id}>`;
+              const cpm = getCpm(diff, u.top);
+              return (
+                `> ` +
+                (i === 0
+                  ? "<a:Sirona_star:748985391360507924>"
+                  : `**${i + 1}.**`) +
+                ` ${name} - \`${u.top}s\` (\`${cpm} CPM\`)`
+              );
+            })
           );
-        });
 
-        embed.addField(diff.charAt(0).toUpperCase() + diff.slice(1), top);
-      });
+          embed.addField(diff.charAt(0).toUpperCase() + diff.slice(1), top);
+        })
+      );
 
       await message.channel.send(embed);
       return true;
