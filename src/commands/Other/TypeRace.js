@@ -65,7 +65,7 @@ module.exports = {
         channelMap[message.channel.id] === s &&
         msg.content.toLowerCase() === txt &&
         results.indexOf(`\`${msg.author.tag}\``) === -1,
-      { time: 15000 }
+      { time: 10000 }
     );
 
     collector.on("collect", async (msg) => {
