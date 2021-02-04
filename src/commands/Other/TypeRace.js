@@ -37,10 +37,10 @@ const channelMap = [];
 
 const whiteBg = (() => {
   const c = createCanvas(260, 70);
-  const ctx = canvas.getContext("2d");
+  const ctx = c.getContext("2d");
   ctx.fillStyle = "#FFFFFF";
   ctx.fill();
-  return canvas.toBuffer();
+  return c.toBuffer();
 })();
 
 module.exports = {
