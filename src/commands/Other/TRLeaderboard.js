@@ -36,7 +36,7 @@ module.exports = {
 
       Object.values(diffs).forEach((diff) => {
         const ds = stats.find((d) => d.difficulty === diff);
-        if (!ds) continue;
+        if (!ds) return;
         const top = [];
 
         ds.users.forEach(async (u) => {
