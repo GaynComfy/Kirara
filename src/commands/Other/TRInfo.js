@@ -15,6 +15,8 @@ const info = {
   category: "UwU",
 };
 
+const mention = /<@!?(\d{17,19})>/;
+
 module.exports = {
   execute: async (instance, message, args) => {
     let member = message.mentions.users.first();
@@ -39,10 +41,11 @@ module.exports = {
         if (d.played) {
           const topWpm = getWpm(d.difficulty, d.top);
           const lastWpm = getWpm(d.difficulty, d.last);
+          const dName =
+            d.difficulty.charAt(0).toUpperCase() + d.difficulty.slice(1);
           embed.addField(
-            d.difficulty,
-            `Top record: \`${d.top}s\` (\`${topWpm} WPM\`)\n` +
-              `Last game: \`${d.last}s\` (\`${lastWpm} WPM\`)\n\n` +
+            dName,
+            `Top: \`${d.top}s\` (\`${topWpm} WPM\`) | Last: \`${d.last}s\` (\`${lastWpm} WPM\`)\n` +
               `**${d.total} games**, where has been first **${d.first}** times!`
           );
           wpm.push(topWpm);
@@ -56,7 +59,7 @@ module.exports = {
         `<:Sirona_yesh:762603569538531328> **${member.username}'s Typerace stats**\n` +
           `\nTotal games: \`${won}/${total} games\`` +
           (wpm.length >= 1
-            ? `\nAverage WPM: \`${allWpm / wpm.length} WPM\``
+            ? `\nAverage WPM: \`${Math.round(allWpm / wpm.length)} WPM\``
             : ``)
       );
 
