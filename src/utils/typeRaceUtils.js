@@ -70,7 +70,7 @@ const userPlay = async (instance, userId, diff, first, last) => {
   const fNum = first ? 1 : 0;
   const result = await userInfo(instance, userId, diff);
 
-  if (results.played) {
+  if (result.played) {
     const lastTop = parseFloat(result.top);
 
     await instance.database.simpleUpdate(
