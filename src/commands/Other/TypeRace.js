@@ -94,7 +94,13 @@ module.exports = {
 
       const first = results.length === 1;
       msg.react(first ? "🏅" : "✅");
-      const lastTop = userPlay(instance, msg.author.id, diff, first, took);
+      const lastTop = await userPlay(
+        instance,
+        msg.author.id,
+        diff,
+        first,
+        took
+      );
       if (took > lastTop) {
         msg.react("<a:Sirona_star:748985391360507924>");
       }
