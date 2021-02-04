@@ -21,7 +21,7 @@ const info = {
 module.exports = {
   execute: async (instance, message, args) => {
     const di = args.length >= 1 && args.shift()[0].toLowerCase();
-    if (args.length >= 1 && !Object.keys(diffs).includes(di)) return false;
+    if (!Object.keys(diffs).includes(di)) return false;
 
     message.channel.startTyping();
     message.channel.stopTyping();
