@@ -38,9 +38,8 @@ const channelMap = [];
 const whiteBg = (() => {
   const c = createCanvas(260, 70);
   const ctx = c.getContext("2d");
-  ctx.fillStyle = "#FFFFFF";
-  ctx.fillRect(0, 0, 260, 70);
-  return c.toBuffer();
+  ctx.fillRect(0, 0, c.width, c.height);
+  return c;
 })();
 
 module.exports = {
@@ -56,22 +55,26 @@ module.exports = {
 
     let startTime = new Date();
 
-    let captcha;
+    let buffer, txt;
     if (diff === "shoob") {
-      captcha = new CaptchaGenerator({ width: 260, height: 70 })
+      // ToDo: Change to another captcha when I know which one Shoob uses
+      const captcha = new CaptchaGenerator({ width: 260, height: 70 })
         .setCaptcha({ characters: difficulty[diff], color: "#111111" })
         .setDecoy({ opacity: 0 })
         .setTrace({ color: "#111111" })
         .setBackground(whiteBg);
+
+      buffer = await captcha.generateSync();
+      txt = captcha.text.toLowerCase();
     } else {
-      captcha = new CaptchaGenerator({ width: 600, height: 200 })
+      const captcha = new CaptchaGenerator({ width: 600, height: 200 })
         .setCaptcha({ characters: difficulty[diff], color: "#8cbaff" })
         .setDecoy({ opacity: difficulty[diff] >= 8 ? 0.8 : 0 })
         .setTrace({ color: "#8cbaff", opacity: difficulty[diff] < 14 ? 1 : 0 });
-    }
 
-    const buffer = await captcha.generateSync();
-    const txt = captcha.text.toLowerCase(); // TEXT FOR VAR
+      buffer = await captcha.generateSync();
+      txt = captcha.text.toLowerCase();
+    }
 
     const attachment = new MessageAttachment(buffer, "captcha.png");
     const embed = new MessageEmbed()
