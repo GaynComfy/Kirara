@@ -46,7 +46,11 @@ module.exports = {
           embed.addField(
             dName,
             `**Top**: \`${d.top}s\` (\`${topCpm} CPM\`) | **Last**: \`${d.last}s\` (\`${lastCpm} CPM\`)\n` +
-              `**${d.total} games**, where has been first **${d.first}** times! <:KiraraHugHeart:798460293491326986>`
+              `**${d.total} ${
+                d.total === 1 ? "game" : "games"
+              }**, winning a total of **${d.first} ${
+                d.first === 1 ? "game" : "games"
+              }**! <:KiraraHugHeart:798460293491326986>`
           );
           cpm.push(topCpm);
           total += d.total;
