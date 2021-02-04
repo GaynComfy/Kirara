@@ -71,7 +71,12 @@ module.exports = {
 
         Object.keys(tops)
           .slice(offset, offset + 3)
-          .forEach((t) => embed.addField(t, tops[t]));
+          .forEach((t) =>
+            embed.addField(
+              t + (t === "shoob" ? ` <:SShoob:783636544720207903>` : ""),
+              tops[t]
+            )
+          );
 
         return embed;
       });
