@@ -38,6 +38,7 @@ const channelMap = [];
 const whiteBg = (() => {
   const c = createCanvas(260, 70);
   const ctx = c.getContext("2d");
+  ctx.fillStyle = "#FFFFFF";
   ctx.fillRect(0, 0, c.width, c.height);
   return c;
 })();
