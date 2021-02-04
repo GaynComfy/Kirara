@@ -29,11 +29,13 @@ const channelMap = [];
 module.exports = {
   execute: async (instance, message, args) => {
     if (channelMap[message.channel.id]) return;
+    const di = args.length > 0 && args.shift()[0].toLowerCase();
+    if (!Object.keys(diffs).includes(di)) return false;
+
     const s = Symbol();
     channelMap[message.channel.id] = s;
 
-    const diff =
-      diffs[args.length > 0 && args.shift()[0].toLowerCase()] || "medium";
+    const diff = diffs[di];
     const results = [];
     const resultsw = [];
     const timer = [];
