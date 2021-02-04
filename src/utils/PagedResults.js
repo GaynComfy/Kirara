@@ -31,7 +31,8 @@ const command = (msg, maxPages, refresh) => {
     (maxPages > 1 &&
       (((m === "start" || m === "s") && "start") ||
         ((m === "back" || m === "b") && "back") ||
-        ((m === "next" || m === "n") && "next"))) ||
+        ((m === "next" || m === "n") && "next") ||
+        ((m === "forward" || m === "f") && "forward"))) ||
     ((m === "exit" || m === "e") && "exit") ||
     (refresh && (m === "refresh" || m === "r") && "refresh") ||
     (digit.test(m) && parseInt(m))
@@ -175,7 +176,7 @@ const createMessagePagedResults = async (
           default:
             if (typeof cmd === "number" && inSubPage === false) {
               index = cmd - 1;
-            } else if (!inSubPage) {
+            } else if (inSubPage === false) {
               return;
             }
             break;
