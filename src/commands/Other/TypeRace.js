@@ -28,7 +28,7 @@ const difficulty = {
   easy: 6,
   medium: 8,
   hard: 10,
-  impossible: 16,
+  impossible: 14,
 };
 const channelMap = [];
 
@@ -65,7 +65,7 @@ module.exports = {
         channelMap[message.channel.id] === s &&
         msg.content.toLowerCase() === txt &&
         results.indexOf(`\`${msg.author.tag}\``) === -1,
-      { time: 10000 }
+      { time: diff === "impossible" ? 15000 : 10000 }
     );
 
     collector.on("collect", async (msg) => {
