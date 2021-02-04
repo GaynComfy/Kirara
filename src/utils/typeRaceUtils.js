@@ -4,7 +4,7 @@ exports.userPlay = async (instance, userId, diff, first, last) => {
     rows,
   } = await instance.database.pool.query(
     "SELECT * FROM TYPERACE_STATS WHERE discord_id = $1 AND difficulty = $2",
-    [user, diff]
+    [userId, diff]
   );
   if (rows.length === 0) {
     await instance.database.simpleInsert("TYPERACE_STATS", {
