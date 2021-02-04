@@ -52,7 +52,8 @@ module.exports = {
           );
         }
 
-        embed.addField(diff.charAt(0).toUpperCase() + diff.slice(1), top);
+        if (top.length > 0)
+          embed.addField(diff.charAt(0).toUpperCase() + diff.slice(1), top);
       }
 
       await message.channel.send(embed);
