@@ -7,77 +7,67 @@ const info = {
   matchCase: false,
   category: "UwU",
 };
+
+const end = (startTime) => {
+  const endTime = new Date();
+  const timeDiff = endTime - startTime; //in ms
+  // strip the ms
+  timeDiff /= 1000;
+
+  // get seconds
+  // const seconds = Math.round(timeDiff);
+  return timeDiff;
+};
+
 module.exports = {
   execute: async (instance, message, args) => {
-    const argsd = args[0] || "easy";
+    const diff = args.length > 0 ? args[0][0] : "e";
     const results = [];
     const resultsw = [];
     const timer = [];
-    var startTime, endTime;
 
-    const difficulty = { easy: 6, medium: 8, hard: 10 };
+    let startTime = new Date();
+
+    const difficulty = { e: 6, m: 8, h: 10, i: 16 };
     const captcha = new CaptchaGenerator({ height: 200, width: 600 })
       .setCaptcha({ characters: difficulty[argsd], color: "#8cbaff" })
       .setTrace({ color: "#8cbaff" }); // CANVAS
     const buffer = await captcha.generateSync(); // IMG TO ATTACH
     const txt = captcha.text.toLowerCase(); // TEXT FOR VAR
-    console.log(txt);
 
-    function start() {
-      startTime = new Date();
-    }
-
-    function end() {
-      endTime = new Date();
-      var timeDiff = endTime - startTime; //in ms
-      // strip the ms
-      timeDiff /= 1000;
-
-      // get seconds
-      var seconds = Math.round(timeDiff);
-      return seconds;
-    }
-
-    const attachment = new MessageAttachment(buffer, "img.png");
-    const embedSend = new MessageEmbed()
+    const attachment = new MessageAttachment(buffer, "captcha.png");
+    const embed = new MessageEmbed()
       .attachFiles([attachment])
-      .setImage("attachment://img.png");
-    start();
-    message.channel.send(embedSend).then((msg) => {
-      const filter = (msg) => msg.content.toLowerCase().startsWith(`${txt}`);
+      .setImage("attachment://captcha.png");
 
-      const collector = message.channel.createMessageCollector(filter, {
-        time: 15000,
-      });
+    await message.channel.send(embed);
+    startTime = new Date();
+    const collector = message.channel.createMessageCollector(
+      (msg) => msg.content.toLowerCase() === txt,
+      { time: 15000 }
+    );
 
-      collector.on("collect", async (m) => {
-        const wpm = txt.length / 5 / (end() / 60);
-        results.push(`${m.author.tag}`);
-        resultsw.push(`${wpm}`);
-        timer.push(`${end()}s`);
-        const embed = new MessageEmbed()
-          .setDescription(
-            `You got the correct Answer! It took ${end()}s \n WPM: ${wpm}`
-          )
-          .setColor(0xe9a6ff);
-        msg.channel.send(embed);
-      });
-      collector.on("end", (collected) => {
-        if (results.length == 0) {
-          return;
-        }
-        const resultsE = new MessageEmbed()
-          .addField("__User__", results, true)
-          .addField("__WPM__", resultsw, true)
-          .addField("__Time__", timer, true);
-        message.channel.send(resultsE);
-      });
+    collector.on("collect", async (msg) => {
+      const took = end(startTime);
+      const wpm = Math.round(txt.length / 5 / (took / 60));
+      results.push(`${msg.author.tag}`);
+      resultsw.push(`${wpm}`);
+      timer.push(`${took}s`);
+      msg.react(results.length === 1 ? "🥇" : "✅");
+    });
+
+    collector.on("end", (collected) => {
+      const result = new MessageEmbed()
+        .addField("__User__", results, true)
+        .addField("__WPM__", resultsw, true)
+        .addField("__Time__", timer, true);
+      message.channel.send(result);
     });
   },
   info,
   help: {
-    usage: "typerace",
+    usage: "typerace [easy/medium/hard]",
     examples: ["typerace"],
-    description: "typerace",
+    description: "See who's the fastest resolving the captcha!",
   },
 };
