@@ -2,7 +2,12 @@ const { MessageAttachment, MessageEmbed } = require("discord.js");
 const { CaptchaGenerator } = require("captcha-canvas");
 const tcaptcha = require("trek-captcha");
 const Color = require("../../utils/Colors.json");
-const { userPlay } = require("../../utils/typeRaceUtils");
+const {
+  diffs,
+  difficulty,
+  userPlay,
+  getWpm,
+} = require("../../utils/typeRaceUtils");
 
 const info = {
   name: "typerace",
@@ -19,21 +24,6 @@ const end = (startTime) => {
 
   return timeDiff;
 };
-
-const diffs = {
-  s: "shoob",
-  e: "easy",
-  m: "medium",
-  h: "hard",
-  i: "impossible",
-};
-const difficulty = {
-  shoob: 5,
-  easy: 6,
-  medium: 8,
-  hard: 10,
-  impossible: 14,
-};
 const channelMap = [];
 
 module.exports = {
@@ -42,7 +32,8 @@ module.exports = {
     const s = Symbol();
     channelMap[message.channel.id] = s;
 
-    const diff = diffs[args.length > 0 && args.shift()[0]] || "medium";
+    const diff =
+      diffs[args.length > 0 && args.shift()[0].toLowerCase()] || "medium";
     const results = [];
     const resultsw = [];
     const timer = [];
@@ -82,12 +73,12 @@ module.exports = {
         msg.content.toLowerCase() ===
           (diff === "shoob" ? `claim ${txt}` : txt) &&
         results.indexOf(`\`${msg.author.tag}\``) === -1,
-      { time: diff === "impossible" ? 15000 : 10000 }
+      { time: difficulty[diff] >= 12 ? 15000 : 10000 }
     );
 
     collector.on("collect", async (msg) => {
       const took = end(startTime);
-      const wpm = Math.round((txt.length / 5 / took) * 60);
+      const wpm = getWpm(diff, took);
       results.push(`\`${msg.author.tag}\``);
       resultsw.push(`\`${wpm}\``);
       timer.push(`\`${took}s\``);
@@ -102,6 +93,7 @@ module.exports = {
         took
       );
       if (took < lastTop) {
+        // new record!
         msg.react("<a:Sirona_star:748985391360507924>");
       }
     });
