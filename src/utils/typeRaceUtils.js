@@ -28,7 +28,7 @@ exports.userPlay = async (instance, userId, diff, first, last) => {
         difficulty: diff,
       },
       {
-        top: last > lastTop ? last : lastTop,
+        top: last < lastTop ? last : lastTop,
         last,
         first: parseInt(result.first) + fNum,
         total: parseInt(result.total) + 1,

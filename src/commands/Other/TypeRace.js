@@ -101,7 +101,7 @@ module.exports = {
         first,
         took
       );
-      if (took > lastTop) {
+      if (took < lastTop) {
         msg.react("<a:Sirona_star:748985391360507924>");
       }
     });
