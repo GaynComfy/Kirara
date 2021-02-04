@@ -1,4 +1,6 @@
 const { MessageEmbed } = require("discord.js");
+const { CaptchaGenerator } = require('captcha-canvas'); 
+
 const info = {
   name: "typerace",
   matchCase: false,
