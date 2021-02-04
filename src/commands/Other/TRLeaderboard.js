@@ -34,7 +34,7 @@ module.exports = {
         .setColor(stats.length > 0 ? Color.default : Color.red)
         .setImage(Constants.footer);
 
-      for (const diff of Object.values(diffs)) {
+      for (const diff of Object.values(diffs).reverse()) {
         const ds = stats.find((d) => d.difficulty === diff);
         if (!ds) continue;
 
