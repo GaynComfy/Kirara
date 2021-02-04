@@ -35,6 +35,8 @@ const channelMap = [];
 module.exports = {
   execute: async (instance, message, args) => {
     if (channelMap[message.channel.id]) return;
+    const s = Symbol();
+    channelMap[message.channel.id] = s;
 
     const diff = diffs[args.length > 0 && args.shift()[0]] || "easy";
     const results = [];
@@ -57,8 +59,6 @@ module.exports = {
 
     await message.channel.send(embed);
     startTime = new Date();
-    const s = Symbol();
-    channelMap[message.channel.id] = s;
 
     const collector = message.channel.createMessageCollector(
       (msg) =>
