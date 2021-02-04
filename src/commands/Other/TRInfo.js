@@ -45,8 +45,8 @@ module.exports = {
             d.difficulty.charAt(0).toUpperCase() + d.difficulty.slice(1);
           embed.addField(
             dName,
-            `Top: \`${d.top}s\` (\`${topWpm} WPM\`) | Last: \`${d.last}s\` (\`${lastWpm} WPM\`)\n` +
-              `**${d.total} games**, where has been first **${d.first}** times!`
+            `**Top**: \`${d.top}s\` (\`${topWpm} WPM\`) | **Last**: \`${d.last}s\` (\`${lastWpm} WPM\`)\n` +
+              `**${d.total} games**, where has been first **${d.first}** times! <:KiraraHugHeart:798460293491326986>`
           );
           wpm.push(topWpm);
           total += d.total;
@@ -56,10 +56,10 @@ module.exports = {
       wpm.forEach((d) => (allWpm += d));
 
       embed.setDescription(
-        `<:Sirona_yesh:762603569538531328> **${member.username}'s Typerace stats**\n` +
-          `\nTotal games: \`${won}/${total} games\`` +
+        `<:Sirona_yesh:762603569538531328> **${member.username}'s Typerace stats**` +
+          `\n**Total games**: \`${won}/${total} games\`` +
           (wpm.length >= 1
-            ? `\nAverage WPM: \`${Math.round(allWpm / wpm.length)} WPM\``
+            ? `\n**Average WPM**: \`${Math.round(allWpm / wpm.length)} WPM\``
             : ``)
       );
 
@@ -81,14 +81,14 @@ module.exports = {
         .setThumbnail(member.displayAvatarURL({ size: 2048, dynamic: true }))
         .setColor(Color.default)
         .setDescription(
-          `<:Sirona_yesh:762603569538531328> **${member.username}'s ${dName} Typerace stats**\n` +
+          `<:Sirona_yesh:762603569538531328> **${member.username}'s ${dName} Typerace stats**` +
             (stats.played
-              ? `\nTotal games: \`${stats.first}/${stats.total} games\`` +
+              ? `\n**Total games**: \`${stats.first}/${stats.total} games\`` +
                 (stats.top > 0
-                  ? `\nTop record: \`${stats.top}s\` (\`${topWpm} WPM\`)`
+                  ? `\n**Top record**: \`${stats.top}s\` (\`${topWpm} WPM\`)`
                   : ``) +
                 (stats.last > 0
-                  ? `\nLast game: \`${stats.last}s\` (\`${lastWpm} WPM\`)`
+                  ? `\n**Last game**: \`${stats.last}s\` (\`${lastWpm} WPM\`)`
                   : ``)
               : `\nNo games yet!`)
         );
