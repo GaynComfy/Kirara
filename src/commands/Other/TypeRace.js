@@ -7,7 +7,6 @@ const info = {
   aliases: ["tr"],
   matchCase: false,
   category: "UwU",
-  cooldown: 15,
 };
 
 const end = (startTime) => {
@@ -31,9 +30,12 @@ const difficulty = {
   hard: 10,
   impossible: 16,
 };
+const channelMap = [];
 
 module.exports = {
   execute: async (instance, message, args) => {
+    if (channelMap[message.channel.id]) return;
+
     const diff = diffs[args.length > 0 && args.shift()[0]] || "easy";
     const results = [];
     const resultsw = [];
@@ -55,8 +57,12 @@ module.exports = {
 
     await message.channel.send(embed);
     startTime = new Date();
+    const s = Symbol();
+    channelMap[message.channel.id] = s;
+
     const collector = message.channel.createMessageCollector(
       (msg) =>
+        channelMap[message.channel.id] === s &&
         msg.content.toLowerCase() === txt &&
         results.indexOf(`\`${msg.author.tag}\``) === -1,
       { time: 15000 }
@@ -72,6 +78,8 @@ module.exports = {
     });
 
     collector.on("end", (collected) => {
+      if (channelMap[message.channel.id] !== s) return;
+
       const result = new MessageEmbed()
         .setTitle(
           `Type race results: ${diff.charAt(0).toUpperCase() + diff.slice(1)}`
@@ -87,6 +95,8 @@ module.exports = {
           .addField("__Time__", timer, true);
       }
       message.channel.send(result);
+
+      delete channelMap[message.channel.id];
     });
   },
   info,
