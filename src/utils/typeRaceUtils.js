@@ -112,6 +112,7 @@ const getWpm = (diff, time) => {
 module.exports = {
   diffs,
   difficulty,
+  userAllInfo,
   userInfo,
   userPlay,
   getWpm,
