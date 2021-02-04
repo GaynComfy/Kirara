@@ -67,9 +67,9 @@ module.exports = {
       })
       .setDecoy({ opacity: difficulty[diff] >= 8 ? 0.8 : 0 })
       .setTrace({ color: diff === "shoob" ? "#111111" : "#8cbaff" }); // CANVAS
-    const buffer = await captcha.generateSync({
-      background: diff === "shoob" ? whiteBg : null,
-    }); // IMG TO ATTACH
+    if (diff === "shoob") captcha.setBackground(whiteBg);
+
+    const buffer = await captcha.generateSync(); // IMG TO ATTACH
     const txt = captcha.text.toLowerCase(); // TEXT FOR VAR
 
     const attachment = new MessageAttachment(buffer, "captcha.png");
