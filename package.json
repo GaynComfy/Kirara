@@ -19,9 +19,9 @@
   "dependencies": {
     "axios": "^0.21.0",
     "canvas": "^2.6.1",
+    "captcha-canvas": "^2.2.2",
     "discord.js": "^12.5.0",
     "humanize-duration": "^3.24.0",
-    "husky": "^4.3.0",
     "moment": "^2.29.1",
     "pg": "^8.5.1",
     "redis": "^3.0.2"

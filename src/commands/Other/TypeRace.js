@@ -1,5 +1,6 @@
 const { MessageAttachment, MessageEmbed } = require("discord.js");
 const { CaptchaGenerator } = require("captcha-canvas");
+const Color = require("../../utils/Colors.json");
 
 const info = {
   name: "typerace",
@@ -67,9 +68,11 @@ module.exports = {
     });
 
     collector.on("end", (collected) => {
-      const result = new MessageEmbed().setTitle(
-        `Type race results: ${diff.charAt(0).toUpperCase() + diff.slice(1)}`
-      );
+      const result = new MessageEmbed()
+        .setTitle(
+          `Type race results: ${diff.charAt(0).toUpperCase() + diff.slice(1)}`
+        )
+        .setColor(Color.pink);
 
       if (results.length === 0) {
         result.setDescription("No participants!");
@@ -85,7 +88,7 @@ module.exports = {
   info,
   help: {
     usage: "typerace [easy/medium/hard]",
-    examples: ["typerace"],
+    examples: ["typerace", "tr m"],
     description: "See who's the fastest resolving the captcha!",
   },
 };
