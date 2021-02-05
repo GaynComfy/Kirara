@@ -140,7 +140,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "typerace [shoob/easy/medium/hard/great/impossible]",
+    usage: "typerace [shoob/easy/medium/hard/impossible]",
     examples: ["typerace", "tr s"],
     description: "See who's the fastest resolving the captcha!",
   },

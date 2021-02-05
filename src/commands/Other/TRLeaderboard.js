@@ -141,7 +141,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "trlb [shoob/easy/medium/hard/great/impossible]",
+    usage: "trlb [shoob/easy/medium/hard/impossible]",
     examples: ["trlb", "trlb i"],
     description:
       "Top players of the Type Race, with the fastest known by Kirara!",

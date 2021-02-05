@@ -99,7 +99,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "typeraceinfo [@user] [shoob/easy/medium/hard/great/impossible]",
+    usage: "typeraceinfo [@user] [shoob/easy/medium/hard/impossible]",
     examples: ["tri", "tri @JeDaYoshi", "trs @wong i"],
     description: "See Type race stats!",
   },

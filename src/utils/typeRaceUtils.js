@@ -11,7 +11,6 @@ const difficulty = {
   easy: 6,
   medium: 8,
   hard: 10,
-  great: 12,
   impossible: 14,
 };
 
