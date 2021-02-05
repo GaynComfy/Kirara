@@ -155,12 +155,18 @@ module.exports = {
         first,
         took,
         `${msg.guild.id}:${msg.channel.id}:${msg.id}`
-      ).then((lastTop) => {
-        if (took < lastTop) {
-          // new record!
-          msg.react("<a:Sirona_star:748985391360507924>");
-        }
-      });
+      )
+        .then((lastTop) => {
+          if (took < lastTop) {
+            // new record!
+            msg.react("<a:Sirona_star:748985391360507924>");
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          // error saving score?
+          msg.react("❌");
+        });
     });
 
     collector.on("end", (collected) => {
