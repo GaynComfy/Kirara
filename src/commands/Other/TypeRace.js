@@ -66,17 +66,16 @@ module.exports = {
       let i = 0;
       txt = randomStr(10, charSetSpace);
       ctx.lineWidth = "1px";
-      ctx.font = "16px Porter";
+      ctx.font = "16pt Porter";
       ctx.textAlign = "left";
       ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
-      while (i !== 10) {
-        // 11
+      while (i !== 11) {
         ctx.rect(0, i * 3, 300, 2);
         i++;
       }
 
       ctx.fill();
-      ctx.fillText(txt, 10, 4);
+      ctx.fillText(txt, 4, 10);
 
       buffer = await captcha.toBuffer();
     } else {
