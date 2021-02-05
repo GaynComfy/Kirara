@@ -1,6 +1,6 @@
 const { MessageAttachment, MessageEmbed } = require("discord.js");
 const { CaptchaGenerator } = require("captcha-canvas");
-const { createCanvas } = require("canvas");
+const { createCanvas, registerFont } = require("canvas");
 const tcaptcha = require("trek-captcha");
 const Color = require("../../utils/Colors.json");
 const {
@@ -11,6 +11,7 @@ const {
   getTopPlayersByDiff,
   userPlay,
 } = require("../../utils/typeRaceUtils");
+registerFont("./src/assets/Porter.ttf", { family: "Porter" });
 
 const info = {
   name: "typerace",
@@ -66,7 +67,7 @@ module.exports = {
       let i = 0;
       txt = randomStr(10, charSetSpace);
       ctx.lineWidth = "1px";
-      ctx.font = "16pt Porter";
+      ctx.font = "16px Porter";
       ctx.textAlign = "left";
       ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
       while (i !== 11) {
