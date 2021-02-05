@@ -48,7 +48,7 @@ module.exports = {
     const tier =
       (!isNaN(di[1]) && tiers.indexOf(di[1]) !== -1 && parseInt(di[1])) ||
       false;
-    if (tier) di = "collect";
+    if (tier !== false) di = "collect";
     if (di !== false && !Object.keys(diffs).includes(di[0])) return false;
 
     const s = Symbol();
