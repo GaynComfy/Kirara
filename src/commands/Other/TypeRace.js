@@ -12,6 +12,7 @@ const {
   userPlay,
 } = require("../../utils/typeRaceUtils");
 registerFont("./src/assets/Porter.ttf", { family: "Porter" });
+const tColors = Object.values(colors);
 
 const info = {
   name: "typerace",
@@ -67,11 +68,11 @@ module.exports = {
       let i = 0;
       txt = randomStr(10, charSetSpace);
       ctx.lineWidth = "1px";
-      ctx.font = "16px Porter";
+      ctx.font = "16pt Porter";
       ctx.textAlign = "left";
-      ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+      ctx.fillStyle = tColors[Math.floor(Math.random() * tColors.length)];
       while (i !== 11) {
-        ctx.rect(0, i * 3, 300, 2);
+        ctx.rect(i * 3, 0, 300, 2);
         i++;
       }
 
