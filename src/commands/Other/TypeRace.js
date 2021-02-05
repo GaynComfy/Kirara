@@ -72,7 +72,7 @@ module.exports = {
       ctx.textAlign = "left";
       ctx.fillStyle = tColors[Math.floor(Math.random() * tColors.length)];
       while (i !== 11) {
-        ctx.rect(i * 3, 0, 300, 2);
+        ctx.rect(0, i * 3, 300, 2);
         i++;
       }
 
