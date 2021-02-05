@@ -22,7 +22,7 @@ const difficulty = {
   medium: 8,
   hard: 10,
   impossible: 14,
-  collect: 10,
+  collect: 8,
   shoob: 5,
 };
 

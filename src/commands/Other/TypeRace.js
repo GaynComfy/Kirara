@@ -31,8 +31,7 @@ const end = (startTime) => {
 };
 const channelMap = [];
 const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const charSetSpace = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
-const randomStr = (len, cS = charSet) => {
+const randomStr = (len) => {
   let rStr = "";
   for (let i = 0; i < len; i++) {
     let rPos = Math.floor(Math.random() * cS.length);
@@ -63,21 +62,29 @@ module.exports = {
       buffer = captcha.buffer;
       txt = captcha.token;
     } else if (diff === "collect") {
-      const captcha = createCanvas(300, 33);
+      const captcha = createCanvas(300, 32);
       const ctx = captcha.getContext("2d");
-      let i = 0;
-      const chars = randomStr(10, charSetSpace);
+      const chars = randomStr(8);
+
       ctx.lineWidth = "1px";
       ctx.font = "34px Porter";
       ctx.textAlign = "left";
       ctx.fillStyle = tColors[Math.floor(Math.random() * tColors.length)];
-      while (i !== 11) {
+
+      let i = 0;
+      while (i < 11) {
         ctx.rect(0, i * 3, 300, 2);
         i++;
       }
-
       ctx.fill();
-      ctx.fillText(chars, 10, 28);
+      ctx.fillText(
+        chars.replace(
+          new RegExp(`/(\d{${Math.random() * (2 - 1) + 2}})/g`),
+          "$1 "
+        ),
+        5,
+        28
+      );
 
       buffer = await captcha.toBuffer();
       txt = chars.toLowerCase();
