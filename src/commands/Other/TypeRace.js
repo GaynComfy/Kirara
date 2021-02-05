@@ -79,7 +79,7 @@ module.exports = {
       ctx.fill();
       ctx.fillText(
         chars.replace(
-          new RegExp(`(\\w{${Math.round(Math.random() * (6 - 3) + 1)}})`, "g"),
+          new RegExp(`(\\w{${Math.round(Math.random() * 2) * 2}})`),
           "$1 "
         ),
         5,
