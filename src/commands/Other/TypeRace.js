@@ -46,8 +46,7 @@ module.exports = {
     if (channelMap[message.channel.id]) return;
     let di = args.length > 0 ? args.shift().toLowerCase() : false;
     const tier =
-      (!isNaN(di[1]) && tiers.indexOf(di[1]) !== -1 && parseInt(di[1])) ||
-      false;
+      !isNaN(di[1]) && tiers.indexOf(di[1]) !== -1 ? parseInt(di[1]) : false;
     if (tier !== false) di = "collect";
     if (di !== false && !Object.keys(diffs).includes(di[0])) return false;
 
