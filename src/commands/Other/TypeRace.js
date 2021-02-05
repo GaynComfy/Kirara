@@ -79,11 +79,11 @@ module.exports = {
       ctx.fill();
       ctx.fillText(
         chars.replace(
-          new RegExp(`/(\\d{${Math.random() * (2 - 1) + 2}})/g`),
+          new RegExp(`/(\\d{${Math.random() * (2 - 1) + 1}})/g`),
           "$1 "
         ),
         5,
-        27
+        28
       );
 
       buffer = await captcha.toBuffer();
