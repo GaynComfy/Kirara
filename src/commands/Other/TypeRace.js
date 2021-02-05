@@ -22,8 +22,8 @@ const info = {
   category: "UwU",
 };
 
-const end = (startTime) => {
-  const endTime = new Date();
+const end = (startTime, time) => {
+  const endTime = time;
   let timeDiff = endTime - startTime; // in ms
   // strip the ms
   timeDiff /= 1000;
@@ -139,7 +139,7 @@ module.exports = {
     );
 
     collector.on("collect", (msg) => {
-      const took = end(startTime);
+      const took = end(startTime, msg.createdTimestamp);
       const cpm = getCpm(diff, took);
       const first = plays.length === 0;
       plays.push(msg.author.id);
