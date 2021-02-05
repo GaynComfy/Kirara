@@ -39,6 +39,7 @@ module.exports = {
 
       stats.diffs
         .filter((d) => d.played)
+        .reverse()
         .forEach((d) => {
           const topCpm = getCpm(d.difficulty, d.top);
           const lastCpm = getCpm(d.difficulty, d.last);
