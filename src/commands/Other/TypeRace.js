@@ -85,7 +85,7 @@ module.exports = {
     else if (diff === "collect")
       embed.setDescription("To claim, use: `collect [captcha code]`");
 
-    message.channel.send(embed);
+    await message.channel.send(embed);
     const startTime = new Date();
 
     const collector = message.channel.createMessageCollector(
