@@ -77,7 +77,7 @@ module.exports = {
       }
 
       ctx.fill();
-      ctx.fillText(txt, 10, 4);
+      ctx.fillText(txt, 10, 25);
 
       buffer = await captcha.toBuffer();
     } else {
