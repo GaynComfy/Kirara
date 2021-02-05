@@ -88,7 +88,7 @@ module.exports = {
         channelMap[message.channel.id] === s &&
         msg.content.toLowerCase() ===
           (diff === "shoob" ? `claim ${txt}` : txt) &&
-        results.indexOf(`\`${msg.author.tag}\``) === -1,
+        results.indexOf(`> \`${msg.author.tag}\``) === -1,
       { time: difficulty[diff] >= 12 ? 15000 : 10000 }
     );
 
