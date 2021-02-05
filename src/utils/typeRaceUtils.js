@@ -1,16 +1,18 @@
 const diffs = {
-  s: "shoob",
   e: "easy",
   m: "medium",
   h: "hard",
   i: "impossible",
+  //  c: "collect",
+  s: "shoob",
 };
 const difficulty = {
-  shoob: 5,
   easy: 6,
   medium: 8,
   hard: 10,
   impossible: 14,
+  //  collect: 10,
+  shoob: 5,
 };
 
 const defs = {
@@ -124,6 +126,7 @@ const userPlay = async (instance, userId, diff, first, last, cid) => {
         first: parseInt(result.first) + fNum,
         total: parseInt(result.total) + 1,
         cid: last < lastTop ? cid : result.cid,
+        played: true,
       }
     );
 
@@ -137,6 +140,7 @@ const userPlay = async (instance, userId, diff, first, last, cid) => {
       first: fNum,
       total: 1,
       cid,
+      played: true,
     });
 
     return Infinity;

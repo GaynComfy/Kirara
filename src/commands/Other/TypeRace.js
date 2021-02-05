@@ -58,6 +58,11 @@ module.exports = {
 
       buffer = captcha.buffer;
       txt = captcha.token;
+    } else if (diff === "collect") {
+      const captcha = await tcaptcha({ style: 3 });
+
+      buffer = captcha.buffer;
+      txt = captcha.token;
     } else {
       const captcha = new CaptchaGenerator({ width: 600, height: 200 })
         .setCaptcha({
@@ -79,6 +84,8 @@ module.exports = {
       .setImage("attachment://captcha.png");
     if (diff === "shoob")
       embed.setDescription("To claim, use: `claim [captcha code]`");
+    else if (diff === "collect")
+      embed.setDescription("To claim, use: `collect [captcha code]`");
 
     await message.channel.send(embed);
     startTime = new Date();
@@ -87,12 +94,16 @@ module.exports = {
       (msg) =>
         channelMap[message.channel.id] === s &&
         msg.content.toLowerCase() ===
-          (diff === "shoob" ? `claim ${txt}` : txt) &&
+          (diff === "shoob"
+            ? `claim ${txt}`
+            : diff === "collect"
+            ? `collect ${txt}`
+            : txt) &&
         results.indexOf(`> \`${msg.author.tag}\``) === -1,
       { time: difficulty[diff] >= 12 ? 15000 : 10000 }
     );
 
-    collector.on("collect", async (msg) => {
+    collector.on("collect", (msg) => {
       const took = end(startTime);
       const cpm = getCpm(diff, took);
       results.push(`> \`${msg.author.tag}\``);
@@ -101,18 +112,19 @@ module.exports = {
 
       const first = results.length === 1;
       msg.react(first ? "🏅" : "✅");
-      const lastTop = await userPlay(
+      userPlay(
         instance,
         msg.author.id,
         diff,
         first,
         took,
         `${msg.guild.id}:${msg.channel.id}:${msg.id}`
-      );
-      if (took < lastTop) {
-        // new record!
-        msg.react("<a:Sirona_star:748985391360507924>");
-      }
+      ).then((lastTop) => {
+        if (took < lastTop) {
+          // new record!
+          msg.react("<a:Sirona_star:748985391360507924>");
+        }
+      });
     });
 
     collector.on("end", (collected) => {
@@ -121,7 +133,9 @@ module.exports = {
       const result = new MessageEmbed()
         .setTitle(
           `Type race results: ${diff.charAt(0).toUpperCase() + diff.slice(1)}` +
-            (diff === "shoob" ? ` <:SShoob:783636544720207903>` : "")
+            (["shoob", "collect"].includes(diff)
+              ? ` <:SShoob:783636544720207903>`
+              : "")
         )
         .setColor(Color.white);
 
