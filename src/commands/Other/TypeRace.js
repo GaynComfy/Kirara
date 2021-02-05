@@ -46,7 +46,12 @@ module.exports = {
     if (channelMap[message.channel.id]) return;
     let di = args.length > 0 ? args.shift().toLowerCase() : false;
     const tier =
-      !isNaN(di[1]) && tiers.indexOf(di[1]) !== -1 ? parseInt(di[1]) : false;
+      typeof di === "string" &&
+      di[0] === "t" &&
+      !isNaN(di[1]) &&
+      tiers.indexOf(di[1]) !== -1
+        ? parseInt(di[1])
+        : false;
     if (tier !== false) di = "collect";
     if (di !== false && !Object.keys(diffs).includes(di[0])) return false;
 
@@ -127,7 +132,7 @@ module.exports = {
           (diff === "shoob"
             ? `claim ${txt}`
             : diff === "collect"
-            ? `collect ${txt.replace(" ", "")}`
+            ? `collect ${txt}`
             : txt) &&
         plays.indexOf(msg.author.id) === -1,
       { time: difficulty[diff] >= 12 ? 15000 : 10000 }
@@ -174,9 +179,9 @@ module.exports = {
         result.setDescription("No participants!");
       } else {
         result
-          .addField("__User__", results, true)
-          .addField("__CPM__", resultsw, true)
-          .addField("__Time__", timer, true);
+          .addField("•   __User__", results, true)
+          .addField("•   __CPM__", resultsw, true)
+          .addField("•   __Time__", timer, true);
       }
       message.channel.send(result);
 
