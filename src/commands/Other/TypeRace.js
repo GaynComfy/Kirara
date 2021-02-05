@@ -26,6 +26,15 @@ const end = (startTime) => {
   return timeDiff;
 };
 const channelMap = [];
+const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const randomStr = (len) => {
+  let rStr = "";
+  for (let i = 0; i < len; i++) {
+    let rPos = Math.floor(Math.random() * charSet.length);
+    rStr += charSet.substring(rPos, rPos + 1);
+  }
+  return rStr;
+};
 
 module.exports = {
   execute: async (instance, message, args) => {
@@ -51,7 +60,11 @@ module.exports = {
       txt = captcha.token;
     } else {
       const captcha = new CaptchaGenerator({ width: 600, height: 200 })
-        .setCaptcha({ characters: difficulty[diff], color: "#8cbaff" })
+        .setCaptcha({
+          characters: difficulty[diff],
+          color: "#8cbaff",
+          text: randomStr(difficulty[diff]),
+        })
         .setDecoy({ opacity: difficulty[diff] >= 8 ? 0.8 : 0 })
         .setTrace({ color: "#8cbaff", opacity: difficulty[diff] < 14 ? 1 : 0 });
 
