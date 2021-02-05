@@ -12,6 +12,7 @@ const {
   userPlay,
 } = require("../../utils/typeRaceUtils");
 registerFont("./src/assets/Porter.ttf", { family: "Porter" });
+const tiers = Object.keys(colors);
 const tColors = Object.values(colors);
 
 const info = {
@@ -43,13 +44,17 @@ const randomStr = (len) => {
 module.exports = {
   execute: async (instance, message, args) => {
     if (channelMap[message.channel.id]) return;
-    const di = args.length > 0 ? args.shift()[0].toLowerCase() : false;
-    if (di !== false && !Object.keys(diffs).includes(di)) return false;
+    let di = args.length > 0 ? args.shift().toLowerCase() : false;
+    const tier =
+      (!isNaN(di[1]) && tiers.indexOf(di[1]) !== -1 && parseInt(di[1])) ||
+      false;
+    if (tier) di = "collect";
+    if (di !== false && !Object.keys(diffs).includes(di[0])) return false;
 
     const s = Symbol();
     channelMap[message.channel.id] = s;
 
-    const diff = diffs[di || "m"];
+    const diff = diffs[di[0] || "m"];
     const plays = [];
     const results = [];
     const resultsw = [];
@@ -69,7 +74,8 @@ module.exports = {
       ctx.lineWidth = "1px";
       ctx.font = "36px Porter";
       ctx.textAlign = "left";
-      ctx.fillStyle = tColors[Math.floor(Math.random() * tColors.length)];
+      if (tier) ctx.fillStyle = colors[tier];
+      else ctx.fillStyle = tColors[Math.floor(Math.random() * tColors.length)];
 
       let i = 0;
       while (i < 11) {
