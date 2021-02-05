@@ -6,6 +6,7 @@ const {
   diffs,
   difficulty,
   getCpm,
+  getTopPlayersByDiff,
   userPlay,
 } = require("../../utils/typeRaceUtils");
 
@@ -97,7 +98,21 @@ module.exports = {
       );
       if (took < lastTop) {
         // new record!
-        msg.react("<a:Sirona_star:748985391360507924>");
+        let global = false;
+        if (first) {
+          // check if it is a global record...
+          try {
+            const play = await getTopPlayersByDiff(instance, diff, 1, 0);
+            if (play.discord_id === msg.author.id) global = true;
+          } catch (err) {
+            console.error(err);
+          }
+        }
+        msg.react(
+          global
+            ? "<:Sirona_yesh:762603569538531328>"
+            : "<a:Sirona_star:748985391360507924>"
+        );
       }
     });
 
