@@ -3,7 +3,6 @@ const diffs = {
   e: "easy",
   m: "medium",
   h: "hard",
-  g: "great",
   i: "impossible",
 };
 const difficulty = {
