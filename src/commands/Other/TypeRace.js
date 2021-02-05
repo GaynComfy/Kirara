@@ -67,7 +67,7 @@ module.exports = {
       const chars = randomStr(8);
 
       ctx.lineWidth = "1px";
-      ctx.font = "35px Porter";
+      ctx.font = "36px Porter";
       ctx.textAlign = "left";
       ctx.fillStyle = tColors[Math.floor(Math.random() * tColors.length)];
 
@@ -79,7 +79,7 @@ module.exports = {
       ctx.fill();
       ctx.fillText(
         chars.replace(
-          new RegExp(`/(\\d{${Math.random() * (2 - 1) + 1}})/g`),
+          new RegExp(`(\\d{${Math.round(Math.random() * (6 - 3) + 1)}})`, "g"),
           "$1 "
         ),
         5,
