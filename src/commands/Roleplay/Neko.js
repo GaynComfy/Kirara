@@ -1,7 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const Fetcher = require("../../utils/GifFetcher");
 const { generateRolePlayEmbed } = require("./utils");
-const axios = require("axios");
 const { withCount } = require("../../utils/rolePlayHooks");
 const Color = require("../../utils/Colors.json");
 const info = {
@@ -12,9 +11,7 @@ const info = {
 };
 module.exports = {
   execute: async (instance, message, args) => {
-    const {
-      data: { url },
-    } = await axios.get("https://nekos.life/api/v2/img/neko");
+    const { url } = await Fetcher.request("neko");
     const embed = new MessageEmbed()
       .setDescription("Nyaa~")
       .setColor(Color.white);
