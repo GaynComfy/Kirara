@@ -20,6 +20,7 @@ const defs = {
   last: 0,
   first: 0,
   total: 0,
+  cid: 0,
 };
 
 const getCpm = (diff, time) => {
@@ -64,7 +65,7 @@ const userAllInfo = async (instance, userId) => {
   const {
     rows,
   } = await instance.database.pool.query(
-    "SELECT difficulty, top, last, first, total FROM TYPERACE_STATS WHERE discord_id = $1",
+    "SELECT difficulty, top, last, first, total, cid FROM TYPERACE_STATS WHERE discord_id = $1",
     [userId]
   );
 
@@ -106,7 +107,7 @@ const userInfo = async (instance, userId, diff) => {
       played: true,
     };
 };
-const userPlay = async (instance, userId, diff, first, last) => {
+const userPlay = async (instance, userId, diff, first, last, cid) => {
   const fNum = first ? 1 : 0;
   const result = await userInfo(instance, userId, diff);
 
@@ -124,6 +125,7 @@ const userPlay = async (instance, userId, diff, first, last) => {
         last,
         first: parseInt(result.first) + fNum,
         total: parseInt(result.total) + 1,
+        cid: last < lastTop ? cid : result.cid,
       }
     );
 
@@ -136,6 +138,7 @@ const userPlay = async (instance, userId, diff, first, last) => {
       last,
       first: fNum,
       total: 1,
+      cid,
     });
 
     return Infinity;

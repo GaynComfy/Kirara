@@ -92,7 +92,8 @@ module.exports = {
         msg.author.id,
         diff,
         first,
-        took
+        took,
+        `${msg.guild.id}:${msg.channel.id}:${msg.id}`
       );
       if (took < lastTop) {
         // new record!
