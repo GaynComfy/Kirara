@@ -122,8 +122,9 @@ module.exports = {
     else if (diff === "collect")
       embed.setDescription("To claim, use: `collect [captcha code]`");
 
-    await message.channel.send(embed);
-    const startTime = new Date();
+    const m = await message.channel.send(embed);
+    const startTime = m.createdTimestamp;
+    console.log(`${m.createdTimestamp - message.createdTimestamp}ms latency`);
 
     const collector = message.channel.createMessageCollector(
       (msg) =>
