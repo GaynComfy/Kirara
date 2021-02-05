@@ -67,7 +67,7 @@ module.exports = {
       const chars = randomStr(8);
 
       ctx.lineWidth = "1px";
-      ctx.font = "34px Porter";
+      ctx.font = "35px Porter";
       ctx.textAlign = "left";
       ctx.fillStyle = tColors[Math.floor(Math.random() * tColors.length)];
 
@@ -79,11 +79,11 @@ module.exports = {
       ctx.fill();
       ctx.fillText(
         chars.replace(
-          new RegExp(`/(\d{${Math.random() * (2 - 1) + 2}})/g`),
+          new RegExp(`/(\\d{${Math.random() * (2 - 1) + 2}})/g`),
           "$1 "
         ),
         5,
-        28
+        27
       );
 
       buffer = await captcha.toBuffer();
