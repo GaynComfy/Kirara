@@ -68,15 +68,15 @@ module.exports = {
       ctx.lineWidth = "1px";
       ctx.font = "16px Porter";
       ctx.textAlign = "left";
-      ctx.fillStyle = "#ffffff";
+      ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
       while (i !== 10) {
         // 11
-        ctx.rect(i * 3, 0, 2, 300);
+        ctx.rect(0, i * 3, 300, 2);
         i++;
       }
 
       ctx.fill();
-      ctx.fillText(txt, 4, 10);
+      ctx.fillText(txt, 10, 4);
 
       buffer = await captcha.toBuffer();
     } else {
