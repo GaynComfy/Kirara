@@ -34,8 +34,8 @@ const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const randomStr = (len) => {
   let rStr = "";
   for (let i = 0; i < len; i++) {
-    let rPos = Math.floor(Math.random() * cS.length);
-    rStr += cS.substring(rPos, rPos + 1);
+    let rPos = Math.floor(Math.random() * charSet.length);
+    rStr += charSet.substring(rPos, rPos + 1);
   }
   return rStr;
 };
