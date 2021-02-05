@@ -35,7 +35,7 @@ module.exports = {
     const s = Symbol();
     channelMap[message.channel.id] = s;
 
-    const diff = diffs[di];
+    const diff = diffs[di || "m"];
     const results = [];
     const resultsw = [];
     const timer = [];
