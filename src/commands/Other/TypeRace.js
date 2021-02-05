@@ -68,7 +68,7 @@ module.exports = {
       let i = 0;
       txt = randomStr(10, charSetSpace);
       ctx.lineWidth = "1px";
-      ctx.font = "30px Porter";
+      ctx.font = "34px Porter";
       ctx.textAlign = "left";
       ctx.fillStyle = tColors[Math.floor(Math.random() * tColors.length)];
       while (i !== 11) {
