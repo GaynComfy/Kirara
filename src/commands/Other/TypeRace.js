@@ -66,7 +66,7 @@ module.exports = {
       const captcha = createCanvas(300, 33);
       const ctx = captcha.getContext("2d");
       let i = 0;
-      txt = randomStr(10, charSetSpace);
+      const chars = randomStr(10, charSetSpace);
       ctx.lineWidth = "1px";
       ctx.font = "34px Porter";
       ctx.textAlign = "left";
@@ -77,9 +77,10 @@ module.exports = {
       }
 
       ctx.fill();
-      ctx.fillText(txt, 10, 25);
+      ctx.fillText(chars, 10, 25);
 
       buffer = await captcha.toBuffer();
+      txt = chars.toLowerCase();
     } else {
       const captcha = new CaptchaGenerator({ width: 600, height: 200 })
         .setCaptcha({
@@ -114,7 +115,7 @@ module.exports = {
           (diff === "shoob"
             ? `claim ${txt}`
             : diff === "collect"
-            ? `collect ${txt.trim()}`
+            ? `collect ${txt.replace(" ", "")}`
             : txt) &&
         plays.indexOf(msg.author.id) === -1,
       { time: difficulty[diff] >= 12 ? 15000 : 10000 }
