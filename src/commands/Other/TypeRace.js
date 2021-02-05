@@ -1,8 +1,10 @@
 const { MessageAttachment, MessageEmbed } = require("discord.js");
 const { CaptchaGenerator } = require("captcha-canvas");
+const { createCanvas } = require("canvas");
 const tcaptcha = require("trek-captcha");
 const Color = require("../../utils/Colors.json");
 const {
+  colors,
   diffs,
   difficulty,
   getCpm,
@@ -27,11 +29,12 @@ const end = (startTime) => {
 };
 const channelMap = [];
 const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const randomStr = (len) => {
+const charSetSpace = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+const randomStr = (len, cS = charSet) => {
   let rStr = "";
   for (let i = 0; i < len; i++) {
-    let rPos = Math.floor(Math.random() * charSet.length);
-    rStr += charSet.substring(rPos, rPos + 1);
+    let rPos = Math.floor(Math.random() * cS.length);
+    rStr += cS.substring(rPos, rPos + 1);
   }
   return rStr;
 };
@@ -46,6 +49,7 @@ module.exports = {
     channelMap[message.channel.id] = s;
 
     const diff = diffs[di || "m"];
+    const plays = [];
     const results = [];
     const resultsw = [];
     const timer = [];
@@ -57,10 +61,24 @@ module.exports = {
       buffer = captcha.buffer;
       txt = captcha.token;
     } else if (diff === "collect") {
-      const captcha = await tcaptcha({ style: 3 });
+      const captcha = createCanvas(300, 33);
+      const ctx = captcha.getContext("2d");
+      let i = 0;
+      txt = randomStr(10, charSetSpace);
+      ctx.lineWidth = "1px";
+      ctx.font = "16px Porter";
+      ctx.textAlign = "left";
+      ctx.fillStyle = "#ffffff";
+      while (i !== 10) {
+        // 11
+        ctx.rect(i * 3, 0, 2, 300);
+        i++;
+      }
 
-      buffer = captcha.buffer;
-      txt = captcha.token;
+      ctx.fill();
+      ctx.fillText(txt, 4, 10);
+
+      buffer = await captcha.toBuffer();
     } else {
       const captcha = new CaptchaGenerator({ width: 600, height: 200 })
         .setCaptcha({
@@ -95,20 +113,21 @@ module.exports = {
           (diff === "shoob"
             ? `claim ${txt}`
             : diff === "collect"
-            ? `collect ${txt}`
+            ? `collect ${txt.trim()}`
             : txt) &&
-        results.indexOf(`> \`${msg.author.tag}\``) === -1,
+        plays.indexOf(msg.author.id) === -1,
       { time: difficulty[diff] >= 12 ? 15000 : 10000 }
     );
 
     collector.on("collect", (msg) => {
       const took = end(startTime);
       const cpm = getCpm(diff, took);
+      const first = plays.length === 0;
+      plays.push(msg.author.id);
       results.push(`> \`${msg.author.tag}\``);
       resultsw.push(`> \`${cpm}\``);
       timer.push(`> \`${took}s\``);
 
-      const first = results.length === 1;
       msg.react(first ? "🏅" : "✅");
       userPlay(
         instance,
@@ -152,7 +171,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "typerace [shoob/easy/medium/hard/impossible]",
+    usage: "typerace [shoob/collect/easy/medium/hard/impossible]",
     examples: ["typerace", "tr s"],
     description: "See who's the fastest resolving the captcha!",
   },

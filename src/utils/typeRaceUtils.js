@@ -1,9 +1,20 @@
+const colors = {
+  //1: "#ffffff",
+  //2: "#7aff8d",
+  3: "#58a0e3",
+  4: "#ad58e3",
+  5: "#f8f105",
+  6: "#ea2222",
+  //7: "#aaaaaa",
+  //8: "#000000",
+};
+
 const diffs = {
   e: "easy",
   m: "medium",
   h: "hard",
   i: "impossible",
-  //c: "collect",
+  c: "collect",
   s: "shoob",
 };
 const difficulty = {
@@ -11,7 +22,7 @@ const difficulty = {
   medium: 8,
   hard: 10,
   impossible: 14,
-  //collect: 10,
+  collect: 10,
   shoob: 5,
 };
 
@@ -146,6 +157,7 @@ const userPlay = async (instance, userId, diff, first, last, cid) => {
 };
 
 module.exports = {
+  colors,
   diffs,
   difficulty,
   getCpm,

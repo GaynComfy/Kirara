@@ -100,7 +100,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "typeraceinfo [@user] [shoob/easy/medium/hard/impossible]",
+    usage: "typeraceinfo [@user] [shoob/collect/easy/medium/hard/impossible]",
     examples: ["tri", "tri @JeDaYoshi", "trs @wong i"],
     description: "See Type race stats!",
   },
