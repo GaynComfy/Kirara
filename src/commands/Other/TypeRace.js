@@ -50,8 +50,6 @@ module.exports = {
     const resultsw = [];
     const timer = [];
 
-    let startTime = new Date();
-
     let buffer, txt;
     if (diff === "shoob") {
       const captcha = await tcaptcha({ style: 0 });
@@ -87,8 +85,8 @@ module.exports = {
     else if (diff === "collect")
       embed.setDescription("To claim, use: `collect [captcha code]`");
 
-    await message.channel.send(embed);
-    startTime = new Date();
+    message.channel.send(embed);
+    const startTime = new Date();
 
     const collector = message.channel.createMessageCollector(
       (msg) =>
