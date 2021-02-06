@@ -95,7 +95,9 @@ module.exports = {
         // image canvas
         const canvas = createCanvas(300, 430);
         const ctx = canvas.getContext("2d");
-        const cardImg = await loadImage(encodeURI(card.image_url));
+        const cardImg = await loadImage(
+          encodeURI(card.image_url).replace(".webp", ".gif")
+        );
         ctx.drawImage(cardImg, 0, 0, 300, 380);
 
         // Shoob captcha
