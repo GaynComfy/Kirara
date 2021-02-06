@@ -151,7 +151,11 @@ const computeAuction = async (instance, aid) => {
       moment(asAuc ? asAuc.date_ending * 1000 : localAuc.date_ending).fromNow(),
       true
     )
-    .addField("Owner", localAuc.username, true);
+    .addField(
+      "Owner",
+      `[${localAuc.username}](https://animesoul.com/users/${localAuc.discord_id})`,
+      true
+    );
 
   if (asAuc) {
     const lastBids = asAuc.bidders
