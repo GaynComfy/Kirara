@@ -209,7 +209,6 @@ module.exports = {
   help: {
     usage: "spawn <<event> [tier] <card name>/<card ID>>",
     examples: ["spawn"],
-    description:
-      "If you see this, it means a Kirara developer is being an arsehole",
+    description: '"debugging"',
   },
 };
