@@ -5,7 +5,7 @@ const tcaptcha = require("trek-captcha");
 const Color = require("../../utils/Colors.json");
 const Fetcher = require("../../utils/CardFetcher");
 const { difficulty, getCpm, userPlay } = require("../../utils/typeRaceUtils");
-const { tierInfo } = require("../utils/cardUtils");
+const { tierInfo } = require("../../utils/cardUtils");
 const { withOwner } = require("../../utils/hooks");
 
 const info = {
