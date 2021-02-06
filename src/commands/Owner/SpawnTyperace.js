@@ -23,6 +23,10 @@ const tiers = {
   6: "#ea2222",
   S: "#000001",
 };
+const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
+const cardId = /^(https?:\/\/animesoul\.com\/cards\/info\/)?([a-z0-9]{24})$/;
+const space = / /; // lol
+
 const channelMap = [];
 const end = (startTime, time) => {
   const endTime = time;
@@ -43,18 +47,11 @@ module.exports = {
         if (args.length === 0) return false;
         const isEvent =
           args[0].toLowerCase() === "event" || args[0].toLowerCase() === "e";
-        const isGlobal =
-          args[0].toLowerCase() === "servers" ||
-          args[0].toLowerCase() === "bot" ||
-          args[0].toLowerCase() === "s";
-        const isOldGlobal =
-          args[0].toLowerCase() === "global" || args[0].toLowerCase() === "g";
-        if (isEvent || isGlobal || isOldGlobal) args.shift();
+        if (isEvent) args.shift();
         if (args.length === 0) return false;
         const hasTier = allowed.includes(args[0].toLowerCase());
         const hasCardId = cardId.test(args[0]);
         if (hasTier && args.length === 1) return false;
-        message.channel.startTyping();
         const tier = hasTier ? args.shift()[1].toUpperCase() : "all";
         const card_id = hasCardId ? cardId.exec(args.shift())[2] : null;
         let card = null;
@@ -78,7 +75,6 @@ module.exports = {
               : null);
         }
         if (card === null) {
-          message.channel.stopTyping();
           const embed = new MessageEmbed()
             .setDescription(
               `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
@@ -203,7 +199,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "spawn [[tier] [card name]/[card ID]]",
+    usage: "spawn <<event> [tier] <card name>/<card ID>>",
     examples: ["spawn"],
     description:
       "If you see this, it means a Kirara developer is being an arsehole",
