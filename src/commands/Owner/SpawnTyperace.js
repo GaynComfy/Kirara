@@ -104,7 +104,7 @@ module.exports = {
         )}`;
         const txt = captcha.token;
         const captchaImg = await loadImage(buffer);
-        ctx.drawImage(captchaImg, 21, 360, 258, 70);
+        ctx.drawImage(captchaImg, 21, 359, 258, 67);
 
         // the fake spawn
         const attachment = new MessageAttachment(canvas.toBuffer(), "name.png");
