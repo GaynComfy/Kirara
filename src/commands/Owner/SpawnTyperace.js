@@ -95,16 +95,16 @@ module.exports = {
         const canvas = createCanvas(300, 430);
         const ctx = canvas.getContext("2d");
         const cardImg = await loadImage(encodeURI(card.image_url));
-        ctx.drawImage(cardImg, 0, 0, 300, 360);
+        ctx.drawImage(cardImg, 21, 21, 258, 336);
 
         // Shoob captcha
         const captcha = await tcaptcha({ style: 0 });
         const buffer = captcha.buffer;
         const txt = captcha.token;
         ctx.putImageData(
-          createImageData(new Uint16Array(buffer), 300, 70),
-          0,
-          360
+          createImageData(new Uint16Array(buffer), 200, 70),
+          21,
+          381
         );
 
         // the fake spawn
@@ -112,6 +112,7 @@ module.exports = {
         const embed = new MessageEmbed()
           .setColor(tiers[card.tier.toUpperCase()] || "#aaaaaa")
           .setTitle(`${card.name} Tier: ${card.tier.toUpperCase()}`)
+          .setURL("https://animesoul.com/")
           .setDescription(
             `To claim, use: \`claim [captcha code]\`\n` +
               `[See your card inventory on our site.](https://animesoul.com/inventory)` +
