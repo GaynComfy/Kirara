@@ -8,7 +8,6 @@ const {
   diffs,
   difficulty,
   getCpm,
-  getTopPlayersByDiff,
   userPlay,
 } = require("../../utils/typeRaceUtils");
 registerFont("./src/assets/Porter.ttf", { family: "Porter" });
@@ -181,7 +180,7 @@ module.exports = {
         )
         .setColor(Color.white);
 
-      if (results.length === 0) {
+      if (plays.length === 0) {
         result.setDescription("No participants!");
       } else {
         result

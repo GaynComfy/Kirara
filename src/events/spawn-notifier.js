@@ -2,7 +2,10 @@ const { tierInfo } = require("../utils/cardUtils");
 const allowed = ["3", "4", "5", "6"];
 module.exports = {
   execute: async (instance, message) => {
-    if (message.author.id !== "673362753489993749") {
+    if (
+      message.author.id !== "673362753489993749" ||
+      message.author.id !== "748100524246564894"
+    ) {
       return;
     }
     for (const embed of message.embeds) {
