@@ -95,7 +95,7 @@ module.exports = {
         const canvas = createCanvas(300, 430);
         const ctx = canvas.getContext("2d");
         const cardImg = await loadImage(encodeURI(card.image_url));
-        ctx.drawImage(cardImg, 0, 0, 271, 357);
+        ctx.drawImage(cardImg, 0, 0, 300, 380);
 
         // Shoob captcha
         const captcha = await tcaptcha({ style: 0 });
