@@ -110,12 +110,6 @@ module.exports = {
         const captchaImg = await loadImage(buffer);
         ctx.drawImage(captchaImg, 21, 359, 259, 67);
 
-        // the ping
-        const result = await instance.database.simpleQuery("CARD_ROLES", {
-          tier: `t${card.tier.toLowerCase()}`,
-          server_id: instance.serverIds[message.guild.id],
-        });
-
         // the fake spawn
         const attachment = new MessageAttachment(canvas.toBuffer(), "name.png");
         const embed = new MessageEmbed()
@@ -132,15 +126,6 @@ module.exports = {
 
         const m = await message.channel.send(embed);
         const startTime = m.createdTimestamp;
-
-        // the tier ping
-        if (result.rows.length === 1) {
-          message.channel.send(
-            `${tierInfo[`T${card.tier.toUpperCase()}`].emoji} <@&${
-              result.rows[0].role_id
-            }> | \`${card.name} T${card.tier.toUpperCase()} has spawned!\``
-          );
-        }
 
         // the typerace
         const collector = message.channel.createMessageCollector(
