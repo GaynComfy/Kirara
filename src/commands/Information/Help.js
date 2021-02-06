@@ -21,38 +21,33 @@ module.exports = {
         if (!categories.includes(elem.info.category))
           categories.push(elem.info.category);
       });
-      const embed = new MessageEmbed();
+
+      const embed = new MessageEmbed()
+        .setColor("#e0e0e0")
+        .setAuthor(
+          `Help Menu${message.guild ? ` | ${message.guild.name}` : ""}`,
+          message.guild
+            ? message.guild.iconURL()
+            : message.author.displayAvatarURL({ type: "png" })
+        )
+        .setDescription(
+          "Use ``s!help [command]`` to get more help! \nExample: ``s!help stats`` \n\u200b"
+        )
+        .setFooter(
+          "by G&C Dev Team | s!help [cmd] | discord.gg/comfy",
+          "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png"
+        );
       categories.forEach((category) => {
         const dirSize = all.filter((cmd) => cmd.info.category === category);
         let mappedOut = dirSize.map((x) => `\`${x.info.name}\``).join(", ");
-        if (category === "Owner") {
+        if (category === "Owner" || category === "Moderation") {
           return;
         }
-        if (
-          category === "Moderation" &&
-          !message.member.permissions.has("MANAGE_MESSAGES")
-        )
-          mappedOut = "`No commands available.`";
 
-        embed
-          .addField(
-            `${dirSize.length} | ${emotes[category]} **${category} Commands**`,
-            mappedOut
-          )
-          .setDescription(
-            "Use ``s!help [command]`` to get more help! \nExample: ``s!help stats`` \n\u200b"
-          )
-          .setColor("#e0e0e0")
-          .setAuthor(
-            `Help Menu${message.guild ? ` | ${message.guild.name}` : ""}`,
-            message.guild
-              ? message.guild.iconURL()
-              : message.author.displayAvatarURL({ type: "png" })
-          )
-          .setFooter(
-            "by G&C Dev Team | s!help [cmd] | discord.gg/comfy",
-            "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png"
-          );
+        embed.addField(
+          `${dirSize.length} | ${emotes[category]} **${category} Commands**`,
+          mappedOut
+        );
       });
 
       return message.channel.send(embed);
@@ -94,7 +89,7 @@ module.exports = {
       embed
         .setColor("#ff1100")
         .setDescription(
-          "<:Sirona_NoCross:762606114444935168> This command doesn't exists."
+          "<:Sirona_NoCross:762606114444935168> That command doesn't exists."
         );
     }
     return message.channel.send(embed);

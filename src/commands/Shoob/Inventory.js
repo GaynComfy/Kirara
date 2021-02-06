@@ -78,7 +78,9 @@ module.exports = {
         "8",
         card ? card.id : null
       );
-      if (result.length < 8 && last === -1) {
+      if (result.length === 0 && last === -1) {
+        last = page - 1;
+      } else if (result.length < 8 && last === -1) {
         last = page;
       }
       if (last !== -1 && page > last) return null;
