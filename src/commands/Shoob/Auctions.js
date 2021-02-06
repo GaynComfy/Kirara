@@ -153,7 +153,7 @@ const computeAuction = async (instance, aid) => {
     )
     .addField(
       "Owner",
-      `[${localAuc.username}](https://animesoul.com/users/${localAuc.discord_id})`,
+      `[${localAuc.username}](https://animesoul.com/user/${localAuc.discord_id})`,
       true
     );
 
