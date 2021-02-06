@@ -7,6 +7,7 @@ const info = {
   aliases: ["guilds", "gl"],
   matchCase: false,
   category: "Owner",
+  ownerOnly: true,
   cooldown: 5,
 };
 

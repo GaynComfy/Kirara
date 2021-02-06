@@ -7,6 +7,7 @@ const info = {
   aliases: ["cp"],
   matchCase: false,
   category: "Owner",
+  ownerOnly: true,
 };
 const numberWithCommas = (entry) =>
   entry.toLocaleString(undefined, {

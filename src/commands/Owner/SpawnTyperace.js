@@ -13,6 +13,7 @@ const info = {
   aliases: [],
   matchCase: false,
   category: "Owner",
+  ownerOnly: true,
 };
 
 const tiers = {

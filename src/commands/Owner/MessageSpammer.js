@@ -6,6 +6,7 @@ const info = {
   name: "msg",
   matchCase: false,
   category: "Owner",
+  ownerOnly: true,
   cooldown: 5,
 };
 let client;

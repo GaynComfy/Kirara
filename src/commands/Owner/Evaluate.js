@@ -6,6 +6,7 @@ const info = {
   aliases: ["eval"],
   matchCase: false,
   category: "Owner",
+  ownerOnly: true,
   cooldown: 60,
   disabled: true,
 };
