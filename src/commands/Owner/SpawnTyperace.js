@@ -93,7 +93,7 @@ module.exports = {
 
         // image canvas
         const canvas = createCanvas(300, 430);
-        const ctx = captcha.getContext("2d");
+        const ctx = canvas.getContext("2d");
         const cardImg = await loadImage(encodeURI(card.image_url));
         ctx.drawImage(cardImg, 0, 0, 300, 360);
 
