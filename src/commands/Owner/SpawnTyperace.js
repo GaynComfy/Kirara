@@ -102,11 +102,9 @@ module.exports = {
         const buffer = captcha.buffer;
         const txt = captcha.token;
         ctx.putImageData(
-          createImageData(new Uint16Array(buffer), 200, 70),
+          createImageData(new Uint16Array(buffer), 300, 70),
           0,
-          360,
-          300,
-          70
+          360
         );
 
         // the fake spawn
