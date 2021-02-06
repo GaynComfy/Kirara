@@ -95,9 +95,9 @@ module.exports = {
         const canvas = createCanvas(300, 430);
         const ctx = canvas.getContext("2d");
         const cardImg = await loadImage(encodeURI(card.image_url));
-        if (!isNaN(card.tier) && parseInt(card.tier) < 5)
-          ctx.drawImage(cardImg, 21, 21, 258, 336);
-        else ctx.drawImage(cardImg, 0, 0, 271, 357);
+        if (!isNaN(card.tier) && parseInt(card.tier) < 6)
+          ctx.drawImage(cardImg, 0, 0, 258, 336, 21, 21, 258, 336);
+        else ctx.drawImage(cardImg, 0, 0, 271, 357, 0, 0, 271, 357);
 
         // Shoob captcha
         const captcha = await tcaptcha({ style: 0 });
@@ -117,7 +117,7 @@ module.exports = {
           .setURL("https://animesoul.com/")
           .setDescription(
             `To claim, use: \`claim [captcha code]\`\n` +
-              `[See your card inventory on our site.](https://animesoul.com/inventory)` +
+              `[See your card inventory on our site.](https://animesoul.com/inventory)\n` +
               `[Support us and get global rewards!](https://animesoul.com/premium)`
           )
           .attachFiles([attachment])
@@ -184,8 +184,8 @@ module.exports = {
             m.delete();
             message.channel
               .send(
-                `Looks like no one got the card ${card.name} ` +
-                  `T${card.tier.toUpperCase()} at this time..`
+                `Looks like no one got the card \`${card.name} ` +
+                  `T${card.tier.toUpperCase()}\` at this time..`
               )
               .then((msg) => setTimeout(() => msg.delete(), 5000));
           } else {
