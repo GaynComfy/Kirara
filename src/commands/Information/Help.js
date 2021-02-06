@@ -80,7 +80,9 @@ module.exports = {
   **Cooldown**: \`${
     cmd.info.cooldown > 0 ? `${cmd.info.cooldown || 0}s` : "None"
   }\`
-  **Owner Only**: \`${cmd.ownerOnly ? "Yes" : "No" || "No"}\`
+  **Owner Only**: \`${
+    cmd.info.ownerOnly || cmd.ownerOnly ? "Yes" : "No" || "No"
+  }\`
   **Description**: ${cmd.help.description || "A command"}
   **Usage**: \`${cmd.help.usage || ""}\`
   **Examples**:\n\`\`\`diff\n+ ${
