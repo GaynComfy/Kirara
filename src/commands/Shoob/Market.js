@@ -116,7 +116,8 @@ const processWithoutCard = async (instance, message, tier) => {
     if (page > last && last !== -1) return null;
     const offset = page * 6;
     const result = await Fetcher.fetchMarket(instance, offset, tier);
-    if (result.length < 6 && last === -1) last = page;
+    if (result.length === 0 && last === -1) last = page - 1;
+    else if (result.length < 6 && last === -1) last = page;
     if (result.length === 0 && page === 0) {
       const embed = new MessageEmbed()
         .setDescription(

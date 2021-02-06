@@ -67,7 +67,9 @@ module.exports = {
         await message.channel.send(embed);
         return false;
       }
-      if (claimers.length < 8 && last === -1) {
+      if (claimers.length === 0 && last === -1) {
+        last = page - 1;
+      } else if (claimers.length < 8 && last === -1) {
         last = page;
       }
       if (last !== -1 && page > last) return null;
