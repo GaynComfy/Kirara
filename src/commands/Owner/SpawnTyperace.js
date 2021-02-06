@@ -1,6 +1,6 @@
 // I am an arsehole for making this -JeDaYoshi
 const { MessageAttachment, MessageEmbed } = require("discord.js");
-const { createCanvas, loadImage } = require("canvas");
+const { createCanvas, createImageData, loadImage } = require("canvas");
 const tcaptcha = require("trek-captcha");
 const Color = require("../../utils/Colors.json");
 const Fetcher = require("../../utils/CardFetcher");
@@ -101,7 +101,13 @@ module.exports = {
         const captcha = await tcaptcha({ style: 0 });
         const buffer = captcha.buffer;
         const txt = captcha.token;
-        ctx.putImageData(buffer, 0, 360, 300, 70);
+        ctx.putImageData(
+          createImageData(new Uint16Array(buffer), 200, 70),
+          0,
+          360,
+          300,
+          70
+        );
 
         // the fake spawn
         const attachment = new MessageAttachment(canvas.toBuffer(), "name.png");
