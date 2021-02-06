@@ -99,7 +99,7 @@ module.exports = {
 
         // Shoob captcha
         const captcha = await tcaptcha({ style: 0 });
-        const buffer = `'data:image/png;base64,${captcha.buffer.toString(
+        const buffer = `data:image/png;base64,${captcha.buffer.toString(
           "base64"
         )}`;
         const txt = captcha.token;
