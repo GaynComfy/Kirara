@@ -109,7 +109,7 @@ module.exports = {
 
         // the ping
         const result = await instance.database.simpleQuery("CARD_ROLES", {
-          tier: `t${tier.toLowerCase()}`,
+          tier: `t${card.tier.toLowerCase()}`,
           server_id: instance.serverIds[message.guild.id],
         });
 
@@ -130,11 +130,12 @@ module.exports = {
         const m = await message.channel.send(embed);
         const startTime = m.createdTimestamp;
 
+        // the tier ping
         if (result.rows.length === 1) {
           message.channel.send(
-            `${tierInfo[`T${tier.toUpperCase()}`].emoji} <@&${
+            `${tierInfo[`T${card.tier.toUpperCase()}`].emoji} <@&${
               result.rows[0].role_id
-            }> | \`${name} T${tier.toUpperCase()} has spawned!\``
+            }> | \`${card.name} T${card.tier.toUpperCase()} has spawned!\``
           );
         }
 
