@@ -5,6 +5,7 @@ const tcaptcha = require("trek-captcha");
 const Color = require("../../utils/Colors.json");
 const Fetcher = require("../../utils/CardFetcher");
 const { difficulty, getCpm, userPlay } = require("../../utils/typeRaceUtils");
+const { tierInfo } = require("../utils/cardUtils");
 const { withOwner } = require("../../utils/hooks");
 
 const info = {
@@ -106,6 +107,12 @@ module.exports = {
         const captchaImg = await loadImage(buffer);
         ctx.drawImage(captchaImg, 21, 359, 259, 67);
 
+        // the ping
+        const result = await instance.database.simpleQuery("CARD_ROLES", {
+          tier: `t${tier.toLowerCase()}`,
+          server_id: instance.serverIds[message.guild.id],
+        });
+
         // the fake spawn
         const attachment = new MessageAttachment(canvas.toBuffer(), "name.png");
         const embed = new MessageEmbed()
@@ -122,6 +129,14 @@ module.exports = {
 
         const m = await message.channel.send(embed);
         const startTime = m.createdTimestamp;
+
+        if (result.rows.length === 1) {
+          message.channel.send(
+            `${tierInfo[`T${tier.toUpperCase()}`].emoji} <@&${
+              result.rows[0].role_id
+            }> | \`${name} T${tier.toUpperCase()} has spawned!\``
+          );
+        }
 
         // the typerace
         const collector = message.channel.createMessageCollector(
