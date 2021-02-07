@@ -63,11 +63,13 @@ module.exports = {
 
       const tierSettings = tierInfo[`T${tier}`];
       const embed = new MessageEmbed()
-        .setTitle(`${tierSettings.emoji} Latest added T${tier}`)
+        .setTitle(
+          `${tierSettings.emoji} Latest added ${event ? "Event " : ""}T${tier}`
+        )
         .setColor(tierSettings.color)
         .setURL(`https://animesoul.com/cards`)
-        .addField("•   **__Cards__**", cards)
-        .addField("•   **__Series__**", series)
+        .addField("•   **__Cards__**", cards, true)
+        .addField("•   **__Series__**", series, true)
         .setFooter(
           (!singlePage
             ? `Page: ${last !== -1 && page >= last ? "Last" : page + 1}`
