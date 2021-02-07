@@ -131,7 +131,7 @@ module.exports = {
             channelMap[message.channel.id] === s &&
             msg.content.toLowerCase() === `claim ${txt}` &&
             plays.indexOf(msg.author.id) === -1,
-          { time: 20000 }
+          { time: 15000 }
         );
 
         collector.on("collect", (msg) => {
