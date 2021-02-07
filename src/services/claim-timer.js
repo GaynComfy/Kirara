@@ -31,7 +31,7 @@ module.exports = {
           });
         });
       });
-    }, 2000);
+    }, 1000);
   },
   stop: async (instance) => {
     if (updateInterval) clearInterval(updateInterval);
