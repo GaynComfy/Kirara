@@ -50,7 +50,7 @@ module.exports = {
 
       result.map((e) => {
         cards.push(
-          `> [\`${e.name}\`](https://animesoul.com/cards/info/${e.card_id})`
+          `> [\`${e.name}\`](https://animesoul.com/cards/info/${e.id})`
         );
         series.push(
           `> \`${
