@@ -123,6 +123,25 @@ class CardFetcher {
     instance.cache.setExpire(k, JSON.stringify(cards), 60 * 14);
     return cards;
   }
+  async fetchByTier(instance, tier, offset = "0", limit = "0", event = false) {
+    const k = `card${event ? ":event" : ""}:${tier}:${offset}:${limit}`;
+
+    const exists = await instance.cache.exists(k);
+    if (exists) {
+      const e = await instance.cache.get(k);
+      return JSON.parse(e);
+    }
+    const result = await this.instance.get(
+      `/${event ? "eventcards" : "card"}/${tier}?offset=${offset}${
+        limit === "0" ? "" : `&limit=${limit}`
+      }`
+    );
+    if (!result.data || result.data.length === 0 || result.data.message) {
+      return null;
+    }
+    instance.cache.setExpire(k, JSON.stringify(result), 60 * 5);
+    return result;
+  }
   async fetchAuctionById(instance, id) {
     const result = await this.instance.get(`/auction/${id}`);
     if (!result.data || result.data.length === 0 || result.data.message) {
