@@ -9,7 +9,5 @@ const embed = new MessageEmbed()
 
 module.exports = async (channel) => {
   channel.stopTyping();
-  try {
-    channel.send(embed);
-  } catch (err) {} // ignore, might be a channel without permissions
+  channel.send(embed).catch((err) => {}); // ignore, might be a channel without permissions
 };

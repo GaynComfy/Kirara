@@ -67,7 +67,7 @@ module.exports = {
                 };
               }
             } catch (err) {
-              console.log("failed to send message");
+              console.error(err);
             }
           }
         }

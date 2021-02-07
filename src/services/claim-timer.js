@@ -15,20 +15,25 @@ module.exports = {
           if (new Date() - s.last < 3500) return;
           const e = await getTimer(s.time);
           if (!e) {
-            s.msg.delete();
+            s.msg.delete().catch((err) => {});
             const i = instance.shared["timer"][c].indexOf(s);
             if (i !== -1) instance.shared["timer"][c].splice(i, 1);
             return;
           }
 
-          s.msg.edit(e).then(() => {
-            const i = instance.shared["timer"][c].indexOf(s);
-            if (i !== -1)
-              instance.shared["timer"][c][i] = {
-                ...instance.shared["timer"][c][i],
-                last: new Date(),
-              };
-          });
+          s.msg
+            .edit(e)
+            .then(() => {
+              const i = instance.shared["timer"][c].indexOf(s);
+              if (i !== -1)
+                instance.shared["timer"][c][i] = {
+                  ...instance.shared["timer"][c][i],
+                  last: new Date(),
+                };
+            })
+            .catch((err) => {
+              console.error(err);
+            });
         });
       });
     }, 1000);

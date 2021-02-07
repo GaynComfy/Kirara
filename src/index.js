@@ -25,4 +25,9 @@ const start = async () => {
   );
   await instance.bootrap();
 };
-start().then((res) => {});
+start()
+  .then((res) => {})
+  .catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });

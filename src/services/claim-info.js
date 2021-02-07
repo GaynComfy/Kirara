@@ -37,13 +37,6 @@ module.exports = {
 
         if (instance.client.guilds.cache.has(data.server_id)) {
           const guild = instance.client.guilds.cache.get(data.server_id);
-          const member = data.claimed
-            ? guild.members.cache.get(data.discord_id)
-            : null;
-          if (!member && data.claimed) {
-            console.error("claim user not found");
-            return;
-          }
           const settings = tierSettings[data.tier];
 
           const timers = instance.shared["timer"][data.channel_id];
@@ -52,7 +45,7 @@ module.exports = {
               (p) => p.tier === data.tier && p.name === data.card_name
             );
             if (s) {
-              s.msg.delete();
+              s.msg.delete().catch((err) => console.error(err));
               const i = instance.shared["timer"][data.channel_id].indexOf(s);
               if (i !== -1)
                 instance.shared["timer"][data.channel_id].splice(i, 1);
@@ -77,7 +70,7 @@ module.exports = {
                 .setTimestamp();
               if (data.claimed) {
                 log.setDescription(
-                  `${settings.emoji} <@${member.user.id}> has claimed [${data.card_name} Tier: ${data.tier}](https://animesoul.com/cards/info/${data.card_id}) Issue: \`${data.issue}\``
+                  `${settings.emoji} <@${data.discord_id}> has claimed [${data.card_name} Tier: ${data.tier}](https://animesoul.com/cards/info/${data.card_id}) Issue: \`${data.issue}\``
                 );
               } else {
                 log.setDescription(
@@ -117,7 +110,7 @@ module.exports = {
               if (data.tier !== "6")
                 deleteMap[msg.id] = { msg, time: Date.now() + 15 * 1000 };
             } catch (err) {
-              console.log("error sending claim message");
+              console.error(err);
             }
           }
         }
