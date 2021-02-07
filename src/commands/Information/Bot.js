@@ -72,7 +72,7 @@ module.exports = {
             `(https://donatebot.io/checkout/378599231583289346?buyer=${message.author.id})\n\n` +
             `🏓 Command: \`${ping}ms\`\n` +
             `💓 Gateway: \`${Math.round(instance.client.ws.ping)}ms\`\n` +
-            `🖍️ lillie: \`${lillie.ping}\`` +
+            `🖍️ midori: \`${lillie.ping}\`` +
             (lillie.version ? `, v${lillie.version}` : "")
         )
         .setColor("#e0e0e0")

@@ -3,7 +3,7 @@ const { MessageEmbed } = require("discord.js");
 exports.getTimer = (since, now = new Date()) => {
   // not even going to waste time looking
   const passed = now - since;
-  if (passed >= 19500) return false;
+  if (passed >= 20000) return false;
   const secs = Math.round(15 - passed / 1000);
 
   let emote = "🟢";
