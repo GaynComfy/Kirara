@@ -8,12 +8,12 @@ exports.getTimer = (since, now = new Date()) => {
 
   let emote = "🟢";
   let color = "#16c60c";
-  if (passed > 8000) {
-    emote = "🟡";
-    color = "#fff100";
-  } else if (passed > 15000) {
+  if (passed > 15000) {
     emote = "🔴";
     color = "#e81224";
+  } else if (passed > 8000) {
+    emote = "🟡";
+    color = "#fff100";
   }
   let text = `${emote} | **Time remaining till despawn** \`${secs}\``;
 

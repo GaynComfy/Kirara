@@ -23,7 +23,7 @@ module.exports = {
           s.msg.edit(e);
         });
       });
-    }, 2000);
+    }, 4000);
   },
   stop: async (instance) => {
     if (updateInterval) clearInterval(updateInterval);
