@@ -16,11 +16,15 @@ const info = {
 };
 
 const mention = /<@!?(\d{17,19})>/;
+const userId = /\d{17,19}/;
 
 module.exports = {
   execute: async (instance, message, args) => {
-    let member = message.mentions.users.first();
-    if (args.length >= 1 && mention.test(args[0])) args.shift();
+    let member =
+      message.mentions.users.first() ||
+      (args.length >= 1 && (await instance.client.users.fetch(args[0])));
+    if (args.length >= 1 && (mention.test(args[0]) || userId.test(args[0])))
+      args.shift();
     if (!member) {
       member = message.author;
     }

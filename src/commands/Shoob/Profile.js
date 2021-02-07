@@ -22,11 +22,19 @@ const tierPositions = [
   { t: "5", x: 735, y: 360 },
   { t: "6", x: 935, y: 360 },
 ];
+const mention = /<@!?(\d{17,19})>/;
+const userId = /\d{17,19}/;
 
 module.exports = {
   execute: async (instance, message, args) => {
-    message.channel.startTyping();
-    const member = message.mentions.users.first() || message.author;
+    let member =
+      message.mentions.users.first() ||
+      (args.length >= 1 && (await instance.client.users.fetch(args[0])));
+    if (args.length >= 1 && (mention.test(args[0]) || userId.test(args[0])))
+      args.shift();
+    if (!member) {
+      member = message.author;
+    }
     const user = await Fetcher.fetchProfile(instance, member.id);
     const {
       rows: cards,
