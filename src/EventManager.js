@@ -91,6 +91,7 @@ class EventManager {
     });
   }
   async commandExecution(command, message, args) {
+    if (!this.instance.settings[message.guild.id]) return;
     if (
       (this.instance.settings[message.guild.id][
         `category:${command.info.category.toLowerCase()}:disabled`

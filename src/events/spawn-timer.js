@@ -16,7 +16,10 @@ module.exports = {
       const name = parts[0];
       const tier = parts[parts.length - 1];
 
-      if (instance.guilds[message.guild.id].timer) {
+      if (
+        instance.guilds[message.guild.id] &&
+        instance.guilds[message.guild.id].timer
+      ) {
         const embed = await getTimer(message.createdTimestamp);
         if (!embed) continue;
         const msg = await message.channel.send(embed);
