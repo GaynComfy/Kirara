@@ -22,7 +22,8 @@ module.exports = {
   execute: async (instance, message, args) => {
     let user =
       message.mentions.users.first() ||
-      (args.length >= 1 && (await instance.client.users.fetch(args[0])));
+      (args.length >= 1 &&
+        (await instance.client.users.fetch(args[0]).catch((err) => {})));
     if (args.length >= 1 && (mention.test(args[0]) || userId.test(args[0])))
       args.shift();
     if (!user) {
