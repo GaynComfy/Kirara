@@ -32,14 +32,18 @@ module.exports = {
           ? await instance.database.pool.query(
               "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
                 "AND server_id=$1 AND time > $2 GROUP BY discord_id ORDER BY c DESC LIMIT 8 OFFSET $3",
-              [server.id, instance.guilds[message.guild.id].event_time, offset]
+              [
+                instance.serverIds[message.guild.id],
+                instance.guilds[message.guild.id].event_time,
+                offset,
+              ]
             )
           : await instance.database.pool.query(
               "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
                 "AND server_id=$1 AND time > $2 AND season=$3 GROUP BY discord_id " +
                 "ORDER BY c DESC LIMIT 8 OFFSET $4",
               [
-                server.id,
+                instance.serverIds[message.guild.id],
                 instance.guilds[message.guild.id].event_time,
                 instance.config.season,
                 offset,
@@ -49,12 +53,16 @@ module.exports = {
         ? await instance.database.pool.query(
             "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
               "AND server_id=$1 GROUP BY discord_id ORDER BY c DESC LIMIT 8 OFFSET $2",
-            [server.id, offset]
+            [instance.serverIds[message.guild.id], offset]
           )
         : await instance.database.pool.query(
             "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
               "AND server_id=$1 AND season=$2 GROUP BY discord_id ORDER BY c DESC LIMIT 8 OFFSET $3",
-            [server.id, instance.config.season, offset]
+            [
+              instance.serverIds[message.guild.id],
+              instance.config.season,
+              offset,
+            ]
           );
       if (claimers.length === 0 && page === 0) {
         const embed = new MessageEmbed()

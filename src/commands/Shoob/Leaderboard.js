@@ -36,13 +36,16 @@ module.exports = {
         ? await instance.database.pool.query(
             "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
               "AND server_id=$1 AND time > $2 GROUP BY discord_id ORDER BY c DESC LIMIT 8",
-            [server.id, instance.guilds[message.guild.id].event_time]
+            [
+              instance.serverIds[message.guild.id],
+              instance.guilds[message.guild.id].event_time,
+            ]
           )
         : await instance.database.pool.query(
             "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
               "AND server_id=$1 AND time > $2 AND season=$3 GROUP BY discord_id ORDER BY c DESC LIMIT 8",
             [
-              server.id,
+              instance.serverIds[message.guild.id],
               instance.guilds[message.guild.id].event_time,
               instance.config.season,
             ]
@@ -51,12 +54,12 @@ module.exports = {
       ? await instance.database.pool.query(
           "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
             "AND server_id=$1 GROUP BY discord_id ORDER BY c DESC LIMIT 8",
-          [server.id]
+          [instance.serverIds[message.guild.id]]
         )
       : await instance.database.pool.query(
           "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
             "AND server_id=$1 AND season=$2 GROUP BY discord_id ORDER BY c DESC LIMIT 8",
-          [server.id, instance.config.season]
+          [instance.serverIds[message.guild.id], instance.config.season]
         );
 
     if (claimers.length === 0) {
