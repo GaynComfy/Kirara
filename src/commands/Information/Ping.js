@@ -19,7 +19,7 @@ module.exports = {
           `🖍️ lillie: \`${ping}\``
       )
       .setColor("#e0e0e0");
-    message.channel.send(InviteEmbed);
+    await message.channel.send(InviteEmbed);
   },
   info,
   help: {

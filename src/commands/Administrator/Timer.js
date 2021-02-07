@@ -5,7 +5,7 @@ const info = {
   name: "timer",
   matchCase: false,
   category: "Administration",
-  disabled: true
+  disabled: true,
 };
 const allowed = ["on", "off"];
 module.exports = {
@@ -23,6 +23,7 @@ module.exports = {
           timer: newState,
         }
       );
+      instance.guilds[message.guild.id].timer = newState;
       const embedz = new MessageEmbed()
         .setDescription(
           "<a:Sirona_Tick:749202570341384202> I have successfully turned `" +
@@ -36,8 +37,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "timer <on/off>",
+    usage: "timer [on/off]",
     examples: ["timer on"],
-    description: "Toggle the timer!",
+    description: "Toggle the timer for Shoob card spawns!",
   },
 };

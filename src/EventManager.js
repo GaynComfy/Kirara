@@ -79,14 +79,14 @@ class EventManager {
   }
   registerOnReady() {
     this.client.on("ready", async (t) => {
+      this.services.forEach((element) => {
+        element.start(this.instance);
+      });
       const otherHandlers = this.events["ready"];
       if (otherHandlers)
         for (const handler of otherHandlers) {
           await handler.execute(this.instance, t);
         }
-      this.services.forEach((element) => {
-        element.start(this.instance);
-      });
     });
   }
   async commandExecution(command, message, args) {

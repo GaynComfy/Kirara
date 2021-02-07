@@ -26,7 +26,7 @@ module.exports = {
       });
     }, 1000);
 
-    const { config, settings } = instance;
+    const { config } = instance;
     client = redis.createClient(
       `redis://${config.cache.host}:${config.cache.port}`
     );
@@ -45,9 +45,23 @@ module.exports = {
             return;
           }
           const settings = tierSettings[data.tier];
-          if (instance.logChannels[guild.id]) {
+
+          const timers = instance.shared["timer"][data.channel_id];
+          if (timers) {
+            const s = timers.find(
+              (p) => p.tier === data.tier && p.name === data.card_name
+            );
+            if (s) {
+              s.msg.delete();
+              const i = instance.shared["timer"][data.channel_id].indexOf(s);
+              if (i !== -1)
+                instance.shared["timer"][data.channel_id].splice(i, 1);
+            }
+          }
+
+          if (instance.guilds[guild.id].log_channel) {
             const logChannel = guild.channels.cache.get(
-              instance.logChannels[guild.id]
+              instance.guilds[guild.id].log_channel
             );
             if (logChannel) {
               const log = new Discord.MessageEmbed()

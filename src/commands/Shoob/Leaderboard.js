@@ -29,24 +29,23 @@ module.exports = {
     if (isTotal) args.shift();
 
     message.channel.startTyping();
-    const {
-      rows: [server],
-    } = await instance.database.simpleQuery("SERVERS", {
-      id: instance.serverIds[message.guild.id],
-    });
-    const event = server.event;
+    const event = instance.guilds[message.guild.id].event;
 
     const { rows: claimers } = event
       ? isTotal
         ? await instance.database.pool.query(
             "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
               "AND server_id=$1 AND time > $2 GROUP BY discord_id ORDER BY c DESC LIMIT 8",
-            [server.id, server.event_time]
+            [server.id, instance.guilds[message.guild.id].event_time]
           )
         : await instance.database.pool.query(
             "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
               "AND server_id=$1 AND time > $2 AND season=$3 GROUP BY discord_id ORDER BY c DESC LIMIT 8",
-            [server.id, server.event_time, instance.config.season]
+            [
+              server.id,
+              instance.guilds[message.guild.id].event_time,
+              instance.config.season,
+            ]
           )
       : isTotal
       ? await instance.database.pool.query(

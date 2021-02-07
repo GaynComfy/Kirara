@@ -24,7 +24,7 @@ module.exports = {
             log_channel: null,
           }
         );
-        delete instance.logChannels[message.guild.id];
+        instance.guilds[message.guild.id].log_channel = null;
         embed.setDescription(
           `<a:Sirona_Tick:749202570341384202> Logs Channel removed!`
         );
@@ -40,7 +40,7 @@ module.exports = {
             log_channel: id,
           }
         );
-        instance.logChannels[message.guild.id] = id;
+        instance.guilds[message.guild.id].log_channel = id;
         embed.setDescription(
           `<a:Sirona_Tick:749202570341384202> Logs Channel Set to ${name}!`
         );
@@ -53,6 +53,6 @@ module.exports = {
   help: {
     usage: "logs [#channel]",
     examples: ["logs #asn-shoob-logs", "log"],
-    description: "Set Waifu Spawn Channel to your Server!",
+    description: "Set Shoob log channel on your server!",
   },
 };

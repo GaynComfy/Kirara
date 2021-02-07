@@ -103,11 +103,9 @@ module.exports = {
 
         // Shoob captcha
         const captcha = await tcaptcha({ style: 0 });
-        const buffer = `data:image/png;base64,${captcha.buffer.toString(
-          "base64"
-        )}`;
+        const buffer = captcha.buffer.toString("base64");
         const txt = captcha.token;
-        const captchaImg = await loadImage(buffer);
+        const captchaImg = await loadImage(`data:image/png;base64,${buffer}`);
         ctx.drawImage(captchaImg, 21, 359, 259, 67);
 
         // the fake spawn

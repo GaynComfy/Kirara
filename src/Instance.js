@@ -20,9 +20,10 @@ class Instance {
     this.client = client;
     client.b_instance = this;
     this.onReady = onReady;
-    this.logChannels = {};
     this.serverIds = {};
     this.settings = {};
+    this.guilds = {};
+    this.shared = {};
   }
   async prepareEvents() {
     const events = {};

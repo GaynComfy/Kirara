@@ -152,6 +152,7 @@ module.exports = {
       "notifs mg #asn-network-chet off",
       "notifs all off",
     ],
-    description: "Set up notifications for Auctions, Minigames and the likes!",
+    description:
+      "Set up notifications for AS Auctions, Minigames and the likes!",
   },
 };

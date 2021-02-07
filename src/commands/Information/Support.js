@@ -5,19 +5,18 @@ const info = {
   matchCase: false,
   category: "Information",
 };
-const InviteEmbed = new MessageEmbed()
+const embed = new MessageEmbed()
   .setAuthor("Kirara", "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png")
   .setDescription(
-    "Having any issues or want to report bugs?\n> [__**Click me**__](https://discord.gg/comfy) " +
-      "and [__**Click me**__](https://discord.gg/GU9USZR4M2) for support!"
+    "Having any issues or want to report bugs?\n" +
+      "> [__**Join Gay & Comfy**__](https://discord.gg/comfy) for support!\n" +
+      "> DM `Sirona-Kirara Support#8123` explaining the situation!"
   )
   .setFooter("by G&C Dev Team | Use s!invite to invite the bot!")
   .setColor("#570489");
 
 module.exports = {
-  execute: async (instance, message, args) => {
-    message.channel.send(InviteEmbed);
-  },
+  execute: async (instance, message, args) => message.channel.send(embed),
   info,
   help: {
     usage: "support",

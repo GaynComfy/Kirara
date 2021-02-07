@@ -16,18 +16,16 @@ const embed = new MessageEmbed()
   .addField("Owners:", "`Nota#1576`, `🎀 𝒥𝑜𝓇𝑔𝓎 🎀#2024`, `Alycans#1693`")
   .addField(
     "Lead Devs:",
-    "`JeDaYoshi#7942`, `offbeatwitch#8860`, `Liz3#0001`, `🎀 𝒥𝑜𝓇𝑔𝓎 🎀#2024`, `Nota#1576`"
+    "`JeDaYoshi#7942`, `Liz3#0001`, `🎀 𝒥𝑜𝓇𝑔𝓎 🎀#2024`, `Nota#1576`"
   )
   .addField(
     "Team:",
-    "`JeDaYoshi#7942`, `offbeatwitch#8860`, `Liz3#0001`, " +
-      "`🎀 𝒥𝑜𝓇𝑔𝓎 🎀#2024`, `Nota#1576`, `Riku#1111`, `Tranuka#4474`"
+    "`JeDaYoshi#7942`, `Liz3#0001`, `🎀 𝒥𝑜𝓇𝑔𝓎 🎀#2024`, `Nota#1576`, " +
+      "`offbeatwitch#8860`, `Riku#1111`, `Tranuka#4474`"
   );
 
 module.exports = {
-  execute: async (instance, message, args) => {
-    message.channel.send(embed);
-  },
+  execute: async (instance, message, args) => message.channel.send(embed),
   info,
   help: {
     usage: "info",

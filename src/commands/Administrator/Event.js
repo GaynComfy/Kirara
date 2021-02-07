@@ -26,6 +26,10 @@ module.exports = {
         },
         update
       );
+      instance.guilds[message.guild.id] = {
+        ...instance.guilds[message.guild.id],
+        ...update,
+      };
       const embed = new MessageEmbed()
         .setDescription(
           newState
@@ -41,6 +45,6 @@ module.exports = {
   help: {
     usage: "event <start|on|off|end>",
     examples: ["event"],
-    description: "Set a claiming event counter on your server!",
+    description: "Set a Shoob claiming event counter on your server!",
   },
 };

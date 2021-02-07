@@ -3,7 +3,7 @@ const { MessageEmbed } = require("discord.js");
 
 const info = {
   name: "roleset",
-  aliases: ['tierping', 'set'],
+  aliases: ["tierping", "set"],
   matchCase: false,
   category: "Administration",
 };
@@ -101,6 +101,6 @@ module.exports = {
   help: {
     usage: "roleset <T3|T4|T5|T6> <@role>",
     examples: ["roleset t6 @T6"],
-    description: "Set card tiers role mentions for your server.",
+    description: "Set Shoob card tiers role mentions for your server!",
   },
 };

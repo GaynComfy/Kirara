@@ -12,7 +12,6 @@ const info = {
 
 module.exports = {
   execute: async (instance, message, args) => {
-    message.channel.startTyping();
     const isTotal =
       args.length >= 1 &&
       (args[0].toLowerCase() === "total" ||
@@ -20,12 +19,8 @@ module.exports = {
         args[0].toLowerCase() === "a");
     if (isTotal) args.shift();
 
-    const {
-      rows: [server],
-    } = await instance.database.simpleQuery("SERVERS", {
-      id: instance.serverIds[message.guild.id],
-    });
-    const event = server.event;
+    message.channel.startTyping();
+    const event = instance.guilds[message.guild.id].event;
 
     let last = -1;
     message.channel.stopTyping();
@@ -37,13 +32,18 @@ module.exports = {
           ? await instance.database.pool.query(
               "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
                 "AND server_id=$1 AND time > $2 GROUP BY discord_id ORDER BY c DESC LIMIT 8 OFFSET $3",
-              [server.id, server.event_time, offset]
+              [server.id, instance.guilds[message.guild.id].event_time, offset]
             )
           : await instance.database.pool.query(
               "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
                 "AND server_id=$1 AND time > $2 AND season=$3 GROUP BY discord_id " +
                 "ORDER BY c DESC LIMIT 8 OFFSET $4",
-              [server.id, server.event_time, instance.config.season, offset]
+              [
+                server.id,
+                instance.guilds[message.guild.id].event_time,
+                instance.config.season,
+                offset,
+              ]
             )
         : isTotal
         ? await instance.database.pool.query(

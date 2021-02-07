@@ -10,14 +10,13 @@ module.exports = {
     }
     for (const embed of message.embeds) {
       const word = embed.title;
+      if (!word || !word.includes("Tier:")) continue;
 
-      if (!word || !word.includes("Tier:")) {
-        continue;
-      }
       const parts = word.split(" Tier: ");
       const name = parts[0];
       const tier = parts[parts.length - 1];
-      if (!allowed.includes(tier)) return;
+      if (!allowed.includes(tier)) continue;
+
       const result = await instance.database.simpleQuery("CARD_ROLES", {
         tier: `t${tier}`,
         server_id: instance.serverIds[message.guild.id],

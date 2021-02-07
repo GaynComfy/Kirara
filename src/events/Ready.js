@@ -19,16 +19,27 @@ module.exports = {
           active: true,
           large: server.large,
           log_channel: null,
+          timer: false,
         });
         instance.settings[server.id] = {};
         instance.serverIds[server.id] = result.rows[0].id;
+        instance.guilds[server.id] = {
+          event: false,
+          event_time: null,
+          log_channel: null,
+          timer: false,
+        };
         console.log("Adding Guild ", server.id, server.name);
       } else {
         const serverObj = query.rows[0];
         instance.serverIds[server.id] = serverObj.id;
-        if (serverObj.log_channel)
-          instance.logChannels[server.id] = serverObj.log_channel;
-        console.log("loading", server.id, server.name);
+        instance.guilds[server.id] = {
+          event: serverObj.event,
+          event_time: serverObj.event_time,
+          log_channel: serverObj.log_channel,
+          timer: serverObj.timer,
+        };
+        // console.log("loading", server.id, server.name);
         const settings = await instance.database.simpleQuery("SETTINGS", {
           server_id: query.rows[0].id,
         });
