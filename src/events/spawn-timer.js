@@ -8,12 +8,6 @@ module.exports = {
     ) {
       return;
     }
-    if (
-      !instance.guilds[message.guild.id] ||
-      !instance.guilds[message.guild.id].timer
-    )
-      return;
-
     for (const embed of message.embeds) {
       const word = embed.title;
       if (!word || !word.includes("Tier:")) continue;
@@ -22,20 +16,25 @@ module.exports = {
       const name = parts[0];
       const tier = parts[parts.length - 1];
 
-      const embed = await getTimer(message.createdTimestamp);
-      if (!embed) continue;
-      const msg = await message.channel.send(embed);
+      if (
+        instance.guilds[message.guild.id] &&
+        instance.guilds[message.guild.id].timer
+      ) {
+        const embed = await getTimer(message.createdTimestamp);
+        if (!embed) continue;
+        const msg = await message.channel.send(embed);
 
-      if (!instance.shared["timer"][message.channel.id])
-        instance.shared["timer"][message.channel.id] = [];
+        if (!instance.shared["timer"][message.channel.id])
+          instance.shared["timer"][message.channel.id] = [];
 
-      instance.shared["timer"][message.channel.id].push({
-        name,
-        tier,
-        msg,
-        time: message.createdTimestamp,
-        last: new Date(),
-      });
+        instance.shared["timer"][message.channel.id].push({
+          name,
+          tier,
+          msg,
+          time: message.createdTimestamp,
+          last: new Date(),
+        });
+      }
     }
   },
   eventName: "message",
