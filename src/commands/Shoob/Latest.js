@@ -50,14 +50,16 @@ module.exports = {
 
       result.map((e) => {
         cards.push(
-          `> [\`${e.name}\`](https://animesoul.com/cards/info/${e.id})`
+          `> [\`${e.name.substr(0, 15)}\`](https://animesoul.com/cards/info/${
+            e.id
+          })`
         );
         series.push(
-          `> \`${
+          `> \`${(
             (e.series || []).filter(
               (s) => s.toLowerCase() !== e.name.toLowerCase()
             )[0] || "-"
-          }\``
+          ).substr(0, 15)}\``
         );
       });
 
