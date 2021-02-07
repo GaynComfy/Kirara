@@ -132,7 +132,7 @@ class CardFetcher {
       return JSON.parse(e);
     }
     const result = await this.instance.get(
-      `/${event ? "eventcards" : "card"}/${tier}?offset=${offset}${
+      `/${event ? "eventcards" : "card"}/tier/${tier}?offset=${offset}${
         limit === "0" ? "" : `&limit=${limit}`
       }`
     );
