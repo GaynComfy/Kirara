@@ -11,7 +11,7 @@ module.exports = {
     updateInterval = setInterval(() => {
       Object.keys(instance.shared["timer"]).forEach((c) => {
         const e = instance.shared["timer"][c];
-        e.forEach((s) => {
+        e.forEach(async (s) =>
           getTimer(s.time).then((e) => {
             if (!e) {
               s.msg.delete();
@@ -21,8 +21,8 @@ module.exports = {
             }
 
             s.msg.edit(e);
-          });
-        });
+          })
+        );
       });
     }, 2000);
   },
