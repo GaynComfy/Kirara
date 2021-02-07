@@ -1,6 +1,5 @@
 const redis = require("redis");
-const Discord = require("discord.js");
-const GuildDelete = require("../events/GuildDelete");
+const { MessageEmbed } = require("discord.js");
 const { tierInfo } = require("../utils/cardUtils");
 const tierSettings = {
   1: { emoji: "<:NewT1:781684991372689458>", num: 1, color: "#e8e8e8" },
@@ -35,7 +34,7 @@ module.exports = {
         const data = JSON.parse(message);
         if (!allowed.includes(data.tier)) return;
         const tier = tierSettings[data.tier];
-        const embed = new Discord.MessageEmbed()
+        const embed = new MessageEmbed()
           .setTitle(`> <:SShoob:783636544720207903> Enter the Minigame`)
           .setURL(`https://animesoul.com/mini-game/${data.id}`)
           .setColor(tier.color)

@@ -1,6 +1,5 @@
 const redis = require("redis");
-const Discord = require("discord.js");
-const GuildDelete = require("../events/GuildDelete");
+const { MessageEmbed } = require("discord.js");
 const tierSettings = {
   1: { emoji: "<:NewT1:781684991372689458>", num: 1, color: "#e8e8e8" },
   2: { emoji: "<:NewT2:781684993071251476>", num: 2, color: "#2ed60d" },
@@ -57,7 +56,7 @@ module.exports = {
               instance.guilds[guild.id].log_channel
             );
             if (logChannel) {
-              const log = new Discord.MessageEmbed()
+              const log = new MessageEmbed()
                 .setAuthor(
                   "Shoob",
                   "https://cdn.animesoul.com/images/content/shoob/shoob-no-empty-space.png"
@@ -93,7 +92,7 @@ module.exports = {
 
           const messageChannel = guild.channels.cache.get(data.channel_id);
           if (messageChannel) {
-            const oweeet = new Discord.MessageEmbed()
+            const oweeet = new MessageEmbed()
               .setDescription(
                 `<a:Sirona_loading:748854549703426118> [\`${data.card_name}\`](https://animesoul.com/cards/info/${data.card_id}) ` +
                   `Issue #: \`${data.issue}\` has been claimed!\n${settings.emoji} Added to <@${data.discord_id}>'s database.\n\u200b`
