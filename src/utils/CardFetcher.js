@@ -137,7 +137,7 @@ class CardFetcher {
       }`
     );
     if (!result.data || result.data.length === 0 || result.data.message) {
-      return null;
+      return [];
     }
     instance.cache.setExpire(k, JSON.stringify(result.data), 60 * 5);
     return result.data;
