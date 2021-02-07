@@ -124,7 +124,7 @@ class CardFetcher {
     return cards;
   }
   async fetchByTier(instance, tier, offset = "0", limit = "0", event = false) {
-    const k = `card${event ? ":event" : ""}:${tier}:${offset}:${limit}`;
+    const k = `cards${event ? ":event" : ""}:${tier}:${offset}:${limit}`;
 
     const exists = await instance.cache.exists(k);
     if (exists) {
