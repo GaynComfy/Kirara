@@ -16,11 +16,15 @@ const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
 const cardId = /^(https?:\/\/animesoul\.com\/cards\/info\/)?([a-z0-9]{24})$/;
 const space = / /; // lol
 const mention = /<@!?(\d{17,19})>/;
+const userId = /\d{17,19}/;
 
 module.exports = {
   execute: async (instance, message, args) => {
-    let user = message.mentions.users.first();
-    if (args.length >= 1 && mention.test(args[0])) args.shift();
+    let user =
+      message.mentions.users.first() ||
+      (args.length >= 1 && message.guild.users.fetch(args[0]));
+    if (args.length >= 1 && (mention.test(args[0]) || userId.test(args[0])))
+      args.shift();
     if (!user) {
       user = message.author;
     }
