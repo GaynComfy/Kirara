@@ -11,18 +11,17 @@ module.exports = {
     updateInterval = setInterval(() => {
       Object.keys(instance.shared["timer"]).forEach((c) => {
         const e = instance.shared["timer"][c];
-        e.forEach(async (s) =>
-          getTimer(s.time).then((e) => {
-            if (!e) {
-              s.msg.delete();
-              const i = instance.shared["timer"][c].indexOf(s);
-              if (i !== -1) instance.shared["timer"][c].splice(i, 1);
-              return;
-            }
+        e.forEach(async (s) => {
+          const e = await getTimer(s.time);
+          if (!e) {
+            s.msg.delete();
+            const i = instance.shared["timer"][c].indexOf(s);
+            if (i !== -1) instance.shared["timer"][c].splice(i, 1);
+            return;
+          }
 
-            s.msg.edit(e);
-          })
-        );
+          s.msg.edit(e);
+        });
       });
     }, 2000);
   },
