@@ -42,8 +42,14 @@ const getCpm = (diff, time) => {
 };
 
 const getTopPlayers = async (instance, limit) => {
-  const diffPlayers = [];
+  const k = "typerace:all";
+  const exists = await instance.cache.exists(k);
+  if (exists) {
+    const e = await instance.cache.get(k);
+    return JSON.parse(e);
+  }
 
+  const diffPlayers = [];
   for (const diff of Object.values(diffs)) {
     const {
       rows,
@@ -58,6 +64,7 @@ const getTopPlayers = async (instance, limit) => {
     });
   }
 
+  instance.cache.setExpire(k, JSON.stringify(diffPlayers), 60 * 14);
   return diffPlayers;
 };
 
