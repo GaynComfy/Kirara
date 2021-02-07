@@ -48,9 +48,9 @@ module.exports = {
           .array()
           .filter((g) => instance.settings[g.id]["games_channel"])
           .forEach(async (guild) => {
-            const channel = instance.settings[guild.id]["games_channel"];
-            if (!channel) continue;
-            const logChannel = guild.channels.cache.get(channel);
+            const logChannel = guild.channels.cache.get(
+              instance.settings[guild.id]["games_channel"]
+            );
             if (logChannel) {
               const autodel = instance.settings[guild.id]["games_autodelete"];
               try {
