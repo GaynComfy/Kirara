@@ -69,7 +69,12 @@ module.exports = {
                 .setTimestamp();
               if (data.claimed) {
                 log.setDescription(
-                  `${settings.emoji} <@${data.discord_id}> has claimed [${data.card_name} Tier: ${data.tier}](https://animesoul.com/cards/info/${data.card_id}) Issue: \`${data.issue}\``
+                  `${settings.emoji} <@${data.discord_id}> has claimed [${data.card_name} Tier: ${data.tier}]` +
+                    `(https://animesoul.com/cards/info/${data.card_id})\n` +
+                    `<a:Sirona_loading2:748849251597025311> Issue: \`${data.issue}\`\n` +
+                    (data.from_clyde
+                      ? `<a:Sirona_loading:748854549703426118> Sent from Clyde!`
+                      : `<a:Sirona_star:748985391360507924> **New issue!**`)
                 );
               } else {
                 log.setDescription(
@@ -80,6 +85,19 @@ module.exports = {
                 await logChannel.send(log);
               } catch (err) {
                 console.error(err);
+                if (err.code === 50013) {
+                  // missing permissions, removing the logchan
+                  await instance.database.simpleUpdate(
+                    "SERVERS",
+                    {
+                      guild_id: guild.id,
+                    },
+                    {
+                      log_channel: null,
+                    }
+                  );
+                  instance.guilds[guild.id].log_channel = null;
+                }
               }
             }
           }

@@ -44,25 +44,54 @@ module.exports = {
               `(https://animesoul.com/cards/info/${data.card_id}) • \`V${data.version}\` is on a minigame!`
           );
 
-        for (const guild of instance.client.guilds.cache.array()) {
-          const channel = instance.settings[guild.id]["games_channel"];
-          if (!channel) continue;
-          const logChannel = guild.channels.cache.get(channel);
-          if (logChannel) {
-            const autodel = instance.settings[guild.id]["games_autodelete"];
-            try {
-              const msg = await logChannel.send(embed);
-              if (autodel) {
-                deleteMap[msg.id] = {
-                  msg,
-                  time: Date.now() + parseInt(autodel) * 60 * 1000,
-                };
+        instance.client.guilds.cache
+          .array()
+          .filter((g) => instance.settings[g.id]["games_channel"])
+          .forEach(async (guild) => {
+            const channel = instance.settings[guild.id]["games_channel"];
+            if (!channel) continue;
+            const logChannel = guild.channels.cache.get(channel);
+            if (logChannel) {
+              const autodel = instance.settings[guild.id]["games_autodelete"];
+              try {
+                const msg = await logChannel.send(embed);
+                if (autodel) {
+                  deleteMap[msg.id] = {
+                    msg,
+                    time: Date.now() + parseInt(autodel) * 60 * 1000,
+                  };
+                }
+              } catch (err) {
+                console.error(err);
               }
-            } catch (err) {
-              console.error(err);
+            } else {
+              // channel doesn't exists, delete from notifications
+              const {
+                rows: [result],
+              } = await instance.database.simpleQuery("SETTINGS", {
+                key: `games_channel`,
+                guild_id: guild.id,
+              });
+              if (!result) return;
+              const {
+                rows: [autodel],
+              } = await instance.database.simpleQuery("SETTINGS", {
+                key: `games_autodelete`,
+                guild_id: guild.id,
+              });
+
+              await instance.database.simpleDelete("SETTINGS", {
+                id: result.id,
+              });
+              delete instance.settings[guild.id][`games_channel`];
+              if (autodel) {
+                await instance.database.simpleDelete("SETTINGS", {
+                  id: autodel.id,
+                });
+                delete instance.settings[guild.id][`games_autodelete`];
+              }
             }
-          }
-        }
+          });
       }
     });
   },
