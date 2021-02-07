@@ -16,7 +16,7 @@ const deleteMap = {};
 
 module.exports = {
   start: async (instance) => {
-    deleteInterval = setInterval(() => {
+    deleteInterval = setInterval(async () => {
       const now = Date.now();
       Object.keys(deleteMap).forEach((k) => {
         const e = deleteMap[k];

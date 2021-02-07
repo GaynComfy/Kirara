@@ -6,7 +6,7 @@ module.exports = {
   start: async (instance) => {
     if (!instance.shared["timer"]) instance.shared["timer"] = {};
 
-    updateInterval = setInterval(() => {
+    updateInterval = setInterval(async () => {
       Object.keys(instance.shared["timer"]).forEach((c) => {
         const e = instance.shared["timer"][c];
         e.forEach(async (s) => {
