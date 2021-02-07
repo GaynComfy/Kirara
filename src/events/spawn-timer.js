@@ -29,6 +29,7 @@ module.exports = {
           tier,
           msg,
           time: message.createdTimestamp,
+          last: new Date(),
         });
       }
     }
