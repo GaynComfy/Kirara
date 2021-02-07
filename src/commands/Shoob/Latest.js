@@ -64,7 +64,9 @@ module.exports = {
       const tierSettings = tierInfo[`T${tier}`];
       const embed = new MessageEmbed()
         .setTitle(
-          `${tierSettings.emoji} Latest added ${event ? "Event " : ""}T${tier}`
+          `${tierSettings.emoji} Latest added ${
+            isEvent ? "Event " : ""
+          }T${tier}`
         )
         .setColor(tierSettings.color)
         .setURL(`https://animesoul.com/cards`)
