@@ -3,13 +3,17 @@ const { getTimer } = require("../utils/spawnUtils");
 module.exports = {
   execute: async (instance, message) => {
     if (
-      (message.author.id !== "673362753489993749" &&
-        message.author.id !== instance.client.user.id) ||
-      !instance.guilds[message.guild.id] ||
-      !instance.guilds[message.guild.id].timer
+      message.author.id !== "673362753489993749" &&
+      message.author.id !== instance.client.user.id
     ) {
       return;
     }
+    if (
+      !instance.guilds[message.guild.id] ||
+      !instance.guilds[message.guild.id].timer
+    )
+      return;
+
     for (const embed of message.embeds) {
       const word = embed.title;
       if (!word || !word.includes("Tier:")) continue;
