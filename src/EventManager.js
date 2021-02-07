@@ -26,6 +26,7 @@ class EventManager {
     const otherHandlers = this.events["message"];
     this.client.on("message", async (message) => {
       if (message.channel.type === "dm") return; // ToDo: Reimplement
+      if (!this.instance.hasInit) await new Promise((r) => setTimeout(r, 1000));
       if (
         message.content
           .toLowerCase()

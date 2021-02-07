@@ -18,12 +18,12 @@ module.exports = {
   start: async (instance) => {
     deleteInterval = setInterval(() => {
       const now = Date.now();
-      for (const k of Object.keys(deleteMap)) {
+      Object.keys(deleteMap).forEach((k) => {
         const e = deleteMap[k];
         if (e.time > now) continue;
         e.msg.delete();
         delete deleteMap[k];
-      }
+      });
     }, 1000);
     const { config, settings } = instance;
     client = redis.createClient(

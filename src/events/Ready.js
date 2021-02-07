@@ -50,6 +50,7 @@ module.exports = {
         instance.settings[server.id] = s;
       }
     }
+    instance.isReady = true;
   },
   eventName: "ready",
 };
