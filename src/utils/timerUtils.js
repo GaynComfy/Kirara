@@ -21,7 +21,7 @@ const timeLeft = () => {
   const next = nextDate();
   const today = new Date();
   const timeDiff = Math.abs(next.getTime() - today.getTime());
-  return Math.ceil(timeDiff / 1000);
+  return timeDiff;
 };
 
 module.exports = {
