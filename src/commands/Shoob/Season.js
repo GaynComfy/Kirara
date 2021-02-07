@@ -1,5 +1,7 @@
 const { MessageEmbed } = require("discord.js");
+const humanizeDuration = require("humanize-duration");
 const { tierInfo } = require("../../utils/cardUtils");
+const { timeLeft } = require("../../utils/timerUtils");
 const Color = require("../../utils/Colors.json");
 
 const info = {
@@ -102,6 +104,12 @@ module.exports = {
           `<:KiraraShrug:784849773454557204> **${s.despawns} cards** have despawned.\n` +
           `**${s.claimers.c} users** have claimed cards on this server.` +
           (s.claimers.c > 0 ? `\n\n${top3.join("\n")}` : "")
+      )
+      .setFooter(
+        `${humanizeDuration(timeLeft(), {
+          round: true,
+          units: ["d", "h", "m"],
+        })} until next reset`
       );
     message.channel.send(embed);
     return true;
