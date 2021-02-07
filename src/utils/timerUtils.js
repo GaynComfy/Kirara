@@ -14,14 +14,17 @@ const nextDate = () => {
     month = 1;
   }
 
-  return new Date(year, month, 28);
+  return new Date(
+    new Date(year, month, 28).toLocaleString("en-US", {
+      timeZone: "America/New_York",
+    })
+  );
 };
 
 const timeLeft = () => {
   const next = nextDate();
   const today = new Date();
-  const timeDiff = Math.abs(next.getTime() - today.getTime());
-  return timeDiff;
+  return Math.abs(next.getTime() - today.getTime());
 };
 
 module.exports = {
