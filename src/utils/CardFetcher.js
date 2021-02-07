@@ -139,8 +139,8 @@ class CardFetcher {
     if (!result.data || result.data.length === 0 || result.data.message) {
       return null;
     }
-    instance.cache.setExpire(k, JSON.stringify(result), 60 * 5);
-    return result;
+    instance.cache.setExpire(k, JSON.stringify(result.data), 60 * 5);
+    return result.data;
   }
   async fetchAuctionById(instance, id) {
     const result = await this.instance.get(`/auction/${id}`);
