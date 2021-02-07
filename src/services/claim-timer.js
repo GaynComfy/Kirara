@@ -12,7 +12,7 @@ module.exports = {
       Object.keys(instance.shared["timer"]).forEach((c) => {
         const e = instance.shared["timer"][c];
         e.forEach(async (s) => {
-          if (new Date() - s.last < 4000) continue;
+          if (new Date() - s.last < 4000) return;
           const e = await getTimer(s.time);
           if (!e) {
             s.msg.delete();
