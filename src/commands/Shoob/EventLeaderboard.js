@@ -20,7 +20,7 @@ module.exports = {
         )
         .setColor(Color.red);
       await message.channel.send(embed);
-      return false;
+      return true;
     }
 
     message.channel.startTyping();
