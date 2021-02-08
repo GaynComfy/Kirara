@@ -56,12 +56,12 @@ module.exports = {
       const users = [];
       const claims = [];
 
-      for (const entry of claimers) {
+      for (const [i, entry] of claimers.entries()) {
         const user = await instance.client.users.fetch(entry.discord_id);
         const tag = user
           ? `${user.username}#${user.discriminator}`
           : "Unknown user";
-        users.push(`> \`${tag}\``);
+        users.push(`\`${i + 1 + page * 8}.\` \`${tag}\``);
         claims.push(`> \`${entry.c} ${entry.c === 1 ? "claim" : "claims"}\``);
       }
 
