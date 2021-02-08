@@ -23,17 +23,28 @@ module.exports = {
 
     return await createPagedResults(message, Infinity, async (page) => {
       const offset = (page > last && last !== -1 ? last : page) * 8;
-      const { rows: claimers } = isTotal
-        ? await instance.database.pool.query(
-            "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
-              "GROUP BY discord_id ORDER BY c DESC LIMIT 8 OFFSET $1",
-            [offset]
-          )
-        : await instance.database.pool.query(
-            "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
-              "AND season=$1 GROUP BY discord_id ORDER BY c DESC LIMIT 8 OFFSET $2",
-            [instance.config.season, offset]
-          );
+      const k = `glb:${isTotal ? "total" : instance.config.season}:${offset}`;
+      let claimers = [];
+
+      const exists = await instance.cache.exists(k);
+      if (exists) {
+        const e = await instance.cache.get(k);
+        claimers = JSON.parse(e);
+      } else {
+        const { rows: claims } = isTotal
+          ? await instance.database.pool.query(
+              "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
+                "GROUP BY discord_id ORDER BY c DESC LIMIT 8 OFFSET $1",
+              [offset]
+            )
+          : await instance.database.pool.query(
+              "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
+                "AND season=$1 GROUP BY discord_id ORDER BY c DESC LIMIT 8 OFFSET $2",
+              [instance.config.season, offset]
+            );
+        instance.cache.setExpire(k, JSON.stringify(claims), 60 * 5);
+        claimers = claims;
+      }
       if (claimers.length === 0 && page === 0) {
         const embed = new MessageEmbed()
           .setDescription(
