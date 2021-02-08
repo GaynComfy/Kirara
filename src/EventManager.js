@@ -32,7 +32,8 @@ class EventManager {
           .toLowerCase()
           .indexOf(this.config.prefix.toLowerCase()) === 0
       ) {
-        if (message.author.bot) return;
+        if (message.author.bot && message.author.id !== "736067018628792322")
+          return;
         const args = message.content
           .slice(this.config.prefix.length)
           .trim()

@@ -29,24 +29,8 @@ module.exports = {
     if (isTotal) args.shift();
 
     message.channel.startTyping();
-    const event = instance.guilds[message.guild.id].event;
 
-    const { rows: claimers } = event
-      ? isTotal
-        ? await instance.database.pool.query(
-            "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
-              "AND server_id=$1 GROUP BY discord_id ORDER BY c DESC LIMIT 8",
-            [instance.serverIds[message.guild.id]]
-          )
-        : await instance.database.pool.query(
-            "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
-              "AND server_id=$1 AND time > $2 GROUP BY discord_id ORDER BY c DESC LIMIT 8",
-            [
-              instance.serverIds[message.guild.id],
-              instance.guilds[message.guild.id].event_time,
-            ]
-          )
-      : isTotal
+    const { rows: claimers } = isTotal
       ? await instance.database.pool.query(
           "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
             "AND server_id=$1 GROUP BY discord_id ORDER BY c DESC LIMIT 8",
@@ -63,7 +47,7 @@ module.exports = {
       const embed = new MessageEmbed()
         .setDescription(
           `<:Sirona_NoCross:762606114444935168> This server has no claimed cards${
-            isTotal ? "" : ` this ${event ? "event" : "season"}`
+            isTotal ? "" : " this season"
           }.`
         )
         .setColor(Color.red);
