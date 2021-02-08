@@ -239,17 +239,17 @@ class CardFetcher {
 
   // why is this here lol
   async fetchProfile(instance, id) {
-    const k = `user:${id}`;
+    /* const k = `user:${id}`;
     const exists = await instance.cache.exists(k);
     if (exists) {
       const e = await instance.cache.get(k);
       return JSON.parse(e);
-    }
+    } */
     const result = await this.instance.get(`/user/${id}`);
     if (!result.data || result.data.length === 0 || result.data.message) {
       return null;
     }
-    instance.cache.setExpire(k, JSON.stringify(result.data), 60 * 5);
+    // instance.cache.setExpire(k, JSON.stringify(result.data), 60 * 5);
     return result.data;
   }
 }
