@@ -61,7 +61,7 @@ module.exports = {
       const users = [];
       const claims = [];
 
-      for (const [entry, i] of claimers) {
+      for (const [i, entry] of claimers.entries()) {
         const user = await instance.client.users.fetch(entry.discord_id);
         const mention = user ? `<@!${user.id}>` : "`User left`";
         users.push(`\`${i}.\` ${mention}`);
