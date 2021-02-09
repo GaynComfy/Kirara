@@ -13,17 +13,16 @@ const userId = /\d{17,19}/;
 
 module.exports = {
   execute: async (instance, message, args) => {
-    let target =
-      message.mentions.users.first() ||
+    let account =
+      message.mentions.members.first() ||
       (args.length >= 1 &&
         userId.test(args[0]) &&
-        (await instance.client.users.fetch(args[0]).catch((err) => {})));
+        (await instance.client.members.fetch(args[0]).catch((err) => {})));
     if (args.length >= 1 && (mention.test(args[0]) || userId.test(args[0])))
       args.shift();
-    if (!target) {
-      target = message.author;
+    if (!account) {
+      account = message.member;
     }
-    const account = message.guild.members.cache.get(target.id);
     const mem = account.user;
     if (!account.premiumSinceTimestamp) {
       const embed = new MessageEmbed()
