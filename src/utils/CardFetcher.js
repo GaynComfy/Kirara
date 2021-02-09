@@ -1,6 +1,21 @@
 const axios = require("axios");
 
 const tN = (tier) => (tier.toLowerCase() === "s" ? 8 : parseInt(tier));
+const sortTopOwners = (arr) => {
+  return arr
+    .sort((a, b) => {
+      const nA = a.username.toUpperCase();
+      const nB = b.username.toUpperCase();
+      if (nA < nB) return -1;
+      if (nA > nB) return 1;
+      return 0;
+    })
+    .sort((a, b) => {
+      if (a.count < b.count) return -1;
+      if (a.count > b.count) return 1;
+      return 0;
+    });
+};
 
 class CardFetcher {
   constructor(token) {
@@ -226,7 +241,9 @@ class CardFetcher {
     if (exists) {
       const e = await instance.cache.get(k);
       const data = JSON.parse(e);
-      return data.slice(parseInt(offset), parseInt(offset) + parseInt(limit));
+      return sortTopOwners(
+        data.slice(parseInt(offset), parseInt(offset) + parseInt(limit))
+      );
     }
     const result = await this.instance.get(`/inventory/top/${id}`);
     if (!result.data || result.data.length === 0 || result.data.message) {
@@ -234,7 +251,9 @@ class CardFetcher {
     }
     const owners = result.data;
     instance.cache.setExpire(k, JSON.stringify(owners), 60 * 14);
-    return owners.slice(parseInt(offset), parseInt(offset) + parseInt(limit));
+    return sortTopOwners(
+      owners.slice(parseInt(offset), parseInt(offset) + parseInt(limit))
+    );
   }
 
   // why is this here lol
