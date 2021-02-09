@@ -104,14 +104,14 @@ module.exports = {
       .setURL(`https://animesoul.com/user/${member.id}`)
       .setDescription(
         `<:Flame:783439293506519101> [Anime Soul Profile](https://animesoul.com/user/${member.id})` +
-          (viewer
+          (viewer && viewer.discord_id !== ""
             ? `\n<:KiraraPeek:784849772272025600> ` +
               `Last viewed by [**__${viewer.username}__**](https://animesoul.com/user/${viewer.discord_id})`
             : "") +
-          (user.card_game_senpai
+          (user && user.card_game_senpai
             ? `\n<:KiraraFufu:784849773160431626> **Card Game Sensei**`
             : "") +
-          (user.trusted
+          (user && user.trusted
             ? `\n<:KiraraSleepy:784849773097517086> **Trusted!**`
             : "") +
           (owner.includes(member.id)
