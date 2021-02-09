@@ -3,15 +3,26 @@ const humanizeDuration = require("humanize-duration");
 
 const info = {
   name: "nitro",
-  aliases: ['boost'],
+  aliases: ["boost"],
   matchCase: false,
   category: "UwU",
   cooldown: 2,
 };
+const mention = /<@!?(\d{17,19})>/;
+const userId = /\d{17,19}/;
 
 module.exports = {
   execute: async (instance, message, args) => {
-    const target = message.mentions.users.first() || message.member;
+    let target =
+      message.mentions.users.first() ||
+      (args.length >= 1 &&
+        userId.test(args[0]) &&
+        (await instance.client.users.fetch(args[0]).catch((err) => {})));
+    if (args.length >= 1 && (mention.test(args[0]) || userId.test(args[0])))
+      args.shift();
+    if (!target) {
+      target = message.author;
+    }
     const account = message.guild.members.cache.get(target.id);
     const mem = account.user;
     if (!account.premiumSinceTimestamp) {

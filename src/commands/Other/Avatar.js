@@ -7,10 +7,21 @@ const info = {
   category: "UwU",
   cooldown: 60,
 };
+const mention = /<@!?(\d{17,19})>/;
+const userId = /\d{17,19}/;
 
 module.exports = {
   execute: async (instance, message, args) => {
-    const target = message.mentions.users.first() || message.author;
+    let target =
+      message.mentions.users.first() ||
+      (args.length >= 1 &&
+        userId.test(args[0]) &&
+        (await instance.client.users.fetch(args[0]).catch((err) => {})));
+    if (args.length >= 1 && (mention.test(args[0]) || userId.test(args[0])))
+      args.shift();
+    if (!target) {
+      target = message.author;
+    }
 
     // Embed
 
