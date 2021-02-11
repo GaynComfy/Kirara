@@ -110,10 +110,10 @@ module.exports = {
         const cpm = [];
         const time = [];
 
-        for (const entry of stats) {
+        for (const [i, entry] of stats.entries()) {
           const user = await instance.client.users.fetch(entry.discord_id);
           const name = user ? `\`${user.tag}\`` : `<@!${entry.discord_id}>`;
-          users.push(`> ${name}`);
+          users.push(`> \`${i + 1 + page * 8}.\` ${name}`);
           cpm.push(`> \`${getCpm(diff, entry.top)}\``);
           time.push(`> \`${entry.top}s\``);
         }
