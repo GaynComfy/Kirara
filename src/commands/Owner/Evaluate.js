@@ -8,7 +8,7 @@ const info = {
   category: "Owner",
   ownerOnly: true,
   cooldown: 60,
-  disabled: true,
+  disabled: process.env.NODE_ENV !== "development",
 };
 const clean = (text) => {
   if (typeof text === "string") {
