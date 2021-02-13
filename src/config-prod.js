@@ -24,6 +24,6 @@ module.exports = {
     "175408504427905025", // JeDaYoshi#7942
     "97707213690249216", // offbeatwitch#8860
   ],
-  shardCount: 5,
+  shardCount: 6,
   season: 3,
 };
