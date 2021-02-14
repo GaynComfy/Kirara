@@ -100,6 +100,7 @@ module.exports = {
         }
         if (stats.length === 0 && last === -1) {
           last = page - 1;
+          if (last === -1) last = 0;
         } else if (stats.length < 8 && last === -1) {
           last = page;
         }
