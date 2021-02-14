@@ -65,9 +65,8 @@ module.exports = {
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
     ctx.textAlign = "center";
 
-    for (const entry of claimers) {
-      const index = claimers.indexOf(entry);
-      const first = index === 0;
+    for (const [i, entry] of claimers.entries()) {
+      const first = i === 0;
       const user = await instance.client.users.fetch(entry.discord_id);
       const discriminator = user ? user.discriminator : "#0000";
       const name = user
@@ -99,12 +98,12 @@ module.exports = {
         ctx.fillText(name, 172, 363);
       }
       ctx.font = "30px Century Gothic";
-      ctx.fillStyle = first ? "#ffffff" : "#d5417c";
+      ctx.fillStyle = i <= 3 ? "#ffffff" : "#d5417c";
       ctx.textAlign = "left";
-      ctx.fillText(name, 405, 176 + 53 * index);
+      ctx.fillText(name, 405, 176 + 53 * i);
       ctx.font = "24px Century Gothic";
       ctx.textAlign = "center";
-      ctx.fillText(entry.c, 710, 176 + 53 * index);
+      ctx.fillText(entry.c, 710, 176 + 53 * i);
     }
     const attachment = new MessageAttachment(
       canvas.toBuffer(),
