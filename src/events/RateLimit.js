@@ -1,9 +1,9 @@
 module.exports = {
   execute: async (instance, params) => {
     if (instance.client.rest.globalTimeout) {
-      console.error("! GLOBAL RATELIMIT HIT");
+      console.log("! GLOBAL RATELIMIT HIT");
     }
-    console.error(
+    console.log(
       `! Hit ratelimit on '${params.method} ${params.route}' => timeout ${params.timeout}`
     );
   },
