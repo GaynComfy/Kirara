@@ -146,7 +146,8 @@ module.exports = {
       resultsw.push(`> \`${cpm}\``);
       timer.push(`> \`${took}s\``);
 
-      msg.react(first ? "🏅" : "✅");
+      // "✅"
+      if (first) msg.react("🏅");
       userPlay(
         instance,
         msg.author.id,
