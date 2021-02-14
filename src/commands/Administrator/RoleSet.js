@@ -51,7 +51,7 @@ module.exports = {
             });
             const embedz = new MessageEmbed()
               .setDescription(
-                `<a:Sirona_Tick:749202570341384202> removed ${args[0].toUpperCase()} pings! ${
+                `<a:Sirona_Tick:749202570341384202> Removed ${args[0].toUpperCase()} pings! ${
                   emotes[args[0].toLowerCase()]
                 }`
               )
@@ -99,8 +99,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "roleset <T3|T4|T5|T6> <@role>",
-    examples: ["roleset t6 @T6"],
+    usage: "roleset <T3/T4/T5/T6> <@role/off>",
+    examples: ["roleset t6 @T6", "roleset t4 off"],
     description: "Set Shoob card tiers role mentions for your server!",
   },
 };
