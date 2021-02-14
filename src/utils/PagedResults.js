@@ -81,9 +81,7 @@ const createPagedResults = async (
 
     sentMessage
       .react(BACK_SYMBOL)
-      .then(
-        () => maxPages !== Infinity && sentMessage.react(FAST_FORWARD_SYMBOL)
-      )
+      .then(() => sentMessage.react(FORWARD_SYMBOL))
       .then(() => refresh && sentMessage.react(REPEAT_SYMBOL));
 
     return sentMessage
