@@ -70,10 +70,17 @@ const createPagedResults = async (
       return sentMessage;
     }
 
-    sentMessage
+    /*sentMessage
       .react(FAST_REVERSE_SYMBOL)
       .then(() => sentMessage.react(BACK_SYMBOL))
       .then(() => sentMessage.react(FORWARD_SYMBOL))
+      .then(
+        () => maxPages !== Infinity && sentMessage.react(FAST_FORWARD_SYMBOL)
+      )
+      .then(() => refresh && sentMessage.react(REPEAT_SYMBOL));*/
+
+    sentMessage
+      .react(BACK_SYMBOL)
       .then(
         () => maxPages !== Infinity && sentMessage.react(FAST_FORWARD_SYMBOL)
       )
@@ -89,9 +96,15 @@ const createPagedResults = async (
             break;
           case BACK_SYMBOL:
             newPage = Math.max(page - 1, 0);
+            if (page === newPage && page === 0) {
+              newPage = maxPages - 1;
+            }
             break;
           case FORWARD_SYMBOL:
             newPage = Math.min(page + 1, maxPages - 1);
+            if (page === newPage && page === maxPages - 1) {
+              newPage = 0;
+            }
             break;
           case FAST_FORWARD_SYMBOL:
             if (maxPages !== Infinity) newPage = maxPages - 1;
