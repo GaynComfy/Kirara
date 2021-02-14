@@ -98,7 +98,7 @@ module.exports = {
         ctx.fillText(name, 172, 363);
       }
       ctx.font = "30px Century Gothic";
-      ctx.fillStyle = i <= 3 ? "#ffffff" : "#d5417c";
+      ctx.fillStyle = i < 3 ? "#ffffff" : "#d5417c";
       ctx.textAlign = "left";
       ctx.fillText(name, 405, 176 + 53 * i);
       ctx.font = "24px Century Gothic";
