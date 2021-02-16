@@ -9,7 +9,7 @@ const tierSettings = {
   5: { emoji: "<:NewT5:781684993834352680>", num: 5, color: "#ffe814" },
   6: { emoji: "<:NewT6:781684992937558047>", num: 6, color: "#ff170f" },
 };
-const allowed = ["3", "4", "5", "6", "S"];
+const allowed = ["5", "6", "S"];
 let client = null;
 let deleteInterval = null;
 const deleteMap = {};
