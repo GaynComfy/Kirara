@@ -7,7 +7,7 @@ const info = {
   name: "neko",
   matchCase: false,
   category: "Roleplay",
-  cooldown: 5,
+  cooldown: 10,
 };
 module.exports = {
   execute: async (instance, message, args) => {
