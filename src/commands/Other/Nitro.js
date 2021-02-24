@@ -27,7 +27,7 @@ module.exports = {
     if (!account.premiumSinceTimestamp) {
       const embed = new MessageEmbed()
         .setDescription(
-          `\`${target.username || mem.username}\` is not boosting this server`
+          `\`${account.username || mem.username}\` is not boosting this server`
         )
         .setColor("#FF0000");
 
