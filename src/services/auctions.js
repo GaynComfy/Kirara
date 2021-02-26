@@ -16,88 +16,6 @@ let client = null;
 let deleteInterval = null;
 const deleteMap = {};
 
-const onMessage = async (channel, message) => {
-  if (channel !== "auctions") return;
-
-  const data = JSON.parse(message);
-  if (
-    // normal cases
-    !allowed.includes(data.tier) &&
-    // ToDo: change this to checker if the user/server has voted in top.gg
-    process.env.NODE_ENV === "development" &&
-    !allAllowed.includes(data.tier)
-  )
-    return;
-
-  const tier = tierSettings[data.tier];
-  const embed = new MessageEmbed()
-    .setTitle(`> <:SShoob:783636544720207903> Enter the Auction`)
-    .setURL(`https://animesoul.com/auction/${data.id}`)
-    .setColor(tier.color)
-    .setThumbnail(`https://animesoul.com/api/cardr/${data.card_id}`)
-    .setDescription(
-      `${tier.emoji} [\`${data.card_name}\` • \`T${data.tier}\`]` +
-        `(https://animesoul.com/cards/info/${data.card_id}) • \`V${data.version}\` is being auctioned!`
-    )
-    .addField(
-      "Starting Bid",
-      `\`富 ${Math.round(data.bn / 5) + data.minimum}\``,
-      true
-    )
-    .addField("Buy Now", `\`富 ${data.bn}\``, true)
-    .addField("Min. Increment", `\`+富 ${data.minimum}\``, true);
-
-  const guilds = instance.client.guilds.cache
-    .array()
-    .filter((g) => instance.settings[g.id]["notif_channel"]);
-
-  for (const guild of guilds) {
-    const logChannel = guild.channels.cache.get(
-      instance.settings[guild.id]["notif_channel"]
-    );
-    if (logChannel) {
-      const autodel = instance.settings[guild.id]["notif_autodelete"];
-      try {
-        const msg = await logChannel.send(embed);
-        if (autodel) {
-          deleteMap[msg.id] = {
-            msg,
-            time: Date.now() + parseInt(autodel) * 60 * 1000,
-          };
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    } else {
-      // channel doesn't exists, delete from notifications
-      const {
-        rows: [result],
-      } = await instance.database.simpleQuery("SETTINGS", {
-        key: `notif_channel`,
-        guild_id: guild.id,
-      });
-      if (!result) return;
-      const {
-        rows: [autodel],
-      } = await instance.database.simpleQuery("SETTINGS", {
-        key: `notif_autodelete`,
-        guild_id: guild.id,
-      });
-
-      await instance.database.simpleDelete("SETTINGS", {
-        id: result.id,
-      });
-      delete instance.settings[guild.id][`notif_channel`];
-      if (autodel) {
-        await instance.database.simpleDelete("SETTINGS", {
-          id: autodel.id,
-        });
-        delete instance.settings[guild.id][`notif_autodelete`];
-      }
-    }
-  }
-};
-
 module.exports = {
   start: async (instance) => {
     deleteInterval = setInterval(async () => {
@@ -110,6 +28,87 @@ module.exports = {
       });
     }, 1000);
     const { config, settings } = instance;
+    const onMessage = async (channel, message) => {
+      if (channel !== "auctions") return;
+
+      const data = JSON.parse(message);
+      if (
+        // normal cases
+        !allowed.includes(data.tier) &&
+        // ToDo: change this to checker if the user/server has voted in top.gg
+        process.env.NODE_ENV === "development" &&
+        !allAllowed.includes(data.tier)
+      )
+        return;
+
+      const tier = tierSettings[data.tier];
+      const embed = new MessageEmbed()
+        .setTitle(`> <:SShoob:783636544720207903> Enter the Auction`)
+        .setURL(`https://animesoul.com/auction/${data.id}`)
+        .setColor(tier.color)
+        .setThumbnail(`https://animesoul.com/api/cardr/${data.card_id}`)
+        .setDescription(
+          `${tier.emoji} [\`${data.card_name}\` • \`T${data.tier}\`]` +
+            `(https://animesoul.com/cards/info/${data.card_id}) • \`V${data.version}\` is being auctioned!`
+        )
+        .addField(
+          "Starting Bid",
+          `\`富 ${Math.round(data.bn / 5) + data.minimum}\``,
+          true
+        )
+        .addField("Buy Now", `\`富 ${data.bn}\``, true)
+        .addField("Min. Increment", `\`+富 ${data.minimum}\``, true);
+
+      const guilds = instance.client.guilds.cache
+        .array()
+        .filter((g) => instance.settings[g.id]["notif_channel"]);
+
+      for (const guild of guilds) {
+        const logChannel = guild.channels.cache.get(
+          instance.settings[guild.id]["notif_channel"]
+        );
+        if (logChannel) {
+          const autodel = instance.settings[guild.id]["notif_autodelete"];
+          try {
+            const msg = await logChannel.send(embed);
+            if (autodel) {
+              deleteMap[msg.id] = {
+                msg,
+                time: Date.now() + parseInt(autodel) * 60 * 1000,
+              };
+            }
+          } catch (err) {
+            console.error(err);
+          }
+        } else {
+          // channel doesn't exists, delete from notifications
+          const {
+            rows: [result],
+          } = await instance.database.simpleQuery("SETTINGS", {
+            key: `notif_channel`,
+            guild_id: guild.id,
+          });
+          if (!result) return;
+          const {
+            rows: [autodel],
+          } = await instance.database.simpleQuery("SETTINGS", {
+            key: `notif_autodelete`,
+            guild_id: guild.id,
+          });
+
+          await instance.database.simpleDelete("SETTINGS", {
+            id: result.id,
+          });
+          delete instance.settings[guild.id][`notif_channel`];
+          if (autodel) {
+            await instance.database.simpleDelete("SETTINGS", {
+              id: autodel.id,
+            });
+            delete instance.settings[guild.id][`notif_autodelete`];
+          }
+        }
+      }
+    };
     client = redis.createClient(
       `redis://${config.cache.host}:${config.cache.port}`
     );
