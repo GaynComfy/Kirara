@@ -45,7 +45,7 @@ module.exports = {
     return withOwner(
       message.author.id,
       async () => {
-        message.delete();
+        await message.delete();
         if (args.length === 0) return false;
         const isEvent =
           args[0].toLowerCase() === "event" || args[0].toLowerCase() === "e";
@@ -180,13 +180,15 @@ module.exports = {
           if (channelMap[message.channel.id] !== s) return;
 
           if (plays.length === 0) {
-            m.delete();
+            m.delete().catch((err) => {});
             message.channel
               .send(
                 `Looks like no one got the card \`${card.name} ` +
                   `T${card.tier.toUpperCase()}\` at this time..`
               )
-              .then((msg) => setTimeout(() => msg.delete(), 5000));
+              .then((msg) =>
+                setTimeout(() => msg.delete().catch((err) => {}), 5000)
+              );
           } else {
             const result = new MessageEmbed()
               .setTitle("Type race results: Shoob <:SShoob:783636544720207903>")

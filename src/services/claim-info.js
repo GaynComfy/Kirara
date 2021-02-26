@@ -20,7 +20,7 @@ module.exports = {
       Object.keys(deleteMap).forEach((k) => {
         const e = deleteMap[k];
         if (e.time > now) return;
-        e.msg.delete();
+        e.msg.delete().catch((err) => {});
         delete deleteMap[k];
       });
     }, 1000);
@@ -44,7 +44,7 @@ module.exports = {
               (p) => p.tier === data.tier && p.name === data.card_name
             );
             if (s) {
-              s.msg.delete().catch((err) => console.error(err));
+              s.msg.delete().catch((err) => {});
               const i = instance.shared["timer"][data.channel_id].indexOf(s);
               if (i !== -1)
                 instance.shared["timer"][data.channel_id].splice(i, 1);
@@ -85,7 +85,7 @@ module.exports = {
                 await logChannel.send(log);
               } catch (err) {
                 console.error(err);
-                if (err.code === 50013) {
+                if (err.code === 50001 || err.code === 50013) {
                   // missing permissions, removing the logchan
                   await instance.database.simpleUpdate(
                     "SERVERS",
@@ -127,6 +127,7 @@ module.exports = {
               if (data.tier !== "6")
                 deleteMap[msg.id] = { msg, time: Date.now() + 15 * 1000 };
             } catch (err) {
+              if (err.code === 50013) return;
               console.error(err);
             }
           }

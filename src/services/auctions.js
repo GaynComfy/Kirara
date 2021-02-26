@@ -23,7 +23,7 @@ module.exports = {
       Object.keys(deleteMap).forEach((k) => {
         const e = deleteMap[k];
         if (e.time > now) return;
-        e.msg.delete();
+        e.msg.delete().catch((err) => {});
         delete deleteMap[k];
       });
     }, 1000);
@@ -79,32 +79,33 @@ module.exports = {
             }
           } catch (err) {
             console.error(err);
-          }
-        } else {
-          // channel doesn't exists, delete from notifications
-          const {
-            rows: [result],
-          } = await instance.database.simpleQuery("SETTINGS", {
-            key: `notif_channel`,
-            guild_id: guild.id,
-          });
-          if (!result) return;
-          const {
-            rows: [autodel],
-          } = await instance.database.simpleQuery("SETTINGS", {
-            key: `notif_autodelete`,
-            guild_id: guild.id,
-          });
+            if (err.code === 50001 || err.code === 50013) {
+              // missing permissions, delete from notifications
+              const {
+                rows: [result],
+              } = await instance.database.simpleQuery("SETTINGS", {
+                key: `notif_channel`,
+                guild_id: guild.id,
+              });
+              if (!result) return;
+              const {
+                rows: [autodel],
+              } = await instance.database.simpleQuery("SETTINGS", {
+                key: `notif_autodelete`,
+                guild_id: guild.id,
+              });
 
-          await instance.database.simpleDelete("SETTINGS", {
-            id: result.id,
-          });
-          delete instance.settings[guild.id][`notif_channel`];
-          if (autodel) {
-            await instance.database.simpleDelete("SETTINGS", {
-              id: autodel.id,
-            });
-            delete instance.settings[guild.id][`notif_autodelete`];
+              await instance.database.simpleDelete("SETTINGS", {
+                id: result.id,
+              });
+              delete instance.settings[guild.id][`notif_channel`];
+              if (autodel) {
+                await instance.database.simpleDelete("SETTINGS", {
+                  id: autodel.id,
+                });
+                delete instance.settings[guild.id][`notif_autodelete`];
+              }
+            }
           }
         }
       }

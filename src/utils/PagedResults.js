@@ -109,7 +109,8 @@ const createPagedResults = async (
             else return;
             break;
         }
-        if (newPage === page && !refresh) return r.users.remove(user);
+        if (newPage === page && !refresh)
+          return r.users.remove(user).catch((err) => {});
 
         try {
           const res = await getMessageForPage(newPage, user);
@@ -121,9 +122,9 @@ const createPagedResults = async (
           console.error(err);
           sentMessage.edit(embed);
         }
-        r.users.remove(user);
+        r.users.remove(user).catch((err) => {});
       })
-      .on("end", () => sentMessage.reactions.removeAll());
+      .on("end", () => sentMessage.reactions.removeAll().catch((err) => {}));
   } catch (err) {
     console.error(err);
     if (sentMessage) sentMessage.edit(embed);
@@ -208,7 +209,7 @@ const createMessagePagedResults = async (
           sendError(sentMessage.channel);
           console.error(err);
         }
-        m.delete();
+        m.delete().catch((err) => {});
       })
       .on("end", () => {
         if (s === userMap[`${message.channel.id}:${message.author.id}`])
