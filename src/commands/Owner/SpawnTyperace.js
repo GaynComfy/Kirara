@@ -14,6 +14,7 @@ const info = {
   matchCase: false,
   category: "Owner",
   ownerOnly: true,
+  disabled: process.env.NODE_ENV !== "development",
 };
 
 const tiers = {
