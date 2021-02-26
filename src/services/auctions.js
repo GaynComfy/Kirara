@@ -34,10 +34,10 @@ module.exports = {
       const data = JSON.parse(message);
       if (
         // normal cases
-        !allowed.includes(data.tier) &&
+        !allowed.includes(data.tier) ||
         // ToDo: change this to checker if the user/server has voted in top.gg
-        process.env.NODE_ENV === "development" &&
-        !allAllowed.includes(data.tier)
+        (process.env.NODE_ENV === "development" &&
+          !allAllowed.includes(data.tier))
       )
         return;
 
