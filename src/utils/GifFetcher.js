@@ -1,9 +1,12 @@
-const axios = require("axios");
+const got = require("got");
 
 class GifFetcher {
   constructor() {
     this.map = {};
-    this.instance = axios.create({ baseURL: "https://waifu.pics/api/sfw" });
+    this.instance = got.extend({
+      prefixURL: "https://waifu.pics/api/sfw",
+      responseType: "json",
+    });
   }
   request(type) {
     return new Promise((resolve, reject) => {

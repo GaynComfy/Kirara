@@ -1,4 +1,4 @@
-const axios = require("axios");
+const got = require("got");
 
 const getCachedURL = async (instance, url) => {
   const k = `curi:${url.split("/").slice(-1)}`;
@@ -9,8 +9,8 @@ const getCachedURL = async (instance, url) => {
     return e;
   }
 
-  const r = await axios.get(url, { responseType: "arraybuffer" });
-  const data = Buffer.from(r.data).toString("base64");
+  const r = await got(url, { responseType: "buffer" });
+  const data = r.data.toString("base64");
   instance.cache.setExpire(k, data, 604800);
   return data;
 };

@@ -1,4 +1,4 @@
-const axios = require("axios");
+const got = require("got");
 
 const tN = (tier) => (tier.toLowerCase() === "s" ? 8 : parseInt(tier));
 const sortTopOwners = (arr) => {
@@ -24,12 +24,13 @@ const sortTopOwners = (arr) => {
 
 class CardFetcher {
   constructor(token) {
-    this.instance = axios.create({
-      baseURL: "https://asn-api.animesoul.com/v1",
+    this.instance = got.extend({
+      prefixUrl: "https://asn-api.animesoul.com/v1",
       headers: {
         Authorization: token,
       },
-      validateStatus: (s) => s < 500,
+      responseType: "json",
+      throwHttpErrors: false,
     });
   }
   async fetchByName(instance, name, tier = "all", event = false) {
