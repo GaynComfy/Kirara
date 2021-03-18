@@ -180,7 +180,9 @@ module.exports = {
         .setColor(Color.white);
 
       if (plays.length === 0) {
-        result.setDescription("No participants!");
+        result.setDescription(
+          "> <:Sirona_NoCross:762606114444935168> No participants!"
+        );
       } else {
         result
           .addField("•   __User__", results, true)
