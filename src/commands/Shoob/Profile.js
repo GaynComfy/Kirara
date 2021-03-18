@@ -37,6 +37,9 @@ module.exports = {
     if (!member) {
       member = message.author;
     }
+
+    message.channel.startTyping();
+
     const user = await Fetcher.fetchProfile(instance, member.id);
     const {
       rows: cards,
