@@ -1,5 +1,6 @@
 const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
+const { getCachedURL } = require("../../utils/cacheUtils");
 const { MessageEmbed, MessageAttachment } = require("discord.js");
 const { createCanvas, loadImage } = require("canvas");
 const isDev = process.env.NODE_ENV === "development";
@@ -24,6 +25,9 @@ const tierPositions = [
 ];
 const mention = /<@!?(\d{17,19})>/;
 const userId = /\d{17,19}/;
+
+const background1 = await loadImage("./src/assets/profile.png");
+const background2 = await loadImage("./src/assets/profile_anim.gif");
 
 module.exports = {
   execute: async (instance, message, args) => {
@@ -54,10 +58,11 @@ module.exports = {
       [member.id, instance.serverIds[message.guild.id]]
     );
 
-    const background1 = await loadImage("./src/assets/profile.png");
-    const background2 = await loadImage("./src/assets/profile_anim.gif");
     const avatar = await loadImage(
-      member.displayAvatarURL({ format: "png", size: 512 })
+      await getCachedURL(
+        instance,
+        member.displayAvatarURL({ format: "png", size: 512 })
+      )
     );
 
     const canvas = createCanvas(1100, 400);

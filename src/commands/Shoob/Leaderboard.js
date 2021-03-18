@@ -1,4 +1,5 @@
 const Color = require("../../utils/Colors.json");
+const { getCachedURL } = require("../../utils/cacheUtils");
 const { createCanvas, loadImage, registerFont } = require("canvas");
 const { MessageEmbed, MessageAttachment } = require("discord.js");
 registerFont("./src/assets/CenturyGothic.ttf", { family: "Century Gothic" });
@@ -19,6 +20,8 @@ const applyText = (canvas, text) => {
   } while (ctx.measureText(text).width > canvas.width - 700);
   return ctx.font;
 };
+const background = await loadImage("./src/assets/leaderboard2.png");
+
 module.exports = {
   execute: async (instance, message, args) => {
     const isTotal =
@@ -54,12 +57,11 @@ module.exports = {
       return await message.channel.send(embed);
     }
 
-    const background = await loadImage("./src/assets/leaderboard2.png");
     const iconURL = message.guild.iconURL({ format: "png", size: 64 });
     const canvas = createCanvas(800, 600);
     const ctx = canvas.getContext("2d");
     if (iconURL) {
-      const icon = await loadImage(iconURL);
+      const icon = await loadImage(await getCachedURL(instance, iconURL));
       ctx.drawImage(icon, 360, 55, 58, 58);
     }
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
@@ -81,7 +83,10 @@ module.exports = {
         const aid = parseInt((user && user.discriminator) || "0000") % 5;
         const avatar = await loadImage(
           user && user.avatar
-            ? user.displayAvatarURL({ format: "png", size: 512 })
+            ? await getCachedURL(
+                instance,
+                user.displayAvatarURL({ format: "png", size: 512 })
+              )
             : `./src/assets/default/${aid}.png`
         );
         ctx.save();
