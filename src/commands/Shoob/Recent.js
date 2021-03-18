@@ -30,20 +30,21 @@ module.exports = {
     const { rows: recentCards } = isGlobal
       ? hasTier
         ? await instance.database.pool.query(
-            `SELECT * FROM CARD_CLAIMS WHERE tier=$1 ORDER BY id DESC LIMIT 5`,
-            [tier]
+            `SELECT * FROM CARD_CLAIMS WHERE season=$1 AND tier=$2 ORDER BY id DESC LIMIT 5`,
+            [instance.config.season, tier]
           )
         : await instance.database.pool.query(
-            `SELECT * FROM CARD_CLAIMS ORDER BY id DESC LIMIT 5`
+            `SELECT * FROM CARD_CLAIMS WHERE season=$1 ORDER BY id DESC LIMIT 5`,
+            [instance.config.season]
           )
       : hasTier
       ? await instance.database.pool.query(
-          `SELECT * FROM CARD_CLAIMS WHERE server_id=$1 AND tier=$2 ORDER BY id DESC LIMIT 5`,
-          [instance.serverIds[message.guild.id], tier]
+          `SELECT * FROM CARD_CLAIMS WHERE server_id=$1 AND season=$2 AND tier=$3 ORDER BY id DESC LIMIT 5`,
+          [instance.serverIds[message.guild.id], instance.config.season, tier]
         )
       : await instance.database.pool.query(
-          `SELECT * FROM CARD_CLAIMS WHERE server_id=$1 ORDER BY id DESC LIMIT 5`,
-          [instance.serverIds[message.guild.id]]
+          `SELECT * FROM CARD_CLAIMS WHERE server_id=$1 AND season=$2 ORDER BY id DESC LIMIT 5`,
+          [instance.serverIds[message.guild.id], instance.config.season]
         );
 
     const selectedTitle = hasTier
