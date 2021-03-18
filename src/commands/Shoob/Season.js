@@ -64,7 +64,7 @@ module.exports = {
     const tiers = [];
     let claims = 0;
     let total = 0;
-    for (const t of tierInfo) {
+    for (const t of Object.keys(tierInfo)) {
       if (t === "TS") continue;
       const tier = tierInfo[t];
       const entry = s.claimed.find((e) => e.tier === t[1]);
