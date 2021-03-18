@@ -271,7 +271,7 @@ class CardFetcher {
       const e = await instance.cache.get(k);
       return JSON.parse(e);
     }
-    const result = await this.instance.get(`/user/${id}`);
+    const result = await this.instance.get(`user/${id}`);
     if (!result.data || result.data.length === 0 || result.data.message) {
       return null;
     }
