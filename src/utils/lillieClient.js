@@ -1,17 +1,15 @@
-const got = require("got");
+const axios = require("axios");
 
 class lillieClient {
-  constructor(prefixURL, token) {
-    this.instance = got.extend({
-      prefixURL,
+  constructor(baseURL, token) {
+    this.instance = axios.create({
+      baseURL,
       headers: { "x-kirara-verify": token },
-      responseType: "json",
-      throwHttpErrors: false,
     });
   }
   async request(route) {
-    const req = await this.instance.get(route);
-    return req.body;
+    const req = await this.instance.get(`/${route}`);
+    return req.data;
   }
 }
 

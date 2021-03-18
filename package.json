@@ -17,6 +17,7 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+    "axios": "^0.21.1",
     "canvas": "^2.7.0",
     "captcha-canvas": "^2.2.2",
     "discord.js": "^12.5.1",
