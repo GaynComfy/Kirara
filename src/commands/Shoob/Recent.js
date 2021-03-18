@@ -94,7 +94,9 @@ module.exports = {
       );
       embed.setFooter(`Last card spawned: ${since} ago`);
     } else {
-      embed.setDescription("No cards have spawned yet.");
+      embed.setDescription(
+        "> <:Sirona_NoCross:762606114444935168> No cards have spawned yet this season."
+      );
     }
     message.channel.send(embed);
     return true;
