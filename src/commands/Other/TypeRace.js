@@ -170,8 +170,6 @@ module.exports = {
     });
 
     collector.on("end", (collected) => {
-      if (channelMap[message.channel.id] !== s) return;
-
       const result = new MessageEmbed()
         .setTitle(
           `Type race results: ${diff.charAt(0).toUpperCase() + diff.slice(1)}` +
