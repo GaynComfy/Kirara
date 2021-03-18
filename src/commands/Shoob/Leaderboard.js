@@ -60,7 +60,10 @@ module.exports = {
     const canvas = createCanvas(800, 600);
     const ctx = canvas.getContext("2d");
     if (iconURL) {
-      const icon = await loadImage(await getCachedURL(instance, iconURL));
+      const iconB = await getCachedURL(instance, iconURL);
+      const icon = await loadImage(
+        `data:image/png;base64,${iconB.toString("base64")}`
+      );
       ctx.drawImage(icon, 360, 55, 58, 58);
     }
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
@@ -80,12 +83,16 @@ module.exports = {
         : "Some user";
       if (first) {
         const aid = parseInt((user && user.discriminator) || "0000") % 5;
+        const avatarB =
+          user &&
+          user.avatar &&
+          (await getCachedURL(
+            instance,
+            user.displayAvatarURL({ format: "png", size: 512 })
+          ));
         const avatar = await loadImage(
-          user && user.avatar
-            ? await getCachedURL(
-                instance,
-                user.displayAvatarURL({ format: "png", size: 512 })
-              )
+          avatarB
+            ? `data:image/png;base64,${avatarB.toString("base64")}`
             : `./src/assets/default/${aid}.png`
         );
         ctx.save();

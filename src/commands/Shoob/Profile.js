@@ -57,11 +57,12 @@ module.exports = {
 
     const background1 = await loadImage("./src/assets/profile.png");
     const background2 = await loadImage("./src/assets/profile_anim.gif");
+    const avatarB = await getCachedURL(
+      instance,
+      member.displayAvatarURL({ format: "png", size: 512 })
+    );
     const avatar = await loadImage(
-      await getCachedURL(
-        instance,
-        member.displayAvatarURL({ format: "png", size: 512 })
-      )
+      `data:image/png;base64,${avatarB.toString("base64")}`
     );
 
     const canvas = createCanvas(1100, 400);
