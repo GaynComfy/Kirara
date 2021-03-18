@@ -61,7 +61,9 @@ module.exports = {
       instance,
       member.displayAvatarURL({ format: "png", size: 512 })
     );
-    const avatar = await loadImage(`data:image/png;base64,${avatarB}`);
+    const avatar = await loadImage(
+      `data:image/png;base64,${avatarB.toString("base64")}`
+    );
 
     const canvas = createCanvas(1100, 400);
     const ctx = canvas.getContext("2d");
