@@ -31,6 +31,8 @@ class CardFetcher {
       },
       responseType: "json",
       throwHttpErrors: false,
+      dnsCache: true,
+      http2: true,
     });
   }
   async fetchByName(instance, name, tier = "all", event = false) {

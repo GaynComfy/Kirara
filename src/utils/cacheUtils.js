@@ -9,7 +9,11 @@ const getCachedURL = async (instance, url) => {
     return e;
   }
 
-  const r = await got(url, { responseType: "buffer" });
+  const r = await got(url, {
+    dnsCache: true,
+    http2: true,
+    responseType: "buffer",
+  });
   const data = r.body.toString("base64");
   instance.cache.setExpire(k, data, 604800);
   return data;

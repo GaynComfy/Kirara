@@ -6,6 +6,8 @@ class GifFetcher {
     this.instance = got.extend({
       prefixURL: "https://waifu.pics/api/sfw",
       responseType: "json",
+      dnsCache: true,
+      http2: true,
     });
   }
   request(cat) {
