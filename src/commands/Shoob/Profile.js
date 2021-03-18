@@ -26,9 +26,6 @@ const tierPositions = [
 const mention = /<@!?(\d{17,19})>/;
 const userId = /\d{17,19}/;
 
-const background1 = await loadImage("./src/assets/profile.png");
-const background2 = await loadImage("./src/assets/profile_anim.gif");
-
 module.exports = {
   execute: async (instance, message, args) => {
     let member =
@@ -58,6 +55,8 @@ module.exports = {
       [member.id, instance.serverIds[message.guild.id]]
     );
 
+    const background1 = await loadImage("./src/assets/profile.png");
+    const background2 = await loadImage("./src/assets/profile_anim.gif");
     const avatar = await loadImage(
       await getCachedURL(
         instance,

@@ -20,8 +20,6 @@ const applyText = (canvas, text) => {
   } while (ctx.measureText(text).width > canvas.width - 700);
   return ctx.font;
 };
-const background = await loadImage("./src/assets/leaderboard2.png");
-
 module.exports = {
   execute: async (instance, message, args) => {
     const isTotal =
@@ -57,6 +55,7 @@ module.exports = {
       return await message.channel.send(embed);
     }
 
+    const background = await loadImage("./src/assets/leaderboard2.png");
     const iconURL = message.guild.iconURL({ format: "png", size: 64 });
     const canvas = createCanvas(800, 600);
     const ctx = canvas.getContext("2d");
