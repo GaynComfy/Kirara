@@ -8,22 +8,16 @@ const info = {
   aliases: ["glb"],
   matchCase: false,
   category: "Shoob",
+  disabled: process.env.NODE_ENV !== "development",
 };
 
 module.exports = {
   execute: async (instance, message, args) => {
-    const isTotal =
-      args.length >= 1 &&
-      (args[0].toLowerCase() === "total" ||
-        args[0].toLowerCase() === "t" ||
-        args[0].toLowerCase() === "a");
-    if (isTotal) args.shift();
-
     let last = -1;
 
     return await createPagedResults(message, Infinity, async (page) => {
       const offset = (page > last && last !== -1 ? last : page) * 8;
-      const k = `glb:${isTotal ? "total" : instance.config.season}:${offset}`;
+      const k = `glb:${offset}`;
       let claimers = [];
 
       const exists = await instance.cache.exists(k);
@@ -31,26 +25,20 @@ module.exports = {
         const e = await instance.cache.get(k);
         claimers = JSON.parse(e);
       } else {
-        const { rows: claims } = isTotal
-          ? await instance.database.pool.query(
-              "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
-                "GROUP BY discord_id ORDER BY c DESC LIMIT 8 OFFSET $1",
-              [offset]
-            )
-          : await instance.database.pool.query(
-              "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
-                "AND season=$1 GROUP BY discord_id ORDER BY c DESC LIMIT 8 OFFSET $2",
-              [instance.config.season, offset]
-            );
+        const {
+          rows: claims,
+        } = await instance.database.pool.query(
+          "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
+            "AND season=$1 GROUP BY discord_id ORDER BY c DESC LIMIT 8 OFFSET $2",
+          [instance.config.season, offset]
+        );
         instance.cache.setExpire(k, JSON.stringify(claims), 60 * 5);
         claimers = claims;
       }
       if (claimers.length === 0 && page === 0) {
         const embed = new MessageEmbed()
           .setDescription(
-            `<:Sirona_NoCross:762606114444935168> The bot hasn't tracked any claims${
-              isTotal ? "" : " this season"
-            }.`
+            `<:Sirona_NoCross:762606114444935168> The bot hasn't tracked any claims this season.`
           )
           .setColor(Color.red);
         await message.channel.send(embed);

@@ -17,7 +17,9 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
   const series = (card.series || []).filter(
     (s) => s.toLowerCase() !== card.name.toLowerCase()
   );
-  const batch = series.find((c) => c.startsWith("Batch "));
+  const batch = series.find(
+    (c) => c.startsWith("Batch ") && c !== "Batch Release "
+  );
   const makers = (card.creators || [])
     .filter((c) => c.type === "maker")
     .map((maker) => `[__**${maker.name}**__](${maker.link})`);

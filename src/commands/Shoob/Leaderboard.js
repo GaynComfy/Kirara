@@ -78,10 +78,11 @@ module.exports = {
         ? "User Left"
         : "Some user";
       if (first) {
+        const aid = parseInt((user && user.discriminator) || "0000") % 5;
         const avatar = await loadImage(
-          user
+          user && user.avatar
             ? user.displayAvatarURL({ format: "png" })
-            : "https://cdn.discordapp.com/embed/avatars/0.png"
+            : `https://cdn.discordapp.com/embed/avatars/${aid}.png`
         );
         ctx.save();
         ctx.arc(179.5, 245.5, 79, 0, Math.PI * 2, true);

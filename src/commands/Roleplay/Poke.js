@@ -3,6 +3,7 @@ const { generateRolePlayEmbed } = require("./utils");
 const { withCount } = require("../../utils/rolePlayHooks.js");
 const info = {
   name: "poke",
+  aliases: ["boop"],
   matchCase: false,
   category: "Roleplay",
   cooldown: 15,

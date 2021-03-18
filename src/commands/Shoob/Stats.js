@@ -70,14 +70,14 @@ module.exports = {
               "AND discord_id=$1 AND season=$2 GROUP BY tier",
             [member.id, instance.config.season]
           );
-      allowed.forEach((t) => {
+      for (const t of allowed) {
         const tier = tierInfo[t.toUpperCase()];
         const entry = result.rows.find((e) => e.tier === t[1]);
         const count = entry ? entry.c : "0";
 
         const text = `${tier.emoji} x ${count}`;
         tiers.push(text);
-      });
+      }
       const tiers1 = tiers.slice(0, 3);
       const tiers2 = tiers.slice(3, 6);
 

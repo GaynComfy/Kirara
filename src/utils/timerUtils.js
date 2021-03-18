@@ -3,7 +3,11 @@
 // todo: recode
 
 const nextDate = () => {
-  const today = new Date();
+  const today = new Date(
+    new Date().toLocaleString("en-US", {
+      timeZone: "America/New_York",
+    })
+  );
   let year = today.getFullYear();
   let month = today.getMonth();
   if (today.getDay() >= 28) {
@@ -11,7 +15,7 @@ const nextDate = () => {
   }
   if (month > 11) {
     year += 1;
-    month = 1;
+    month = 0;
   }
 
   return new Date(
@@ -24,7 +28,7 @@ const nextDate = () => {
 const timeLeft = () => {
   const next = nextDate();
   const today = new Date();
-  return Math.abs(next.getTime() - today.getTime());
+  return next.getTime() - today.getTime();
 };
 
 module.exports = {

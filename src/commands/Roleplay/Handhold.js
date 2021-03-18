@@ -42,7 +42,7 @@ module.exports = {
   info,
   help: {
     usage: "handhold <@user>",
-    examples: ["handhold @wong"],
+    examples: ["handhold @Alycans"],
     description: "Handholds a user",
   },
 };

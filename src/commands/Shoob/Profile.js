@@ -82,16 +82,15 @@ module.exports = {
     ctx.fillText(`${(position || {}).row || "-"}`, 667, 155);
 
     // Fill in tier counts
-    tierPositions.forEach((tier) => {
+    for (const tier of tierPositions) {
       const claims = cards.find((t) => t.tier === tier.t);
       const c = claims ? claims.c : "0";
       ctx.fillText(`${c}x`, tier.x, tier.y);
-    });
+    }
 
     const color =
       (user &&
-        ((user.card_game_senpai && Color.sensei) ||
-          (user.trusted && Color.trusted) ||
+        ((owner.includes(member.id) && Color.trusted) ||
           (user.premium && Color.premium))) ||
       Color.default;
 

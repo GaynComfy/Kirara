@@ -28,6 +28,7 @@ module.exports = {
       const e = await instance.cache.get(k);
       s = JSON.parse(e);
     } else {
+      // ToDo: GET RID OF THIS ASAP
       const {
         rows: claimed,
       } = await instance.database.pool.query(
@@ -63,8 +64,8 @@ module.exports = {
     const tiers = [];
     let claims = 0;
     let total = 0;
-    Object.keys(tierInfo).forEach((t) => {
-      if (t === "TS") return;
+    for (const t of tierInfo) {
+      if (t === "TS") continue;
       const tier = tierInfo[t];
       const entry = s.claimed.find((e) => e.tier === t[1]);
       const count = entry ? entry.c : "0";
@@ -74,7 +75,7 @@ module.exports = {
       tiers.push(text);
       claims = claims + parseInt(count);
       total = total + parseInt(count);
-    });
+    }
     total = total + parseInt(s.despawns);
 
     const top3 = s.claimers.top.map(
