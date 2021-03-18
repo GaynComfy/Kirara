@@ -4,21 +4,20 @@ class GifFetcher {
   constructor() {
     this.map = {};
     this.instance = got.extend({
-      prefixURL: "https://waifu.pics/api/sfw/",
+      prefixURL: "https://waifu.pics/api/sfw",
       responseType: "json",
     });
   }
-  request(type) {
+  request(cat) {
     return new Promise((resolve, reject) => {
-      this.instance
-        .get(type)
+      this.instance(cat)
         .then((res) => {
-          this.map[type] = res.data;
-          resolve(res.data);
+          this.map[cat] = res.body;
+          resolve(res.body);
         })
         .catch((err) => {
-          if (this.map[type]) {
-            resolve(this.map[type]);
+          if (this.map[cat]) {
+            resolve(this.map[cat]);
             return;
           }
           reject(err);

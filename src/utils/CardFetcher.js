@@ -25,7 +25,7 @@ const sortTopOwners = (arr) => {
 class CardFetcher {
   constructor(token) {
     this.instance = got.extend({
-      prefixUrl: "https://asn-api.animesoul.com/v1/",
+      prefixUrl: "https://asn-api.animesoul.com/v1",
       headers: {
         Authorization: token,
       },
@@ -69,14 +69,14 @@ class CardFetcher {
       }`
     );
     if (
-      !result.data ||
-      result.data.length === 0 ||
-      result.data.message ||
-      result.data === "Not Found"
+      !result.body ||
+      result.body.length === 0 ||
+      result.body.message ||
+      result.body === "Not Found"
     ) {
       return [];
     }
-    const cards = result.data
+    const cards = result.body
       .sort((l, n) => tN(n.tier) - tN(l.tier))
       .map((c) => {
         return { ...c, event };
@@ -96,14 +96,14 @@ class CardFetcher {
       `${event ? "eventcards" : "card"}/${id}`
     );
     if (
-      !result.data ||
-      result.data.length === 0 ||
-      result.data.message ||
-      result.data.id === "000000000000000000000000"
+      !result.body ||
+      result.body.length === 0 ||
+      result.body.message ||
+      result.body.id === "000000000000000000000000"
     ) {
       return null;
     }
-    const card = { ...result.data, event };
+    const card = { ...result.body, event };
     instance.cache.setExpire(k, JSON.stringify(card), 60 * 30);
     return card;
   }
@@ -138,10 +138,10 @@ class CardFetcher {
             }${cardId ? `&card=${cardId}` : ""}`
           );
 
-    if (!result.data || result.data.length === 0 || result.data.message) {
+    if (!result.body || result.body.length === 0 || result.body.message) {
       return [];
     }
-    const cards = result.data;
+    const cards = result.body;
     instance.cache.setExpire(k, JSON.stringify(cards), 60 * 14);
     return cards;
   }
@@ -159,26 +159,26 @@ class CardFetcher {
       }`,
       { searchParams: { offset } }
     );
-    if (!result.data || result.data.length === 0 || result.data.message) {
+    if (!result.body || result.body.length === 0 || result.body.message) {
       return [];
     }
-    instance.cache.setExpire(k, JSON.stringify(result.data), 60 * 5);
-    return result.data;
+    instance.cache.setExpire(k, JSON.stringify(result.body), 60 * 5);
+    return result.body;
   }
   async fetchAuctionById(instance, id) {
     const result = await this.instance.get(`auction/${id}`);
-    if (!result.data || result.data.length === 0 || result.data.message) {
+    if (!result.body || result.body.length === 0 || result.body.message) {
       return null;
     }
-    const auction = result.data;
+    const auction = result.body;
     return auction;
   }
   async fetchAuctionByInvId(instance, id) {
     const result = await this.instance.get(`auctions/card/${id}`);
-    if (!result.data || result.data.length === 0 || result.data.message) {
+    if (!result.body || result.body.length === 0 || result.body.message) {
       return null;
     }
-    const listings = result.data;
+    const listings = result.body;
     return listings;
   }
   async fetchMarketByCardId(instance, id, offset = "0", limit = "0") {
@@ -186,10 +186,10 @@ class CardFetcher {
       `market/card/${id}${limit === "0" ? "" : `?limit=${limit}`}`,
       { searchParams: { offset } }
     );
-    if (!result.data || result.data.length === 0 || result.data.message) {
+    if (!result.body || result.body.length === 0 || result.body.message) {
       return [];
     }
-    const listings = result.data;
+    const listings = result.body;
     return listings;
   }
   async fetchOwners(instance, id, offset = "0", limit = "0") {
@@ -204,10 +204,10 @@ class CardFetcher {
       `inventory/card/${id}${limit === "0" ? "" : `?limit=${limit}`}`,
       { searchParams: { offset } }
     );
-    if (!result.data || result.data.length === 0 || result.data.message) {
+    if (!result.body || result.body.length === 0 || result.body.message) {
       return [];
     }
-    const owners = result.data.sort((l, n) => l.issue - n.issue);
+    const owners = result.body.sort((l, n) => l.issue - n.issue);
     instance.cache.setExpire(k, JSON.stringify(owners), 60 * 14);
     return owners;
   }
@@ -220,8 +220,8 @@ class CardFetcher {
       return data.count;
     }
     const result = await this.instance.get(`inventory/count/${cardId}`);
-    instance.cache.setExpire(k, JSON.stringify(result.data), 60 * 14);
-    return result.data.count;
+    instance.cache.setExpire(k, JSON.stringify(result.body), 60 * 14);
+    return result.body.count;
   }
 
   async fetchMarket(instance, offset, tier = "all") {
@@ -235,8 +235,8 @@ class CardFetcher {
       `market${tier !== "all" ? `?tier=${tier}` : ""}`,
       { searchParams: { limit: 6, offset } }
     );
-    instance.cache.setExpire(k, JSON.stringify(result.data), 60 * 5);
-    return result.data;
+    instance.cache.setExpire(k, JSON.stringify(result.body), 60 * 5);
+    return result.body;
   }
 
   async fetchTopOwners(instance, id, offset = "0", limit = "0") {
@@ -253,10 +253,10 @@ class CardFetcher {
       );
     }
     const result = await this.instance.get(`inventory/top/${id}`);
-    if (!result.data || result.data.length === 0 || result.data.message) {
+    if (!result.body || result.body.length === 0 || result.body.message) {
       return [];
     }
-    const owners = result.data;
+    const owners = result.body;
     instance.cache.setExpire(k, JSON.stringify(owners), 60 * 14);
     return sortTopOwners(
       owners.slice(parseInt(offset), parseInt(offset) + parseInt(limit))
@@ -272,11 +272,11 @@ class CardFetcher {
       return JSON.parse(e);
     }
     const result = await this.instance.get(`user/${id}`);
-    if (!result.data || result.data.length === 0 || result.data.message) {
+    if (!result.body || result.body.length === 0 || result.body.message) {
       return null;
     }
-    instance.cache.setExpire(k, JSON.stringify(result.data), 30);
-    return result.data;
+    instance.cache.setExpire(k, JSON.stringify(result.body), 30);
+    return result.body;
   }
 }
 
