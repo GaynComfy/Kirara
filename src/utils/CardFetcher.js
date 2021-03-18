@@ -129,10 +129,9 @@ class CardFetcher {
     const result =
       tier && !cardId
         ? await this.instance.get(
-            `inventory/user/${id}/${tier}${
-              limit === "0" ? "" : `?limit=${limit}`
-            }`,
-            { searchParams: { offset } }
+            `inventory/user/${id}/${tier}?offset=${offset}${
+              limit === "0" ? "" : `&limit=${limit}`
+            }`
           )
         : await this.instance.get(
             `inventory/user/${id}?offset=${offset}${
@@ -156,10 +155,9 @@ class CardFetcher {
       return JSON.parse(e);
     }
     const result = await this.instance.get(
-      `${event ? "eventcards" : "cards"}/tier/${tier}${
-        limit === "0" ? "" : `?limit=${limit}`
-      }`,
-      { searchParams: { offset } }
+      `${event ? "eventcards" : "cards"}/tier/${tier}?offset=${offset}${
+        limit === "0" ? "" : `&limit=${limit}`
+      }`
     );
     if (!result.body || result.body.length === 0 || result.body.message) {
       return [];
@@ -185,8 +183,9 @@ class CardFetcher {
   }
   async fetchMarketByCardId(instance, id, offset = "0", limit = "0") {
     const result = await this.instance.get(
-      `market/card/${id}${limit === "0" ? "" : `?limit=${limit}`}`,
-      { searchParams: { offset } }
+      `market/card/${id}?offset=${offset}${
+        limit === "0" ? "" : `&limit=${limit}`
+      }`
     );
     if (!result.body || result.body.length === 0 || result.body.message) {
       return [];
@@ -203,8 +202,9 @@ class CardFetcher {
       return JSON.parse(e);
     }
     const result = await this.instance.get(
-      `inventory/card/${id}${limit === "0" ? "" : `?limit=${limit}`}`,
-      { searchParams: { offset } }
+      `inventory/card/${id}?offset=${offset}${
+        limit === "0" ? "" : `&limit=${limit}`
+      }`
     );
     if (!result.body || result.body.length === 0 || result.body.message) {
       return [];
@@ -234,8 +234,7 @@ class CardFetcher {
       return JSON.parse(e);
     }
     const result = await this.instance.get(
-      `market${tier !== "all" ? `?tier=${tier}` : ""}`,
-      { searchParams: { limit: 6, offset } }
+      `market?offset=${offset}&limit=6${tier !== "all" ? `&tier=${tier}` : ""}`
     );
     instance.cache.setExpire(k, JSON.stringify(result.body), 60 * 5);
     return result.body;
