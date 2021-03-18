@@ -40,7 +40,7 @@ module.exports = {
           return new MessageEmbed()
             .setAuthor(
               `Server Boost Leaderboard in ${message.guild.name}`,
-              message.guild.iconURL()
+              message.guild.iconURL({ dynamic: true })
             )
             .setColor("#ba30ba")
             .setDescription(

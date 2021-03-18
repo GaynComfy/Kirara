@@ -136,7 +136,7 @@ ${tiers2.join(" | ")}
           `<:ID:782165519146156062> **${member.username}'s ` +
             `${isTotal ? "total " : ""}${isServer ? "server " : ""}claims**`
         )
-        .setThumbnail(member.displayAvatarURL())
+        .setThumbnail(member.displayAvatarURL({ size: 2048, dynamic: true }))
         .setDescription(
           `<@!${member.id}> has claimed **\`${result.rows.length}\` T${
             tier.num

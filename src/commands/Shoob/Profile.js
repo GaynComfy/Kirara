@@ -57,7 +57,7 @@ module.exports = {
     const background1 = await loadImage("./src/assets/profile.png");
     const background2 = await loadImage("./src/assets/profile_anim.gif");
     const avatar = await loadImage(
-      member.displayAvatarURL({ format: "png" }) + "?size=2048"
+      member.displayAvatarURL({ format: "png", size: 512 })
     );
 
     const canvas = createCanvas(1100, 400);
@@ -101,7 +101,10 @@ module.exports = {
 
     const attachment = new MessageAttachment(canvas.toBuffer(), "profile.png");
     const embed = new MessageEmbed()
-      .setAuthor(`${member.username}'s profile`, message.guild.iconURL())
+      .setAuthor(
+        `${member.username}'s profile`,
+        message.guild.iconURL({ dynamic: true })
+      )
       .setColor(color)
       .setURL(`https://animesoul.com/user/${member.id}`)
       .setDescription(

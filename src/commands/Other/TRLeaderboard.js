@@ -59,7 +59,10 @@ module.exports = {
         const offset = (page > pages - 1 ? pages - 1 : page) * 3;
 
         const embed = new MessageEmbed()
-          .setAuthor(`Typerace Leaderboard`, message.guild.iconURL())
+          .setAuthor(
+            `Typerace Leaderboard`,
+            message.guild.iconURL({ dynamic: true })
+          )
           .setColor(stats.length > 0 ? Color.default : Color.red)
           .setImage(Constants.footer)
           .setFooter(
@@ -120,7 +123,10 @@ module.exports = {
         }
 
         const embed = new MessageEmbed()
-          .setAuthor(`${dName} Typerace Leaderboard`, message.guild.iconURL())
+          .setAuthor(
+            `${dName} Typerace Leaderboard`,
+            message.guild.iconURL({ dynamic: true })
+          )
           .setColor(stats.length > 0 ? Color.default : Color.red)
           .setImage(Constants.footer)
           .setFooter(

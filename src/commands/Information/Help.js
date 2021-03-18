@@ -27,8 +27,8 @@ module.exports = {
         .setAuthor(
           `Help Menu${message.guild ? ` | ${message.guild.name}` : ""}`,
           message.guild
-            ? message.guild.iconURL()
-            : message.author.displayAvatarURL({ type: "png" })
+            ? message.guild.iconURL({ dynamic: true })
+            : message.author.displayAvatarURL({ dynamic: true })
         )
         .setDescription(
           "Use ``s!help [command]`` to get more help! \nExample: ``s!help stats`` \n\u200b"
@@ -64,8 +64,8 @@ module.exports = {
             message.guild ? ` | ${message.guild.name}` : ""
           }`,
           message.guild
-            ? message.guild.iconURL()
-            : message.author.displayAvatarURL({ type: "png" })
+            ? message.guild.iconURL({ dynamic: true })
+            : message.author.displayAvatarURL({ dynamic: true })
         )
         .setDescription(
           `**Name**: \`${cmd.info.name}\`

@@ -55,7 +55,7 @@ module.exports = {
     }
 
     const background = await loadImage("./src/assets/leaderboard2.png");
-    const iconURL = message.guild.iconURL({ format: "png" });
+    const iconURL = message.guild.iconURL({ format: "png", size: 64 });
     const canvas = createCanvas(800, 600);
     const ctx = canvas.getContext("2d");
     if (iconURL) {
@@ -81,8 +81,8 @@ module.exports = {
         const aid = parseInt((user && user.discriminator) || "0000") % 5;
         const avatar = await loadImage(
           user && user.avatar
-            ? user.displayAvatarURL({ format: "png" })
-            : `https://cdn.discordapp.com/embed/avatars/${aid}.png`
+            ? user.displayAvatarURL({ format: "png", size: 512 })
+            : `./src/assets/default/${aid}.png`
         );
         ctx.save();
         ctx.arc(179.5, 245.5, 79, 0, Math.PI * 2, true);
@@ -114,7 +114,7 @@ module.exports = {
       .setColor("#d5417c")
       .setAuthor(
         `${message.guild.name}'s ${isTotal ? "Total " : ""}Leaderboard`,
-        message.guild.iconURL()
+        message.guild.iconURL({ dynamic: true })
       )
       .attachFiles([attachment])
       .setImage("attachment://leaderboard.png");

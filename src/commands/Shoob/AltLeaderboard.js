@@ -74,7 +74,7 @@ module.exports = {
       const embed = new MessageEmbed()
         .setAuthor(
           `${message.guild.name}'s ${isTotal ? "Total " : ""}Leaderboard`,
-          message.guild.iconURL()
+          message.guild.iconURL({ dynamic: true })
         )
         .setColor(claimers.length > 0 ? "#f49e17" : Color.red)
         .setImage(Constants.footer)

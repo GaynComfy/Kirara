@@ -28,16 +28,13 @@ module.exports = {
     const embed = new MessageEmbed()
       .setTitle(target.tag + "'s avatar")
       .setDescription(
-        `[PNG](${
-          target.displayAvatarURL({ format: "png" }) + "?size=2048"
-        }) | [JPG](${
-          target.displayAvatarURL({ format: "jpg" }) + "?size=2048"
-        })`
+        `[PNG](${target.displayAvatarURL({
+          format: "png",
+          size: 4096,
+        })}) | [JPG](${target.displayAvatarURL({ format: "jpg", size: 4096 })})`
       )
       .setColor("RANDOM")
-      .setImage(
-        target.displayAvatarURL({ format: "png", dynamic: true }) + "?size=2048"
-      );
+      .setImage(target.displayAvatarURL({ dynamic: true, size: 4096 }));
     message.channel.send(embed);
   },
   info,

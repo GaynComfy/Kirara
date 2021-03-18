@@ -93,7 +93,7 @@ module.exports = {
     const embed = new MessageEmbed()
       .setAuthor(
         `${message.guild.name}'s Season stats`,
-        message.guild.iconURL()
+        message.guild.iconURL({ dynamic: true })
       )
       .setColor(Color.pink)
       .setDescription(

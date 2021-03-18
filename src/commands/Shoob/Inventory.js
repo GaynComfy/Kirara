@@ -94,7 +94,10 @@ module.exports = {
       const singlePage = last === page && page === 0;
       const tierSettings = tier !== "all" ? tierInfo[`T${tier}`] : null;
       const embed = new MessageEmbed()
-        .setAuthor(`${user.username}'s Inventory`, user.displayAvatarURL())
+        .setAuthor(
+          `${user.username}'s Inventory`,
+          user.displayAvatarURL({ dynamic: true })
+        )
         .setColor(tier !== "all" ? tierSettings.color : Color.default)
         .setURL(`https://animesoul.com/user/${user.id}`)
         .setFooter(
