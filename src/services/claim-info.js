@@ -104,7 +104,8 @@ module.exports = {
 
           if (
             !data.claimed ||
-            instance.settings[data.server_id]["claim:disabled"]
+            (!instance.settings[data.server_id]["claim:enabled"] &&
+              data.tier !== "6")
           )
             return;
 
