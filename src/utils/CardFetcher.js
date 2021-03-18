@@ -25,7 +25,7 @@ const sortTopOwners = (arr) => {
 class CardFetcher {
   constructor(token) {
     this.instance = got.extend({
-      prefixUrl: "https://asn-api.animesoul.com/v1",
+      prefixUrl: "https://asn-api.animesoul.com/v1/",
       headers: {
         Authorization: token,
       },
@@ -64,7 +64,7 @@ class CardFetcher {
       return JSON.parse(e);
     }
     const result = await this.instance.get(
-      `/${event ? "eventcards" : "card"}/name/${encodeURI(name)}${
+      `${event ? "eventcards" : "card"}/name/${encodeURI(name)}${
         tier === "all" ? "" : `?tier=${tier}`
       }`
     );
@@ -93,7 +93,7 @@ class CardFetcher {
       return JSON.parse(e);
     }
     const result = await this.instance.get(
-      `/${event ? "eventcards" : "card"}/${id}`
+      `${event ? "eventcards" : "card"}/${id}`
     );
     if (
       !result.data ||
@@ -127,12 +127,13 @@ class CardFetcher {
     const result =
       tier && !cardId
         ? await this.instance.get(
-            `/inventory/user/${id}/${tier}?offset=${offset}${
-              limit === "0" ? "" : `&limit=${limit}`
-            }`
+            `inventory/user/${id}/${tier}${
+              limit === "0" ? "" : `?limit=${limit}`
+            }`,
+            { searchParams: { offset } }
           )
         : await this.instance.get(
-            `/inventory/user/${id}?offset=${offset}${
+            `inventory/user/${id}?offset=${offset}${
               limit === "0" ? "" : `&limit=${limit}`
             }${cardId ? `&card=${cardId}` : ""}`
           );
@@ -153,9 +154,10 @@ class CardFetcher {
       return JSON.parse(e);
     }
     const result = await this.instance.get(
-      `/${event ? "eventcards" : "cards"}/tier/${tier}?offset=${offset}${
-        limit === "0" ? "" : `&limit=${limit}`
-      }`
+      `${event ? "eventcards" : "cards"}/tier/${tier}${
+        limit === "0" ? "" : `?limit=${limit}`
+      }`,
+      { searchParams: { offset } }
     );
     if (!result.data || result.data.length === 0 || result.data.message) {
       return [];
@@ -164,7 +166,7 @@ class CardFetcher {
     return result.data;
   }
   async fetchAuctionById(instance, id) {
-    const result = await this.instance.get(`/auction/${id}`);
+    const result = await this.instance.get(`auction/${id}`);
     if (!result.data || result.data.length === 0 || result.data.message) {
       return null;
     }
@@ -172,7 +174,7 @@ class CardFetcher {
     return auction;
   }
   async fetchAuctionByInvId(instance, id) {
-    const result = await this.instance.get(`/auctions/card/${id}`);
+    const result = await this.instance.get(`auctions/card/${id}`);
     if (!result.data || result.data.length === 0 || result.data.message) {
       return null;
     }
@@ -181,9 +183,8 @@ class CardFetcher {
   }
   async fetchMarketByCardId(instance, id, offset = "0", limit = "0") {
     const result = await this.instance.get(
-      `/market/card/${id}?offset=${offset}${
-        limit === "0" ? "" : `&limit=${limit}`
-      }`
+      `market/card/${id}${limit === "0" ? "" : `?limit=${limit}`}`,
+      { searchParams: { offset } }
     );
     if (!result.data || result.data.length === 0 || result.data.message) {
       return [];
@@ -200,9 +201,8 @@ class CardFetcher {
       return JSON.parse(e);
     }
     const result = await this.instance.get(
-      `/inventory/card/${id}?offset=${offset}${
-        limit === "0" ? "" : `&limit=${limit}`
-      }`
+      `inventory/card/${id}${limit === "0" ? "" : `?limit=${limit}`}`,
+      { searchParams: { offset } }
     );
     if (!result.data || result.data.length === 0 || result.data.message) {
       return [];
@@ -219,7 +219,7 @@ class CardFetcher {
       const data = JSON.parse(e);
       return data.count;
     }
-    const result = await this.instance.get(`/inventory/count/${cardId}`);
+    const result = await this.instance.get(`inventory/count/${cardId}`);
     instance.cache.setExpire(k, JSON.stringify(result.data), 60 * 14);
     return result.data.count;
   }
@@ -232,7 +232,8 @@ class CardFetcher {
       return JSON.parse(e);
     }
     const result = await this.instance.get(
-      `/market?offset=${offset}&limit=6${tier !== "all" ? `&tier=${tier}` : ""}`
+      `market${tier !== "all" ? `?tier=${tier}` : ""}`,
+      { searchParams: { limit: 6, offset } }
     );
     instance.cache.setExpire(k, JSON.stringify(result.data), 60 * 5);
     return result.data;
@@ -251,7 +252,7 @@ class CardFetcher {
         data.slice(parseInt(offset), parseInt(offset) + parseInt(limit))
       );
     }
-    const result = await this.instance.get(`/inventory/top/${id}`);
+    const result = await this.instance.get(`inventory/top/${id}`);
     if (!result.data || result.data.length === 0 || result.data.message) {
       return [];
     }

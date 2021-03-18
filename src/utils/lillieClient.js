@@ -10,7 +10,7 @@ class lillieClient {
     });
   }
   async request(route) {
-    const req = await this.instance.get(`/${route}`);
+    const req = await this.instance.get(route);
     return req.data;
   }
 }

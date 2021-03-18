@@ -17,11 +17,11 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "canvas": "^2.6.1",
+    "canvas": "^2.7.0",
     "captcha-canvas": "^2.2.2",
-    "discord.js": "^12.5.0",
+    "discord.js": "^12.5.1",
     "got": "^11.8.2",
-    "humanize-duration": "^3.24.0",
+    "humanize-duration": "^3.25.1",
     "moment": "^2.29.1",
     "pg": "^8.5.1",
     "redis": "^3.0.2",
@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "husky": "^4.3.0",
-    "prettier": "^2.2.0",
+    "prettier": "^2.2.1",
     "pretty-quick": "^3.1.0"
   },
   "optionalDependencies": {
