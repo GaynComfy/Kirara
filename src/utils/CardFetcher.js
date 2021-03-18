@@ -14,6 +14,11 @@ const sortTopOwners = (arr) => {
       if (a.count > b.count) return -1;
       if (a.count < b.count) return 1;
       return 0;
+    })
+    .sort((a, b) => {
+      if (a.issues[0].issue < b.issues[0].issue) return -1;
+      if (a.issues[0].issue > b.issues[0].issue) return 1;
+      return 0;
     });
 };
 
@@ -258,17 +263,17 @@ class CardFetcher {
 
   // why is this here lol
   async fetchProfile(instance, id) {
-    /* const k = `user:${id}`;
+    const k = `user:${id}`;
     const exists = await instance.cache.exists(k);
     if (exists) {
       const e = await instance.cache.get(k);
       return JSON.parse(e);
-    } */
+    }
     const result = await this.instance.get(`/user/${id}`);
     if (!result.data || result.data.length === 0 || result.data.message) {
       return null;
     }
-    // instance.cache.setExpire(k, JSON.stringify(result.data), 60 * 5);
+    instance.cache.setExpire(k, JSON.stringify(result.data), 30);
     return result.data;
   }
 }
