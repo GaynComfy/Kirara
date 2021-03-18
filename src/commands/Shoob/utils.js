@@ -116,17 +116,17 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
         const pnum = page - 2;
         if ((pages === 0 && pnum > 0) || (pages !== 0 && pnum >= pages))
           return null;
-        const offset = pnum * 8;
+        const offset = pnum * 10;
 
         let issues = [];
         if (tracked) {
-          issues = await DbFetcher.fetchOwners(instance, card.id, offset, "8");
+          issues = await DbFetcher.fetchOwners(instance, card.id, offset, "10");
         } else {
           const entries = await Fetcher.fetchOwners(
             instance,
             card.id,
             offset,
-            "8"
+            "10"
           );
           for (const claim of entries) {
             const history = claim.trade_history;
