@@ -5,7 +5,7 @@ module.exports = (token = process.env.TOKEN) => {
     messageCacheMaxSize: 100,
     messageCacheLifetime: 900,
     messageSweepInterval: 900,
-    messageEditHistoryMaxSize: 5,
+    messageEditHistoryMaxSize: 3,
     presence: {
       status: "idle",
       activity: {
