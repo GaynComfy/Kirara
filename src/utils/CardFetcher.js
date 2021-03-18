@@ -11,13 +11,13 @@ const sortTopOwners = (arr) => {
       return 0;
     })
     .sort((a, b) => {
-      if (a.count > b.count) return -1;
-      if (a.count < b.count) return 1;
+      if (a.issues[0].issue < b.issues[0].issue) return -1;
+      if (a.issues[0].issue > b.issues[0].issue) return 1;
       return 0;
     })
     .sort((a, b) => {
-      if (a.issues[0].issue < b.issues[0].issue) return -1;
-      if (a.issues[0].issue > b.issues[0].issue) return 1;
+      if (a.count > b.count) return -1;
+      if (a.count < b.count) return 1;
       return 0;
     });
 };
