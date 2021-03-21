@@ -243,7 +243,13 @@ module.exports = {
       return query.embed;
     };
 
-    return await createMessagePagedResults(message, Infinity, handler, true);
+    const coll = await createMessagePagedResults(
+      message,
+      Infinity,
+      handler,
+      true
+    );
+    return coll;
   },
   info,
   help: {

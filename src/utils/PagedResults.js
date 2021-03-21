@@ -162,7 +162,7 @@ const createMessagePagedResults = async (
   const sentMessage = await message.channel.send(root);
 
   try {
-    sentMessage.channel
+    return sentMessage.channel
       .createMessageCollector(filter, collectorOpts)
       .on("collect", async (m, user) => {
         let newPage = page;

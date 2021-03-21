@@ -45,14 +45,14 @@ module.exports = {
     const {
       rows: cards,
     } = await instance.database.pool.query(
-      "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE discord_id=$1 AND server_id=$2 GROUP BY tier",
-      [member.id, instance.serverIds[message.guild.id]]
+      "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE discord_id=$1 AND server_id=$2 AND SEASON=$3 GROUP BY tier",
+      [member.id, instance.serverIds[message.guild.id], instance.config.season]
     );
     const {
       rows: [position],
     } = await instance.database.pool.query(
-      "SELECT aggregates.* FROM (SELECT count(id) AS c, discord_id, ROW_NUMBER() OVER (ORDER BY count(id) DESC) as row FROM card_claims WHERE claimed=true AND server_id=$2 group by discord_id ORDER BY c desc) as aggregates WHERE aggregates.discord_id=$1",
-      [member.id, instance.serverIds[message.guild.id]]
+      "SELECT aggregates.* FROM (SELECT count(id) AS c, discord_id, ROW_NUMBER() OVER (ORDER BY count(id) DESC) as row FROM card_claims WHERE claimed=true AND server_id=$2 AND season=$3 GROUP BY discord_id ORDER BY c DESC) AS aggregates WHERE aggregates.discord_id=$1",
+      [member.id, instance.serverIds[message.guild.id], instance.config.season]
     );
 
     const background1 = await loadImage("./src/assets/profile.png");
