@@ -21,7 +21,7 @@ class EventManager {
     this.events = events;
     this.commands = commands;
     this.services = services;
-    this.mentionRegex = new RegExp(`^<@!?${instance.client.id}> ?`);
+    this.mentionRegex = new RegExp(`^<@!?${instance.client.user.id}> ?`);
   }
   registerOnMessage() {
     const otherHandlers = this.events["message"];
