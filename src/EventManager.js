@@ -21,11 +21,14 @@ class EventManager {
     this.events = events;
     this.commands = commands;
     this.services = services;
-    this.mentionRegex = new RegExp(`^<@!?${instance.client.user.id}> ?`);
+    this.mentionRegex = null;
   }
   registerOnMessage() {
     const otherHandlers = this.events["message"];
     this.client.on("message", async (message) => {
+      if (!this.mentionRegex)
+        this.mentionRegex = new RegExp(`^<@!?${this.client.user.id}> ?`);
+
       if (message.channel.type === "dm") return; // ToDo: Reimplement
       if (!this.instance.hasInit) await new Promise((r) => setTimeout(r, 1000));
       const prefix =
