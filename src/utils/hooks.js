@@ -40,23 +40,26 @@ exports.withOwner = async (userId, handler, owners) => {
 exports.withCooldown = async (
   cache,
   message,
-  userId,
   command,
   handler,
   cd = 25,
   returnOnFalse = false
 ) => {
   if (cd <= 0) return handler();
-  if (await cache.exists(`cmdcooldown:${userId}:${command}`)) {
-    if (!(await cache.exists(`cmdcooldownw:${userId}:${command}`))) {
+  const k = `cmdcooldown:${message.channel.id}:${message.author.id}:${command}`;
+  const kw = `cmdcooldownw:${message.channel.id}:${message.author.id}:${command}`;
+
+  if (await cache.exists(k)) {
+    if (!(await cache.exists(kw))) {
       // give them an indicator they need to wait
       message.react("🕘").catch((err) => {});
-      await cache.setExpire(`cmdcooldownw:${userId}:${command}`, "1", cd);
+      await cache.setExpire(kw, "1", cd);
     }
     return null;
   }
+
   const result = await handler();
   if (returnOnFalse === true && result === false) return null;
-  if (!owner.includes(userId))
-    await cache.setExpire(`cmdcooldown:${userId}:${command}`, "1", cd);
+  if (!owner.includes(message.author.id)) await cache.setExpire(k, "1", cd);
+  return result;
 };
