@@ -21,23 +21,22 @@ class EventManager {
     this.events = events;
     this.commands = commands;
     this.services = services;
+    this.mentionRegex = new RegExp(`^<@!?${instance.client.id}> ?`);
   }
   registerOnMessage() {
     const otherHandlers = this.events["message"];
     this.client.on("message", async (message) => {
       if (message.channel.type === "dm") return; // ToDo: Reimplement
       if (!this.instance.hasInit) await new Promise((r) => setTimeout(r, 1000));
-      if (
-        message.content
-          .toLowerCase()
-          .indexOf(this.config.prefix.toLowerCase()) === 0
-      ) {
+      const prefix = this.guilds[message.guild.id].prefix || this.config.prefix;
+      const mentionMatch = this.mentionRegex.test(message.content);
+      if (mentionMatch || message.content.toLowerCase().indexOf(prefix) === 0) {
         if (message.author.bot && message.author.id !== "736067018628792322")
           return;
-        const args = message.content
-          .slice(this.config.prefix.length)
-          .trim()
-          .split(/ +/g);
+        const plen = mentionMatch
+          ? message.content.match(this.mentionRegex)[0].length
+          : prefix.length;
+        const args = message.content.slice(plen).trim().split(/ +/g);
         const commandName = args.shift();
         const command = this.commands[commandName];
         if (command) {
