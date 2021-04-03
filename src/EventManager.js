@@ -107,6 +107,7 @@ class EventManager {
 
     await withCooldown(
       this.instance.cache,
+      message,
       message.author.id,
       command.info.name,
       async () => {

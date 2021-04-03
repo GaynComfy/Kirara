@@ -39,6 +39,7 @@ exports.withOwner = async (userId, handler, owners) => {
 
 exports.withCooldown = async (
   cache,
+  message,
   userId,
   command,
   handler,
@@ -46,7 +47,14 @@ exports.withCooldown = async (
   returnOnFalse = false
 ) => {
   if (cd <= 0) return handler();
-  if (await cache.exists(`cmdcooldown:${userId}:${command}`)) return null;
+  if (await cache.exists(`cmdcooldown:${userId}:${command}`)) {
+    if (!(await cache.exists(`cmdcooldownw:${userId}:${command}`))) {
+      // give them an indicator they need to wait
+      message.react("🕘").catch((err) => {});
+      await cache.setExpire(`cmdcooldownw:${userId}:${command}`, "1", cd);
+    }
+    return null;
+  }
   const result = await handler();
   if (returnOnFalse === true && result === false) return null;
   if (!owner.includes(userId))
