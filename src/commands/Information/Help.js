@@ -14,6 +14,8 @@ const emotes = {
 };
 module.exports = {
   execute: async (instance, message, args) => {
+    const prefix =
+      instance.guilds[message.guild.id].prefix || instance.config.prefix;
     const all = Object.values(instance.eventManager.commands);
     if (args.length === 0) {
       const categories = [];
@@ -31,10 +33,10 @@ module.exports = {
             : message.author.displayAvatarURL({ dynamic: true })
         )
         .setDescription(
-          "Use ``s!help [command]`` to get more help! \nExample: ``s!help stats`` \n\u200b"
+          `Use \`${prefix}help [command]\` to get more help! \nExample: \`${prefix}help stats\` \n\u200b`
         )
         .setFooter(
-          "by G&C Dev Team | s!help [cmd] | discord.gg/comfy",
+          `by G&C Dev Team | ${prefix}help [cmd] | discord.gg/comfy`,
           "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png"
         );
       categories.forEach((category) => {

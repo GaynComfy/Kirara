@@ -13,7 +13,6 @@ const embed = new MessageEmbed()
       "[__**Aiko**__](https://discord.gg/GU9USZR4M2) for support!\n" +
       "> DM `Sirona-Kirara Support#8123` explaining the situation!"
   )
-  .setFooter("by G&C Dev Team | Use s!invite to invite the bot!")
   .setColor("#570489");
 
 module.exports = {

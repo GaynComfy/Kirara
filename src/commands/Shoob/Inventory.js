@@ -131,10 +131,10 @@ module.exports = {
   help: {
     usage: "inventory [@user] [event] [tier] [card name/ID/link]",
     examples: [
-      "s!inventory @Alycans",
-      "s!inv @Liz3 t6",
-      "s!inv @JeDaYoshi t6 Rin",
-      "s!inv",
+      "inventory @Alycans",
+      "inv @Liz3 t6",
+      "inv @JeDaYoshi t6 Rin",
+      "inv",
     ],
     description: "Fetch a users inventory",
   },
