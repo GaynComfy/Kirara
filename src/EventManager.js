@@ -32,7 +32,8 @@ class EventManager {
       if (message.channel.type === "dm") return; // ToDo: Reimplement
       if (!this.instance.hasInit) await new Promise((r) => setTimeout(r, 1000));
       const prefix =
-        this.instance.guilds[message.guild.id].prefix || this.config.prefix;
+        (this.instance.guilds[message.guild.id] || {}).prefix ||
+        this.config.prefix;
       const mentionMatch = this.mentionRegex.test(message.content);
       if (mentionMatch || message.content.toLowerCase().indexOf(prefix) === 0) {
         if (message.author.bot && message.author.id !== "736067018628792322")
