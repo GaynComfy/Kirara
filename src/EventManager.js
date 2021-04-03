@@ -30,7 +30,7 @@ class EventManager {
         this.mentionRegex = new RegExp(`^<@!?${this.client.user.id}> ?`);
 
       if (message.channel.type === "dm") return; // ToDo: Reimplement
-      if (!this.instance.hasInit) await new Promise((r) => setTimeout(r, 1000));
+      if (!this.instance.hasInit) await new Promise((r) => setTimeout(r, 2500));
       const prefix =
         (this.instance.guilds[message.guild.id] || {}).prefix ||
         this.config.prefix;
