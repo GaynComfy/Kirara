@@ -10,7 +10,7 @@ const info = {
   aliases: ["mk"],
   matchCase: false,
   category: "Shoob",
-  cooldown: 5,
+  cooldown: 2,
 };
 const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
 const allowedSortings = [
