@@ -170,6 +170,8 @@ module.exports = {
     });
 
     collector.on("end", (collected) => {
+      delete channelMap[message.channel.id];
+
       const result = new MessageEmbed()
         .setTitle(
           `Type race results: ${diff.charAt(0).toUpperCase() + diff.slice(1)}` +
@@ -190,8 +192,6 @@ module.exports = {
           .addField("•   __Time__", timer, true);
       }
       message.channel.send(result);
-
-      delete channelMap[message.channel.id];
     });
   },
   info,

@@ -178,7 +178,7 @@ module.exports = {
         });
 
         collector.on("end", (collected) => {
-          if (channelMap[message.channel.id] !== s) return;
+          delete channelMap[message.channel.id];
 
           if (plays.length === 0) {
             m.delete().catch((err) => {});
@@ -199,8 +199,6 @@ module.exports = {
               .addField("•   __Time__", timer, true);
             message.channel.send(result);
           }
-
-          delete channelMap[message.channel.id];
         });
       },
       instance.config.owner
