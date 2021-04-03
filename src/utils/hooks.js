@@ -53,7 +53,7 @@ exports.withCooldown = async (
     if (!(await cache.exists(kw))) {
       // give them an indicator they need to wait
       message.react("🕘").catch((err) => {});
-      await cache.setExpire(kw, "1", cd);
+      await cache.setExpire(kw, "1", 5);
     }
     return null;
   }
