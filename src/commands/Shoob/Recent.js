@@ -81,7 +81,7 @@ module.exports = {
       }
 
       const cards = recentCards.map((item) => {
-        let ti = "`T${item.tier}` •";
+        let ti = `\`T${item.tier}\` •`;
         if (item.message_id) {
           ti = `[${ti}](https://discord.com/channels/${message.guild.id}/${item.channel_id}/${item.message_id})`;
         }
