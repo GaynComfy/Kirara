@@ -15,7 +15,7 @@ const getCachedURL = async (instance, url) => {
     responseType: "buffer",
   });
   const data = r.body.toString("base64");
-  instance.cache.setExpire(k, data, 604800);
+  instance.cache.setExpire(k, data, 302400);
   return data;
 };
 
