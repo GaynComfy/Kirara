@@ -15,8 +15,6 @@ const ALL_SYMBOLS = [
   REPEAT_SYMBOL,
 ];
 
-const digit = /^([1-9]|10)$/;
-
 const collectorOpts = { idle: 45 * 1000 };
 const userMap = {};
 const embed = new MessageEmbed()
@@ -27,9 +25,10 @@ const embed = new MessageEmbed()
 
 const arr = ["start", "end", "back", "stop", "refresh"];
 const command = (msg) => {
-  const entry = arr.find((e) => msg === e || msg[0] === e[0]);
+  const m = msg.toLowerCase();
+  const entry = arr.find((e) => m === e || m[0] === e[0]);
   if (entry) return entry;
-  const number = Number.parseInt(msg);
+  const number = Number.parseInt(m);
   if (!Number.isNaN(number) && number <= 10 && number > 0) return msg;
   return null;
 };
@@ -180,8 +179,8 @@ const createMessagePagedResults = async (
             index = false;
             break;
           default:
-            if (typeof cmd === "number" && inSubPage === false) {
-              index = cmd - 1;
+            if (!Number.isNaN(cmd) && inSubPage === false) {
+              index = Number.parseInt(cmd) - 1;
             } else if (inSubPage === false) {
               return;
             }
