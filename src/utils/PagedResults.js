@@ -25,18 +25,13 @@ const embed = new MessageEmbed()
   )
   .setColor(Color.red);
 
-const command = (msg, maxPages, refresh) => {
-  const m = msg.toLowerCase();
-  return (
-    (maxPages > 1 &&
-      (((m === "start" || m === "s") && "start") ||
-        ((m === "back" || m === "b") && "back") ||
-        ((m === "next" || m === "n") && "next") ||
-        ((m === "forward" || m === "f") && "forward"))) ||
-    ((m === "exit" || m === "e") && "exit") ||
-    (refresh && (m === "refresh" || m === "r") && "refresh") ||
-    (digit.test(m) && parseInt(m))
-  );
+const arr = ["start", "end", "back", "stop", "refresh"];
+const command = (msg) => {
+  const entry = arr.find((e) => msg === e || msg[0] === e[0]);
+  if (entry) return entry;
+  const number = Number.parseInt(msg);
+  if (!Number.isNaN(number) && number <= 10 && number > 0) return msg;
+  return null;
 };
 
 const createPagedResults = async (
@@ -135,14 +130,13 @@ const createPagedResults = async (
 const createMessagePagedResults = async (
   message,
   maxPages,
-  getMessageForPage,
-  refresh = false
+  getMessageForPage
 ) => {
   const s = Symbol();
   const filter = (m) =>
     m.author.id == message.author.id && // it's sent by the user who requested the list
     s === userMap[`${message.channel.id}:${message.author.id}`] && // no other command is running with us
-    command(m.content, maxPages, refresh); // is a valid command
+    command(m.content); // is a valid command
   let page = 0;
   let root = embed;
   let inSubPage = false;
@@ -167,7 +161,7 @@ const createMessagePagedResults = async (
       .on("collect", async (m, user) => {
         let newPage = page;
         let index = inSubPage;
-        const cmd = command(m.content, maxPages, refresh);
+        const cmd = command(m.content);
         switch (cmd) {
           case "start":
             newPage = 0;
