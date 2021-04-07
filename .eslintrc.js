@@ -2,17 +2,9 @@ module.exports = {
   parser: 'babel-eslint',
   extends: ['eslint:recommended', 'prettier'],
   env: {
-    amd: true,
-    es6: true,
-    jest: true,
+    node: true,
   },
-  globals: {
-    page: true,
-    browser: true,
-    context: true,
-    module: true,
-    console: true,
-  },
+  globals: {},
   plugins: ['prettier'],
   rules: {
     'prettier/prettier': 'error',
