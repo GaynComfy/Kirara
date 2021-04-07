@@ -1,4 +1,3 @@
-/* global module */
 module.exports = {
   parser: 'babel-eslint',
   extends: ['eslint:recommended', 'prettier'],
@@ -11,6 +10,8 @@ module.exports = {
     page: true,
     browser: true,
     context: true,
+    module: true,
+    console: true,
   },
   plugins: ['prettier'],
   rules: {
