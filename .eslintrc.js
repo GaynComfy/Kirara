@@ -2,6 +2,7 @@ module.exports = {
   parser: 'babel-eslint',
   extends: ['eslint:recommended', 'prettier'],
   env: {
+    es6: true,
     node: true,
   },
   globals: {},

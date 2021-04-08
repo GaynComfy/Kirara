@@ -1,11 +1,10 @@
-const Instance = require("./Instance");
-const { withCooldown } = require("./utils/hooks");
-const sendError = require("./utils/SendError");
-const sendUsage = require("./utils/SendUsage");
-const isDev = process.env.NODE_ENV === "development";
+const { withCooldown } = require('./utils/hooks');
+const sendError = require('./utils/SendError');
+const sendUsage = require('./utils/SendUsage');
+const isDev = process.env.NODE_ENV === 'development';
 const { owner } = isDev
-  ? require("./config-dev.js")
-  : require("./config-prod.js");
+  ? require('./config-dev.js')
+  : require('./config-prod.js');
 
 class EventManager {
   /**
@@ -24,19 +23,19 @@ class EventManager {
     this.mentionRegex = null;
   }
   registerOnMessage() {
-    const otherHandlers = this.events["message"];
-    this.client.on("message", async (message) => {
+    const otherHandlers = this.events['message'];
+    this.client.on('message', async message => {
       if (!this.mentionRegex)
         this.mentionRegex = new RegExp(`^<@!?${this.client.user.id}> ?`);
 
-      if (message.channel.type === "dm") return; // ToDo: Reimplement
-      if (!this.instance.hasInit) await new Promise((r) => setTimeout(r, 2500));
+      if (message.channel.type === 'dm') return; // ToDo: Reimplement
+      if (!this.instance.hasInit) await new Promise(r => setTimeout(r, 2500));
       const prefix =
         (this.instance.guilds[message.guild.id] || {}).prefix ||
         this.config.prefix;
       const mentionMatch = this.mentionRegex.test(message.content);
       if (mentionMatch || message.content.toLowerCase().indexOf(prefix) === 0) {
-        if (message.author.bot && message.author.id !== "736067018628792322")
+        if (message.author.bot && message.author.id !== '736067018628792322')
           return;
         const plen = mentionMatch
           ? message.content.match(this.mentionRegex)[0].length
@@ -56,7 +55,7 @@ class EventManager {
                   commandName.toLowerCase() ||
                 (Array.isArray(currentEntry.info.aliases) &&
                   currentEntry.info.aliases.find(
-                    (e) => e.toLowerCase() === commandName.toLowerCase()
+                    e => e.toLowerCase() === commandName.toLowerCase()
                   ))
               ) {
                 this.commandExecution(currentEntry, message, args);
@@ -64,7 +63,7 @@ class EventManager {
             } else {
               if (
                 Array.isArray(currentEntry.info.aliases) &&
-                currentEntry.info.aliases.find((e) => e === commandName)
+                currentEntry.info.aliases.find(e => e === commandName)
               ) {
                 this.commandExecution(currentEntry, message, args);
               }
@@ -84,11 +83,11 @@ class EventManager {
     });
   }
   registerOnReady() {
-    this.client.on("ready", async (t) => {
-      this.services.forEach((element) => {
+    this.client.on('ready', async t => {
+      this.services.forEach(element => {
         element.start(this.instance);
       });
-      const otherHandlers = this.events["ready"];
+      const otherHandlers = this.events['ready'];
       if (otherHandlers)
         for (const handler of otherHandlers) {
           await handler.execute(this.instance, t);
@@ -104,7 +103,7 @@ class EventManager {
         this.instance.settings[message.guild.id][
           `cmd:${command.info.name}:disabled`
         ]) &&
-      !message.member.hasPermission("ADMINISTRATOR") &&
+      !message.member.hasPermission('ADMINISTRATOR') &&
       !owner.includes(message.author.id)
     )
       return; // command is disabled and they're not an admin/owner, nothing to do here
@@ -130,7 +129,7 @@ class EventManager {
   cleanup() {
     Object.keys(this.events)
       .filter((value, index, self) => self.indexOf(value) === index)
-      .forEach((key) => this.client.removeAllListeners(key));
+      .forEach(key => this.client.removeAllListeners(key));
     for (const service of this.services) {
       service.stop(this.instance);
     }
@@ -139,7 +138,7 @@ class EventManager {
     this.services = [];
   }
   registerEventHandler(name, handlers) {
-    this.client.on(name, async (param) => {
+    this.client.on(name, async param => {
       for (const handler of handlers) {
         try {
           await handler.execute(this.instance, param);
@@ -153,16 +152,13 @@ class EventManager {
     });
   }
   setup(reload = false) {
-    Object.keys(this.events).forEach((elem) => {
-      if (elem === "message" || elem === "ready") return;
+    Object.keys(this.events).forEach(elem => {
+      if (elem === 'message' || elem === 'ready') return;
       this.registerEventHandler(elem, this.events[elem]);
     });
     this.registerOnMessage();
     if (!reload) this.registerOnReady();
-    else
-      this.services.forEach((element) => {
-        element.start(this.instance);
-      });
+    else this.services.forEach(element => element.start(this.instance));
   }
 }
 module.exports = EventManager;
