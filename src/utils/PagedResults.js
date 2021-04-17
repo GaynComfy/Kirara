@@ -26,7 +26,7 @@ const embed = new MessageEmbed()
 const arr = ['start', 'back', 'next', 'forward', 'exit', 'refresh'];
 const command = msg => {
   const m = msg.toLowerCase();
-  const entry = arr.find(e => m === e || m[0] === e[0]);
+  const entry = arr.find(e => m === e || m === e[0]);
   if (entry) return entry;
   const number = Number.parseInt(m);
   if (!Number.isNaN(number) && number <= 10 && number > 0) return msg;
