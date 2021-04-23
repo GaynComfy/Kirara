@@ -14,7 +14,7 @@ const embed = new MessageEmbed()
   .setColor("#570489");
 
 module.exports = {
-  execute: async (instance, message, args) => message.channel.send(embed),
+  execute: async (instance, message) => message.channel.send(embed),
   info,
   help: {
     usage: "invite",

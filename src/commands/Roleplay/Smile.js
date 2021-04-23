@@ -8,7 +8,7 @@ const info = {
   cooldown: 15,
 };
 module.exports = {
-  execute: async (instance, message, args) => {
+  execute: async (instance, message) => {
     const { url } = await Fetcher.request("smile");
     const mention = message.mentions.users.first();
     const embed = new MessageEmbed()

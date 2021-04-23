@@ -2,7 +2,7 @@ const { Pool } = require("pg");
 const PgApi = require("./Api");
 
 module.exports = (config, isProd) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     const connectionProps = {
       user: config.database.user,
       host: config.database.host,

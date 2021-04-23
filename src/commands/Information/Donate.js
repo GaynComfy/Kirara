@@ -7,7 +7,7 @@ const info = {
 };
 
 module.exports = {
-  execute: async (instance, message, args) => {
+  execute: async (instance, message) => {
     const embed = new MessageEmbed()
       .setAuthor("Kirara", "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png")
       .setDescription(

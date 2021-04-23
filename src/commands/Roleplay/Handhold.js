@@ -9,7 +9,7 @@ const info = {
   cooldown: 15,
 };
 module.exports = {
-  execute: async (instance, message, args) => {
+  execute: async (instance, message) => {
     if (message.mentions.users.size === 0) {
       return false;
     }

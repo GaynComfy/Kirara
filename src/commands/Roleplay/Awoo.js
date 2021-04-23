@@ -1,7 +1,5 @@
 const { MessageEmbed } = require("discord.js");
 const Fetcher = require("../../utils/GifFetcher");
-const { generateRolePlayEmbed } = require("./utils");
-const { withCount } = require("../../utils/rolePlayHooks");
 const Color = require("../../utils/Colors.json");
 const info = {
   name: "awoo",
@@ -10,7 +8,7 @@ const info = {
   cooldown: 10,
 };
 module.exports = {
-  execute: async (instance, message, args) => {
+  execute: async (instance, message) => {
     const { url } = await Fetcher.request("awoo");
     const embed = new MessageEmbed()
       .setDescription("Awoo~")

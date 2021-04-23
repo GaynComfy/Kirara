@@ -8,7 +8,7 @@ const info = {
 };
 
 module.exports = {
-  execute: async (instance, message, args) => {
+  execute: async (instance, message) => {
     const msgPing = Math.round(Date.now() - message.createdTimestamp);
     const { ping } = await getLilliePing();
     const InviteEmbed = new MessageEmbed()

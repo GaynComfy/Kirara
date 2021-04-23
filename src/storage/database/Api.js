@@ -1,9 +1,7 @@
-const { Pool } = require("pg");
-
 class PgApi {
   /**
    *
-   * @param {Pool} pool
+   * @param {pg.Pool} pool
    * @param {*} config
    */
   constructor(pool, config) {
