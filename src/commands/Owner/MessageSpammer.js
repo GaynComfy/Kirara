@@ -1,4 +1,4 @@
-const redis = require("redis");
+const Redis = require("ioredis");
 const { withOwner } = require("../../utils/hooks");
 const info = {
   name: "msg",
@@ -11,9 +11,7 @@ let client;
 module.exports = {
   init: async instance => {
     const { config } = instance;
-    client = redis.createClient(
-      `redis://${config.cache.host}:${config.cache.port}`
-    );
+    client = new Redis(`redis://${config.cache.host}:${config.cache.port}`);
   },
   execute: async (instance, message, args) => {
     return withOwner(

@@ -1,11 +1,11 @@
 const got = require("got");
 
 const getCachedURL = async (instance, url) => {
-  const k = `curi:${url.split("/").slice(-1)}`;
+  const k = `curl:${url.split("/").slice(-1)}`;
   const exists = await instance.cache.exists(k);
 
   if (exists) {
-    const e = await instance.cache.get(k);
+    const e = await instance.cache.get(k, true);
     return e;
   }
 
@@ -14,9 +14,8 @@ const getCachedURL = async (instance, url) => {
     http2: true,
     responseType: "buffer",
   });
-  const data = r.body.toString("base64");
-  instance.cache.setExpire(k, data, 86400);
-  return data;
+  instance.cache.setExpire(k, r.body, 86400);
+  return r.body;
 };
 
 module.exports = {

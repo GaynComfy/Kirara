@@ -1,4 +1,4 @@
-const redis = require("redis");
+const Redis = require("ioredis");
 const { MessageEmbed } = require("discord.js");
 const tierSettings = {
   1: { emoji: "<:NewT1:781684991372689458>", num: 1, color: "#e8e8e8" },
@@ -26,9 +26,7 @@ module.exports = {
     }, 1000);
 
     const { config } = instance;
-    client = redis.createClient(
-      `redis://${config.cache.host}:${config.cache.port}`
-    );
+    client = new Redis(`redis://${config.cache.host}:${config.cache.port}`);
     client.subscribe("claims");
     client.on("message", async (channel, message) => {
       if (channel === "claims") {

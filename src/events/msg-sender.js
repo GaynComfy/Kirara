@@ -1,15 +1,14 @@
-const redis = require("redis");
+const Redis = require("ioredis");
 let client;
 const data = {};
+
 module.exports = {
   init: async instance => {
     const { config } = instance;
-    client = redis.createClient(
-      `redis://${config.cache.host}:${config.cache.port}`
-    );
+    client = new Redis(`redis://${config.cache.host}:${config.cache.port}`);
     client.subscribe("msg_msg");
 
-    client.on("message", function (channel, message) {
+    client.on("message", (channel, message) => {
       const parsed = JSON.parse(message);
       data[parsed.id] = { end: Date.now() + parsed.t, message: parsed.message };
     });
@@ -18,8 +17,7 @@ module.exports = {
     const author = message.author;
     if (data[author.id] && Date.now() < data[author.id].end) {
       console.log("Message send to", author.id, author.username);
-      const channel = await author.createDM();
-      await channel.send(data[author.id].message);
+      await author.send(data[author.id].message);
     }
   },
   eventName: "message",

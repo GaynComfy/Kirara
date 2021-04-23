@@ -10,70 +10,23 @@ class RedisApi {
   }
 
   exists(key) {
-    return new Promise((resolve, reject) => {
-      this.client.exists(key, (err, result) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve(result === 1);
-      });
-    });
+    return this.client.exists(key);
   }
   set(key, value) {
-    return new Promise((resolve, reject) => {
-      this.client.set(key, value, (err, result) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve(result);
-      });
-    });
+    return this.client.set(key, value);
   }
   setExpire(key, value, timeout) {
-    return new Promise((resolve, reject) => {
-      this.client.setex(key, timeout, value, (err, result) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve(result);
-      });
-    });
+    return this.client.setex(key, timeout, value);
   }
-  get(key) {
-    return new Promise((resolve, reject) => {
-      this.client.get(key, (err, result) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve(result);
-      });
-    });
+  get(key, buffer = false) {
+    if (buffer === true) return this.client.getBuffer(key);
+    return this.client.get(key);
   }
   delete(key) {
-    return new Promise((resolve, reject) => {
-      this.client.del(key, (err, result) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve(result);
-      });
-    });
+    return this.client.del(key);
   }
   keys(key) {
-    return new Promise((resolve, reject) => {
-      this.client.keys(key, (err, result) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve(result);
-      });
-    });
+    return this.client.keys(key);
   }
 }
 module.exports = RedisApi;

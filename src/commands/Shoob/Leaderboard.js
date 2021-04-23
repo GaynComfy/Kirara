@@ -61,7 +61,7 @@ module.exports = {
     const ctx = canvas.getContext("2d");
     if (iconURL) {
       const iconB = await getCachedURL(instance, iconURL);
-      const icon = await loadImage(`data:image/png;base64,${iconB}`);
+      const icon = await loadImage(iconB);
       ctx.drawImage(icon, 360, 55, 58, 58);
     }
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
@@ -89,9 +89,7 @@ module.exports = {
             user.displayAvatarURL({ format: "png", size: 512 })
           ));
         const avatar = await loadImage(
-          avatarB
-            ? `data:image/png;base64,${avatarB}`
-            : `./src/assets/default/${aid}.png`
+          avatarB ? avatarB : `./src/assets/default/${aid}.png`
         );
         ctx.save();
         ctx.arc(179.5, 245.5, 79, 0, Math.PI * 2, true);
