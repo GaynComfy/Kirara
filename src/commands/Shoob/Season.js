@@ -12,7 +12,7 @@ const info = {
 };
 
 module.exports = {
-  execute: async (instance, message, args) => {
+  execute: async (instance, message) => {
     let s = {
       claimed: [],
       despawns: 0,
@@ -67,9 +67,8 @@ module.exports = {
     for (const t of Object.keys(tierInfo)) {
       if (t === "TS") continue;
       const tier = tierInfo[t];
-      const entry = s.claimed.find((e) => e.tier === t[1]);
+      const entry = s.claimed.find(e => e.tier === t[1]);
       const count = entry ? entry.c : "0";
-      const uc = parseInt(entry ? entry.uc : "0");
 
       const text = `${tier.emoji} x ${count}`;
       tiers.push(text);

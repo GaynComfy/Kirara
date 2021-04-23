@@ -16,7 +16,7 @@ module.exports = {
       message.mentions.users.first() ||
       (args.length >= 1 &&
         userId.test(args[0]) &&
-        (await instance.client.users.fetch(args[0]).catch((err) => {})));
+        (await instance.client.users.fetch(args[0]).catch(() => {})));
     if (args.length >= 1 && (mention.test(args[0]) || userId.test(args[0])))
       args.shift();
     if (!target) {

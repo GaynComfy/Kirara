@@ -1,7 +1,7 @@
 const got = require("got");
 
-const tN = (tier) => (tier.toLowerCase() === "s" ? 8 : parseInt(tier));
-const sortTopOwners = (arr) => {
+const tN = tier => (tier.toLowerCase() === "s" ? 8 : parseInt(tier));
+const sortTopOwners = arr => {
   return arr
     .sort((a, b) => {
       const nA = a.username.toUpperCase();
@@ -50,7 +50,7 @@ class CardFetcher {
       return null;
     }
     const card =
-      result.find((e) => e.name.toLowerCase() === name.toLowerCase()) ||
+      result.find(e => e.name.toLowerCase() === name.toLowerCase()) ||
       result[0];
     instance.cache.setExpire(k, JSON.stringify(card), 60 * 30);
     return card;
@@ -80,7 +80,7 @@ class CardFetcher {
     }
     const cards = result.body
       .sort((l, n) => tN(n.tier) - tN(l.tier))
-      .map((c) => {
+      .map(c => {
         return { ...c, event };
       });
     instance.cache.setExpire(k, JSON.stringify(cards), 60 * 30);

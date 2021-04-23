@@ -93,8 +93,8 @@ const userAllInfo = async (instance, userId) => {
     played: rows.length === 0,
   };
   const diff = Object.values(diffs);
-  diff.forEach((d) => {
-    const st = rows.find((di) => di.difficulty === d) || {};
+  diff.forEach(d => {
+    const st = rows.find(di => di.difficulty === d) || {};
     user.diffs.push({
       difficulty: d,
       ...defs,

@@ -1,8 +1,5 @@
-const { Client } = require("discord.js");
-const database = require("../storage/database");
-
 module.exports = {
-  execute: async (instance, params) => {
+  execute: async instance => {
     console.log("ready", instance.client.shard.ids[0]);
     for (const server of instance.client.guilds.cache.array()) {
       const query = await instance.database.simpleQuery("SERVERS", {
@@ -44,7 +41,7 @@ module.exports = {
           server_id: query.rows[0].id,
         });
         const s = {};
-        settings.rows.forEach((element) => {
+        settings.rows.forEach(element => {
           s[element.key] = element.value;
         });
         instance.settings[server.id] = s;

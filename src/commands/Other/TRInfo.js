@@ -2,7 +2,6 @@ const { MessageEmbed } = require("discord.js");
 const Color = require("../../utils/Colors.json");
 const {
   diffs,
-  difficulty,
   getCpm,
   userAllInfo,
   userInfo,
@@ -23,7 +22,7 @@ module.exports = {
     let member =
       message.mentions.users.first() ||
       (args.length >= 1 &&
-        (await instance.client.users.fetch(args[0]).catch((err) => {})));
+        (await instance.client.users.fetch(args[0]).catch(() => {})));
     if (args.length >= 1 && (mention.test(args[0]) || userId.test(args[0])))
       args.shift();
     if (!member) {
@@ -43,9 +42,9 @@ module.exports = {
         .setColor(Color.default);
 
       stats.diffs
-        .filter((d) => d.played)
+        .filter(d => d.played)
         .reverse()
-        .forEach((d) => {
+        .forEach(d => {
           const topCpm = getCpm(d.difficulty, d.top);
           const lastCpm = getCpm(d.difficulty, d.last);
           const dName =
@@ -63,7 +62,7 @@ module.exports = {
           total += d.total;
           won += d.first;
         });
-      cpm.forEach((d) => (allCpm += d));
+      cpm.forEach(d => (allCpm += d));
 
       embed.setDescription(
         `<:Sirona_yesh:762603569538531328> **${member.username}'s Typerace stats**\n\n` +

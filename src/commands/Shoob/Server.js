@@ -1,4 +1,3 @@
-const { tierInfo } = require("../../utils/cardUtils");
 const { getInfo } = require("../Owner/utils");
 const info = {
   name: "server",
@@ -7,10 +6,9 @@ const info = {
   category: "Shoob",
   cooldown: 5,
 };
-const allowed = ["t1", "t2", "t3", "t4", "t5", "t6"];
 
 module.exports = {
-  execute: async (instance, message, args) => {
+  execute: async (instance, message) => {
     const promises = [
       instance.client.shard.fetchClientValues("guilds.cache.size"),
       instance.client.shard.broadcastEval(
@@ -41,7 +39,7 @@ module.exports = {
       "SELECT claims, guild_name FROM SERVERS ORDER BY claims DESC LIMIT 5"
     );
     const topped = topServers.map(
-      (e) =>
+      e =>
         `• ${e.guild_name} :: ${Number.parseInt(e.claims).toLocaleString(
           undefined,
           {

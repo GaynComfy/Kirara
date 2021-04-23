@@ -8,9 +8,9 @@ const shardManager = new ShardingManager("./src/index.js", {
   respawn: true,
 });
 let count = 0;
-shardManager.on("shardCreate", (shard) => {
+shardManager.on("shardCreate", shard => {
   count++;
-  console.log("Shard spawned");
+  console.log(`Shard ${shard.id} spawned`);
   if (count === (config.shardCount || 2)) {
     console.log("All shards live!");
   }

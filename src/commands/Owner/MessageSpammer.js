@@ -1,7 +1,5 @@
 const redis = require("redis");
-const { MessageEmbed } = require("discord.js");
 const { withOwner } = require("../../utils/hooks");
-const Color = require("../../utils/Colors.json");
 const info = {
   name: "msg",
   matchCase: false,
@@ -11,8 +9,8 @@ const info = {
 };
 let client;
 module.exports = {
-  init: async (instance) => {
-    const { config, settings } = instance;
+  init: async instance => {
+    const { config } = instance;
     client = redis.createClient(
       `redis://${config.cache.host}:${config.cache.port}`
     );

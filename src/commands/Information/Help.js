@@ -19,7 +19,7 @@ module.exports = {
     const all = Object.values(instance.eventManager.commands);
     if (args.length === 0) {
       const categories = [];
-      all.forEach((elem) => {
+      all.forEach(elem => {
         if (!categories.includes(elem.info.category))
           categories.push(elem.info.category);
       });
@@ -39,9 +39,9 @@ module.exports = {
           `by G&C Dev Team | ${prefix}help [cmd] | discord.gg/comfy`,
           "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png"
         );
-      categories.forEach((category) => {
-        const dirSize = all.filter((cmd) => cmd.info.category === category);
-        let mappedOut = dirSize.map((x) => `\`${x.info.name}\``).join(", ");
+      categories.forEach(category => {
+        const dirSize = all.filter(cmd => cmd.info.category === category);
+        let mappedOut = dirSize.map(x => `\`${x.info.name}\``).join(", ");
         if (category === "Owner" || category === "Moderation") {
           return;
         }
@@ -55,7 +55,7 @@ module.exports = {
       return message.channel.send(embed);
     }
     const cmd = all.find(
-      (e) => e.info.name === args[0] || (e.info.aliases || []).includes(args[0])
+      e => e.info.name === args[0] || (e.info.aliases || []).includes(args[0])
     );
     let embed = new MessageEmbed();
     if (cmd) {
@@ -72,7 +72,7 @@ module.exports = {
         .setDescription(
           `**Name**: \`${cmd.info.name}\`
   **Aliases**: ${
-    (cmd.info.aliases || []).map((x) => `\`${x}\``).join(", ") || "No Alias"
+    (cmd.info.aliases || []).map(x => `\`${x}\``).join(", ") || "No Alias"
   }
   **Cooldown**: \`${
     cmd.info.cooldown > 0 ? `${cmd.info.cooldown || 0}s` : "None"

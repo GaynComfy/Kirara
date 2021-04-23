@@ -7,8 +7,8 @@ exports.withCount = async (instance, type, userId, targetId, handler) => {
     "SELECT * FROM ROLEPLAY_COUNT WHERE (discord_id = $1 AND type = $3) OR (discord_id = $2 AND type = $3)",
     [userId, targetId, type]
   );
-  const result = rows.find((e) => e.discord_id === userId);
-  const resultTarget = rows.find((e) => e.discord_id === targetId);
+  const result = rows.find(e => e.discord_id === userId);
+  const resultTarget = rows.find(e => e.discord_id === targetId);
   if (!result) {
     await instance.database.simpleInsert("ROLEPLAY_COUNT", {
       discord_id: userId,

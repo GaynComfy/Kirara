@@ -1,7 +1,7 @@
 let interval = null;
 
 module.exports = {
-  start: async (instance) => {
+  start: async instance => {
     const status = {
       type: "STREAMING",
       url: "https://www.twitch.tv/FinalWords79",
@@ -9,19 +9,21 @@ module.exports = {
     interval = setInterval(async () => {
       const pickedActivity = Math.floor(Math.random() * 4);
       switch (pickedActivity) {
-        case 0:
+        case 0: {
           await instance.client.user.setActivity(
             `Help | ${instance.config.prefix}help`,
             status
           );
           break;
-        case 1:
+        }
+        case 1: {
           await instance.client.user.setActivity(
             `Prefix | ${instance.config.prefix}`,
             status
           );
           break;
-        case 2:
+        }
+        case 2: {
           try {
             const size = await instance.client.shard.fetchClientValues(
               "guilds.cache.size"
@@ -34,7 +36,8 @@ module.exports = {
             );
           } catch (ignored) {}
           break;
-        case 3:
+        }
+        case 3: {
           const users = await instance.client.shard.broadcastEval(
             "this.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)"
           );
@@ -45,6 +48,7 @@ module.exports = {
             status
           );
           break;
+        }
       }
     }, 1000 * 60);
   },

@@ -32,7 +32,7 @@ module.exports = {
       message.mentions.users.first() ||
       (args.length >= 1 &&
         userId.test(args[0]) &&
-        (await instance.client.users.fetch(args[0]).catch((err) => {})));
+        (await instance.client.users.fetch(args[0]).catch(() => {})));
     if (args.length >= 1 && (mention.test(args[0]) || userId.test(args[0])))
       args.shift();
     if (!member) {
@@ -89,7 +89,7 @@ module.exports = {
 
     // Fill in tier counts
     for (const tier of tierPositions) {
-      const claims = cards.find((t) => t.tier === tier.t);
+      const claims = cards.find(t => t.tier === tier.t);
       const c = claims ? claims.c : "0";
       ctx.fillText(`${c}x`, tier.x, tier.y);
     }

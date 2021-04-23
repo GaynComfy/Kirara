@@ -1,11 +1,9 @@
 const redis = require("redis");
-const { tierInfo } = require("../utils/cardUtils");
-const allowed = ["3", "4", "5", "6"];
 let client;
 const data = {};
 module.exports = {
-  init: async (instance) => {
-    const { config, settings } = instance;
+  init: async instance => {
+    const { config } = instance;
     client = redis.createClient(
       `redis://${config.cache.host}:${config.cache.port}`
     );

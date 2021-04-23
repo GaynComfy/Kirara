@@ -61,10 +61,10 @@ const processWithCard = async (instance, message, option, card) => {
   }
 
   const pages = Math.ceil(listings.length / 10);
-  return await createPagedResults(message, pages, async (page) => {
+  return await createPagedResults(message, pages, async page => {
     const entries = sorted.slice(page * 10, page * 10 + 10);
     const market = entries.map(
-      (listing) =>
+      listing =>
         `> [• \`Issue: ${listing.item.issue}\`](https://animesoul.com/market) | ` +
         `Price: \`富 ${listing.price}\` | ` +
         `Added: \`${moment(listing.date_added * 1000).fromNow()}\``
@@ -112,7 +112,7 @@ const processWithCard = async (instance, message, option, card) => {
 const processWithoutCard = async (instance, message, tier) => {
   let last = -1;
 
-  return await createPagedResults(message, Infinity, async (page) => {
+  return await createPagedResults(message, Infinity, async page => {
     if (page > last && last !== -1) return null;
     const offset = page * 6;
     const result = await Fetcher.fetchMarket(instance, offset, tier);

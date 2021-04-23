@@ -1,20 +1,18 @@
-const { withRights } = require("../../utils/hooks");
 const { MessageEmbed } = require("discord.js");
 const { getLilliePing } = require("./utils");
 const { version } = require("../../../package.json");
-const isDev = process.env.NODE_ENV === "development";
 
 const info = {
   name: "bot",
   matchCase: false,
   category: "Information",
 };
-const numberWithCommas = (entry) =>
+const numberWithCommas = entry =>
   entry.toLocaleString(undefined, {
     style: "decimal",
     maximumFractionDigits: 0,
   });
-const fetchData = async (instance) => {
+const fetchData = async instance => {
   if (await instance.cache.exists("botstats:latest")) {
     const cached = await instance.cache.get("botstats:latest");
     return JSON.parse(cached);
@@ -51,7 +49,7 @@ const fetchData = async (instance) => {
   return obj;
 };
 module.exports = {
-  execute: async (instance, message, args) => {
+  execute: async (instance, message) => {
     try {
       const ping = Math.round(Date.now() - message.createdTimestamp);
       const lillie = await getLilliePing();

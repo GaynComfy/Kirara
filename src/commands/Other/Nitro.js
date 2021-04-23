@@ -17,7 +17,7 @@ module.exports = {
       message.mentions.members.first() ||
       (args.length >= 1 &&
         userId.test(args[0]) &&
-        (await message.guild.members.fetch(args[0]).catch((err) => {})));
+        (await message.guild.members.fetch(args[0]).catch(() => {})));
     if (args.length >= 1 && (mention.test(args[0]) || userId.test(args[0])))
       args.shift();
     if (!account) {

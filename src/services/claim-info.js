@@ -14,13 +14,13 @@ let deleteInterval = null;
 const deleteMap = {};
 
 module.exports = {
-  start: async (instance) => {
+  start: async instance => {
     deleteInterval = setInterval(async () => {
       const now = Date.now();
-      Object.keys(deleteMap).forEach((k) => {
+      Object.keys(deleteMap).forEach(k => {
         const e = deleteMap[k];
         if (e.time > now) return;
-        e.msg.delete().catch((err) => {});
+        e.msg.delete().catch(() => {});
         delete deleteMap[k];
       });
     }, 1000);
@@ -41,10 +41,10 @@ module.exports = {
           const timers = instance.shared["timer"][data.channel_id];
           if (timers) {
             const s = timers.find(
-              (p) => p.tier === data.tier && p.name === data.card_name
+              p => p.tier === data.tier && p.name === data.card_name
             );
             if (s) {
-              s.msg.delete().catch((err) => {});
+              s.msg.delete().catch(() => {});
               const i = instance.shared["timer"][data.channel_id].indexOf(s);
               if (i !== -1)
                 instance.shared["timer"][data.channel_id].splice(i, 1);
@@ -137,7 +137,7 @@ module.exports = {
       }
     });
   },
-  stop: async (instance) => {
+  stop: async () => {
     if (deleteInterval) clearInterval(deleteInterval);
     if (client !== null) {
       client.removeAllListeners("message");

@@ -15,7 +15,7 @@ module.exports = (config, isProd, waitForReady = false) => {
       resolve(new RedisApi(client, config.cache));
     });
 
-    client.on("error", (error) => {
+    client.on("error", error => {
       reject(error);
     });
   });

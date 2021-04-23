@@ -15,17 +15,17 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
     ? await DbFetcher.fetchCardCount(instance, card.id)
     : await Fetcher.fetchCardCount(instance, card.id);
   const series = (card.series || []).filter(
-    (s) => s.toLowerCase() !== card.name.toLowerCase()
+    s => s.toLowerCase() !== card.name.toLowerCase()
   );
   const batch = series.find(
-    (c) => c.startsWith("Batch ") && c !== "Batch Release "
+    c => c.startsWith("Batch ") && c !== "Batch Release "
   );
   const makers = (card.creators || [])
-    .filter((c) => c.type === "maker")
-    .map((maker) => `[__**${maker.name}**__](${maker.link})`);
+    .filter(c => c.type === "maker")
+    .map(maker => `[__**${maker.name}**__](${maker.link})`);
   const artists = (card.creators || [])
-    .filter((c) => c.type === "artist")
-    .map((artist) => `[__**${artist.name}**__](${artist.link})`);
+    .filter(c => c.type === "artist")
+    .map(artist => `[__**${artist.name}**__](${artist.link})`);
   const cardImage = encodeURI(card.image_url).replace(".webp", ".gif");
   const event = card.event ? series[series.length - 1] : null;
   const description =
@@ -49,7 +49,7 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
   return await createPagedResults(
     message,
     2 + (pages > 0 ? pages : 1),
-    async (page) => {
+    async page => {
       const embed = new MessageEmbed()
         .setTitle(
           `${tierSettings.emoji}  •  ${card.name}  •  ${
@@ -80,12 +80,12 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
         );
 
         const topOwners = top.map(
-          (user) =>
+          user =>
             `> • \`${user.count}x ${user.count > 1 ? "issues" : "issue"}\` | ` +
             `[__**${user.username}**__](https://animesoul.com/user/${user.discord_id})`
         );
         const market = listings.map(
-          (listing) =>
+          listing =>
             `> [• \`Issue: ${listing.item.issue}\`](https://animesoul.com/market) | ` +
             `Price: \`富 ${listing.price}\` | ` +
             `Added: \`${moment(listing.date_added * 1000).fromNow()}\``
@@ -140,7 +140,7 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
         }
 
         const owners = issues.map(
-          (claim) =>
+          claim =>
             `> • \`Issue: ${claim.issue}\` | ` +
             `[__**${claim.username}**__](https://animesoul.com/user/${claim.discord_id})`
         );

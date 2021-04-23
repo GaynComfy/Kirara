@@ -12,6 +12,8 @@ module.exports = {
   execute: async (instance, message, args) => {
     return withRights(message.member, async () => {
       if (args.length === 0) return false;
+      if (args.length >= 2 && allowed.includes(args[1].toLowerCase()))
+        return false;
 
       let cmd, category;
       if (!instance.eventManager.commands[args[0]]) {
@@ -22,7 +24,7 @@ module.exports = {
               currentEntry.info.name.toLowerCase() === args[0].toLowerCase() ||
               (Array.isArray(currentEntry.info.aliases) &&
                 currentEntry.info.aliases.find(
-                  (e) => e.toLowerCase() === args[0].toLowerCase()
+                  e => e.toLowerCase() === args[0].toLowerCase()
                 ))
             ) {
               cmd = currentEntry.info.name;
@@ -31,7 +33,7 @@ module.exports = {
           } else {
             if (
               Array.isArray(currentEntry.info.aliases) &&
-              currentEntry.info.aliases.find((e) => e === args[0])
+              currentEntry.info.aliases.find(e => e === args[0])
             ) {
               cmd = currentEntry.info.name;
               category = currentEntry.info.category;

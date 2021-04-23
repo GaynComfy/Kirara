@@ -11,7 +11,7 @@ const info = {
 };
 
 module.exports = {
-  execute: async (instance, message, args) => {
+  execute: async (instance, message) => {
     const event = instance.guilds[message.guild.id].event;
     if (!event) {
       const embed = new MessageEmbed()
@@ -27,7 +27,7 @@ module.exports = {
     let last = -1;
     message.channel.stopTyping();
 
-    return await createPagedResults(message, Infinity, async (page) => {
+    return await createPagedResults(message, Infinity, async page => {
       const offset = (page > last && last !== -1 ? last : page) * 8;
       const {
         rows: claimers,

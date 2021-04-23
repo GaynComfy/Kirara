@@ -1,6 +1,3 @@
-const { Client } = require("discord.js");
-const PgApi = require("./storage/database/Api");
-const RedisApi = require("./storage/redis/Api");
 const EventManager = require("./EventManager");
 
 const { readDirectoryRecursiveWithFilter } = require("./utils/FsUtils");
@@ -31,7 +28,7 @@ class Instance {
     const entries = readDirectoryRecursiveWithFilter(
       this.config.structure.events,
       "src/",
-      (name) => name.endsWith(".js")
+      name => name.endsWith(".js")
     );
     for (const file of entries) {
       const event = require(`./${file}`);
@@ -54,7 +51,7 @@ class Instance {
     const entries = readDirectoryRecursiveWithFilter(
       this.config.structure.services,
       "src/",
-      (name) => name.endsWith(".js")
+      name => name.endsWith(".js")
     );
     for (const file of entries) {
       const event = require(`./${file}`);
@@ -71,7 +68,7 @@ class Instance {
     const entries = readDirectoryRecursiveWithFilter(
       this.config.structure.commands,
       "src/",
-      (name) => name.endsWith(".js") && !name.endsWith("utils.js")
+      name => name.endsWith(".js") && !name.endsWith("utils.js")
     );
     for (const file of entries) {
       const command = require(`./${file}`);

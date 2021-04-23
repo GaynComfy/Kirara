@@ -4,8 +4,7 @@ const { createCanvas, loadImage } = require("canvas");
 const tcaptcha = require("trek-captcha");
 const Color = require("../../utils/Colors.json");
 const Fetcher = require("../../utils/CardFetcher");
-const { difficulty, getCpm, userPlay } = require("../../utils/typeRaceUtils");
-const { tierInfo } = require("../../utils/cardUtils");
+const { getCpm, userPlay } = require("../../utils/typeRaceUtils");
 const { withOwner } = require("../../utils/hooks");
 
 const info = {
@@ -128,14 +127,14 @@ module.exports = {
 
         // the typerace
         const collector = message.channel.createMessageCollector(
-          (msg) =>
+          msg =>
             channelMap[message.channel.id] === s &&
             msg.content.toLowerCase() === `claim ${txt}` &&
             plays.indexOf(msg.author.id) === -1,
           { time: 15000 }
         );
 
-        collector.on("collect", (msg) => {
+        collector.on("collect", msg => {
           const took = end(startTime, msg.createdTimestamp);
           const cpm = getCpm("shoob", took);
           const first = plays.length === 0;
@@ -164,31 +163,31 @@ module.exports = {
             took,
             `${msg.guild.id}:${msg.channel.id}:${msg.id}`
           )
-            .then((lastTop) => {
+            .then(lastTop => {
               if (took < lastTop) {
                 // new record!
                 msg.react("<a:Sirona_star:748985391360507924>");
               }
             })
-            .catch((err) => {
+            .catch(err => {
               console.error(err);
               // error saving score?
               msg.react("❌");
             });
         });
 
-        collector.on("end", (collected) => {
+        collector.on("end", () => {
           delete channelMap[message.channel.id];
 
           if (plays.length === 0) {
-            m.delete().catch((err) => {});
+            m.delete().catch(() => {});
             message.channel
               .send(
                 `Looks like no one got the card \`${card.name} ` +
                   `T${card.tier.toUpperCase()}\` at this time..`
               )
-              .then((msg) =>
-                setTimeout(() => msg.delete().catch((err) => {}), 5000)
+              .then(msg =>
+                setTimeout(() => msg.delete().catch(() => {}), 5000)
               );
           } else {
             const result = new MessageEmbed()

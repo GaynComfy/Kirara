@@ -162,7 +162,7 @@ const computeAuction = async (instance, aid) => {
       .reverse()
       .slice(0, 5)
       .map(
-        (bid) =>
+        bid =>
           `> • \`富 ${bid.bid_amount}\` | ` +
           `[${bid.username}](https://animesoul.com/user/${bid.discord_id}) | ` +
           `\`${moment(bid.date_added * 1000).fromNow()}\``

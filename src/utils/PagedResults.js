@@ -1,12 +1,12 @@
-const sendError = require('./SendError');
-const Color = require('./Colors.json');
-const { MessageEmbed } = require('discord.js');
+const sendError = require("./SendError");
+const Color = require("./Colors.json");
+const { MessageEmbed } = require("discord.js");
 
-const FAST_REVERSE_SYMBOL = '\u23ea';
-const BACK_SYMBOL = '\u25c0\ufe0f';
-const FORWARD_SYMBOL = '\u25b6\ufe0f';
-const FAST_FORWARD_SYMBOL = '\u23e9';
-const REPEAT_SYMBOL = '\ud83d\udd01';
+const FAST_REVERSE_SYMBOL = "\u23ea";
+const BACK_SYMBOL = "\u25c0\ufe0f";
+const FORWARD_SYMBOL = "\u25b6\ufe0f";
+const FAST_FORWARD_SYMBOL = "\u23e9";
+const REPEAT_SYMBOL = "\ud83d\udd01";
 const ALL_SYMBOLS = [
   FAST_REVERSE_SYMBOL,
   BACK_SYMBOL,
@@ -19,11 +19,11 @@ const collectorOpts = { idle: 45 * 1000 };
 const userMap = {};
 const embed = new MessageEmbed()
   .setDescription(
-    '<:Sirona_NoCross:762606114444935168> An unexpected error has occurred on command execution.'
+    "<:Sirona_NoCross:762606114444935168> An unexpected error has occurred on command execution."
   )
   .setColor(Color.red);
 
-const arr = ['start', 'back', 'next', 'forward', 'exit', 'refresh'];
+const arr = ["start", "back", "next", "forward", "exit", "refresh"];
 const command = msg => {
   const m = msg.toLowerCase();
   const entry = arr.find(e => m === e || m === e[0]);
@@ -80,7 +80,7 @@ const createPagedResults = async (
 
     return sentMessage
       .createReactionCollector(emojiFilter, collectorOpts)
-      .on('collect', async (r, user) => {
+      .on("collect", async (r, user) => {
         let newPage = page;
         switch (r.emoji.name) {
           case FAST_REVERSE_SYMBOL:
@@ -118,7 +118,7 @@ const createPagedResults = async (
         }
         r.users.remove(user).catch(() => {});
       })
-      .on('end', () => sentMessage.reactions.removeAll().catch(() => {}));
+      .on("end", () => sentMessage.reactions.removeAll().catch(() => {}));
   } catch (err) {
     console.error(err);
     if (sentMessage) sentMessage.edit(embed);
@@ -157,25 +157,25 @@ const createMessagePagedResults = async (
   try {
     return sentMessage.channel
       .createMessageCollector(filter, collectorOpts)
-      .on('collect', async (m, user) => {
+      .on("collect", async (m, user) => {
         let newPage = page;
         let index = inSubPage;
         const cmd = command(m.content);
         switch (cmd) {
-          case 'start':
+          case "start":
             newPage = 0;
             break;
-          case 'back':
+          case "back":
             newPage = Math.max(page - 1, 0);
             break;
-          case 'next':
+          case "next":
             newPage = Math.min(page + 1, maxPages - 1);
             break;
-          case 'forward':
+          case "forward":
             if (maxPages !== Infinity) newPage = maxPages - 1;
             else return;
             break;
-          case 'exit':
+          case "exit":
             index = false;
             break;
           default:
@@ -204,7 +204,7 @@ const createMessagePagedResults = async (
         }
         m.delete().catch(() => {});
       })
-      .on('end', () => {
+      .on("end", () => {
         if (s === userMap[`${message.channel.id}:${message.author.id}`])
           delete userMap[`${message.channel.id}:${message.author.id}`];
       });

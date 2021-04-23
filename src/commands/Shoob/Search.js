@@ -1,7 +1,6 @@
 const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
 const { MessageEmbed } = require("discord.js");
-const { createPagedResults } = require("../../utils/PagedResults");
 const { tierInfo } = require("../../utils/cardUtils");
 const { getCard } = require("./utils");
 const { createMessagePagedResults } = require("../../utils/PagedResults");
@@ -105,7 +104,7 @@ module.exports = {
         );
 
         const series = (item.series || []).filter(
-          (s) => s.toLowerCase() !== item.name.toLowerCase()
+          s => s.toLowerCase() !== item.name.toLowerCase()
         );
         let src = item.series[0];
         if (isEvent) src = series[series.length - 1];

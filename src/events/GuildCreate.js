@@ -37,7 +37,7 @@ module.exports = {
         server_id: query.rows[0].id,
       });
       const s = {};
-      settings.rows.forEach((element) => {
+      settings.rows.forEach(element => {
         s[element.key] = element.value;
       });
       instance.settings[server.id] = s;

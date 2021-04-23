@@ -1,6 +1,5 @@
 const redis = require("redis");
 const { MessageEmbed } = require("discord.js");
-const { tierInfo } = require("../utils/cardUtils");
 const tierSettings = {
   1: { emoji: "<:NewT1:781684991372689458>", num: 1, color: "#e8e8e8" },
   2: { emoji: "<:NewT2:781684993071251476>", num: 2, color: "#2ed60d" },
@@ -17,17 +16,17 @@ let deleteInterval = null;
 const deleteMap = {};
 
 module.exports = {
-  start: async (instance) => {
+  start: async instance => {
     deleteInterval = setInterval(async () => {
       const now = Date.now();
-      Object.keys(deleteMap).forEach((k) => {
+      Object.keys(deleteMap).forEach(k => {
         const e = deleteMap[k];
         if (e.time > now) return;
-        e.msg.delete().catch((err) => {});
+        e.msg.delete().catch(() => {});
         delete deleteMap[k];
       });
     }, 1000);
-    const { config, settings } = instance;
+    const { config } = instance;
     const onMessage = async (channel, message) => {
       if (channel !== "auctions") return;
 
@@ -62,7 +61,7 @@ module.exports = {
 
       const guilds = instance.client.guilds.cache
         .array()
-        .filter((g) => instance.settings[g.id]["notif_channel"]);
+        .filter(g => instance.settings[g.id]["notif_channel"]);
 
       for (const guild of guilds) {
         const logChannel = guild.channels.cache.get(
@@ -117,7 +116,7 @@ module.exports = {
     client.subscribe("auctions");
     client.on("message", onMessage);
   },
-  stop: async (instance) => {
+  stop: async () => {
     if (deleteInterval) clearInterval(deleteInterval);
     if (client !== null) {
       client.removeAllListeners("message");

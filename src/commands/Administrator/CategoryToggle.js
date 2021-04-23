@@ -12,11 +12,13 @@ module.exports = {
   execute: async (instance, message, args) => {
     return withRights(message.member, async () => {
       if (args.length === 0) return false;
+      if (args.length >= 2 && allowed.includes(args[1].toLowerCase()))
+        return false;
 
       const all = Object.values(instance.eventManager.commands);
       const categories = {};
-      all.forEach((elem) => {
-        c = Object.keys(categories);
+      all.forEach(elem => {
+        const c = Object.keys(categories);
         if (!c.includes(elem.info.category.toLowerCase()))
           categories[elem.info.category.toLowerCase()] = elem.info.category;
       });

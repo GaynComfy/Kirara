@@ -1,5 +1,4 @@
 const Fetcher = require("../../utils/CardFetcher");
-const Color = require("../../utils/Colors.json");
 const { MessageEmbed } = require("discord.js");
 const { createPagedResults } = require("../../utils/PagedResults");
 const { tierInfo } = require("../../utils/cardUtils");
@@ -28,7 +27,7 @@ module.exports = {
     message.channel.stopTyping();
 
     let last = -1;
-    return await createPagedResults(message, Infinity, async (page) => {
+    return await createPagedResults(message, Infinity, async page => {
       const offset = (page > last && last !== -1 ? last : page) * 8;
       const result = await Fetcher.fetchByTier(
         instance,
@@ -49,7 +48,7 @@ module.exports = {
       const cards = [];
       const series = [];
 
-      result.map((e) => {
+      result.map(e => {
         cards.push(
           `> [\`${e.name.substr(0, 26)}\`](https://animesoul.com/cards/info/${
             e.id
@@ -58,7 +57,7 @@ module.exports = {
         series.push(
           `> \`${
             (e.series || []).filter(
-              (s) => s.toLowerCase() !== e.name.toLowerCase()
+              s => s.toLowerCase() !== e.name.toLowerCase()
             )[0] || "-"
           }\``
         );

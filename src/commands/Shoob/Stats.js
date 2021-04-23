@@ -20,7 +20,7 @@ module.exports = {
       message.mentions.users.first() ||
       (args.length >= 1 &&
         userId.test(args[0]) &&
-        (await instance.client.users.fetch(args[0]).catch((err) => {})));
+        (await instance.client.users.fetch(args[0]).catch(() => {})));
     if (args.length >= 1 && (mention.test(args[0]) || userId.test(args[0])))
       args.shift();
     if (!member) {
@@ -72,7 +72,7 @@ module.exports = {
           );
       for (const t of allowed) {
         const tier = tierInfo[t.toUpperCase()];
-        const entry = result.rows.find((e) => e.tier === t[1]);
+        const entry = result.rows.find(e => e.tier === t[1]);
         const count = entry ? entry.c : "0";
 
         const text = `${tier.emoji} x ${count}`;
@@ -127,7 +127,7 @@ ${tiers2.join(" | ")}
       const toDisplay = result.rows
         .slice(0, 5)
         .map(
-          (e) =>
+          e =>
             `> \`Issue: ${e.issue}\` • ` +
             `[\`${e.card_name}\`](https://animesoul.com/cards/info/${e.card_id})`
         );

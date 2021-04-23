@@ -6,9 +6,9 @@ const info = {
 };
 const embed = new MessageEmbed().setDescription("UwU").setColor("RANDOM");
 module.exports = {
-  execute: async (instance, message, args) => {
+  execute: async (instance, message) => {
+    message.delete().catch(() => {});
     message.channel.send({ embed: embed });
-    message.delete().catch((err) => {});
   },
   info,
   help: {

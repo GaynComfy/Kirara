@@ -11,14 +11,14 @@ const info = {
 };
 
 module.exports = {
-  execute: async (instance, message, args) => {
+  execute: async (instance, message) => {
     message.channel.startTyping();
     //intent will only work on verified bot
     message.guild.members
       .fetch()
-      .then((allMembers) => {
+      .then(allMembers => {
         const allBoosters = allMembers
-          .filter((member) => member.premiumSinceTimestamp)
+          .filter(member => member.premiumSinceTimestamp)
           .sorted(
             (first, second) =>
               first.premiumSinceTimestamp - second.premiumSinceTimestamp
@@ -65,7 +65,7 @@ module.exports = {
             );
         });
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         message.channel.stopTyping();
       });

@@ -24,7 +24,7 @@ module.exports = {
       message.mentions.users.first() ||
       (args.length >= 1 &&
         userId.test(args[0]) &&
-        (await instance.client.users.fetch(args[0]).catch((err) => {})));
+        (await instance.client.users.fetch(args[0]).catch(() => {})));
     if (args.length >= 1 && (mention.test(args[0]) || userId.test(args[0])))
       args.shift();
     if (!user) {
@@ -74,7 +74,7 @@ module.exports = {
     if (card) tier = card.tier;
     message.channel.stopTyping();
     let last = -1;
-    return await createPagedResults(message, Infinity, async (page) => {
+    return await createPagedResults(message, Infinity, async page => {
       const offset = (page > last && last !== -1 ? last : page) * 8;
       const result = await Fetcher.fetchInventory(
         instance,
@@ -113,7 +113,7 @@ module.exports = {
         `•   __Cards__`,
         result.length > 0
           ? result.map(
-              (e) =>
+              e =>
                 `> \`T${e.tier.toUpperCase()}\` • ` +
                 `[\`${e.name}\`](https://animesoul.com/cards/info/${e.card_id}) ` +
                 `| \`Issue: ${e.issue}\``

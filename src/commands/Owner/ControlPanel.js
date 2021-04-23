@@ -9,7 +9,7 @@ const info = {
   category: "Owner",
   ownerOnly: true,
 };
-const numberWithCommas = (entry) =>
+const numberWithCommas = entry =>
   entry.toLocaleString(undefined, {
     style: "decimal",
     maximumFractionDigits: 0,
@@ -17,7 +17,7 @@ const numberWithCommas = (entry) =>
 const actions = [
   {
     emote: "🏠",
-    handler: async (instance, embedMessage, originalMessage, embed, r) => {
+    handler: async (instance, embedMessage, originalMessage, embed) => {
       embed.setDescription(
         `**${originalMessage.author.username}-sama Welcome to My Control Panel/Status \n\n 🏠 Control Panel Page \n 🔁 Reboot \n 💻 Status \n 🔀 Reload \n ❌ Close Panel **`
       );
@@ -34,7 +34,7 @@ const actions = [
     emote: "❌",
     handler: async (instance, embedMessage, originalMessage, embed, r) => {
       await r.users.remove(
-        r.users.cache.filter((u) => u === originalMessage.author).first()
+        r.users.cache.filter(u => u === originalMessage.author).first()
       );
       await embedMessage.delete();
       return false;
@@ -95,7 +95,7 @@ const actions = [
       ping
     ) => {
       const guilds = instance.client.guilds.cache.map(
-        (guild) => guild.members.cache.size
+        guild => guild.members.cache.size
       );
       const { upWeeks, upDays, upHours, upMinutes, cpu } = getInfo();
       const stats = [
@@ -124,7 +124,7 @@ const actions = [
   },
 ];
 module.exports = {
-  execute: async (instance, message, args) => {
+  execute: async (instance, message) => {
     return withOwner(
       message.author.id,
       async () => {
@@ -157,21 +157,21 @@ module.exports = {
             },
             { max: 1 }
           );
-          collector.on("collect", (reaction) => {
+          collector.on("collect", reaction => {
             if (state !== action.emote) {
               /* i hate my life for this but its the only working approach */
               action
                 .handler(instance, msg, message, helpembed, reaction, ping)
-                .then((res) => {
+                .then(res => {
                   if (res === false) {
                     //make sure to not leave these dangling
-                    listeners.forEach((entry) =>
+                    listeners.forEach(entry =>
                       entry.removeAllListeners("collect")
                     );
                   } else {
                     reaction.users.remove(
                       reaction.users.cache
-                        .filter((u) => u === message.author)
+                        .filter(u => u === message.author)
                         .first()
                     );
                   }

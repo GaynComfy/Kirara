@@ -12,7 +12,7 @@ const info = {
 };
 
 module.exports = {
-  execute: async (instance, message, args) => {
+  execute: async (instance, message) => {
     return withOwner(
       message.author.id,
       async () => {
@@ -22,7 +22,7 @@ module.exports = {
         const guilds = eachShardGuilds.flat().sort((a, b) => b.count - a.count);
 
         return pageThroughList(message, guilds, (chunk, page) => {
-          const formatted = chunk.map((g) => `${g.name} => ${g.count}`);
+          const formatted = chunk.map(g => `${g.name} => ${g.count}`);
 
           return new MessageEmbed()
             .setTitle(

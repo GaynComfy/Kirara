@@ -7,7 +7,7 @@ const embed = new MessageEmbed()
   )
   .setColor(Color.red);
 
-module.exports = async (channel) => {
+module.exports = async channel => {
   channel.stopTyping();
-  channel.send(embed).catch((err) => {}); // ignore, might be a channel without permissions
+  channel.send(embed).catch(() => {}); // ignore, might be a channel without permissions
 };

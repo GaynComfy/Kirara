@@ -12,5 +12,5 @@ module.exports = async (channel, info) => {
       `\`\`\`diff\n+ ${info.examples.join("\n+ ")}\`\`\``
     );
   }
-  channel.send(embed).catch((err) => {});
+  channel.send(embed).catch(() => {});
 };

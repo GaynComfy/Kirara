@@ -1,20 +1,20 @@
 const info = {
-  name: 'choke',
+  name: "choke",
   matchCase: false,
-  category: 'Roleplay',
+  category: "Roleplay",
   cooldown: 15,
-  disabled: process.env.NODE_ENV !== 'development',
+  disabled: process.env.NODE_ENV !== "development",
 };
 module.exports = {
   execute: async (instance, message) => {
     message.channel.send(
-      'https://cdn.discordapp.com/attachments/690981388299665478/833083826422808576/image0.png'
+      "https://cdn.discordapp.com/attachments/690981388299665478/833083826422808576/image0.png"
     );
   },
   info,
   help: {
-    usage: 'choke',
-    examples: ['choke'],
-    description: 'just choke',
+    usage: "choke",
+    examples: ["choke"],
+    description: "just choke",
   },
 };

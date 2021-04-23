@@ -9,11 +9,11 @@ class GifFetcher {
     return new Promise((resolve, reject) => {
       this.instance
         .get(`/${type}`)
-        .then((res) => {
+        .then(res => {
           this.map[type] = res.data;
           resolve(res.data);
         })
-        .catch((err) => {
+        .catch(err => {
           if (this.map[type]) {
             resolve(this.map[type]);
             return;

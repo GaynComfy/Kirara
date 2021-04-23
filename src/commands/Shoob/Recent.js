@@ -26,7 +26,6 @@ module.exports = {
     if (args.length > 0 && !hasTier) return false;
     const tier = hasTier ? args.shift()[1].toUpperCase() : null;
     const tierSettings = hasTier ? tierInfo[`T${tier}`] : {};
-    const member = message.meber || {};
     const { rows: recentCards } = isGlobal
       ? hasTier
         ? await instance.database.pool.query(
@@ -80,7 +79,7 @@ module.exports = {
         }
       }
 
-      const cards = recentCards.map((item) => {
+      const cards = recentCards.map(item => {
         let ti = `\`T${item.tier}\` •`;
         if (item.message_id && item.channel_id) {
           ti = `[${ti}](https://discord.com/channels/${message.guild.id}/${item.channel_id}/${item.message_id})`;
