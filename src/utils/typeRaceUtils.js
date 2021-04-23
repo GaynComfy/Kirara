@@ -182,9 +182,9 @@ const userPlay = async (instance, userId, diff, first, last, cid) => {
 // ---
 
 const genShoobCaptcha = async () => {
-  const { buffer, txt } = await tcaptcha({ style: 0 });
+  const { buffer, token } = await tcaptcha({ style: 0 });
 
-  return { buffer, txt };
+  return { buffer, txt: token };
 };
 
 const genCollectCaptcha = async tier => {
