@@ -1,10 +1,13 @@
 // I am an arsehole for making this -JeDaYoshi
 const { MessageAttachment, MessageEmbed } = require("discord.js");
 const { createCanvas, loadImage } = require("canvas");
-const tcaptcha = require("trek-captcha");
 const Color = require("../../utils/Colors.json");
 const Fetcher = require("../../utils/CardFetcher");
-const { getCpm, userPlay } = require("../../utils/typeRaceUtils");
+const {
+  getCpm,
+  userPlay,
+  getShoobCaptcha,
+} = require("../../utils/typeRaceUtils");
 const { withOwner } = require("../../utils/hooks");
 
 const info = {
@@ -102,9 +105,7 @@ module.exports = {
         ctx.drawImage(cardImg, 0, 0, 300, 380);
 
         // Shoob captcha
-        const captcha = await tcaptcha({ style: 0 });
-        const buffer = captcha.buffer;
-        const txt = captcha.token;
+        const { buffer, txt } = await getShoobCaptcha();
         const captchaImg = await loadImage(buffer);
         ctx.drawImage(captchaImg, 21, 359, 259, 67);
 

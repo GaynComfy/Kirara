@@ -1,7 +1,4 @@
 const { MessageAttachment, MessageEmbed } = require("discord.js");
-const { CaptchaGenerator } = require("captcha-canvas");
-const { createCanvas, registerFont } = require("canvas");
-const tcaptcha = require("trek-captcha");
 const Color = require("../../utils/Colors.json");
 const {
   colors,
@@ -9,10 +6,9 @@ const {
   difficulty,
   getCpm,
   userPlay,
+  genCaptcha,
 } = require("../../utils/typeRaceUtils");
-registerFont("./src/assets/Porter.ttf", { family: "Porter" });
 const tiers = Object.keys(colors);
-const tColors = Object.values(colors);
 
 const info = {
   name: "typerace",
@@ -30,15 +26,6 @@ const end = (startTime, time) => {
   return timeDiff;
 };
 const channelMap = [];
-const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const randomStr = len => {
-  let rStr = "";
-  for (let i = 0; i < len; i++) {
-    let rPos = Math.floor(Math.random() * charSet.length);
-    rStr += charSet.substring(rPos, rPos + 1);
-  }
-  return rStr;
-};
 
 module.exports = {
   execute: async (instance, message, args) => {
@@ -63,53 +50,7 @@ module.exports = {
     const resultsw = [];
     const timer = [];
 
-    let buffer, txt;
-    if (diff === "shoob") {
-      const captcha = await tcaptcha({ style: 0 });
-
-      buffer = captcha.buffer;
-      txt = captcha.token;
-    } else if (diff === "collect") {
-      const captcha = createCanvas(300, 32);
-      const ctx = captcha.getContext("2d");
-      const chars = randomStr(8);
-
-      ctx.lineWidth = "1px";
-      ctx.font = "36px Porter";
-      ctx.textAlign = "left";
-      if (tier) ctx.fillStyle = colors[tier];
-      else ctx.fillStyle = tColors[Math.floor(Math.random() * tColors.length)];
-
-      let i = 0;
-      while (i < 11) {
-        ctx.rect(0, i * 3, 300, 2);
-        i++;
-      }
-      ctx.fill();
-      ctx.fillText(
-        chars.replace(
-          new RegExp(`(\\w{${Math.round(Math.random() * 2) * 2}})`),
-          "$1 "
-        ),
-        5,
-        28
-      );
-
-      buffer = await captcha.toBuffer();
-      txt = chars.toLowerCase();
-    } else {
-      const captcha = new CaptchaGenerator({ width: 600, height: 200 })
-        .setCaptcha({
-          characters: difficulty[diff],
-          color: "#8cbaff",
-          text: randomStr(difficulty[diff]),
-        })
-        .setDecoy({ opacity: difficulty[diff] >= 8 ? 0.8 : 0 })
-        .setTrace({ color: "#8cbaff", opacity: difficulty[diff] < 14 ? 1 : 0 });
-
-      buffer = await captcha.generate();
-      txt = captcha.text.toLowerCase();
-    }
+    const { buffer, txt } = await genCaptcha(diff, tier);
 
     const attachment = new MessageAttachment(buffer, "captcha.png");
     const embed = new MessageEmbed()

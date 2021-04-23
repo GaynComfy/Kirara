@@ -1,3 +1,18 @@
+const tcaptcha = require("trek-captcha");
+const { CaptchaGenerator } = require("captcha-canvas");
+const { createCanvas, registerFont } = require("canvas");
+registerFont("./src/assets/Porter.ttf", { family: "Porter" });
+
+const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const randomStr = len => {
+  let rStr = "";
+  for (let i = 0; i < len; i++) {
+    let rPos = Math.floor(Math.random() * charSet.length);
+    rStr += charSet.substring(rPos, rPos + 1);
+  }
+  return rStr;
+};
+
 const colors = {
   //1: "#ffffff",
   //2: "#7aff8d",
@@ -8,6 +23,7 @@ const colors = {
   //7: "#aaaaaa",
   //8: "#000000",
 };
+const tColors = Object.values(colors);
 
 const diffs = {
   e: "easy",
@@ -163,6 +179,76 @@ const userPlay = async (instance, userId, diff, first, last, cid) => {
   }
 };
 
+// ---
+
+const genShoobCaptcha = async () => {
+  const { buffer, txt } = await tcaptcha({ style: 0 });
+
+  return { buffer, txt };
+};
+
+const genCollectCaptcha = async tier => {
+  const captcha = createCanvas(300, 32);
+  const ctx = captcha.getContext("2d");
+  const chars = randomStr(8);
+
+  ctx.lineWidth = "1px";
+  ctx.font = "36px Porter";
+  ctx.textAlign = "left";
+  if (tier) ctx.fillStyle = colors[tier];
+  else ctx.fillStyle = tColors[Math.floor(Math.random() * tColors.length)];
+
+  let i = 0;
+  while (i < 11) {
+    ctx.rect(0, i * 3, 300, 2);
+    i++;
+  }
+  ctx.fill();
+  ctx.fillText(
+    chars.replace(
+      new RegExp(`(\\w{${Math.round(Math.random() * 2) * 2}})`),
+      "$1 "
+    ),
+    5,
+    28
+  );
+
+  return {
+    buffer: captcha.toBuffer(),
+    txt: chars.toLowerCase(),
+  };
+};
+
+const genRandomCaptcha = async diff => {
+  if (!diff || !difficulty[diff]) diff = "hard";
+  const captcha = new CaptchaGenerator({ width: 600, height: 200 })
+    .setCaptcha({
+      characters: difficulty[diff],
+      color: "#8cbaff",
+      text: randomStr(difficulty[diff]),
+    })
+    .setDecoy({ opacity: difficulty[diff] >= 8 ? 0.8 : 0 })
+    .setTrace({ color: "#8cbaff", opacity: difficulty[diff] < 14 ? 1 : 0 });
+
+  return {
+    buffer: await captcha.generate(),
+    txt: captcha.text.toLowerCase(),
+  };
+};
+
+const genCaptcha = async (diff = "hard", tier = false) => {
+  switch (diff) {
+    case "shoob":
+      return genShoobCaptcha();
+    case "collect":
+      return genCollectCaptcha(tier);
+    default:
+      return genRandomCaptcha(diff);
+  }
+};
+
+// ---
+
 module.exports = {
   colors,
   diffs,
@@ -173,4 +259,9 @@ module.exports = {
   userAllInfo,
   userInfo,
   userPlay,
+
+  genShoobCaptcha,
+  genCollectCaptcha,
+  genRandomCaptcha,
+  genCaptcha,
 };
