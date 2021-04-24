@@ -22,7 +22,6 @@
     "canvas": "^2.7.0",
     "captcha-canvas": "^2.2.2",
     "discord.js": "^12.5.1",
-    "got": "^11.8.2",
     "humanize-duration": "^3.25.1",
     "ioredis": "^4.26.0",
     "moment": "^2.29.1",
