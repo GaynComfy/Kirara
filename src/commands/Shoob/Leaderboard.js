@@ -1,3 +1,4 @@
+const util = require("util");
 const Color = require("../../utils/Colors.json");
 const { getCachedURL } = require("../../utils/cacheUtils");
 const { createCanvas, loadImage, registerFont } = require("canvas");
@@ -114,7 +115,7 @@ module.exports = {
       ctx.fillText(entry.c, 710, 176 + 53 * i);
     }
     const attachment = new MessageAttachment(
-      canvas.toBuffer(),
+      await util.promisify(canvas.toBuffer)(),
       "leaderboard.png"
     );
     const embed = new MessageEmbed()
