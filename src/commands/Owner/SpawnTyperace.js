@@ -6,7 +6,7 @@ const Fetcher = require("../../utils/CardFetcher");
 const {
   getCpm,
   userPlay,
-  getShoobCaptcha,
+  genShoobCaptcha,
 } = require("../../utils/typeRaceUtils");
 const { withOwner } = require("../../utils/hooks");
 
@@ -105,7 +105,7 @@ module.exports = {
         ctx.drawImage(cardImg, 0, 0, 300, 380);
 
         // Shoob captcha
-        const { buffer, txt } = await getShoobCaptcha();
+        const { buffer, txt } = await genShoobCaptcha();
         const captchaImg = await loadImage(buffer);
         ctx.drawImage(captchaImg, 21, 359, 259, 67);
 
