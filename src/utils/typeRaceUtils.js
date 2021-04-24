@@ -1,7 +1,6 @@
 const tcaptcha = require("trek-captcha");
 const { CaptchaGenerator } = require("captcha-canvas");
 const { createCanvas, registerFont } = require("canvas");
-const util = require("util");
 registerFont("./src/assets/Porter.ttf", { family: "Porter" });
 
 const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -215,7 +214,7 @@ const genCollectCaptcha = async tier => {
   );
 
   return {
-    buffer: await util.promisify(captcha.toBuffer)(),
+    buffer: captcha.toBuffer(),
     txt: chars.toLowerCase(),
   };
 };

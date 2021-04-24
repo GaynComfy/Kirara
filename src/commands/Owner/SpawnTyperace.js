@@ -1,5 +1,4 @@
 // I am an arsehole for making this -JeDaYoshi
-const util = require("util");
 const { MessageAttachment, MessageEmbed } = require("discord.js");
 const { createCanvas, loadImage } = require("canvas");
 const Color = require("../../utils/Colors.json");
@@ -111,10 +110,7 @@ module.exports = {
         ctx.drawImage(captchaImg, 21, 359, 259, 67);
 
         // the fake spawn
-        const attachment = new MessageAttachment(
-          await util.promisify(canvas.toBuffer)(),
-          "name.png"
-        );
+        const attachment = new MessageAttachment(canvas.toBuffer(), "name.png");
         const embed = new MessageEmbed()
           .setColor(tiers[card.tier.toUpperCase()] || "#aaaaaa")
           .setTitle(`${card.name} Tier: ${card.tier.toUpperCase()}`)

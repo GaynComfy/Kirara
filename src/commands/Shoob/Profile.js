@@ -1,4 +1,3 @@
-const util = require("util");
 const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
 const { getCachedURL } = require("../../utils/cacheUtils");
@@ -103,10 +102,7 @@ module.exports = {
 
     const viewer = user ? user.last_viewer : null;
 
-    const attachment = new MessageAttachment(
-      await util.promisify(canvas.toBuffer)(),
-      "profile.png"
-    );
+    const attachment = new MessageAttachment(canvas.toBuffer(), "profile.png");
     const embed = new MessageEmbed()
       .setAuthor(
         `${member.username}'s profile`,
