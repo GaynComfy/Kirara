@@ -5,13 +5,6 @@ const tN = tier => (tier.toLowerCase() === "s" ? 8 : parseInt(tier));
 const sortTopOwners = arr => {
   return arr
     .sort((a, b) => {
-      const nA = a.username.toUpperCase();
-      const nB = b.username.toUpperCase();
-      if (nA < nB) return -1;
-      if (nA > nB) return 1;
-      return 0;
-    })
-    .sort((a, b) => {
       if (a.issues[0].issue < b.issues[0].issue) return -1;
       if (a.issues[0].issue > b.issues[0].issue) return 1;
       return 0;
