@@ -2,10 +2,10 @@ const Discord = require("discord.js");
 
 module.exports = (token = process.env.TOKEN) => {
   const client = new Discord.Client({
-    messageCacheMaxSize: 100,
-    messageCacheLifetime: 900,
-    messageSweepInterval: 900,
-    messageEditHistoryMaxSize: 3,
+    messageCacheMaxSize: 200,
+    messageCacheLifetime: 1800,
+    messageSweepInterval: 1800,
+    messageEditHistoryMaxSize: 5,
     presence: {
       status: "idle",
       activity: {
