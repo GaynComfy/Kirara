@@ -13,7 +13,7 @@ const getCachedURL = async (instance, url) => {
   }
 
   const r = await axios.get(url, { responseType: "arraybuffer" });
-  instance.cache.setExpire(k, r.data, 86400);
+  instance.cache.setExpire(k, r.data, 302400);
   return r.data;
 };
 

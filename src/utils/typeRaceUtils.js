@@ -14,14 +14,14 @@ const randomStr = len => {
 };
 
 const colors = {
-  //1: "#ffffff",
-  //2: "#7aff8d",
+  // 1: "#ffffff",
+  // 2: "#7aff8d",
   3: "#58a0e3",
   4: "#ad58e3",
   5: "#f8f105",
   6: "#ea2222",
-  //7: "#aaaaaa",
-  //8: "#000000",
+  // 7: "#aaaaaa",
+  // 8: "#000000",
 };
 const tColors = Object.values(colors);
 
