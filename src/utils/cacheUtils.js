@@ -4,7 +4,7 @@ const axiosRetry = require("axios-retry");
 axiosRetry(axios, { retries: 3 });
 
 const getCachedURL = async (instance, url) => {
-  const k = `url:${url.split("/").slice(-1)}`;
+  const k = `url:${Buffer.from(url).toString("base64")}`;
   const exists = await instance.cache.exists(k);
 
   if (exists) {
@@ -13,7 +13,7 @@ const getCachedURL = async (instance, url) => {
   }
 
   const r = await axios.get(url, { responseType: "arraybuffer" });
-  instance.cache.setExpire(k, r.data, 302400);
+  instance.cache.setExpire(k, r.data, 604800);
   return r.data;
 };
 

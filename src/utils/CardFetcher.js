@@ -98,7 +98,7 @@ class CardFetcher {
       return null;
     }
     const card = { ...result.data, event };
-    instance.cache.setExpire(k, JSON.stringify(card), 60 * 30);
+    instance.cache.setExpire(k, JSON.stringify(card), 60 * 60);
     return card;
   }
   async fetchInventory(
@@ -135,7 +135,7 @@ class CardFetcher {
       return [];
     }
     const cards = result.data;
-    instance.cache.setExpire(k, JSON.stringify(cards), 60 * 14);
+    instance.cache.setExpire(k, JSON.stringify(cards), 60 * 5);
     return cards;
   }
   async fetchByTier(instance, tier, offset = "0", limit = "0", event = false) {
