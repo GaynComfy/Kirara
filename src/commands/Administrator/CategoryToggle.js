@@ -12,7 +12,7 @@ module.exports = {
   execute: async (instance, message, args) => {
     return withRights(message.member, async () => {
       if (args.length === 0) return false;
-      if (args.length >= 2 && allowed.includes(args[1].toLowerCase()))
+      if (args.length >= 2 && !allowed.includes(args[1].toLowerCase()))
         return false;
 
       const all = Object.values(instance.eventManager.commands);
@@ -76,7 +76,7 @@ module.exports = {
   info,
   help: {
     usage: "ctoggle [category] [on/off]",
-    examples: ["toggle Shoob", "toggle Roleplay on"],
+    examples: ["ctoggle Shoob", "ctoggle Roleplay on"],
     description:
       "Enable or disable whole command categories for usage by server members.",
   },

@@ -12,7 +12,7 @@ module.exports = {
   execute: async (instance, message, args) => {
     return withRights(message.member, async () => {
       if (args.length === 0) return false;
-      if (args.length >= 2 && allowed.includes(args[1].toLowerCase()))
+      if (args.length >= 2 && !allowed.includes(args[1].toLowerCase()))
         return false;
 
       let cmd, category;
