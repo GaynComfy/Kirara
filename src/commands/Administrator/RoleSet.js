@@ -15,7 +15,7 @@ const emotes = {
   t5: "<:NewT5:781684993834352680>",
   t6: "<:NewT6:781684992937558047>",
 };
-const allowed = ["t3", "t4", "t5", "t6"];
+const allowed = ["t1", "t2", "t3", "t4", "t5", "t6"];
 module.exports = {
   execute: async (instance, message, args) => {
     return withRights(message.member, async () => {

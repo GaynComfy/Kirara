@@ -1,5 +1,5 @@
 const { tierInfo } = require("../utils/cardUtils");
-const allowed = ["3", "4", "5", "6"];
+const allowed = ["1", "2", "3", "4", "5", "6"];
 module.exports = {
   execute: async (instance, message) => {
     if (
