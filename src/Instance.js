@@ -21,7 +21,6 @@ class Instance {
     this.settings = {};
     this.guilds = {};
     this.shared = {};
-    this.hasInit = false;
   }
   async prepareEvents() {
     const events = {};

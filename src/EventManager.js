@@ -21,6 +21,8 @@ class EventManager {
     this.commands = commands;
     this.services = services;
     this.mentionRegex = null;
+    this.commandQueue = [];
+    this.discordReady = false;
   }
   registerOnMessage() {
     const otherHandlers = this.events["message"];
@@ -29,7 +31,6 @@ class EventManager {
         this.mentionRegex = new RegExp(`^<@!?${this.client.user.id}> ?`);
 
       if (message.channel.type === "dm") return; // ToDo: Reimplement
-      if (!this.instance.hasInit) await new Promise(r => setTimeout(r, 2500));
       const prefix =
         (this.instance.guilds[message.guild.id] || {}).prefix ||
         this.config.prefix;
@@ -71,6 +72,7 @@ class EventManager {
           }
         }
       }
+      if(!this.discordReady) return;
       if (otherHandlers)
         for (const handler of otherHandlers) {
           try {
@@ -84,17 +86,28 @@ class EventManager {
   }
   registerOnReady() {
     this.client.on("ready", async t => {
-      this.services.forEach(element => {
-        element.start(this.instance);
-      });
       const otherHandlers = this.events["ready"];
       if (otherHandlers)
         for (const handler of otherHandlers) {
           await handler.execute(this.instance, t);
         }
+      // start services after this
+      this.services.forEach(element => {
+        element.start(this.instance);
+      });
+      this.discordReady = true;
+      // prcoess queued commands
+      for(const elem of this.commandQueue) {
+        await this.commandEXecution(elem[0], elem[1], elem[2]);
+      }
+      this.commandQueue = null;
     });
   }
   async commandExecution(command, message, args) {
+    if(!this.discordReady) {
+      this.commandQueue.push([command, message, args]);
+      return;
+    }
     if (!this.instance.settings[message.guild.id]) return;
     if (
       (this.instance.settings[message.guild.id][
@@ -139,6 +152,7 @@ class EventManager {
   }
   registerEventHandler(name, handlers) {
     this.client.on(name, async param => {
+      if(!this.discordReady) return;
       for (const handler of handlers) {
         try {
           await handler.execute(this.instance, param);

@@ -47,7 +47,6 @@ module.exports = {
         instance.settings[server.id] = s;
       }
     }
-    instance.hasInit = true;
   },
   eventName: "ready",
 };
