@@ -142,6 +142,7 @@ const userInfo = async (instance, userId, diff) => {
     };
 };
 const userPlay = async (instance, userId, diff, first, last, cid) => {
+
   const fNum = first ? 1 : 0;
   const result = await userInfo(instance, userId, diff);
 
@@ -175,7 +176,7 @@ const userPlay = async (instance, userId, diff, first, last, cid) => {
       cid,
     });
 
-    return Infinity;
+    return null;
   }
 };
 

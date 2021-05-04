@@ -98,7 +98,7 @@ module.exports = {
         `${msg.guild.id}:${msg.channel.id}:${msg.id}`
       )
         .then(lastTop => {
-          if (took < lastTop) {
+          if (lastTop !== null && took < lastTop) {
             // new record!
             msg.react("<a:Sirona_star:748985391360507924>");
           }
