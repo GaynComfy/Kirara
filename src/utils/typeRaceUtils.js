@@ -70,7 +70,7 @@ const getTopPlayers = async (instance, limit) => {
     const {
       rows,
     } = await instance.database.pool.query(
-      "SELECT * FROM TYPERACE_STATS WHERE DIFFICULTY = $1 ORDER BY top ASC LIMIT $2",
+      "SELECT * FROM TYPERACE_STATS WHERE DIFFICULTY = $1 AND (NOT EXISTS (SELECT id FROM USER_SETTINGS WHERE USER_SETTINGS.key = 'trlboptout' AND USER_SETTINGS.discord_id=TYPERACE_STATS.discord_id)) ORDER BY top ASC LIMIT $2",
       [diff, limit]
     );
 
@@ -260,7 +260,6 @@ module.exports = {
   userAllInfo,
   userInfo,
   userPlay,
-
   genShoobCaptcha,
   genCollectCaptcha,
   genRandomCaptcha,
