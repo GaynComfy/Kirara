@@ -63,7 +63,7 @@ module.exports = {
             message.guild.iconURL({ dynamic: true })
           )
           .setColor(stats.length > 0 ? Color.default : Color.red)
-          .setDescription("⚠️ **NOTE: LEADERBOARD WILL BE RESET EACH SEASON!**")
+          .setDescription("⚠️ **NOTE: LEADERBOARD WILL BE RESET EACH SEASON!**nIf you don't want your stats included use the `trlb-optout command`")
           .setImage(Constants.footer)
           .setFooter(
             pages > 1
@@ -128,7 +128,7 @@ module.exports = {
             message.guild.iconURL({ dynamic: true })
           )
           .setColor(stats.length > 0 ? Color.default : Color.red)
-          .setDescription("⚠️ **NOTE: LEADERBOARD WILL BE RESET EACH SEASON!**")
+          .setDescription("⚠️ **NOTE: LEADERBOARD WILL BE RESET EACH SEASON!**\nIf you don't want your stats included use the `trlb-optout command`")
           .setImage(Constants.footer)
           .setFooter(
             (!singlePage
