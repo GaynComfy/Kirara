@@ -3,6 +3,10 @@ const humanizeDuration = require("humanize-duration");
 const { MessageEmbed } = require("discord.js");
 const Color = require("../../utils/Colors.json");
 
+const optout = require("../../utils/cacheUtils").getOptOutStmt(
+  "CARD_CLAIMS.discord_id"
+);
+
 const info = {
   name: "recent",
   aliases: ["r"],
@@ -26,14 +30,14 @@ module.exports = {
     if (args.length > 0 && !hasTier) return false;
     const tier = hasTier ? args.shift()[1].toUpperCase() : null;
     const tierSettings = hasTier ? tierInfo[`T${tier}`] : {};
-    const { rows: recentCards } = isGlobal
+    const { rows: recentCards } = isGlobal // only if global
       ? hasTier
         ? await instance.database.pool.query(
-            `SELECT * FROM CARD_CLAIMS WHERE season=$1 AND tier=$2 ORDER BY id DESC LIMIT 5`,
+            `SELECT * FROM CARD_CLAIMS WHERE season=$1 AND tier=$2 AND ${optout} ORDER BY id DESC LIMIT 5`,
             [instance.config.season, tier]
           )
         : await instance.database.pool.query(
-            `SELECT * FROM CARD_CLAIMS WHERE season=$1 ORDER BY id DESC LIMIT 5`,
+            `SELECT * FROM CARD_CLAIMS WHERE season=$1 AND ${optout} ORDER BY id DESC LIMIT 5`,
             [instance.config.season]
           )
       : hasTier
@@ -110,6 +114,7 @@ module.exports = {
   help: {
     usage: "recent [reverse] [global] [T1/T2/T3/T4/T5/T6]",
     examples: ["recent t1", "recent g t6", "r r"],
-    description: "Show last cards spawned by Shoob",
+    description:
+      "Show last cards spawned by Shoob\nNote that this command will show info about users. See command: lb-optout",
   },
 };

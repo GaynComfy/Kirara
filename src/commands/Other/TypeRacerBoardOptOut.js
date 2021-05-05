@@ -1,5 +1,5 @@
 const info = {
-  name: "trlb-optout",
+  name: "lb-optout",
   matchCase: false,
   category: "Information",
 };
@@ -11,7 +11,7 @@ module.exports = {
       rows: [setting],
     } = await instance.database.simpleQuery("USER_SETTINGS", {
       discord_id: id,
-      key: "trlboptout",
+      key: "lb-optout",
     });
     if (args.length === 0) {
       message.reply(
@@ -26,7 +26,7 @@ module.exports = {
           message.reply("You succesfully opted out.");
           instance.database.simpleInsert("USER_SETTINGS", {
             discord_id: id,
-            key: "trlboptout",
+            key: "lb-optout",
             value: "y",
           });
         } else {
@@ -48,9 +48,9 @@ module.exports = {
   },
   info,
   help: {
-    usage: "trlb-optout <yes|no|cancel>",
-    examples: ["uwu"],
+    usage: "lb-optout <yes|no>",
+    examples: ["lb-optout yes", "lb-optout no"],
     description:
-      "Use to see & change if you are opt out of type racer's leaderboard.",
+      "Use to see & change if you are opt out(invisible) of global leaderboards",
   },
 };

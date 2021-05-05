@@ -3,6 +3,10 @@ const Constants = require("../../utils/Constants.json");
 const { MessageEmbed } = require("discord.js");
 const { createPagedResults } = require("../../utils/PagedResults");
 
+const optout = require("../../utils/cacheUtils").getOptOutStmt(
+  "CARD_CLAIMS.discord_id"
+);
+
 const info = {
   name: "globalleaderboard",
   aliases: ["glb"],
@@ -29,7 +33,9 @@ module.exports = {
           rows: claims,
         } = await instance.database.pool.query(
           "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
-            "AND season=$1 GROUP BY discord_id ORDER BY c DESC LIMIT 8 OFFSET $2",
+            "AND season=$1 AND " +
+            optout +
+            " GROUP BY discord_id ORDER BY c DESC LIMIT 8 OFFSET $2",
           [instance.config.season, offset]
         );
         instance.cache.setExpire(k, JSON.stringify(claims), 60 * 5);

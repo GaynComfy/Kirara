@@ -64,7 +64,7 @@ module.exports = {
           )
           .setColor(stats.length > 0 ? Color.default : Color.red)
           .setDescription(
-            "⚠️ **NOTE: LEADERBOARD WILL BE RESET EACH SEASON!**\nIf you don't want your stats included use the `trlb-optout command`"
+            "⚠️ **NOTE: LEADERBOARD WILL BE RESET EACH SEASON!**\nIf you don't want your stats included use the `lb-optout command`"
           )
           .setImage(Constants.footer)
           .setFooter(
@@ -131,7 +131,7 @@ module.exports = {
           )
           .setColor(stats.length > 0 ? Color.default : Color.red)
           .setDescription(
-            "⚠️ **NOTE: LEADERBOARD WILL BE RESET EACH SEASON!**\nIf you don't want your stats included use the `trlb-optout command`"
+            "⚠️ **NOTE: LEADERBOARD WILL BE RESET EACH SEASON!**\nIf you don't want your stats included use the `lb-optout command`"
           )
           .setImage(Constants.footer)
           .setFooter(

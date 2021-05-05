@@ -136,6 +136,7 @@ module.exports = {
       "inv @JeDaYoshi t6 Rin",
       "inv",
     ],
-    description: "Fetch a users inventory",
+    description:
+      "Fetch a users inventory\nNote that this will display information about a user",
   },
 };

@@ -33,7 +33,7 @@ module.exports = {
             : message.author.displayAvatarURL({ dynamic: true })
         )
         .setDescription(
-          `Use \`${prefix}help [command]\` to get more help! \nExample: \`${prefix}help stats\` \n\u200b`
+          `Use \`${prefix}help [command]\` to get more help! \nExample: \`${prefix}help stats\` \nNote that certain commands might display usernames in lists retrieved by the bot, see comand details.\n\u200b`
         )
         .setFooter(
           `by G&C Dev Team | ${prefix}help [cmd] | discord.gg/comfy`,

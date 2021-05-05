@@ -17,6 +17,10 @@ const getCachedURL = async (instance, url) => {
   return r.data;
 };
 
+const getOptOutStmt = idColumn =>
+  `NOT EXISTS (SELECT id FROM USER_SETTINGS WHERE USER_SETTINGS.key = 'lb-optout' AND USER_SETTINGS.discord_id=${idColumn})`;
+
 module.exports = {
   getCachedURL,
+  getOptOutStmt,
 };

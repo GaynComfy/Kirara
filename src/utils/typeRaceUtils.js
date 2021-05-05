@@ -3,6 +3,10 @@ const { CaptchaGenerator } = require("captcha-canvas");
 const { createCanvas, registerFont } = require("canvas");
 registerFont("./src/assets/Porter.ttf", { family: "Porter" });
 
+const optout = require("./cacheUtils").getOptOutStmt(
+  "TYPERACE_STATS.discord_id"
+);
+
 const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const randomStr = len => {
   let rStr = "";
@@ -70,7 +74,7 @@ const getTopPlayers = async (instance, limit) => {
     const {
       rows,
     } = await instance.database.pool.query(
-      "SELECT * FROM TYPERACE_STATS WHERE DIFFICULTY = $1 AND NOT EXISTS (SELECT id FROM USER_SETTINGS WHERE USER_SETTINGS.key = 'trlboptout' AND USER_SETTINGS.discord_id=TYPERACE_STATS.discord_id) ORDER BY top ASC LIMIT $2",
+      "SELECT * FROM TYPERACE_STATS WHERE DIFFICULTY = $1  ORDER BY top ASC LIMIT $2",
       [diff, limit]
     );
 
@@ -88,7 +92,9 @@ const getTopPlayersByDiff = async (instance, diff, limit, offset) => {
   const {
     rows,
   } = await instance.database.pool.query(
-    "SELECT * FROM TYPERACE_STATS WHERE DIFFICULTY = $1 AND NOT EXISTS (SELECT id FROM USER_SETTINGS WHERE USER_SETTINGS.key = 'trlboptout' AND USER_SETTINGS.discord_id=TYPERACE_STATS.discord_id) ORDER BY top ASC LIMIT $2 OFFSET $3",
+    "SELECT * FROM TYPERACE_STATS WHERE DIFFICULTY = $1 AND " +
+      optout +
+      " ORDER BY top ASC LIMIT $2 OFFSET $3",
     [diff, limit, offset]
   );
 
@@ -99,7 +105,8 @@ const userAllInfo = async (instance, userId) => {
   const {
     rows,
   } = await instance.database.pool.query(
-    "SELECT difficulty, top, last, first, total, cid FROM TYPERACE_STATS WHERE discord_id = $1 AND NOT EXISTS (SELECT id FROM USER_SETTINGS WHERE USER_SETTINGS.key = 'trlboptout' AND USER_SETTINGS.discord_id=TYPERACE_STATS.discord_id)",
+    "SELECT difficulty, top, last, first, total, cid FROM TYPERACE_STATS WHERE discord_id = $1 AND " +
+      optout,
     [userId]
   );
 
@@ -142,7 +149,6 @@ const userInfo = async (instance, userId, diff) => {
     };
 };
 const userPlay = async (instance, userId, diff, first, last, cid) => {
-
   const fNum = first ? 1 : 0;
   const result = await userInfo(instance, userId, diff);
 
