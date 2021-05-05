@@ -74,7 +74,9 @@ const getTopPlayers = async (instance, limit) => {
     const {
       rows,
     } = await instance.database.pool.query(
-      "SELECT * FROM TYPERACE_STATS WHERE DIFFICULTY = $1  ORDER BY top ASC LIMIT $2",
+      "SELECT * FROM TYPERACE_STATS WHERE DIFFICULTY = $1 AND " +
+        optout +
+        " ORDER BY top ASC LIMIT $2",
       [diff, limit]
     );
 
