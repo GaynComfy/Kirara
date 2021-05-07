@@ -11,15 +11,15 @@ const getQuestions = async props => {
       answers: [
         {
           key: "A",
-          description: "",
+          description: "Apple",
         },
         {
           key: "B",
-          description: "",
+          description: "GNU is superior",
         },
         {
           key: "C",
-          description: "",
+          description: "Banana",
         },
       ],
     },
