@@ -21,6 +21,7 @@ class Instance {
     this.settings = {};
     this.guilds = {};
     this.shared = {};
+    this.trivia = {};
   }
   async prepareEvents() {
     const events = {};

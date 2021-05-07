@@ -72,7 +72,7 @@ class EventManager {
           }
         }
       }
-      if(!this.discordReady) return;
+      if (!this.discordReady) return;
       if (otherHandlers)
         for (const handler of otherHandlers) {
           try {
@@ -97,18 +97,20 @@ class EventManager {
       });
       this.discordReady = true;
       // prcoess queued commands
-      for(const elem of this.commandQueue) {
+      for (const elem of this.commandQueue) {
         await this.commandEXecution(elem[0], elem[1], elem[2]);
       }
       this.commandQueue = null;
     });
   }
   async commandExecution(command, message, args) {
-    if(!this.discordReady) {
+    if (!this.discordReady) {
       this.commandQueue.push([command, message, args]);
       return;
     }
     if (!this.instance.settings[message.guild.id]) return;
+    if (command.info.guilds && !command.info.guilds.includes(message.guild.id))
+      return; // return if not found
     if (
       (this.instance.settings[message.guild.id][
         `category:${command.info.category.toLowerCase()}:disabled`
@@ -152,7 +154,7 @@ class EventManager {
   }
   registerEventHandler(name, handlers) {
     this.client.on(name, async param => {
-      if(!this.discordReady) return;
+      if (!this.discordReady) return;
       for (const handler of handlers) {
         try {
           await handler.execute(this.instance, param);

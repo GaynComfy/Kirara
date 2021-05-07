@@ -40,9 +40,17 @@ module.exports = {
           "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png"
         );
       categories.forEach(category => {
-        const dirSize = all.filter(cmd => cmd.info.category === category);
+        const dirSize = all.filter(cmd => {
+          if (cmd.info.guilds && !cmd.info.guilds.includes(message.guild.id))
+            return false;
+          return cmd.info.category === category;
+        });
         let mappedOut = dirSize.map(x => `\`${x.info.name}\``).join(", ");
-        if (category === "Owner" || category === "Moderation") {
+        if (
+          category === "Owner" ||
+          category === "Moderation" ||
+          dirSize.length === 0
+        ) {
           return;
         }
 
