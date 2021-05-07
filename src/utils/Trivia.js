@@ -1,9 +1,22 @@
 const { MessageEmbed } = require("discord.js");
 const sleep = time => new Promise(r => setTimeout(r, time));
+const shuffle = array => {
+  let currentIndex = array.length,
+    temporaryValue,
+    randomIndex;
+
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
+};
 const getQuestions = async props => {
-  return [
+  const all = [
     {
-      props,
       name: "Some question 1",
       description: "whis is the best and superior Operating system",
       correct: "B",
@@ -23,7 +36,6 @@ const getQuestions = async props => {
       ],
     },
     {
-      props,
       name: "Some question 2",
       description: "Who has this as their avatar",
       correct: "C",
@@ -48,6 +60,7 @@ const getQuestions = async props => {
       ],
     },
   ];
+  return shuffle(all).slice(0, props.amount);
 };
 const answerInteraction = (instance, interaction, type, content) => {
   const data = {
@@ -64,7 +77,6 @@ const answerInteraction = (instance, interaction, type, content) => {
     .callback.post({ data });
 };
 const runGame = async (instance, channel, guild, participants, options) => {
-  options.interval = 15000;
   const questions = await getQuestions(options);
   const answers = [];
   let current = null;

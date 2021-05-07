@@ -9,12 +9,25 @@ const info = {
 const startQueue = {};
 
 module.exports = {
-  execute: async (instance, message /*args*/) => {
+  execute: async (instance, message, args) => {
     const existing = instance.trivia[message.guild.id];
 
     if (startQueue[message.guild.id] || (existing && existing.running)) {
       // TODO return message
       return true;
+    }
+    const opts = { interval: 30000, amount: 5 };
+    for (const arg of args) {
+      if (arg.startsWith("interval")) {
+        const interval = arg.split("=")[1];
+        if (Number.isNaN(interval)) return false;
+        opts.interval = Number.parseInt(interval * 1000);
+      }
+      if (arg.startsWith("amount")) {
+        const amount = arg.split("=")[1];
+        if (Number.isNaN(amount)) return false;
+        opts.amount = Number.parseInt(amount);
+      }
     }
     startQueue[message.guild.id] = true;
     const participants = {};
@@ -40,7 +53,7 @@ module.exports = {
         message.channel.send("No users, not starting");
         return;
       }
-      runGame(instance, message.channel, message.guild, participants, {});
+      runGame(instance, message.channel, message.guild, participants, opts);
     });
 
     return true;
