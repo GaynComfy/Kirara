@@ -5,9 +5,9 @@ const getQuestions = async props => {
     {
       props,
       name: "Some question",
-      description: "",
+      description: "Some example quiz for testing",
       correct: "B",
-      image: "",
+      image: "https://liz3.net/assets/img/pfp.jpeg",
       answers: [
         {
           key: "A",
