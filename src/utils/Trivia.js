@@ -7,7 +7,6 @@ const getQuestions = async props => {
       name: "Some question 1",
       description: "whis is the best and superior Operating system",
       correct: "B",
-      image: "https://liz3.net/assets/img/pfp.jpeg",
       answers: [
         {
           key: "A",
