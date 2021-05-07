@@ -64,6 +64,7 @@ const answerInteraction = (instance, interaction, type, content) => {
     .callback.post({ data });
 };
 const runGame = async (instance, channel, guild, participants, options) => {
+  options.interval = 15000;
   const questions = await getQuestions(options);
   const answers = [];
   let current = null;
@@ -72,11 +73,21 @@ const runGame = async (instance, channel, guild, participants, options) => {
     onInteraction: interaction => {
       const { user } = interaction.member;
       if (!current || !participants[user.id]) {
-        answerInteraction(instance, interaction, 1, null);
+        answerInteraction(
+          instance,
+          interaction,
+          4,
+          "you are not part of the quiz!"
+        );
         return;
       }
       if (current.answers[user.id]) {
-        answerInteraction(instance, interaction, 1, null);
+        answerInteraction(
+          instance,
+          interaction,
+          4,
+          "You cannot change your answer"
+        );
         return;
       }
       current.answers[user.id] = {
@@ -94,10 +105,10 @@ const runGame = async (instance, channel, guild, participants, options) => {
     options,
     participants,
   };
-
+  let cmd = null;
   for (const question of questions) {
     current = null;
-    await instance.client.api
+    cmd = await instance.client.api
       .applications(instance.client.user.id)
       .guilds(guild.id)
       .commands.post({
@@ -131,10 +142,17 @@ const runGame = async (instance, channel, guild, participants, options) => {
     if (question.image) embed.setImage(question.image);
     await channel.send(embed);
     current.start = Date.now();
-    await sleep(1000 * 60);
+    await sleep(options.interval);
     answers.push(current);
   }
   instance.trivia[guild.id] = null;
+  await instance.client.api
+    .applications(instance.client.user.id)
+    .guilds(guild.id)
+    .commands(cmd.id)
+    .delete({
+      data: {},
+    });
   const top = {};
   answers.forEach(questionResult => {
     Object.keys(questionResult.answers).forEach(userHash => {
