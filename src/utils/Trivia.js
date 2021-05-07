@@ -139,5 +139,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
   sorted.slice(0, 3).forEach((e, i) => {
     finalEmbed.addField(`${i + 1}. Place`, participants[e.id].name);
   });
+
+  channel.send(finalEmbed);
 };
 module.exports = { runGame };
