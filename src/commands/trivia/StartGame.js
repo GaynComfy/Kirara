@@ -6,15 +6,17 @@ const info = {
   matchCase: false,
 };
 
+const startQueue = {};
+
 module.exports = {
   execute: async (instance, message /*args*/) => {
     const existing = instance.trivia[message.guild.id];
 
-    if (existing && existing.running) {
+    if (startQueue[message.guild.id] || (existing && existing.running)) {
       // TODO return message
       return true;
     }
-
+    startQueue[message.guild.id] = true;
     const participants = {};
 
     const collectorMessage = await message.channel.send(
@@ -33,8 +35,10 @@ module.exports = {
     });
 
     collector.on("end", () => {
+      delete startQueue[message.guild.id];
       if (Object.keys(participants) === 0) {
         message.channel.send("No users, not starting");
+        return;
       }
       runGame(instance, message.channel, message.guild, participants, {});
     });
