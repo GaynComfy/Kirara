@@ -16,17 +16,20 @@ module.exports = {
       // TODO return message
       return true;
     }
-    const opts = { interval: 30000, amount: 5 };
+    const opts = { interval: 30000, amount: 5, jointime: 60000 };
     for (const arg of args) {
       if (arg.startsWith("interval")) {
         const interval = arg.split("=")[1];
         if (Number.isNaN(interval)) return false;
         opts.interval = Number.parseInt(interval * 1000);
-      }
-      if (arg.startsWith("amount")) {
+      } else if (arg.startsWith("amount")) {
         const amount = arg.split("=")[1];
         if (Number.isNaN(amount)) return false;
         opts.amount = Number.parseInt(amount);
+      } else if (arg.startsWith("jointime")) {
+        const amount = arg.split("=")[1];
+        if (Number.isNaN(amount)) return false;
+        opts.jointime = Number.parseInt(amount * 1000);
       }
     }
     startQueue[message.guild.id] = true;
@@ -38,7 +41,7 @@ module.exports = {
 
     const collector = collectorMessage.createReactionCollector(
       (reaction, user) => reaction.emoji.name == "✅" && !user.bot,
-      { time: 60000 }
+      { time: opts.jointime }
     );
     await collectorMessage.react("✅");
 
