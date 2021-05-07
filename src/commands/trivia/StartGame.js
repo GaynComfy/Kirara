@@ -36,7 +36,9 @@ module.exports = {
     const participants = {};
 
     const collectorMessage = await message.channel.send(
-      "React here to participate in the quiz within 60 seconds"
+      `React here to participate in the quiz within ${
+        opts.jointime / 1000
+      } seconds`
     );
 
     const collector = collectorMessage.createReactionCollector(
