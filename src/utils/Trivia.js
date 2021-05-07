@@ -4,22 +4,47 @@ const getQuestions = async props => {
   return [
     {
       props,
-      name: "Some question",
-      description: "Some example quiz for testing",
+      name: "Some question 1",
+      description: "whis is the best and superior Operating system",
       correct: "B",
       image: "https://liz3.net/assets/img/pfp.jpeg",
       answers: [
         {
           key: "A",
-          description: "Apple",
+          description: "MacOS",
         },
         {
           key: "B",
-          description: "GNU is superior",
+          description: "GNU/Linux",
         },
         {
           key: "C",
-          description: "Banana",
+          description: "Windooof",
+        },
+      ],
+    },
+    {
+      props,
+      name: "Some question 2",
+      description: "Who has this as their avatar",
+      correct: "C",
+      image: "https://liz3.net/assets/img/pfp.jpeg",
+      answers: [
+        {
+          key: "A",
+          description: "Yoshi",
+        },
+        {
+          key: "B",
+          description: "Aly",
+        },
+        {
+          key: "C",
+          description: "Liz",
+        },
+        {
+          key: "D",
+          description: "None of them, maybe Whomst",
         },
       ],
     },
@@ -97,7 +122,10 @@ const runGame = async (instance, channel, guild, participants, options) => {
     current = { name: question.name, answers: {}, correct: question.correct };
     const embed = new MessageEmbed()
       .setTitle(question.name)
-      .setDescription(question.description + `\nYou have 60 seconds to answer`);
+      .setDescription(
+        question.description +
+          `\nYou have 60 seconds to answer using the command /quiz`
+      );
     question.answers.forEach(elem =>
       embed.addField(`Answer: ${elem.key}`, elem.description)
     );
