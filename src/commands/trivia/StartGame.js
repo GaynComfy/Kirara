@@ -36,7 +36,7 @@ module.exports = {
 
     collector.on("end", () => {
       delete startQueue[message.guild.id];
-      if (Object.keys(participants) === 0) {
+      if (Object.keys(participants).length === 0) {
         message.channel.send("No users, not starting");
         return;
       }
