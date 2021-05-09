@@ -116,14 +116,15 @@ const computeAuction = async (instance, aid) => {
     "SELECT * FROM AUCTIONS WHERE auction_id=$1",
     [aid]
   );
-  const localAuc = query.rows.length > 0 ? query.rows[0] : null;
-  if (!asAuc && !localAuc)
+  const localAucResult = query.rows.length > 0 ? query.rows[0] : null;
+  const localAuc = localAucResult || asAuc || null;
+  if (!localAuc)
     return new MessageEmbed()
       .setDescription(
         `<:Sirona_NoCross:762606114444935168> This auction wasn't found.`
       )
       .setColor(Color.red);
-  const tier = (asAuc && asAuc.tier) || localAuc.tier;
+  const tier = localAuc.tier;
 
   // holy mess
   const embed = new MessageEmbed()
@@ -143,12 +144,26 @@ const computeAuction = async (instance, aid) => {
     )
     .addField("Buy Now", `\`富 ${localAuc.bn}\``, true)
     .addField("Min. Increment", `\`+富 ${localAuc.minimum}\``, true)
-    .addField("Added", moment(localAuc.date_added).fromNow(), true)
     .addField(
-      (asAuc ? asAuc.date_ending * 1000 : localAuc.date_ending) > Date.now()
+      "Added",
+      moment(
+        asAuc && !localAucResult
+          ? localAuc.date_added * 1000
+          : localAuc.date_added
+      ).fromNow(),
+      true
+    )
+    .addField(
+      (asAuc && !localAucResult
+        ? localAuc.date_ending * 1000
+        : localAuc.date_ending) > Date.now()
         ? "Ending"
         : "Ended",
-      moment(asAuc ? asAuc.date_ending * 1000 : localAuc.date_ending).fromNow(),
+      moment(
+        asAuc && !localAucResult
+          ? localAuc.date_ending * 1000
+          : localAuc.date_ending
+      ).fromNow(),
       true
     )
     .addField(
