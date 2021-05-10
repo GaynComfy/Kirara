@@ -1,6 +1,49 @@
 const EventManager = require("./EventManager");
 
 const { readDirectoryRecursiveWithFilter } = require("./utils/FsUtils");
+
+class Queue {
+  constructor() {
+    this.queue = [];
+  }
+  runLoop() {
+    this.interval = setInterval(async () => {
+      if (this.queue.length === 0) {
+        clearInterval(this.interval);
+        this.interval = null;
+        return;
+      }
+
+      this.lastExec = Date.now();
+      const item = this.queue.shift();
+      try {
+        const res = await item.item();
+        item.resolve(res);
+      } catch (err) {
+        item.reject(err);
+      }
+    }, 850);
+  }
+  addItem(item) {
+    return new Promise((resolve, reject) => {
+      (async () => {
+        if (!this.lastExec || this.lastExec + 850 < Date.now()) {
+          this.lastExec = Date.now();
+          try {
+            const res = await item();
+            resolve(res);
+          } catch (err) {
+            reject(err);
+          }
+          return;
+        }
+        this.queue.push({ item, resolve, reject });
+        if (!this.interval) this.runLoop();
+      })();
+    });
+  }
+}
+
 class Instance {
   /**
    *
@@ -22,6 +65,7 @@ class Instance {
     this.guilds = {};
     this.shared = {};
     this.trivia = {};
+    this.queue = new Queue();
   }
   async prepareEvents() {
     const events = {};

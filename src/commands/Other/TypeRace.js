@@ -29,7 +29,7 @@ const channelMap = [];
 
 module.exports = {
   execute: async (instance, message, args) => {
-    if (channelMap[message.channel.id]) return;
+    if (channelMap[message.channel.id]) return false;
     let di = args.length > 0 ? args.shift().toLowerCase() : false;
     const tier =
       typeof di === "string" &&
@@ -96,17 +96,22 @@ module.exports = {
         `${msg.guild.id}:${msg.channel.id}:${msg.id}`
       )
         .then(async lastTop => {
-          await msg.react(first ? "🏅" : "✅");
+          const toReact = first ? "🏅" : "✅";
+          await instance.queue.addItem(async () => {
+            return await msg.react(toReact);
+          });
           if (lastTop !== null && took < lastTop) {
             // new record!
             await new Promise(resolve => setTimeout(resolve, 1000));
-            await msg.react("<a:Sirona_star:748985391360507924>");
+            await instance.queue.addItem(() =>
+              msg.react("<a:Sirona_star:748985391360507924>")
+            );
           }
         })
         .catch(err => {
           console.error(err);
           // error saving score?
-          msg.react("❌").catch(() => {});
+          instance.queue.addItem(() => msg.react("❌")).catch(() => {});
         });
     });
 
