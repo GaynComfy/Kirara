@@ -106,17 +106,16 @@ const createPagedResults = async (
         if (newPage === page && !refresh)
           return r.users.remove(user).catch(() => {});
 
+        let res;
         try {
-          const res = await getMessageForPage(newPage, user);
-          if (res) {
-            if (res !== true) sentMessage.edit(res);
-            page = newPage;
-          }
+          res = await getMessageForPage(newPage, user);
+          if (res && res !== true) sentMessage.edit(res);
         } catch (err) {
           console.error(err);
           sentMessage.edit(embed);
         }
-        r.users.remove(user).catch(() => {});
+        await r.users.remove(user).catch(() => {});
+        if (res) page = newPage;
       })
       .on("end", () => sentMessage.reactions.removeAll().catch(() => {}));
   } catch (err) {
