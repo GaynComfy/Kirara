@@ -15,6 +15,7 @@ const info = {
   aliases: ["tr"],
   matchCase: false,
   category: "UwU",
+  perms: ["ATTACH_FILES"],
   needsQueue: true,
 };
 
