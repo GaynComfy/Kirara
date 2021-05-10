@@ -15,6 +15,7 @@ const info = {
   aliases: ["tr"],
   matchCase: false,
   category: "UwU",
+  needsQueue: true,
 };
 
 const end = (startTime, time) => {
@@ -28,8 +29,8 @@ const end = (startTime, time) => {
 const channelMap = [];
 
 module.exports = {
-  execute: async (instance, message, args) => {
-    if (channelMap[message.channel.id]) return;
+  execute: async (instance, message, args, queue) => {
+    if (channelMap[message.channel.id]) return false;
     let di = args.length > 0 ? args.shift().toLowerCase() : false;
     const tier =
       typeof di === "string" &&
@@ -96,11 +97,16 @@ module.exports = {
         `${msg.guild.id}:${msg.channel.id}:${msg.id}`
       )
         .then(async lastTop => {
-          await msg.react(first ? "🏅" : "✅");
+          const toReact = first ? "🏅" : "✅";
+          await queue.addItem(async () => {
+            return await msg.react(toReact);
+          });
           if (lastTop !== null && took < lastTop) {
             // new record!
             await new Promise(resolve => setTimeout(resolve, 1000));
-            await msg.react("<a:Sirona_star:748985391360507924>");
+            await queue.addItem(() =>
+              msg.react("<a:Sirona_star:748985391360507924>")
+            );
           }
         })
         .catch(err => {
@@ -109,7 +115,7 @@ module.exports = {
 
           console.error(err);
           // error saving score?
-          msg.react("❌").catch(() => {});
+          queue.addItem(() => msg.react("❌")).catch(() => {});
         });
     });
 

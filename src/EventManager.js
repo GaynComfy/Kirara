@@ -129,8 +129,16 @@ class EventManager {
       message,
       command.info.name,
       async () => {
+        const { needsQueue } = command.info;
+        if (needsQueue && !this.instance.queues[message.channel.id])
+          this.instance.createQueue(message.channel.id);
         try {
-          const result = await command.execute(this.instance, message, args);
+          const result = await command.execute(
+            this.instance,
+            message,
+            args,
+            needsQueue ? this.instance.queues[message.channel.id] : null
+          );
           if (result === false) sendUsage(message.channel, command.help);
           return result;
         } catch (err) {
