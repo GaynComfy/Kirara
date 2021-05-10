@@ -87,8 +87,6 @@ module.exports = {
       resultsw.push(`> \`${cpm}\``);
       timer.push(`> \`${took}s\``);
 
-      // "✅"
-      msg.react(first ? "🏅" : "✅");
       userPlay(
         instance,
         msg.author.id,
@@ -97,10 +95,12 @@ module.exports = {
         took,
         `${msg.guild.id}:${msg.channel.id}:${msg.id}`
       )
-        .then(lastTop => {
+        .then(async lastTop => {
+          await msg.react(first ? "🏅" : "✅");
           if (lastTop !== null && took < lastTop) {
             // new record!
-            msg.react("<a:Sirona_star:748985391360507924>");
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            await msg.react("<a:Sirona_star:748985391360507924>");
           }
         })
         .catch(err => {

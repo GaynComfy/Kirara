@@ -1,6 +1,7 @@
 const sendError = require("./SendError");
 const Color = require("./Colors.json");
 const { MessageEmbed } = require("discord.js");
+const { multiReact } = require("./miscUtils");
 
 const FAST_REVERSE_SYMBOL = "\u23ea";
 const BACK_SYMBOL = "\u25c0\ufe0f";
@@ -73,11 +74,10 @@ const createPagedResults = async (
       )
       .then(() => refresh && sentMessage.react(REPEAT_SYMBOL));*/
 
-    sentMessage
-      .react(BACK_SYMBOL)
-      .then(() => sentMessage.react(FORWARD_SYMBOL))
-      .then(() => refresh && sentMessage.react(REPEAT_SYMBOL));
+    const reacts = [BACK_SYMBOL, FORWARD_SYMBOL];
+    if (refresh) reacts.push(REPEAT_SYMBOL);
 
+    multiReact(sentMessage, reacts).catch(() => {});
     return sentMessage
       .createReactionCollector(emojiFilter, collectorOpts)
       .on("collect", async (r, user) => {
