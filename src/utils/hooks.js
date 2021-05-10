@@ -65,3 +65,36 @@ exports.withCooldown = async (
   if (!owner.includes(message.author.id)) await cache.setExpire(cdKey, "1", cd);
   return result;
 };
+
+exports.verifyPerms = async (instance, message, perms) => {
+  if (!message.guild || !perms || perms.length <= 0) return true;
+
+  const member = message.guild.member(instance.client.id);
+  const missing = perms.filter(p => !member.hasPermission(p));
+  const prefix =
+    instance.guilds[message.guild.id].prefix || instance.config.prefix;
+
+  if (missing.length > 0) {
+    const isAdmin = message.member.hasPermission("ADMINISTRATOR");
+    const canSendMessages = member.hasPermission("SEND_MESSAGES");
+    let target = message.channel;
+    if (!canSendMessages) target = message.author;
+
+    target.send(
+      (canSendMessages
+        ? "I'm sorry, but I can't execute that command!"
+        : `You just tried executing a command on <#${message.channel.id}>, but I can't since`) +
+        " I am missing permissions to do what's required for it! To be exact:\n```diff\n- " +
+        missing.join("\n- ") +
+        "```\n" +
+        (isAdmin
+          ? `To make sure I have all the permissions, please use \`${prefix}invite\` to invite me back to the server!`
+          : !canSendMessages
+          ? "Please ask the server's admins for assistance."
+          : "")
+    );
+    return false;
+  }
+
+  return true;
+};

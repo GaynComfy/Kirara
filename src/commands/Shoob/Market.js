@@ -11,6 +11,7 @@ const info = {
   matchCase: false,
   category: "Shoob",
   cooldown: 2,
+  perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
 };
 const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
 const allowedSortings = [

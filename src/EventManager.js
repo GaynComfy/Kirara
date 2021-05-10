@@ -1,4 +1,4 @@
-const { withCooldown } = require("./utils/hooks");
+const { withCooldown, verifyPerms } = require("./utils/hooks");
 const sendError = require("./utils/SendError");
 const sendUsage = require("./utils/SendUsage");
 const isDev = process.env.NODE_ENV === "development";
@@ -123,6 +123,13 @@ class EventManager {
     console.debug(
       `[${this.client.shard.ids[0]}] <#${message.channel.id}> ${message.author.tag} > ${command.info.name}`
     );
+
+    // verify if we have the right permissions
+    const perms = (command.info.perms || []).concat([
+      "SEND_MESSAGES",
+      "EMBED_LINKS",
+    ]);
+    if (!(await verifyPerms(this.instance, message, perms))) return;
 
     await withCooldown(
       this.instance.cache,

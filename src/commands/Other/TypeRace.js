@@ -99,6 +99,14 @@ module.exports = {
         `${msg.guild.id}:${msg.channel.id}:${msg.id}`
       )
         .then(async lastTop => {
+          // do not react if we can't
+          if (
+            !message.guild
+              .member(instance.client.id)
+              .hasPermission(["ADD_REACTIONS", "READ_MESSAGE_HISTORY"])
+          )
+            return;
+
           const toReact = first ? "🏅" : "✅";
           await queue.addItem(() => msg.react(toReact));
           if (lastTop !== null && took < lastTop) {
@@ -143,6 +151,8 @@ module.exports = {
       }
       message.channel.send(result);
     });
+
+    return collector;
   },
   info,
   help: {

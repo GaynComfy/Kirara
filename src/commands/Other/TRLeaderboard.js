@@ -15,6 +15,7 @@ const info = {
   matchCase: false,
   category: "UwU",
   cooldown: 10,
+  perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
 };
 
 module.exports = {

@@ -16,6 +16,7 @@ const info = {
   matchCase: false,
   category: "Owner",
   ownerOnly: true,
+  perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
   disabled: process.env.NODE_ENV !== "development",
 };
 

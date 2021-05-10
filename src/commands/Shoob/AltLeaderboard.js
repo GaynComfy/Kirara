@@ -8,6 +8,7 @@ const info = {
   aliases: ["alb", "tlb"],
   matchCase: false,
   category: "Shoob",
+  perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
 };
 
 module.exports = {

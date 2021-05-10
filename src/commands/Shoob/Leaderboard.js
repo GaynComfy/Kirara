@@ -10,6 +10,7 @@ const info = {
   aliases: ["lb"],
   matchCase: false,
   category: "Shoob",
+  perms: ["ATTACH_FILES"],
 };
 
 const applyText = (canvas, text) => {

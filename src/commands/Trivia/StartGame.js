@@ -4,6 +4,7 @@ const info = {
   category: "Trivia",
   guilds: ["378599231583289346"],
   matchCase: false,
+  perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
   disabled: process.env.NODE_ENV !== "development",
 };
 
