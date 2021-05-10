@@ -138,10 +138,9 @@ module.exports = {
       client.subscribe("auctions");
       client.on("message", async (channel, msg) => {
         await onMessage(channel, msg);
-        const string_channel = JSON.stringify(channel);
         for (let i = 1; i < instance.client.shard.count; i++) {
           await instance.client.shard.broadcastEval(
-            `this.b_handle_auction(\`${string_channel}\`, \`${msg}\`)`,
+            `this.b_handle_auction(\`${channel}\`, \`${msg}\`)`,
             i
           );
         }
