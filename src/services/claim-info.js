@@ -50,7 +50,7 @@ module.exports = {
           }
 
           if (instance.settings[data.server_id]["cooldown:notify"]) {
-            instance.shared["cooldown"][data.channel.id] = {
+            instance.shared["cooldown"][data.channel_id] = {
               send: messageChannel.send,
               time: Date.now(),
             };
