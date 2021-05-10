@@ -43,9 +43,8 @@ module.exports = {
             );
             if (s) {
               s.msg.delete().catch(() => {});
-              const i = instance.shared["timer"][data.channel_id].indexOf(s);
-              if (i !== -1)
-                instance.shared["timer"][data.channel_id].splice(i, 1);
+              const i = timers.indexOf(s);
+              if (i !== -1) timers.splice(i, 1);
             }
           }
 
@@ -76,7 +75,7 @@ module.exports = {
                 );
               } else {
                 log.setDescription(
-                  `${settings.emoji} [${data.card_name} Tier: ${data.tier}](https://animesoul.com/cards/info/${data.card_id}) Despawned`
+                  `${settings.emoji} [${data.card_name} Tier: ${data.tier}](https://animesoul.com/cards/info/${data.card_id}) despawned`
                 );
               }
               try {
@@ -97,6 +96,18 @@ module.exports = {
                   instance.guilds[guild.id].log_channel = null;
                 }
               }
+            } else {
+              // channel doesn't exists, remove it
+              await instance.database.simpleUpdate(
+                "SERVERS",
+                {
+                  guild_id: guild.id,
+                },
+                {
+                  log_channel: null,
+                }
+              );
+              instance.guilds[guild.id].log_channel = null;
             }
           }
 

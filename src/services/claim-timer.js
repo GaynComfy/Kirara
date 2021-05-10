@@ -7,19 +7,19 @@ module.exports = {
     if (!instance.shared["timer"]) instance.shared["timer"] = {};
 
     updateInterval = setInterval(async () => {
-      Object.keys(instance.shared["timer"]).forEach(chan => {
+      for (const chan of Object.keys(instance.shared["timer"])) {
         const chn = instance.shared["timer"][chan];
-        chn.forEach(async timer => {
-          if (new Date() - timer.last < 3500) return;
+        for (const timer of chn) {
+          if (new Date() - timer.last < 3500) continue;
           const embed = await getTimer(timer.time);
           if (!embed) {
             timer.msg.delete().catch(() => {});
             const i = chn.indexOf(timer);
             if (i !== -1) chn.splice(i, 1);
-            return;
+            continue;
           }
 
-          timer.msg
+          await timer.msg
             .edit(embed)
             .then(() => {
               const i = chn.indexOf(timer);
@@ -33,8 +33,8 @@ module.exports = {
                 if (i !== -1) chn.splice(i, 1);
               }
             });
-        });
-      });
+        }
+      }
     }, 1000);
   },
   stop: async () => {
