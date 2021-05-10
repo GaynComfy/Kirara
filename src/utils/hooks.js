@@ -68,14 +68,8 @@ exports.withCooldown = async (
 
 exports.checkPerms = async (instance, channel, perms) => {
   if (!channel.guild || !perms || perms.length <= 0) return [];
-
-  const member = channel.guild.member(instance.client.user);
-  if (!member) return []; // ???
   const chanPerms = channel.permissionsFor(instance.client.user);
-
-  return perms.filter(
-    p => !member.hasPermission(p) && chanPerms && !chanPerms.has(p)
-  );
+  return perms.filter(p => chanPerms && !chanPerms.has(p));
 };
 
 exports.verifyPerms = async (instance, message, perms) => {
