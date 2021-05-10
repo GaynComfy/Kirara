@@ -4,6 +4,7 @@ const info = {
   category: "Trivia",
   guilds: ["378599231583289346"],
   matchCase: false,
+  disabled: process.env.NODE_ENV !== "development",
 };
 
 const startQueue = {};
