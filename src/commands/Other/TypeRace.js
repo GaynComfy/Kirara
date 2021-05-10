@@ -98,9 +98,7 @@ module.exports = {
       )
         .then(async lastTop => {
           const toReact = first ? "🏅" : "✅";
-          await queue.addItem(async () => {
-            return await msg.react(toReact);
-          });
+          await queue.addItem(() => msg.react(toReact));
           if (lastTop !== null && took < lastTop) {
             // new record!
             await new Promise(resolve => setTimeout(resolve, 1000));
@@ -115,7 +113,7 @@ module.exports = {
 
           console.error(err);
           // error saving score?
-          queue.addItem(() => msg.react("❌")).catch(() => {});
+          queue.addItem(() => msg.react("❌").catch(() => {}));
         });
     });
 
