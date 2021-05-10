@@ -34,6 +34,7 @@ module.exports = {
 
         if (instance.client.guilds.cache.has(data.server_id)) {
           const guild = instance.client.guilds.cache.get(data.server_id);
+          const messageChannel = guild.channels.cache.get(data.channel_id);
           const settings = tierSettings[data.tier];
 
           const timers = instance.shared["timer"][data.channel_id];
@@ -48,9 +49,16 @@ module.exports = {
             }
           }
 
-          if (instance.guilds[guild.id].log_channel) {
+          if (instance.settings[data.server_id]["cooldown:notify"]) {
+            instance.shared["cooldown"][data.channel.id] = {
+              send: messageChannel.send,
+              time: Date.now(),
+            };
+          }
+
+          if (instance.guilds[data.server_id].log_channel) {
             const logChannel = guild.channels.cache.get(
-              instance.guilds[guild.id].log_channel
+              instance.guilds[data.server_id].log_channel
             );
             if (logChannel) {
               const log = new MessageEmbed()
@@ -119,7 +127,6 @@ module.exports = {
 
           const prefix =
             instance.guilds[guild.id].prefix || instance.config.prefix;
-          const messageChannel = guild.channels.cache.get(data.channel_id);
           if (messageChannel) {
             const oweeet = new MessageEmbed()
               .setDescription(

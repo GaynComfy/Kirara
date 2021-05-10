@@ -36,9 +36,7 @@ module.exports = {
         );
         instance.guilds[message.guild.id].timer = newState;
         embed.setDescription(
-          "<a:Sirona_Tick:749202570341384202> I have successfully turned `" +
-            args[0].toLowerCase() +
-            "` the timer!"
+          `<a:Sirona_Tick:749202570341384202> I have successfully turned ${args[0].toLowerCase()} the timer!`
         );
       }
       return message.channel.send(embed);

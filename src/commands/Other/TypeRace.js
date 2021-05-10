@@ -125,7 +125,7 @@ module.exports = {
         })
         .catch(err => {
           // no need to complain for Discord errors
-          if (err.httpStatus === 403) return;
+          if (err.httpStatus > 401) return;
 
           console.error(err);
           // error saving score?
