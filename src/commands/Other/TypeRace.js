@@ -102,7 +102,7 @@ module.exports = {
           // do not react if we can't
           if (
             !message.guild
-              .member(instance.client.id)
+              .member(instance.client.user)
               .hasPermission(["ADD_REACTIONS", "READ_MESSAGE_HISTORY"])
           )
             return;

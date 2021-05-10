@@ -125,10 +125,9 @@ class EventManager {
     );
 
     // verify if we have the right permissions
-    const perms = (command.info.perms || []).concat([
-      "SEND_MESSAGES",
-      "EMBED_LINKS",
-    ]);
+    const perms = ["SEND_MESSAGES", "EMBED_LINKS"].concat(
+      command.info.perms || []
+    );
     if (!(await verifyPerms(this.instance, message, perms))) return;
 
     await withCooldown(

@@ -69,7 +69,8 @@ exports.withCooldown = async (
 exports.verifyPerms = async (instance, message, perms) => {
   if (!message.guild || !perms || perms.length <= 0) return true;
 
-  const member = message.guild.member(instance.client.id);
+  const member = message.guild.member(instance.client.user);
+  if (!member) return true; // ???
   const missing = perms.filter(p => !member.hasPermission(p));
   const prefix =
     instance.guilds[message.guild.id].prefix || instance.config.prefix;
