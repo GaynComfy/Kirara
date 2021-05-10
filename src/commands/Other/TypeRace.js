@@ -30,7 +30,9 @@ const channelMap = [];
 
 module.exports = {
   execute: async (instance, message, args, queue) => {
-    if (channelMap[message.channel.id]) return;
+    if (channelMap[message.channel.id])
+      return message.react("🕘").catch(() => {});
+
     let di = args.length > 0 ? args.shift().toLowerCase() : false;
     const tier =
       typeof di === "string" &&
