@@ -15,9 +15,9 @@ module.exports = {
     });
     if (args.length === 0) {
       message.reply(
-        `Your status of not displaying on the TypeRacer LeaderBoard: ${
+        `Your current setting for Leaderboard: ${
           setting ? "Yes" : "No"
-        }\nThis setting is used to control if you do not want to show up on the leaderboard!`
+        }\nThis setting is used to control if you do not want to show up on the global leaderboards!`
       );
     } else if (args.length === 1) {
       const arg = args[0].toLowerCase();
