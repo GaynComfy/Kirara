@@ -7,9 +7,9 @@ module.exports = {
     if (!instance.shared["cooldown"]) instance.shared["cooldown"] = {};
 
     notifyInterval = setInterval(async () => {
-      Object.keys(
-        instance.shared["cooldown"].filter(chn => chn.time >= 110000)
-      ).forEach(chan => {
+      Object.keys(instance.shared["cooldown"]).forEach(chan => {
+        if (instance.shared["cooldown"][chan].time < 110000) return;
+
         const embed = new MessageEmbed()
           .setColor("RANDOM")
           .setDescription(
