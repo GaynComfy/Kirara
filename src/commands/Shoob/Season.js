@@ -103,8 +103,7 @@ module.exports = {
           `**${s.claimers.c} users** have claimed cards on this server.` +
           (s.claimers.c > 0 ? `\n\n${top3.join("\n")}` : "")
       );
-    message.channel.send(embed);
-    return true;
+    return message.channel.send(embed);
   },
   info,
   help: {

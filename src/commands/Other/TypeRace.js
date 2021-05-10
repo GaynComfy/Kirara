@@ -104,6 +104,9 @@ module.exports = {
           }
         })
         .catch(err => {
+          // no need to complain for Discord errors
+          if (err.httpStatus === 403) return;
+
           console.error(err);
           // error saving score?
           msg.react("❌").catch(() => {});

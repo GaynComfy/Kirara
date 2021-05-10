@@ -46,7 +46,7 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
       : "");
 
   const pages = Math.ceil(claims / 10);
-  return await createPagedResults(
+  return createPagedResults(
     message,
     2 + (pages > 0 ? pages : 1),
     async page => {

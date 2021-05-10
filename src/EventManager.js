@@ -75,12 +75,9 @@ class EventManager {
       if (!this.discordReady) return;
       if (otherHandlers)
         for (const handler of otherHandlers) {
-          try {
-            await handler.execute(this.instance, message);
-          } catch (err) {
-            // do not stop other handlers execution if any fail.
-            console.error(err);
-          }
+          await handler
+            .execute(this.instance, message)
+            .catch(err => console.error(err));
         }
     });
   }
@@ -92,13 +89,13 @@ class EventManager {
           await handler.execute(this.instance, t);
         }
       // start services after this
-      this.services.forEach(element => {
-        element.start(this.instance);
-      });
+      this.services.forEach(element => element.start(this.instance));
       this.discordReady = true;
-      // prcoess queued commands
+      // process queued commands
       for (const elem of this.commandQueue) {
-        await this.commandExecution(elem[0], elem[1], elem[2]);
+        await this.commandExecution(elem[0], elem[1], elem[2]).catch(err =>
+          console.error(err)
+        );
       }
       this.commandQueue = null;
     });

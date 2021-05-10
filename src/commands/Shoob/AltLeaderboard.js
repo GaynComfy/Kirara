@@ -24,7 +24,7 @@ module.exports = {
     let last = -1;
     message.channel.stopTyping();
 
-    return await createPagedResults(message, Infinity, async page => {
+    return createPagedResults(message, Infinity, async page => {
       const offset = (page > last && last !== -1 ? last : page) * 8;
       const { rows: claimers } = isTotal
         ? await instance.database.pool.query(

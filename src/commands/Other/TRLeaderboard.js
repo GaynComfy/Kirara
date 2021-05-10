@@ -56,7 +56,7 @@ module.exports = {
       }
 
       const pages = Math.ceil(Object.keys(tops).length / 3);
-      return await createPagedResults(message, pages, async page => {
+      return createPagedResults(message, pages, async page => {
         const offset = (page > pages - 1 ? pages - 1 : page) * 3;
 
         const embed = new MessageEmbed()
@@ -94,7 +94,7 @@ module.exports = {
       const dName = diff.charAt(0).toUpperCase() + diff.slice(1);
       let last = -1;
 
-      return await createPagedResults(message, Infinity, async page => {
+      return createPagedResults(message, Infinity, async page => {
         const offset = (page > last && last !== -1 ? last : page) * 8;
         const stats = await getTopPlayersByDiff(instance, diff, 8, offset);
         if (stats.length === 0 && page === 0) {

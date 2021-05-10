@@ -61,7 +61,7 @@ const processWithCard = async (instance, message, option, card) => {
   }
 
   const pages = Math.ceil(listings.length / 10);
-  return await createPagedResults(message, pages, async page => {
+  return createPagedResults(message, pages, async page => {
     const entries = sorted.slice(page * 10, page * 10 + 10);
     const market = entries.map(
       listing =>
@@ -112,7 +112,7 @@ const processWithCard = async (instance, message, option, card) => {
 const processWithoutCard = async (instance, message, tier) => {
   let last = -1;
 
-  return await createPagedResults(message, Infinity, async page => {
+  return createPagedResults(message, Infinity, async page => {
     if (page > last && last !== -1) return null;
     const offset = page * 6;
     const result = await Fetcher.fetchMarket(instance, offset, tier);
@@ -183,8 +183,7 @@ module.exports = {
     const hasTier =
       args.length > 0 ? allowed.includes(args[0].toLowerCase()) : false;
     const tier = hasTier ? args.shift()[1].toUpperCase() : "all";
-    if (args.length === 0)
-      return await processWithoutCard(instance, message, tier);
+    if (args.length === 0) return processWithoutCard(instance, message, tier);
 
     const hasOption =
       args.length > 0 ? allowedSortings.includes(args[0].toLowerCase()) : false;

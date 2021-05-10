@@ -24,7 +24,6 @@ module.exports = {
     }
 
     // Embed
-
     const embed = new MessageEmbed()
       .setTitle(target.tag + "'s avatar")
       .setDescription(
@@ -41,6 +40,6 @@ module.exports = {
   help: {
     usage: "avatar <@user>",
     examples: ["avatar @JeDaYoshi"],
-    description: "Show User Avatar!",
+    description: "Show someone's avatar!",
   },
 };

@@ -23,11 +23,8 @@ module.exports = {
     if (!hasTier) return false;
     const tier = args.shift()[1].toUpperCase();
 
-    message.channel.startTyping();
-    message.channel.stopTyping();
-
     let last = -1;
-    return await createPagedResults(message, Infinity, async page => {
+    return createPagedResults(message, Infinity, async page => {
       const offset = (page > last && last !== -1 ? last : page) * 8;
       const result = await Fetcher.fetchByTier(
         instance,

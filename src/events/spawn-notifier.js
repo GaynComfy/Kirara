@@ -1,5 +1,4 @@
 const { tierInfo } = require("../utils/cardUtils");
-const allowed = ["1", "2", "3", "4", "5", "6"];
 module.exports = {
   execute: async (instance, message) => {
     if (
@@ -15,7 +14,6 @@ module.exports = {
       const parts = word.split(" Tier: ");
       const name = parts[0];
       const tier = parts[parts.length - 1];
-      if (!allowed.includes(tier)) continue;
 
       const result = await instance.database.simpleQuery("CARD_ROLES", {
         tier: `t${tier}`,

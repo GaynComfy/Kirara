@@ -28,6 +28,12 @@ module.exports = {
     if (!member) {
       member = message.author;
     }
+
+    // build cute embed
+    const embed = new MessageEmbed()
+      .setThumbnail(member.displayAvatarURL({ size: 2048, dynamic: true }))
+      .setColor(Color.default);
+
     if (args.length === 0) {
       // get all stats
       const stats = await userAllInfo(instance, member.id);
@@ -35,11 +41,6 @@ module.exports = {
       let allCpm = 0;
       let total = 0;
       let won = 0;
-
-      // build cute embed
-      const embed = new MessageEmbed()
-        .setThumbnail(member.displayAvatarURL({ size: 2048, dynamic: true }))
-        .setColor(Color.default);
 
       stats.diffs
         .filter(d => d.played)
@@ -71,8 +72,6 @@ module.exports = {
             ? `\n**Average CPM**: \`${Math.round(allCpm / cpm.length)} CPM\``
             : "")
       );
-
-      await message.channel.send(embed);
     } else {
       // get stats for a specific typerace
       const di = args.shift()[0].toLowerCase();
@@ -84,23 +83,17 @@ module.exports = {
       const topCpm = getCpm(diff, stats.top);
       const lastCpm = getCpm(diff, stats.last);
 
-      // build cute embed
-      const embed = new MessageEmbed()
-        .setThumbnail(member.displayAvatarURL({ size: 2048, dynamic: true }))
-        .setColor(Color.default)
-        .setDescription(
-          `<:Sirona_yesh:762603569538531328> **${member.username}'s ${dName} Typerace stats**\n\n` +
-            (stats.played
-              ? `**Total games**: \`${stats.first}/${stats.total} games\`\n` +
-                `**Top record**: \`${stats.top}s\` (\`${topCpm} CPM\`)\n` +
-                `**Last game**: \`${stats.last}s\` (\`${lastCpm} CPM\`)`
-              : `No games yet!`)
-        );
-
-      await message.channel.send(embed);
+      embed.setDescription(
+        `<:Sirona_yesh:762603569538531328> **${member.username}'s ${dName} Typerace stats**\n\n` +
+          (stats.played
+            ? `**Total games**: \`${stats.first}/${stats.total} games\`\n` +
+              `**Top record**: \`${stats.top}s\` (\`${topCpm} CPM\`)\n` +
+              `**Last game**: \`${stats.last}s\` (\`${lastCpm} CPM\`)`
+            : `No games yet!`)
+      );
     }
 
-    return true;
+    return message.channel.send(embed);
   },
   info,
   help: {

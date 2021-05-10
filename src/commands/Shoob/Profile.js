@@ -137,7 +137,7 @@ module.exports = {
     }
 
     message.channel.stopTyping();
-    message.channel.send({ embed: embed });
+    return message.channel.send(embed);
   },
   info,
   help: {

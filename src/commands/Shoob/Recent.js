@@ -107,8 +107,7 @@ module.exports = {
         "> <:Sirona_NoCross:762606114444935168> No cards have spawned yet this season."
       );
     }
-    message.channel.send(embed);
-    return true;
+    return message.channel.send(embed);
   },
   info,
   help: {

@@ -74,7 +74,7 @@ module.exports = {
     if (card) tier = card.tier;
     message.channel.stopTyping();
     let last = -1;
-    return await createPagedResults(message, Infinity, async page => {
+    return createPagedResults(message, Infinity, async page => {
       const offset = (page > last && last !== -1 ? last : page) * 8;
       const result = await Fetcher.fetchInventory(
         instance,

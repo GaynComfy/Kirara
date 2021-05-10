@@ -56,6 +56,10 @@ module.exports = {
         .array()
         .filter(g => instance.settings[g.id]["games_channel"]);
 
+      console.debug(
+        `[${instance.client.shard.ids[0]}] Broadcasting minigame ${data.id} to ${guilds.length} guilds`
+      );
+
       for (const guild of guilds) {
         const logChannel = guild.channels.cache.get(
           instance.settings[guild.id]["games_channel"]

@@ -22,7 +22,26 @@ module.exports = {
       ) {
         const embed = await getTimer(message.createdTimestamp);
         if (!embed) continue;
-        const msg = await message.channel.send(embed);
+        let msg;
+        try {
+          msg = await message.channel.send(embed);
+        } catch (err) {
+          console.error(err);
+          if (err.code === 50013) {
+            // no permissions, let's disable timer from here
+            await instance.database.simpleUpdate(
+              "SERVERS",
+              {
+                guild_id: message.guild.id,
+              },
+              {
+                timer: false,
+              }
+            );
+            instance.guilds[message.guild.id].timer = false;
+          }
+          continue;
+        }
 
         if (!instance.shared["timer"][message.channel.id])
           instance.shared["timer"][message.channel.id] = [];

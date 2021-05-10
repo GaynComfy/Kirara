@@ -223,13 +223,13 @@ module.exports = {
             `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
           )
           .setColor(Color.red);
-        return await message.channel.send({ embed });
+        return message.channel.send({ embed });
       }
       card_id = card.id;
     }
     if ((auc_id || tier) && !card_id && args.length >= 1) return false;
     if (auc_id)
-      return await message.channel.send(await computeAuction(instance, auc_id));
+      return message.channel.send(await computeAuction(instance, auc_id));
 
     let recent;
     let page = 0;

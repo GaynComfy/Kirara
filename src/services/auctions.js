@@ -63,6 +63,10 @@ module.exports = {
         .array()
         .filter(g => instance.settings[g.id]["notif_channel"]);
 
+      console.debug(
+        `[${instance.client.shard.ids[0]}] Broadcasting auction ${data.id} to ${guilds.length} guilds`
+      );
+
       for (const guild of guilds) {
         const logChannel = guild.channels.cache.get(
           instance.settings[guild.id]["notif_channel"]

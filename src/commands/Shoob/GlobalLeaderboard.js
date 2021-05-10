@@ -19,7 +19,7 @@ module.exports = {
   execute: async (instance, message) => {
     let last = -1;
 
-    return await createPagedResults(message, Infinity, async page => {
+    return createPagedResults(message, Infinity, async page => {
       const offset = (page > last && last !== -1 ? last : page) * 8;
       const k = `glb:${offset}`;
       let claimers = [];

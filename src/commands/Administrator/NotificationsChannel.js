@@ -25,7 +25,7 @@ const execute = async (instance, message, args, send = true) => {
     } else if (type === "all") {
       // horrible hack. i don't feel proud about this. todo change later
       await execute(instance, message, ["auc", ...args], true);
-      return await execute(instance, message, ["mg", ...args], false);
+      return execute(instance, message, ["mg", ...args], false);
     } else return false;
 
     const {

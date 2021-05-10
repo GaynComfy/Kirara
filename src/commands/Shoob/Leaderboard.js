@@ -52,7 +52,7 @@ module.exports = {
           }.`
         )
         .setColor(Color.red);
-      return await message.channel.send(embed);
+      return message.channel.send(embed);
     }
 
     const background = await loadImage("./src/assets/leaderboard2.png");
