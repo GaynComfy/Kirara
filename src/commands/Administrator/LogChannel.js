@@ -11,11 +11,19 @@ const info = {
 module.exports = {
   execute: async (instance, message, args) => {
     return withRights(message.member, async () => {
-      if (args.length === 0 && message.mentions.channels.size === 0) {
-        return false;
-      }
       const embed = new MessageEmbed().setColor("RANDOM");
-      if (args.length === 1 && args[0] === "off") {
+      if (args.length === 0) {
+        const logChn = instance.guilds[message.guild.id].log_channel;
+        if (logChn) {
+          embed.setDescription(
+            `<a:Sirona_loading:748854549703426118> Logs channel is set to <#${logChn}>.`
+          );
+        } else {
+          embed.setDescription(
+            `<a:Sirona_loading:748854549703426118> No logs channel set.`
+          );
+        }
+      } else if (args.length === 1 && args[0] === "off") {
         await instance.database.simpleUpdate(
           "SERVERS",
           {
@@ -27,10 +35,9 @@ module.exports = {
         );
         instance.guilds[message.guild.id].log_channel = null;
         embed.setDescription(
-          `<a:Sirona_Tick:749202570341384202> Logs Channel removed!`
+          `<a:Sirona_Tick:749202570341384202> Logs channel removed!`
         );
-      }
-      if (message.mentions.channels.size === 1) {
+      } else if (message.mentions.channels.size === 1) {
         const chn = message.mentions.channels.first();
         if (
           (await checkPerms(instance, chn, ["SEND_MESSAGES", "EMBED_LINKS"]))
@@ -53,9 +60,9 @@ module.exports = {
         );
         instance.guilds[message.guild.id].log_channel = chn.id;
         embed.setDescription(
-          `<a:Sirona_Tick:749202570341384202> Logs Channel set to <#${chn.id}>!`
+          `<a:Sirona_Tick:749202570341384202> Logs channel set to <#${chn.id}>!`
         );
-      }
+      } else return false;
       return message.channel.send(embed);
     });
   },
