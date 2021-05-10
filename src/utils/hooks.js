@@ -69,7 +69,8 @@ exports.withCooldown = async (
 exports.checkPerms = async (instance, channel, perms) => {
   if (!channel.guild || !perms || perms.length <= 0) return [];
   const chanPerms = channel.permissionsFor(instance.client.user);
-  return perms.filter(p => chanPerms && !chanPerms.has(p));
+  if (!chanPerms) return [];
+  return perms.filter(p => !chanPerms.has(p));
 };
 
 exports.verifyPerms = async (instance, message, perms) => {
@@ -102,9 +103,7 @@ exports.verifyPerms = async (instance, message, perms) => {
           "```\n" +
           (isAdmin
             ? `To make sure I have all the permissions, please use \`${prefix}invite\` to invite me back to the server!`
-            : !canSendMessages
-            ? "Please ask the server's admins for assistance."
-            : "")
+            : `Please ask the server's admins for assistance, and hint them to \`${prefix}invite\`.`)
       )
       .catch(() => {});
     return false;
