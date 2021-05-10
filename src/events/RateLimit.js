@@ -3,8 +3,8 @@ module.exports = {
     if (instance.client.rest.globalTimeout) {
       console.log("! GLOBAL RATELIMIT HIT");
     }
-    console.log(
-      `! Hit ratelimit on '${params.method} ${params.route}' => timeout ${params.timeout}`
+    console.debug(
+      `[${instance.client.shards[0]}] ! Hit ratelimit on '${params.method} ${params.path}' => timeout ${params.timeout}`
     );
   },
   eventName: "rateLimit",

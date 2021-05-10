@@ -123,6 +123,10 @@ class EventManager {
     )
       return; // command is disabled and they're not an admin/owner, nothing to do here
 
+    console.debug(
+      `[${this.client.shards[0]}] <#${message.channel.id}> ${message.author.tag} > ${command.info.name}`
+    );
+
     await withCooldown(
       this.instance.cache,
       message,
