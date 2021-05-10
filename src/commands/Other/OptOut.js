@@ -21,7 +21,7 @@ module.exports = {
     if (args.length === 0) {
       const status = setting ? "opted out" : "opted in";
       embed.setDescription(
-        `<a:Sirona_loading:748854549703426118> <@!${discord_id}> is currently \`${status}\` from leaderboards.`
+        `<a:Sirona_loading:748854549703426118> <@!${discord_id}> is currently \`${status}\` on leaderboards.`
       );
     } else if (args.length === 1) {
       const arg = args[0].toLowerCase();
