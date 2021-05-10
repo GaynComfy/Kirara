@@ -74,7 +74,7 @@ exports.verifyPerms = async (instance, message, perms) => {
   const chanPerms = message.channel.permissionsFor(instance.client.user);
 
   const missing = perms.filter(
-    p => !member.hasPermission(p) && !chanPerms.has(p)
+    p => !member.hasPermission(p) && chanPerms && !chanPerms.has(p)
   );
 
   if (missing.length > 0) {
@@ -82,7 +82,8 @@ exports.verifyPerms = async (instance, message, perms) => {
       instance.guilds[message.guild.id].prefix || instance.config.prefix;
     const isAdmin = message.member.hasPermission("ADMINISTRATOR");
     const canSendMessages =
-      member.hasPermission("SEND_MESSAGES") || chanPerms.has("SEND_MESSAGES");
+      member.hasPermission("SEND_MESSAGES") ||
+      (chanPerms && chanPerms.has("SEND_MESSAGES"));
     const target = canSendMessages ? message.channel : message.author;
 
     target
