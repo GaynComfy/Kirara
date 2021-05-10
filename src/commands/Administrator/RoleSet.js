@@ -6,6 +6,7 @@ const info = {
   aliases: ["tierping", "set"],
   matchCase: false,
   category: "Administration",
+  perms: ["MENTION_EVERYONE"],
 };
 const emotes = {
   t1: "<:NewT1:781684991372689458>",

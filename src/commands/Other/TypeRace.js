@@ -18,8 +18,7 @@ const info = {
   needsQueue: true,
 };
 
-const end = (startTime, time) => {
-  const endTime = time;
+const end = (startTime, endTime) => {
   let timeDiff = endTime - startTime; // in ms
   // strip the ms
   timeDiff /= 1000;

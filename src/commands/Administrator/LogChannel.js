@@ -1,4 +1,5 @@
-const { withRights } = require("../../utils/hooks");
+const { checkPerms, withRights } = require("../../utils/hooks");
+const Color = require("../../utils/Colors.json");
 const { MessageEmbed } = require("discord.js");
 
 const info = {
@@ -30,23 +31,32 @@ module.exports = {
         );
       }
       if (message.mentions.channels.size === 1) {
-        const { id, name } = message.mentions.channels.first();
+        const chn = message.mentions.channels.first();
+        if (
+          (await checkPerms(instance, chn, ["SEND_MESSAGES", "EMBED_LINKS"]))
+            .length > 0
+        ) {
+          embed
+            .setColor(Color.red)
+            .setDescription(
+              `<:Sirona_NoCross:762606114444935168> I don't have permission to send messages to <#${chn.id}>.`
+            );
+        }
         await instance.database.simpleUpdate(
           "SERVERS",
           {
             guild_id: message.guild.id,
           },
           {
-            log_channel: id,
+            log_channel: chn.id,
           }
         );
-        instance.guilds[message.guild.id].log_channel = id;
+        instance.guilds[message.guild.id].log_channel = chn.id;
         embed.setDescription(
-          `<a:Sirona_Tick:749202570341384202> Logs Channel Set to ${name}!`
+          `<a:Sirona_Tick:749202570341384202> Logs Channel set to <#${chn.id}>!`
         );
       }
-      message.channel.send(embed);
-      return true;
+      return message.channel.send(embed);
     });
   },
   info,

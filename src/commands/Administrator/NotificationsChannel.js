@@ -1,4 +1,5 @@
-const { withRights } = require("../../utils/hooks");
+const { checkPerms, withRights } = require("../../utils/hooks");
+const Color = require("../../utils/Colors.json");
 const { MessageEmbed } = require("discord.js");
 
 const auc = ["auctions", "auc"];
@@ -79,7 +80,17 @@ const execute = async (instance, message, args, send = true) => {
     }
     if (args.length >= 2 && isNaN(args[1])) return false;
     if (message.mentions.channels.size === 1) {
-      const { id } = message.mentions.channels.first();
+      const chn = message.mentions.channels.first();
+      if (
+        (await checkPerms(instance, chn, ["SEND_MESSAGES", "EMBED_LINKS"]))
+          .length > 0
+      ) {
+        embed
+          .setColor(Color.red)
+          .setDescription(
+            `<:Sirona_NoCross:762606114444935168> I don't have permission to send messages to <#${chn.id}>.`
+          );
+      }
       if (result) {
         await instance.database.simpleUpdate(
           "SETTINGS",
@@ -87,10 +98,10 @@ const execute = async (instance, message, args, send = true) => {
             id: result.id,
           },
           {
-            value: id,
+            value: chn.id,
           }
         );
-        instance.settings[message.guild.id][`${type}_channel`] = id;
+        instance.settings[message.guild.id][`${type}_channel`] = chn.id;
         if (
           autodel &&
           args.length >= 2 &&
@@ -113,9 +124,9 @@ const execute = async (instance, message, args, send = true) => {
           key: `${type}_channel`,
           guild_id: message.guild.id,
           server_id: instance.serverIds[message.guild.id],
-          value: id,
+          value: chn.id,
         });
-        instance.settings[message.guild.id][`${type}_channel`] = id;
+        instance.settings[message.guild.id][`${type}_channel`] = chn.id;
         if (args.length >= 2 && args[1] !== "off" && args[1] !== "0") {
           await instance.database.simpleInsert("SETTINGS", {
             key: `${type}_autodelete`,
@@ -127,7 +138,7 @@ const execute = async (instance, message, args, send = true) => {
         }
       }
       embed.setDescription(
-        `<a:Sirona_Tick:749202570341384202> Notifications channel set to <#${id}>!` +
+        `<a:Sirona_Tick:749202570341384202> Notifications channel set to <#${chn.id}>!` +
           (args.length >= 2 && args[1] !== "off" && args[1] !== "0"
             ? `\n⏲️ Messages will be auto-deleted after ${args[1]} ${
                 parseInt(args[1]) > 1 ? "minutes" : "minute"

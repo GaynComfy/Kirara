@@ -5,6 +5,7 @@ const info = {
   name: "timer",
   matchCase: false,
   category: "Administration",
+  perms: ["READ_MESSAGE_HISTORY"],
 };
 const allowed = ["on", "off"];
 module.exports = {
