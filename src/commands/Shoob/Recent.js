@@ -115,6 +115,7 @@ module.exports = {
     usage: "recent [reverse] [global] [T1/T2/T3/T4/T5/T6]",
     examples: ["recent t1", "recent g t6", "r r"],
     description:
-      "Show last cards spawned by Shoob\nNote that this command will show info about users. See command: lb-optout",
+      "Show last cards spawned by Shoob\n" +
+      "Note that this command will show info about users. See command: lb-optout",
   },
 };
