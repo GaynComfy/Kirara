@@ -98,7 +98,7 @@ class EventManager {
       this.discordReady = true;
       // prcoess queued commands
       for (const elem of this.commandQueue) {
-        await this.commandEXecution(elem[0], elem[1], elem[2]);
+        await this.commandExecution(elem[0], elem[1], elem[2]);
       }
       this.commandQueue = null;
     });
