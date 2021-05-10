@@ -10,6 +10,8 @@ const info = {
 module.exports = {
   execute: async (instance, message, args) => {
     const embed = new MessageEmbed().setColor(Color.default);
+    const prefix =
+      instance.guilds[message.guild.id].prefix || instance.config.prefix;
     const { id: discord_id } = message.author;
     const {
       rows: [setting],
@@ -20,8 +22,10 @@ module.exports = {
 
     if (args.length === 0) {
       const status = setting ? "opted out" : "opted in";
+      const toggle = setting ? "no" : "yes";
       embed.setDescription(
-        `<a:Sirona_loading:748854549703426118> <@!${discord_id}> is currently \`${status}\` on leaderboards.`
+        `<a:Sirona_loading:748854549703426118> <@!${discord_id}> is currently \`${status}\` on leaderboards.\n\n` +
+          `<a:Sirona_star:748985391360507924> You can use \`${prefix}lb-optout ${toggle}\` to toggle this.`
       );
     } else if (args.length === 1) {
       const arg = args[0].toLowerCase();
