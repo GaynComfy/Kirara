@@ -83,22 +83,23 @@ exports.verifyPerms = async (instance, message, perms) => {
     const isAdmin = message.member.hasPermission("ADMINISTRATOR");
     const canSendMessages =
       member.hasPermission("SEND_MESSAGES") || chanPerms.has("SEND_MESSAGES");
-    let target = message.channel;
-    if (!canSendMessages) target = message.author;
+    const target = canSendMessages ? message.channel : message.author;
 
-    target.send(
-      (canSendMessages
-        ? "I'm sorry, but I can't execute that command!"
-        : `You just tried executing a command on <#${message.channel.id}>, but I can't since`) +
-        " I am missing permissions to do what's required for it! To be exact:\n```diff\n- " +
-        missing.join("\n- ") +
-        "```\n" +
-        (isAdmin
-          ? `To make sure I have all the permissions, please use \`${prefix}invite\` to invite me back to the server!`
-          : !canSendMessages
-          ? "Please ask the server's admins for assistance."
-          : "")
-    );
+    target
+      .send(
+        (canSendMessages
+          ? "I'm sorry, but I can't execute that command!"
+          : `You just tried executing a command on <#${message.channel.id}>, but I can't since`) +
+          " I am missing permissions to do what's required for it! To be exact:\n```diff\n- " +
+          missing.join("\n- ") +
+          "```\n" +
+          (isAdmin
+            ? `To make sure I have all the permissions, please use \`${prefix}invite\` to invite me back to the server!`
+            : !canSendMessages
+            ? "Please ask the server's admins for assistance."
+            : "")
+      )
+      .catch(() => {});
     return false;
   }
 
