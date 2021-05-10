@@ -11,34 +11,43 @@ const allowed = ["on", "off"];
 module.exports = {
   execute: async (instance, message, args) => {
     return withRights(message.member, async () => {
-      if (args.length === 0 || !allowed.includes(args[0].toLowerCase()))
+      if (
+        (args.length > 0 && !allowed.includes(args[0].toLowerCase())) ||
+        args.length > 1
+      )
         return false;
-      const newState = args[0].toLowerCase() === "on";
-      await instance.database.simpleUpdate(
-        "SERVERS",
-        {
-          guild_id: message.guild.id,
-        },
-        {
-          timer: newState,
-        }
-      );
-      instance.guilds[message.guild.id].timer = newState;
-      const embedz = new MessageEmbed()
-        .setDescription(
+      const embed = new MessageEmbed().setColor("RANDOM");
+
+      if (args.length === 0) {
+        const toggle = instance.guilds[message.guild.id].timer ? "on" : "off";
+        embed.setDescription(
+          `<a:Sirona_loading:748854549703426118> The spawn timer is ${toggle}.`
+        );
+      } else {
+        const newState = args[0].toLowerCase() === "on";
+        await instance.database.simpleUpdate(
+          "SERVERS",
+          {
+            guild_id: message.guild.id,
+          },
+          {
+            timer: newState,
+          }
+        );
+        instance.guilds[message.guild.id].timer = newState;
+        embed.setDescription(
           "<a:Sirona_Tick:749202570341384202> I have successfully turned `" +
-            args[0] +
+            args[0].toLowerCase() +
             "` the timer!"
-        )
-        .setColor("RANDOM");
-      message.channel.send({ embed: embedz });
-      return true;
+        );
+      }
+      return message.channel.send(embed);
     });
   },
   info,
   help: {
     usage: "timer [on/off]",
-    examples: ["timer on"],
+    examples: ["timer on", "timer"],
     description: "Toggle the timer for Shoob card spawns!",
   },
 };
