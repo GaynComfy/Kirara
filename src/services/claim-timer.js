@@ -25,7 +25,14 @@ module.exports = {
               const i = chn.indexOf(timer);
               if (i !== -1) chn[i].last = new Date();
             })
-            .catch(err => console.error(err));
+            .catch(err => {
+              console.error(err);
+              // unknown message, give up
+              if (err.code === 10008) {
+                const i = chn.indexOf(timer);
+                if (i !== -1) chn.splice(i, 1);
+              }
+            });
         });
       });
     }, 1000);
