@@ -1,5 +1,6 @@
 const Redis = require("ioredis");
 const { MessageEmbed } = require("discord.js");
+const Constants = require("../utils/Constants.json");
 const tierSettings = {
   1: { emoji: "<:NewT1:781684991372689458>", num: 1, color: "#e8e8e8" },
   2: { emoji: "<:NewT2:781684993071251476>", num: 2, color: "#2ed60d" },
@@ -54,7 +55,15 @@ module.exports = {
 
       const guilds = instance.client.guilds.cache
         .array()
-        .filter(g => instance.settings[g.id]["games_channel"]);
+        .filter(g => instance.settings[g.id]["games_channel"])
+        .sort((a, b) => {
+          // give priority to network servers
+          // maybe use this in the future for top.gg votes rewards too?
+          // also maybe priorise those servers with most claims first too. but that needs more changes
+          if (Constants.network.includes(b.id)) return 1;
+          if (Constants.network.includes(a.id)) return -1;
+          return 0;
+        });
 
       console.debug(
         `[${instance.client.shard.ids[0]}] Broadcasting minigame ${data.id} to ${guilds.length} guilds`
