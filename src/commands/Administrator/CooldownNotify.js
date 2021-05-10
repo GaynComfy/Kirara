@@ -54,8 +54,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "timer [on/off]",
-    examples: ["timer on", "timer"],
-    description: "Toggle the timer for Shoob card spawns!",
+    usage: "cdnotify [on/off]",
+    examples: ["cdnotify on", "cdnotify"],
+    description: "Toggle the cooldown notify for Shoob card spawns!",
   },
 };
