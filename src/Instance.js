@@ -65,7 +65,7 @@ class Instance {
     this.guilds = {};
     this.shared = {};
     this.trivia = {};
-    this.queue = new Queue();
+    this.queues = {};
   }
   async prepareEvents() {
     const events = {};
@@ -134,6 +134,9 @@ class Instance {
   }
   async initReload() {
     this.client.shard.broadcastEval(`this.b_instance.reload()`);
+  }
+  createQueue(id) {
+    this.queues[id] = new Queue();
   }
   async reload() {
     if (!this.bootstrapped) return;

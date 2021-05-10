@@ -15,6 +15,7 @@ const info = {
   aliases: ["tr"],
   matchCase: false,
   category: "UwU",
+  needsQueue: true,
 };
 
 const end = (startTime, time) => {
@@ -28,7 +29,7 @@ const end = (startTime, time) => {
 const channelMap = [];
 
 module.exports = {
-  execute: async (instance, message, args) => {
+  execute: async (instance, message, args, queue) => {
     if (channelMap[message.channel.id]) return false;
     let di = args.length > 0 ? args.shift().toLowerCase() : false;
     const tier =
@@ -97,13 +98,13 @@ module.exports = {
       )
         .then(async lastTop => {
           const toReact = first ? "🏅" : "✅";
-          await instance.queue.addItem(async () => {
+          await queue.addItem(async () => {
             return await msg.react(toReact);
           });
           if (lastTop !== null && took < lastTop) {
             // new record!
             await new Promise(resolve => setTimeout(resolve, 1000));
-            await instance.queue.addItem(() =>
+            await queue.addItem(() =>
               msg.react("<a:Sirona_star:748985391360507924>")
             );
           }
@@ -111,7 +112,7 @@ module.exports = {
         .catch(err => {
           console.error(err);
           // error saving score?
-          instance.queue.addItem(() => msg.react("❌")).catch(() => {});
+          queue.addItem(() => msg.react("❌")).catch(() => {});
         });
     });
 
