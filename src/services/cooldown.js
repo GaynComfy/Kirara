@@ -16,7 +16,7 @@ module.exports = {
             "> <:Sirona_yesh:762603569538531328> Spawn cooldown reset!"
           );
 
-        instance.shared["cooldown"][chan]
+        instance.shared["cooldown"][chan].chan
           .send(embed)
           .catch(err => console.error(err));
         delete instance.shared["cooldown"][chan];
