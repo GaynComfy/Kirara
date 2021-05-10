@@ -106,7 +106,7 @@ module.exports = {
         .catch(err => {
           console.error(err);
           // error saving score?
-          msg.react("❌");
+          msg.react("❌").catch(() => {});
         });
     });
 

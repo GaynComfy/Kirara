@@ -14,7 +14,7 @@ exports.timeout = (
 
 /**
  * @param {require('discord.js').Message} msg
- * @param {string[] || require('discord.js').Emoji} reacts
+ * @param {string[] | require('discord.js').Emoji[]} reacts
  */
 exports.multiReact = async (msg, reacts) => {
   if (reacts.length === 1) return msg.react(reacts[0]);
