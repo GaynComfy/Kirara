@@ -7,31 +7,25 @@ module.exports = {
     if (!instance.shared["timer"]) instance.shared["timer"] = {};
 
     updateInterval = setInterval(async () => {
-      Object.keys(instance.shared["timer"]).forEach(c => {
-        const e = instance.shared["timer"][c];
-        e.forEach(async s => {
-          if (new Date() - s.last < 3500) return;
-          const e = await getTimer(s.time);
-          if (!e) {
-            s.msg.delete().catch(() => {});
-            const i = instance.shared["timer"][c].indexOf(s);
-            if (i !== -1) instance.shared["timer"][c].splice(i, 1);
+      Object.keys(instance.shared["timer"]).forEach(chan => {
+        const chn = instance.shared["timer"][chan];
+        chn.forEach(async timer => {
+          if (new Date() - timer.last < 3500) return;
+          const embed = await getTimer(timer.time);
+          if (!embed) {
+            timer.msg.delete().catch(() => {});
+            const i = chn.indexOf(timer);
+            if (i !== -1) chn.splice(i, 1);
             return;
           }
 
-          s.msg
-            .edit(e)
+          timer.msg
+            .edit(embed)
             .then(() => {
-              const i = instance.shared["timer"][c].indexOf(s);
-              if (i !== -1)
-                instance.shared["timer"][c][i] = {
-                  ...instance.shared["timer"][c][i],
-                  last: new Date(),
-                };
+              const i = chn.indexOf(timer);
+              if (i !== -1) chn[i].last = new Date();
             })
-            .catch(err => {
-              console.error(err);
-            });
+            .catch(err => console.error(err));
         });
       });
     }, 1000);

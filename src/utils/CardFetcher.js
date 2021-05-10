@@ -73,7 +73,8 @@ class CardFetcher {
     const cards = result.data
       .sort((l, n) => tN(n.tier) - tN(l.tier))
       .map(c => {
-        return { ...c, event };
+        c.event = event;
+        return c;
       });
     instance.cache.setExpire(k, JSON.stringify(cards), 60 * 30);
     return cards;
@@ -97,7 +98,8 @@ class CardFetcher {
     ) {
       return null;
     }
-    const card = { ...result.data, event };
+    const card = result.data;
+    card.event = event;
     instance.cache.setExpire(k, JSON.stringify(card), 60 * 60);
     return card;
   }
