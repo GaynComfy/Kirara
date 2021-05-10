@@ -30,7 +30,7 @@ const channelMap = [];
 
 module.exports = {
   execute: async (instance, message, args, queue) => {
-    if (channelMap[message.channel.id]) return false;
+    if (channelMap[message.channel.id]) return;
     let di = args.length > 0 ? args.shift().toLowerCase() : false;
     const tier =
       typeof di === "string" &&
