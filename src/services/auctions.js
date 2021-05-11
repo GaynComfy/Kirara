@@ -147,7 +147,6 @@ module.exports = {
       });
     } else {
       instance.client.b_handle_auction = async (channel, data) => {
-        console.log(channel, data);
         await onMessage(channel, data);
       };
     }
