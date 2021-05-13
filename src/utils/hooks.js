@@ -74,10 +74,10 @@ exports.checkPerms = async (instance, channel, perms) => {
 };
 
 exports.verifyPerms = async (instance, message, perms) => {
-  if (!message.guild || !perms || perms.length <= 0) return true;
+  if (!message.guild || !perms || perms.length <= 0) return false;
 
   const member = message.guild.member(instance.client.user);
-  if (!member) return true; // ???
+  if (!member) return false; // ???
   // nice workaround
   const chanPerms = message.channel.permissionsFor(instance.client.user) || {
     has: () => false,
