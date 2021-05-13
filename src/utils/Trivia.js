@@ -1,5 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const sleep = time => new Promise(r => setTimeout(r, time));
+const questions = JSON.parse(require("fs").readFileSync("./src/assets/questions.json"));
 const shuffle = array => {
   let currentIndex = array.length,
     temporaryValue,
@@ -15,51 +16,7 @@ const shuffle = array => {
   return array;
 };
 const getQuestions = async props => {
-  const all = [
-    {
-      name: "Some question 1",
-      description: "whis is the best and superior Operating system",
-      correct: "B",
-      answers: [
-        {
-          key: "A",
-          description: "MacOS",
-        },
-        {
-          key: "B",
-          description: "GNU/Linux",
-        },
-        {
-          key: "C",
-          description: "Windooof",
-        },
-      ],
-    },
-    {
-      name: "Some question 2",
-      description: "Who has this as their avatar",
-      correct: "C",
-      image: "https://liz3.net/assets/img/pfp.jpeg",
-      answers: [
-        {
-          key: "A",
-          description: "Yoshi",
-        },
-        {
-          key: "B",
-          description: "Aly",
-        },
-        {
-          key: "C",
-          description: "Liz",
-        },
-        {
-          key: "D",
-          description: "None of them, maybe Whomst",
-        },
-      ],
-    },
-  ];
+  const all = [...questions];
   return shuffle(all).slice(0, props.amount);
 };
 const answerInteraction = (instance, interaction, type, content) => {
