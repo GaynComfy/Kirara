@@ -1,9 +1,12 @@
+// eslint-disable no-unreachable
+
 const { MessageEmbed } = require("discord.js");
 
 let notifyInterval = null;
 
 module.exports = {
   start: async instance => {
+    return;
     if (!instance.shared["cooldown"]) instance.shared["cooldown"] = {};
 
     notifyInterval = setInterval(async () => {
