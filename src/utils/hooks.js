@@ -47,16 +47,9 @@ exports.withCooldown = async (
 ) => {
   if (cd <= 0) return handler();
   const cdKey = `cmdcooldown:${message.channel.id}:${message.author.id}:${command}`;
-  const cdReactKey = `cmdcooldownw:${message.channel.id}:${message.author.id}:${command}`;
 
   // are we in cooldown?
   if (await cache.exists(cdKey)) {
-    // have we indicated the user that they are if so?
-    if (!(await cache.exists(cdReactKey))) {
-      // give them an indicator they need to wait
-      message.react("🕘").catch(() => {});
-      await cache.setExpire(cdReactKey, "1", 5);
-    }
     return null;
   }
 
