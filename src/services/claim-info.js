@@ -49,7 +49,10 @@ module.exports = {
             }
           }
 
-          if (instance.settings[data.server_id]["cooldown:notify"]) {
+          if (
+            typeof instance.shared["cooldown"] === "object" &&
+            instance.settings[data.server_id]["cooldown:notify"]
+          ) {
             instance.shared["cooldown"][data.channel_id] = {
               chan: messageChannel,
               time: Date.now(),
