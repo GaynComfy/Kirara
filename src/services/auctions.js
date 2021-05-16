@@ -75,8 +75,17 @@ module.exports = {
       console.debug(
         `[${instance.client.shard.ids[0]}] Broadcasting auction ${data.id} to ${guilds.length} guilds`
       );
-
+      //      let ranSleep = false;
       for (const guild of guilds) {
+        // if(!Constants.network.includes(guild.id) && !ranSleep) {
+        //   const len = guilds.filter(g => !Constants.network.includes(g.id)).length;
+        //   const shard_id = instance.client.shard.ids[0];
+        //   let guildCount ;
+
+        //   const delay = instance.client.shard.ids[0] * (len * 1.3) * 500;
+        //   await new Promise(resolve => setTimeout(resolve, delay));
+        //   ranSleep = true;
+        // }
         const logChannel = guild.channels.cache.get(
           instance.settings[guild.id]["notif_channel"]
         );
@@ -123,9 +132,24 @@ module.exports = {
         }
       }
     };
-    client = new Redis(`redis://${config.cache.host}:${config.cache.port}`);
-    client.subscribe("auctions");
-    client.on("message", onMessage);
+    const shard_id = instance.client.shard.ids[0];
+    if (shard_id === 0) {
+      client = new Redis(`redis://${config.cache.host}:${config.cache.port}`);
+      client.subscribe("auctions");
+      client.on("message", async (channel, msg) => {
+        await onMessage(channel, msg);
+        for (let i = 1; i < instance.client.shard.count; i++) {
+          await instance.client.shard.broadcastEval(
+            `this.b_handle_auction(\`${channel}\`, \`${msg}\`)`,
+            i
+          );
+        }
+      });
+    } else {
+      instance.client.b_handle_auction = async (channel, data) => {
+        await onMessage(channel, data);
+      };
+    }
   },
   stop: async () => {
     if (deleteInterval) clearInterval(deleteInterval);

@@ -47,16 +47,9 @@ exports.withCooldown = async (
 ) => {
   if (cd <= 0) return handler();
   const cdKey = `cmdcooldown:${message.channel.id}:${message.author.id}:${command}`;
-  const cdReactKey = `cmdcooldownw:${message.channel.id}:${message.author.id}:${command}`;
 
   // are we in cooldown?
   if (await cache.exists(cdKey)) {
-    // have we indicated the user that they are if so?
-    if (!(await cache.exists(cdReactKey))) {
-      // give them an indicator they need to wait
-      message.react("🕘").catch(() => {});
-      await cache.setExpire(cdReactKey, "1", 5);
-    }
     return null;
   }
 
@@ -74,10 +67,10 @@ exports.checkPerms = async (instance, channel, perms) => {
 };
 
 exports.verifyPerms = async (instance, message, perms) => {
-  if (!message.guild || !perms || perms.length <= 0) return true;
+  if (!message.guild || !perms || perms.length <= 0) return false;
 
   const member = message.guild.member(instance.client.user);
-  if (!member) return true; // ???
+  if (!member) return false; // ???
   // nice workaround
   const chanPerms = message.channel.permissionsFor(instance.client.user) || {
     has: () => false,
