@@ -1,0 +1,165 @@
+[{
+      "name": "Question#1",
+      "description": "How was the place called where Ranma got his switching-gender powers?",
+      "correct": "2",
+      "image":         "https://cdn.discordapp.com/attachments/787480271897362482/840292044727517194/Ranmaalane.jpg",
+      "answers": [
+        {
+          "key": "1",
+          "description": "Shinjuku Gyoen park"
+        },
+        {
+          "key": "2",
+          "description": "Jusenko Ponds"
+        },
+        {
+          "key": "3",
+          "description": "Tanegashima Island"
+        }
+      ]
+},
+
+{
+      "name": "Question#2",
+      "description": "How was the younger of L's successors in Death Note called?",
+      "correct": "2",
+      "image": "https://cdn.discordapp.com/attachments/787480271897362482/840303034247806976/DeathNote.jpg",
+      "answers": [
+        {
+          "key": "1",
+          "description": "Katsu"
+        },
+        {
+          "key": "2",
+          "description": "Near"
+        },
+        {
+          "key": "3",
+          "description": "Shinji"
+        }
+      ]
+}
+,
+{
+      "name": "Question#3",
+      "description": "How many “Sailor” warriors there were originally at the start of Sailor Moon?",
+      "correct": "2",
+      "image": "https://cdn.discordapp.com/attachments/787480271897362482/840303470624112640/SailorMoon.jpg",
+      "answers": [
+        {
+          "key": "1",
+          "description": "4"
+        },
+        {
+          "key": "2",
+          "description": "5"
+        },
+        {
+          "key": "3",
+          "description": "6"
+        }
+      ]
+},
+{
+      "name": "Question#4",
+      "description": "Who is the main developer of Kirara?",
+      "correct": "1",
+      "image": "https://cdn.discordapp.com/attachments/787480271897362482/840303025145774090/Kirara.png",
+      "answers": [
+        {
+          "key": "1",
+          "description": "Boshi (JeDaYoshi#7942)"
+        },
+        {
+          "key": "2",
+          "description": "Hackuou#5486"
+        },
+        {
+          "key": "3",
+          "description": "Tranuka#4474"
+        }
+      ]
+},
+{
+      "name": "Question#5",
+      "description": "Which character tends to use frequently the expression “darling”?",
+      "correct": "3",
+      "image": "https://cdn.discordapp.com/attachments/787480271897362482/840303019564335124/AnimePicture.jpg",
+      "answers": [
+        {
+          "key": "1",
+          "description": "Rin Tohsaka"
+        },
+        {
+          "key": "2",
+          "description": "Dazai Osamu"
+        },
+        {
+          "key": "3",
+          "description": "Zero Two"
+        }
+      ]
+}
+,
+{
+      "name": "Question#6",
+      "description": "In which era is Cowboy Bebop located?",
+      "correct": "1",
+      "image": "https://cdn.discordapp.com/attachments/787480271897362482/840303786316136498/CowboyBebop.jpeg",
+      "answers": [
+        {
+          "key": "1",
+          "description": "Future (2071)"
+        },
+        {
+          "key": "2",
+          "description": "Past (1519)"
+        },
+        {
+          "key": "3",
+          "description": "Present"
+        }
+      ]
+},
+
+{
+      "name": "Question#7",
+      "description": "What was the first anime to be on the server Watch Party event?",
+      "correct": "3",
+      "image": "https://cdn.discordapp.com/attachments/829826159822241792/838919409623498752/GnC_Watch_Party_By_Leah.png",
+      "answers": [
+        {
+          "key": "1",
+          "description": "Wonder Egg Priority"
+        },
+        {
+          "key": "2",
+          "description": "Death Parade"
+        },
+        {
+          "key": "3",
+          "description": "Attack on Titan"
+        }
+      ]
+},
+{
+      "name": "Question#8",
+      "description": "Which of the following anime is a movie?",
+      "correct": "2",
+      "image": "https://cdn.discordapp.com/attachments/787480271897362482/840305192183660565/SummerWars.jpg",
+      "answers": [
+        {
+          "key": "1",
+          "description": "Devilman Crybaby"
+        },
+        {
+          "key": "2",
+          "description": "Summer Wars"
+        },
+        {
+          "key": "3",
+          "description": "Guilty Crown"
+        }
+      ]
+}
+]
