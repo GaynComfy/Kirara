@@ -1,5 +1,5 @@
-const { checkPerms, withRights } = require("../../utils/hooks");
-const Color = require("../../utils/Colors.json");
+const { /*checkPerms,*/ withRights } = require("../../utils/hooks");
+//const Color = require("../../utils/Colors.json");
 const { MessageEmbed } = require("discord.js");
 
 const auc = ["auctions", "auc"];
@@ -81,16 +81,16 @@ const execute = async (instance, message, args, send = true) => {
     if (args.length >= 2 && isNaN(args[1])) return false;
     if (message.mentions.channels.size === 1) {
       const chn = message.mentions.channels.first();
-      if (
-        (await checkPerms(instance, chn, ["SEND_MESSAGES", "EMBED_LINKS"]))
-          .length > 0
-      ) {
-        embed
-          .setColor(Color.red)
-          .setDescription(
-            `<:Sirona_NoCross:762606114444935168> I don't have permission to send messages to <#${chn.id}>.`
-          );
-      }
+      // if (
+      //   (await checkPerms(instance, chn, ["SEND_MESSAGES", "EMBED_LINKS"]))
+      //     .length > 0
+      // ) {
+      //   embed
+      //     .setColor(Color.red)
+      //     .setDescription(
+      //       `<:Sirona_NoCross:762606114444935168> I don't have permission to send messages to <#${chn.id}>.`
+      //     );
+      // }
       if (result) {
         await instance.database.simpleUpdate(
           "SETTINGS",
