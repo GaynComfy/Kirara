@@ -114,7 +114,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
     const embed = new MessageEmbed()
       .setTitle(question.name)
       .setDescription(question.description)
-      .setFooter(`You have ${left} seconds to answer using \`/quiz\`!`);
+      .setFooter(`You have ${left} seconds to answer using /quiz`);
     question.answers.forEach(elem =>
       embed.addField(`Answer ${elem.key}`, elem.description)
     );
@@ -152,7 +152,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
         .setTitle(`${question.name} results`)
         .setDescription(question.description)
         .addField(`${answer.key}: ${answer.description}`, winners)
-        .setField(
+        .setFooter(
           `${correct.length} of ${current.answers.length} participants got it right!`
         );
       await msg.edit(results);
@@ -163,7 +163,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
         .setDescription(
           `${question.description}\n\n**Nobody got it right!** The answer was:\n> ${answer.key}: ${answer.description}`
         )
-        .setField(`${current.answers.length} participants tried!`);
+        .setFooter(`${current.answers.length} participants tried!`);
       await msg.edit(results);
     }
 
