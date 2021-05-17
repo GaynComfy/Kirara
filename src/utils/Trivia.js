@@ -112,6 +112,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
     // question embed
     const left = options.interval / 1000;
     const embed = new MessageEmbed()
+      .setColor("RANDOM")
       .setTitle(question.name)
       .setDescription(question.description)
       .setFooter(`You have ${left} seconds to answer using /quiz`);
@@ -208,12 +209,12 @@ const runGame = async (instance, channel, guild, participants, options) => {
     e => e.correct.length + e.wrong.length === questions.length
   );
   const friends = sorted
-    .slice(0, 5)
+    .slice(0, 10)
     .map(
       (entry, i) =>
         `> ` +
         (i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.**`) +
-        ` <@!${entry.id}> / \`${participants[entry.id].name}\``
+        ` <@!${entry.id}>`
     );
 
   const finalEmbed = new MessageEmbed()
@@ -223,7 +224,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
     .addField("Players", sorted.length, true)
     .addField("Questions", questions.length, true)
     .addField("Perfect Players", allCorrect.length, true)
-    .addField("Lost Players", noCorrect.length, true)
+    .addField("Confused Players", noCorrect.length, true)
     .addField("Leal Players", participated.length, true)
     .addField("Leaderboard", friends)
     .setFooter("Thank you for participating into this quiz with us!");

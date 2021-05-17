@@ -70,7 +70,7 @@ module.exports = {
 
         const embed = new MessageEmbed()
           .setColor("#ddaaaa")
-          .setTitle("A nw quiz is starting!")
+          .setTitle("A new quiz is starting!")
           .setDescription("React ✅ to join!")
           .setFooter(
             `Be fast! You can join within ${opts.jointime / 1000} seconds`
