@@ -162,7 +162,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
         .setDescription(
           `${question.description}\n\n**Nobody got it right!** The answer was:\n> ${answer.key}: ${answer.description}`
         )
-        .setFooter(`${current.answers.length} participants tried!`);
+        .setFooter(`${all} participants tried!`);
       await msg.edit(results);
     }
 
