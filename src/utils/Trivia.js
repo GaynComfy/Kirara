@@ -131,10 +131,10 @@ const runGame = async (instance, channel, guild, participants, options) => {
 
     // results of the question
     let correct = [];
-    Object.keys(current.answers).forEach(uid => {
-      const entry = current.answers[uid];
+    Object.keys(current.answers).forEach(id => {
+      const entry = current.answers[id];
       const good = entry.answer === question.correct;
-      if (good) correct.push({ uid, ...entry });
+      if (good) correct.push({ id, ...entry });
     });
     correct = correct.sort((a, b) => a.time - b.time);
 
@@ -145,7 +145,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
         (entry, i) =>
           `> ` +
           (i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.**`) +
-          ` <@!${entry.uid}>`
+          ` <@!${entry.id}>`
       );
 
       const results = new MessageEmbed()
@@ -168,7 +168,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
 
     answers.push(current);
     current = null;
-    await sleep(8000);
+    await sleep(10000);
   }
 
   // trivia has ended.
@@ -182,17 +182,17 @@ const runGame = async (instance, channel, guild, participants, options) => {
     });
 
   const top = {};
-  answers.forEach(questionResult => {
-    Object.keys(questionResult.answers).forEach(userHash => {
-      const entry = questionResult.answers[userHash];
-      const correct = entry.answer === questionResult.correct;
+  answers.forEach(question => {
+    Object.keys(question.answers).forEach(userHash => {
+      const entry = question.answers[userHash];
+      const correct = entry.answer === question.correct;
       if (top[userHash]) {
         top[userHash].time += entry.time;
-        top[userHash][correct ? "correct" : "wrong"].push(questionResult.name);
+        top[userHash][correct ? "correct" : "wrong"].push(question.name);
       } else {
         top[userHash] = {
-          correct: correct ? [questionResult.name] : [],
-          wrong: !correct ? [questionResult.name] : [],
+          correct: correct ? [question.name] : [],
+          wrong: !correct ? [question.name] : [],
           id: userHash,
           time: entry.time,
         };
@@ -200,20 +200,35 @@ const runGame = async (instance, channel, guild, participants, options) => {
     });
   });
   const sorted = Object.values(top)
-    .sort((a, b) => b.correct.length - a.correct.length)
-    .sort((a, b) => a.time - b.time);
+    .sort((a, b) => a.time - b.time)
+    .sort((a, b) => b.correct.length - a.correct.length);
   const allCorrect = sorted.filter(e => e.correct.length === questions.length);
   const noCorrect = sorted.filter(e => e.wrong.length === questions.length);
-  const finalEmbed = new MessageEmbed()
-    .setTitle("Quiz result")
-    .setDescription(
-      `Result of this quiz:\n${allCorrect.length} got everything right\n${noCorrect.length} got everything wrong\n${sorted.length} participated`
+  const participated = sorted.filter(
+    e => e.correct.length + e.wrong.length === questions.length
+  );
+  const friends = sorted
+    .slice(0, 5)
+    .map(
+      (entry, i) =>
+        `> ` +
+        (i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.**`) +
+        ` <@!${entry.id}> / \`${participants[entry.id].name}\``
     );
-  sorted.slice(0, 3).forEach((e, i) => {
-    finalEmbed.addField(`${i + 1}. Place`, participants[e.id].name);
-  });
 
-  channel.send(finalEmbed);
+  const finalEmbed = new MessageEmbed()
+    .setColor("#bbffbb")
+    .setTitle("Quiz results!")
+    .addField("Participants", Object.keys(participants).length, true)
+    .addField("Players", sorted.length, true)
+    .addField("Questions", questions.length, true)
+    .addField("Perfect Players", allCorrect.length, true)
+    .addField("Lost Players", noCorrect.length, true)
+    .addField("Leal Players", participated.length, true)
+    .addField("Leaderboard", friends)
+    .setFooter("Thank you for participating into this quiz with us!");
+
+  return channel.send(finalEmbed);
 };
 
 module.exports = { runGame };
