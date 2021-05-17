@@ -11,12 +11,12 @@ const info = {
 };
 
 const noUsersEmbed = new MessageEmbed()
-  .setColor("#d33")
+  .setColor("#dd3333")
   .setDescription(
     "<:Sirona_NoCross:762606114444935168> Not enough participants - cancelling quiz!"
   );
 const alreadyRunning = new MessageEmbed()
-  .setColor("#d33")
+  .setColor("#dd3333")
   .setDescription(
     "<:Sirona_NoCross:762606114444935168> There is an already running quiz on this server."
   );
@@ -69,8 +69,8 @@ module.exports = {
         const participants = {};
 
         const embed = new MessageEmbed()
-          .setColor("#daa")
-          .setTitle("New quiz is starting!")
+          .setColor("#ddaaaa")
+          .setTitle("A nw quiz is starting!")
           .setDescription("React ✅ to join!")
           .setFooter(
             `Be fast! You can join within ${opts.jointime / 1000} seconds`

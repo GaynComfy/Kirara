@@ -113,9 +113,8 @@ const runGame = async (instance, channel, guild, participants, options) => {
     const left = options.interval / 1000;
     const embed = new MessageEmbed()
       .setTitle(question.name)
-      .setDescription(
-        `${question.description}\n\nYou have ${left} seconds to answer using \`/quiz\`!`
-      );
+      .setDescription(question.description)
+      .setFooter(`You have ${left} seconds to answer using \`/quiz\`!`);
     question.answers.forEach(elem =>
       embed.addField(`Answer ${elem.key}`, elem.description)
     );
@@ -131,20 +130,25 @@ const runGame = async (instance, channel, guild, participants, options) => {
     await sleep(options.interval);
 
     // results of the question
-    const correct = current.answers
-      .filter(entry => entry.answer === question.correct)
-      .sort((a, b) => a.time - b.time);
+    let correct = [];
+    Object.keys(current.answers).forEach(uid => {
+      const entry = current.answers[uid];
+      const good = entry.answer === question.correct;
+      if (good) correct.push({ uid, ...entry });
+    });
+    correct = correct.sort((a, b) => a.time - b.time);
+
     const answer = question.answers.find(q => q.key === question.correct);
     if (correct.length > 0) {
-      const winners = Object.keys(correct).map(
-        (uid, i) =>
+      const winners = correct.map(
+        (entry, i) =>
           `> ` +
           (i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.**`) +
-          ` <@!${uid}>`
+          ` <@!${entry.uid}>`
       );
 
       const results = new MessageEmbed()
-        .setColor("#ada")
+        .setColor("#aaddaa")
         .setTitle(`${question.name} results`)
         .setDescription(question.description)
         .addField(`${answer.key}: ${answer.description}`, winners)
@@ -154,7 +158,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
       await msg.edit(results);
     } else {
       const results = new MessageEmbed()
-        .setColor("#d33")
+        .setColor("#dd3333")
         .setTitle(`${question.name} results`)
         .setDescription(
           `${question.description}\n\n**Nobody got it right!** The answer was:\n> ${answer.key}: ${answer.description}`
