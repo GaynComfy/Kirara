@@ -139,6 +139,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
     correct = correct.sort((a, b) => a.time - b.time);
 
     const answer = question.answers.find(q => q.key === question.correct);
+    const all = Object.keys(current.answers).length;
     if (correct.length > 0) {
       const winners = correct.map(
         (entry, i) =>
@@ -152,9 +153,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
         .setTitle(`${question.name} results`)
         .setDescription(question.description)
         .addField(`${answer.key}: ${answer.description}`, winners)
-        .setFooter(
-          `${correct.length} of ${current.answers.length} participants got it right!`
-        );
+        .setFooter(`${correct.length} of ${all} participants got it right!`);
       await msg.edit(results);
     } else {
       const results = new MessageEmbed()
