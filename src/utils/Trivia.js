@@ -1,6 +1,12 @@
 const { MessageEmbed } = require("discord.js");
+
 const sleep = time => new Promise(r => setTimeout(r, time));
-const questions = JSON.parse(require("fs").readFileSync("./src/assets/questions.json"));
+
+// ToDo: change this in the future as we develop this further
+const questions = JSON.parse(
+  require("fs").readFileSync("./src/assets/questions.json")
+);
+
 const shuffle = array => {
   let currentIndex = array.length,
     temporaryValue,
@@ -19,6 +25,8 @@ const getQuestions = async props => {
   const all = [...questions];
   return shuffle(all).slice(0, props.amount);
 };
+
+// sending the answer to the slash command to the user
 const answerInteraction = (instance, interaction, type, content) => {
   const data = {
     type,
@@ -33,6 +41,8 @@ const answerInteraction = (instance, interaction, type, content) => {
     .interactions(interaction.id, interaction.token)
     .callback.post({ data });
 };
+
+// the whole game handler
 const runGame = async (instance, channel, guild, participants, options) => {
   const questions = await getQuestions(options);
   const answers = [];
@@ -42,28 +52,26 @@ const runGame = async (instance, channel, guild, participants, options) => {
     onInteraction: interaction => {
       const { user } = interaction.member;
       if (!current || !participants[user.id]) {
-        answerInteraction(
+        return answerInteraction(
           instance,
           interaction,
           4,
-          "you are not part of the quiz!"
+          "You are not participating on this quiz!"
         );
-        return;
       }
       if (current.answers[user.id]) {
-        answerInteraction(
+        return answerInteraction(
           instance,
           interaction,
           4,
-          "You cannot change your answer"
+          "You already answered this question!"
         );
-        return;
       }
       current.answers[user.id] = {
         answer: interaction.data.options[0].value,
         time: Date.now() - current.start,
       };
-      answerInteraction(
+      return answerInteraction(
         instance,
         interaction,
         4,
@@ -75,8 +83,10 @@ const runGame = async (instance, channel, guild, participants, options) => {
     participants,
   };
   let cmd = null;
+
+  // run all the questions
   for (const question of questions) {
-    current = null;
+    // /quiz slash command
     cmd = await instance.client.api
       .applications(instance.client.user.id)
       .guilds(guild.id)
@@ -98,22 +108,67 @@ const runGame = async (instance, channel, guild, participants, options) => {
           ],
         },
       });
-    current = { name: question.name, answers: {}, correct: question.correct };
+
+    // question embed
+    const left = options.interval / 1000;
     const embed = new MessageEmbed()
       .setTitle(question.name)
       .setDescription(
-        question.description +
-          `\nYou have 60 seconds to answer using the command /quiz`
+        `${question.description}\n\nYou have ${left} seconds to answer using \`/quiz\`!`
       );
     question.answers.forEach(elem =>
-      embed.addField(`Answer: ${elem.key}`, elem.description)
+      embed.addField(`Answer ${elem.key}`, elem.description)
     );
     if (question.image) embed.setImage(question.image);
-    await channel.send(embed);
-    current.start = Date.now();
+    const msg = await channel.send(embed);
+    current = {
+      name: question.name,
+      answers: {},
+      correct: question.correct,
+      start: Date.now(),
+    };
+    // ToDo: are we sure we want a sleep here? or maybe a service?
     await sleep(options.interval);
+
+    // results of the question
+    const correct = current.answers
+      .filter(entry => entry.answer === question.correct)
+      .sort((a, b) => a.time - b.time);
+    const answer = question.answers.find(q => q.key === question.correct);
+    if (correct.length > 0) {
+      const winners = Object.keys(correct).map(
+        (uid, i) =>
+          `> ` +
+          (i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.**`) +
+          ` <@!${uid}>`
+      );
+
+      const results = new MessageEmbed()
+        .setColor("#ada")
+        .setTitle(`${question.name} results`)
+        .setDescription(question.description)
+        .addField(`${answer.key}: ${answer.description}`, winners)
+        .setField(
+          `${correct.length} of ${current.answers.length} participants got it right!`
+        );
+      await msg.edit(results);
+    } else {
+      const results = new MessageEmbed()
+        .setColor("#d33")
+        .setTitle(`${question.name} results`)
+        .setDescription(
+          `${question.description}\n\n**Nobody got it right!** The answer was:\n> ${answer.key}: ${answer.description}`
+        )
+        .setField(`${current.answers.length} participants tried!`);
+      await msg.edit(results);
+    }
+
     answers.push(current);
+    current = null;
+    await sleep(8000);
   }
+
+  // trivia has ended.
   instance.trivia[guild.id] = null;
   await instance.client.api
     .applications(instance.client.user.id)
@@ -122,6 +177,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
     .delete({
       data: {},
     });
+
   const top = {};
   answers.forEach(questionResult => {
     Object.keys(questionResult.answers).forEach(userHash => {
@@ -156,4 +212,5 @@ const runGame = async (instance, channel, guild, participants, options) => {
 
   channel.send(finalEmbed);
 };
+
 module.exports = { runGame };
