@@ -142,12 +142,14 @@ const runGame = async (instance, channel, guild, participants, options) => {
     const answer = question.answers.find(q => q.key === question.correct);
     const all = Object.keys(current.answers).length;
     if (correct.length > 0) {
-      const winners = correct.map(
-        (entry, i) =>
-          `> ` +
-          (i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.**`) +
-          ` <@!${entry.id}>`
-      );
+      const winners = correct
+        .slice(0, 10)
+        .map(
+          (entry, i) =>
+            `> ` +
+            (i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.**`) +
+            ` <@!${entry.id}>`
+        );
 
       const results = new MessageEmbed()
         .setColor("#aaddaa")
@@ -214,7 +216,9 @@ const runGame = async (instance, channel, guild, participants, options) => {
       (entry, i) =>
         `> ` +
         (i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.**`) +
-        ` <@!${entry.id}>`
+        ` <@!${entry.id}> • ${entry.correct.length}/${
+          entry.correct.length + entry.wrong.length
+        }`
     );
 
   const finalEmbed = new MessageEmbed()
@@ -225,7 +229,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
     .addField("Questions", questions.length, true)
     .addField("Perfect Players", allCorrect.length, true)
     .addField("Confused Players", noCorrect.length, true)
-    .addField("Leal Players", participated.length, true)
+    .addField("Loyal Players", participated.length, true)
     .addField("Leaderboard", friends)
     .setFooter("Thank you for participating into this quiz with us!");
 
