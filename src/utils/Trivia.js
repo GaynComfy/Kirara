@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, MessageAttachment } = require("discord.js");
 
 const sleep = time => new Promise(r => setTimeout(r, time));
 
@@ -198,6 +198,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
           wrong: !correct ? [question.name] : [],
           id: userHash,
           time: entry.time,
+          name: participants[userHash].name,
         };
       }
     });
@@ -210,6 +211,22 @@ const runGame = async (instance, channel, guild, participants, options) => {
   const participated = sorted.filter(
     e => e.correct.length + e.wrong.length === questions.length
   );
+  const infoStr = participated
+    .map(
+      entry =>
+        `${entry.name}[${entry.id}]: ${entry.correct.length} / ${entry.wrong.length}`
+    )
+    .join("\n");
+  options.source.author.createDM().then(dmChannel => {
+    const attachment = new MessageAttachment(
+      Buffer.from(infoStr, "utf-8"),
+      "users.txt"
+    );
+    dmChannel.send({
+      content: "Participants for last quiz",
+      files: [attachment],
+    });
+  });
   const friends = sorted
     .slice(0, 10)
     .map(
