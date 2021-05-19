@@ -6,7 +6,7 @@ module.exports = {
       if (instance.trivia[interaction.guild_id]) {
         const entry = instance.trivia[interaction.guild_id];
         if (entry.running && entry.slashName == interaction.data.name)
-          entry.onInteraction(interaction);
+          entry.onInteraction(interaction).then(() => null);
       }
     });
   },
