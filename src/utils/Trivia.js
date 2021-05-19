@@ -94,7 +94,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
       .commands.post({
         data: {
           name: "quiz",
-          description: `Answer ${question.name}`,
+          description: `Answer Question #${index}`,
           options: [
             {
               name: "answer",
