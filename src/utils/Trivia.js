@@ -36,7 +36,7 @@ const answerInteraction = (instance, interaction, type, content) => {
       content,
       flags: 64,
     };
-
+  console.log(data);
   return instance.client.api
     .interactions(interaction.id, interaction.token)
     .callback.post({ data });
@@ -72,7 +72,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
         answer: interaction.data.options[0].value,
         time: Date.now() - current.start,
       };
-      answerInteraction(
+      return answerInteraction(
         instance,
         interaction,
         4,
