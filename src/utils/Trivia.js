@@ -72,7 +72,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
         answer: interaction.data.options[0].value,
         time: Date.now() - current.start,
       };
-      return answerInteraction(
+      answerInteraction(
         instance,
         interaction,
         4,
