@@ -51,6 +51,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
     running: true,
     onInteraction: async interaction => {
       const { user } = interaction.member;
+      console.log(user, interaction.data.options[0].value);
       if (!current || !participants[user.id]) {
         return answerInteraction(
           instance,
