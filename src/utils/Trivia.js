@@ -36,7 +36,6 @@ const answerInteraction = (instance, interaction, type, content) => {
       content,
       flags: 64,
     };
-  console.log(data);
   return instance.client.api
     .interactions(interaction.id, interaction.token)
     .callback.post({ data });
@@ -49,9 +48,8 @@ const runGame = async (instance, channel, guild, participants, options) => {
   let current = null;
   instance.trivia[guild.id] = {
     running: true,
-    onInteraction: async interaction => {
+    onInteraction: interaction => {
       const { user } = interaction.member;
-      console.log(user, interaction.data.options[0].value);
       if (!current || !participants[user.id]) {
         return answerInteraction(
           instance,
@@ -86,7 +84,9 @@ const runGame = async (instance, channel, guild, participants, options) => {
   let cmd = null;
 
   // run all the questions
+  let index = 0;
   for (const question of questions) {
+    index++;
     // /quiz slash command
     cmd = await instance.client.api
       .applications(instance.client.user.id)
@@ -114,7 +114,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
     const left = options.interval / 1000;
     const embed = new MessageEmbed()
       .setColor("RANDOM")
-      .setTitle(question.name)
+      .setTitle(`Question #${index}`)
       .setDescription(question.description)
       .setFooter(`You have ${left} seconds to answer using /quiz`);
     question.answers.forEach(elem =>
@@ -172,6 +172,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
 
     answers.push(current);
     current = null;
+    if (index < questions.length) await sleep(3000);
   }
 
   // trivia has ended.
