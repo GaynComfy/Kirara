@@ -98,7 +98,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
           options: [
             {
               name: "answer",
-              description: "Answer to the given question",
+              description: `Answer: ${question.description}`,
               type: 3,
               required: true,
               choices: question.answers.map(answer => ({
