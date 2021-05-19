@@ -49,7 +49,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
   let current = null;
   instance.trivia[guild.id] = {
     running: true,
-    onInteraction: interaction => {
+    onInteraction: async interaction => {
       const { user } = interaction.member;
       if (!current || !participants[user.id]) {
         return answerInteraction(
@@ -171,7 +171,6 @@ const runGame = async (instance, channel, guild, participants, options) => {
 
     answers.push(current);
     current = null;
-    await sleep(10000);
   }
 
   // trivia has ended.
