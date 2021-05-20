@@ -215,7 +215,12 @@ const runGame = async (instance, channel, guild, participants, options) => {
   const infoStr = participated
     .map(
       entry =>
-        `${entry.name}[${entry.id}]: ${entry.correct.length} / ${entry.wrong.length}`
+        `${entry.name}[${entry.id}]: ${entry.correct.length} / ${
+          entry.wrong.length
+        }\n${[
+          ...entry.correct.map(name => `\tCorrect: ${name}`),
+          ...entry.wrong.map(name => `\tWrong ${name}`),
+        ].join("\n")}`
     )
     .join("\n");
   options.source.author.createDM().then(dmChannel => {
