@@ -217,7 +217,9 @@ const runGame = async (instance, channel, guild, participants, options) => {
       entry =>
         `${entry.name}[${entry.id}]: ${entry.correct.length} / ${
           entry.wrong.length
-        }\n${[
+        } Average time: ${(entry.time / questions.length / 1000).toFixed(
+          2
+        )} Secs\n${[
           ...entry.correct.map(name => `\tCorrect: ${name}`),
           ...entry.wrong.map(name => `\tWrong ${name}`),
         ].join("\n")}`
