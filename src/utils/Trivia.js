@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, MessageAttachment } = require("discord.js");
 
 const sleep = time => new Promise(r => setTimeout(r, time));
 
@@ -36,7 +36,6 @@ const answerInteraction = (instance, interaction, type, content) => {
       content,
       flags: 64,
     };
-
   return instance.client.api
     .interactions(interaction.id, interaction.token)
     .callback.post({ data });
@@ -85,7 +84,9 @@ const runGame = async (instance, channel, guild, participants, options) => {
   let cmd = null;
 
   // run all the questions
+  let index = 0;
   for (const question of questions) {
+    index++;
     // /quiz slash command
     cmd = await instance.client.api
       .applications(instance.client.user.id)
@@ -93,11 +94,11 @@ const runGame = async (instance, channel, guild, participants, options) => {
       .commands.post({
         data: {
           name: "quiz",
-          description: `Answer ${question.name}`,
+          description: `Answer Question #${index}`,
           options: [
             {
               name: "answer",
-              description: "Answer to the given question",
+              description: `Answer: ${question.description}`,
               type: 3,
               required: true,
               choices: question.answers.map(answer => ({
@@ -113,7 +114,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
     const left = options.interval / 1000;
     const embed = new MessageEmbed()
       .setColor("RANDOM")
-      .setTitle(question.name)
+      .setTitle(`Question #${index}`)
       .setDescription(question.description)
       .setFooter(`You have ${left} seconds to answer using /quiz`);
     question.answers.forEach(elem =>
@@ -142,12 +143,14 @@ const runGame = async (instance, channel, guild, participants, options) => {
     const answer = question.answers.find(q => q.key === question.correct);
     const all = Object.keys(current.answers).length;
     if (correct.length > 0) {
-      const winners = correct.map(
-        (entry, i) =>
-          `> ` +
-          (i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.**`) +
-          ` <@!${entry.id}>`
-      );
+      const winners = correct
+        .slice(0, 10)
+        .map(
+          (entry, i) =>
+            `> ` +
+            (i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.**`) +
+            ` <@!${entry.id}>`
+        );
 
       const results = new MessageEmbed()
         .setColor("#aaddaa")
@@ -169,7 +172,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
 
     answers.push(current);
     current = null;
-    await sleep(10000);
+    if (index < questions.length) await sleep(3000);
   }
 
   // trivia has ended.
@@ -196,6 +199,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
           wrong: !correct ? [question.name] : [],
           id: userHash,
           time: entry.time,
+          name: participants[userHash].name,
         };
       }
     });
@@ -208,13 +212,38 @@ const runGame = async (instance, channel, guild, participants, options) => {
   const participated = sorted.filter(
     e => e.correct.length + e.wrong.length === questions.length
   );
+  const infoStr = participated
+    .map(
+      entry =>
+        `${entry.name}[${entry.id}]: ${entry.correct.length} / ${
+          entry.wrong.length
+        } Average time: ${(entry.time / questions.length / 1000).toFixed(
+          2
+        )} Secs\n${[
+          ...entry.correct.map(name => `\tCorrect: ${name}`),
+          ...entry.wrong.map(name => `\tWrong ${name}`),
+        ].join("\n")}`
+    )
+    .join("\n");
+  options.source.author.createDM().then(dmChannel => {
+    const attachment = new MessageAttachment(
+      Buffer.from(infoStr, "utf-8"),
+      "users.txt"
+    );
+    dmChannel.send({
+      content: "Participants for last quiz",
+      files: [attachment],
+    });
+  });
   const friends = sorted
     .slice(0, 10)
     .map(
       (entry, i) =>
         `> ` +
         (i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.**`) +
-        ` <@!${entry.id}>`
+        ` <@!${entry.id}> • ${entry.correct.length}/${
+          entry.correct.length + entry.wrong.length
+        }`
     );
 
   const finalEmbed = new MessageEmbed()
@@ -225,7 +254,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
     .addField("Questions", questions.length, true)
     .addField("Perfect Players", allCorrect.length, true)
     .addField("Confused Players", noCorrect.length, true)
-    .addField("Leal Players", participated.length, true)
+    .addField("Loyal Players", participated.length, true)
     .addField("Leaderboard", friends)
     .setFooter("Thank you for participating into this quiz with us!");
 

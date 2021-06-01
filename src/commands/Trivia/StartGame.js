@@ -37,7 +37,12 @@ module.exports = {
           return message.author.send(alreadyRunning).catch(() => {});
         }
 
-        const opts = { interval: 30000, amount: 5, jointime: 60000 };
+        const opts = {
+          interval: 30000,
+          amount: 5,
+          jointime: 60000,
+          source: message,
+        };
         for (const arg of args) {
           // ToDo: Change this for a switch case?
           // ToDo: Add `questions` argument.
@@ -88,7 +93,7 @@ module.exports = {
         });
         collector.on("end", () => {
           delete startQueue[message.guild.id];
-          if (Object.keys(participants).length <= 1) {
+          if (Object.keys(participants).length < 1) {
             return collectorMessage.edit(noUsersEmbed);
           }
           return runGame(
