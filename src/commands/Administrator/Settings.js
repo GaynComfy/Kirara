@@ -10,10 +10,10 @@ const info = {
 module.exports = {
   execute: async (instance, message, args) => {
     return withRights(message.member, async () => {
-      let data = await instance.database.simpleQuery(
+      const data = await instance.database.simpleQuery(
           "SERVERS",
           {
-              guild_id: message.guild.id,
+            id: instance.serverIds[message.guild.id],
           }
       ).rows[0];
 
@@ -32,12 +32,12 @@ module.exports = {
       const result = await instance.database.simpleQuery("SETTINGS", query);
       const toggle = result.rows.length === 0 ? "off" : "on";
 
-      let logChn = instance.guilds[message.guild.id].log_channel;
-      let logID = `<#${logChn}>`;
-      let logs = "ON";
-      if(!logChn) {
-        logID = '`No log channel set`';
-        logs = "OFF"; 
+      const logChn = instance.guilds[message.guild.id].log_channel;      
+      let logID = 'No log channel set';     
+      let logs = "OFF";      
+      if(logChn) {       
+        logID = `<#${logChn}>`;       
+        logs = "ON";    
       }
 
       const embed = new MessageEmbed()
