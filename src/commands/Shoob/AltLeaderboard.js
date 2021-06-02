@@ -50,8 +50,7 @@ module.exports = {
             }.`
           )
           .setColor(Color.red);
-        await message.channel.send(embed);
-        return false;
+        return message.channel.send(embed);
       }
       if (claimers.length === 0 && last === -1) {
         last = page - 1;

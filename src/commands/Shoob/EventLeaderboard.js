@@ -49,7 +49,7 @@ module.exports = {
           )
           .setColor(Color.red);
         await message.channel.send(embed);
-        return false;
+        return true;
       }
       if (claimers.length === 0 && last === -1) {
         last = page - 1;
