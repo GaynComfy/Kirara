@@ -52,7 +52,11 @@ module.exports = {
         .addField("Claim Messages:", `\`${toggle}\``)
         .addField("Logs:", `\`${logs}\``)
         .addField("Logs Channel:", `${logID}`)
-        .addField("Roles:", roleArray, true);
+        .addField(
+          "Roles:",
+          roleArray.length === 0 ? "No roles set for mention" : roleArray,
+          true
+        );
       message.channel.send(embed);
       return true;
     });
