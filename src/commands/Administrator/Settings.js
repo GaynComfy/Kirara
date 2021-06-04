@@ -1,6 +1,14 @@
 const { withRights } = require("../../utils/hooks");
 const { MessageEmbed } = require("discord.js");
 const Color = require("../../utils/Colors.json");
+const emotes = {
+  t1: "<:NewT1:781684991372689458>",
+  t2: "<:NewT2:781684993071251476>",
+  t3: "<:NewT3:781684993331953684>",
+  t4: "<:NewT4:781684993449001011>",
+  t5: "<:NewT5:781684993834352680>",
+  t6: "<:NewT6:781684992937558047>",
+};
 
 const info = {
   name: "settings",
@@ -23,7 +31,16 @@ module.exports = {
           server_id: serverId,
         }
       );
-      let roleArray = roleQuery.map(a => `${a.tier}: <@&${a.role_id}>`);
+      let found = 0;
+      const roleArray = Object.keys(emotes).map(tier => {
+        const r = roleQuery.find(ro => ro.tier === tier);
+        if (r) {
+          found = found + 1;
+          return `${emotes(tier)}: <@&${r.role_id}>`;
+        } else {
+          return `${emotes(tier)}: None`;
+        }
+      });
 
       const query = {
         key: "claim:enabled",
@@ -46,19 +63,18 @@ module.exports = {
         .setAuthor("Kirara", "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png")
         .setColor(Color.white)
         .setDescription(
-          `These are the current settings of the server \`${message.guild.name}\``
+          `These are the current settings for \`${message.guild.name}\``
         )
-        .addField("Event:", `\`${data.event}\``)
-        .addField("Claim Messages:", `\`${toggle}\``)
-        .addField("Logs:", `\`${logs}\``)
-        .addField("Logs Channel:", `${logID}`)
+        .addField("Event", data.event, true)
+        .addField("Claim Messages", toggle, true)
+        .addField("Logs", logs, true)
+        .addField("Logs Channel", logID, true)
         .addField(
-          "Roles:",
-          roleArray.length === 0 ? "No roles set for mention" : roleArray,
+          "Spawn roles",
+          found === 0 ? "No roles set" : roleArray,
           true
         );
-      message.channel.send(embed);
-      return true;
+      return message.channel.send(embed);
     });
   },
   info,
