@@ -50,13 +50,12 @@ module.exports = {
       };
       const result = await instance.database.simpleQuery("SETTINGS", query);
       const toggle = result.rows.length === 0 ? "off" : "on";
+      const event = data.event ? "on" : "off";
 
       const logChn = instance.guilds[message.guild.id].log_channel;
-      let logID = "No log channel set";
-      let logs = "OFF";
+      let logs = "off";
       if (logChn) {
-        logID = `<#${logChn}>`;
-        logs = "ON";
+        logs = `<#${logChn}>`;
       }
 
       const embed = new MessageEmbed()
@@ -65,10 +64,9 @@ module.exports = {
         .setDescription(
           `These are the current settings for \`${message.guild.name}\``
         )
-        .addField("Event", data.event, true)
-        .addField("Claim Messages", toggle, true)
-        .addField("Logs", logs, true)
-        .addField("Logs Channel", logID, true)
+        .addField("Event", event, true)
+        .addField("Claim messages", toggle, true)
+        .addField("Spawn logs", logs, true)
         .addField(
           "Spawn roles",
           found === 0 ? "No roles set" : roleArray,
