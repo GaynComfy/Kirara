@@ -17,9 +17,12 @@ module.exports = {
       });
 
       const serverId = Number.parseInt(data.id);
-      const roleQuery = await instance.database.simpleQuery("CARD_ROLES", {
-        server_id: serverId,
-      }).rows;
+      const { rows: roleQuery } = await instance.database.simpleQuery(
+        "CARD_ROLES",
+        {
+          server_id: serverId,
+        }
+      );
       let roleArray = roleQuery.map(a => `${a.tier}: <@&${a.role_id}>`);
 
       const query = {
