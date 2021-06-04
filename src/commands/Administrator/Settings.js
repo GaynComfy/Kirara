@@ -36,9 +36,9 @@ module.exports = {
         const r = roleQuery.find(ro => ro.tier === tier);
         if (r) {
           found = found + 1;
-          return `${emotes[tier]}: <@&${r.role_id}>`;
+          return `${emotes[tier]} ${tier.toUpperCase()}: <@&${r.role_id}>`;
         } else {
-          return `${emotes[tier]}: None`;
+          return `${emotes[tier]} ${tier.toUpperCase()}: None`;
         }
       });
 
