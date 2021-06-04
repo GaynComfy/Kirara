@@ -8,20 +8,19 @@ const info = {
   category: "Administration",
 };
 module.exports = {
-  execute: async (instance, message, args) => {
+  execute: async (instance, message /*args*/) => {
     return withRights(message.member, async () => {
-      const data = await instance.database.simpleQuery(
-          "SERVERS",
-          {
-            id: instance.serverIds[message.guild.id],
-          }
-      ).rows[0];
+      const {
+        rows: [data],
+      } = await instance.database.simpleQuery("SERVERS", {
+        id: instance.serverIds[message.guild.id],
+      });
 
       const serverId = Number.parseInt(data.id);
       const roleQuery = await instance.database.simpleQuery("CARD_ROLES", {
         server_id: serverId,
       }).rows;
-      let roleArray = roleQuery.map(a => `${a.tier}: <@&${a.role_id}>`)
+      let roleArray = roleQuery.map(a => `${a.tier}: <@&${a.role_id}>`);
 
       const query = {
         key: "claim:enabled",
@@ -32,23 +31,25 @@ module.exports = {
       const result = await instance.database.simpleQuery("SETTINGS", query);
       const toggle = result.rows.length === 0 ? "off" : "on";
 
-      const logChn = instance.guilds[message.guild.id].log_channel;      
-      let logID = 'No log channel set';     
-      let logs = "OFF";      
-      if(logChn) {       
-        logID = `<#${logChn}>`;       
-        logs = "ON";    
+      const logChn = instance.guilds[message.guild.id].log_channel;
+      let logID = "No log channel set";
+      let logs = "OFF";
+      if (logChn) {
+        logID = `<#${logChn}>`;
+        logs = "ON";
       }
 
       const embed = new MessageEmbed()
-      .setAuthor("Kirara", "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png")
-      .setColor(Color.white)
-      .setDescription(`These are the current settings of the server \`${message.guild.name}\``)
-      .addField("Event:", `\`${data.event}\``)
-      .addField("Claim Messages:", `\`${toggle}\``)
-      .addField("Logs:", `\`${logs}\``)
-      .addField("Logs Channel:", `${logID}`)
-      .addField("Roles:", roleArray, true);
+        .setAuthor("Kirara", "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png")
+        .setColor(Color.white)
+        .setDescription(
+          `These are the current settings of the server \`${message.guild.name}\``
+        )
+        .addField("Event:", `\`${data.event}\``)
+        .addField("Claim Messages:", `\`${toggle}\``)
+        .addField("Logs:", `\`${logs}\``)
+        .addField("Logs Channel:", `${logID}`)
+        .addField("Roles:", roleArray, true);
       message.channel.send(embed);
       return true;
     });
