@@ -38,7 +38,7 @@ module.exports = {
           found = found + 1;
           return `${emotes[tier]} ${tier.toUpperCase()}: <@&${r.role_id}>`;
         } else {
-          return `${emotes[tier]} ${tier.toUpperCase()}: None`;
+          return `${emotes[tier]} ${tier.toUpperCase()}: Not set`;
         }
       });
 
