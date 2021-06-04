@@ -35,6 +35,7 @@ module.exports = {
           event_time: serverObj.event_time,
           log_channel: serverObj.log_channel,
           timer: serverObj.timer,
+          prefix: serverObj.prefix,
         };
         // console.log("loading", server.id, server.name);
         const settings = await instance.database.simpleQuery("SETTINGS", {
