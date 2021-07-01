@@ -168,11 +168,11 @@ class EventManager {
     this.services = [];
   }
   registerEventHandler(name, handlers) {
-    this.client.on(name, async param => {
+    this.client.on(name, async (...params) => {
       if (!this.discordReady) return;
       for (const handler of handlers) {
         try {
-          await handler.execute(this.instance, param);
+          await handler.execute(this.instance, ...params);
         } catch (err) {
           console.error(
             `handling failed for ${name}, file: ${handler.file}`,
