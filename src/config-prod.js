@@ -28,5 +28,5 @@ module.exports = {
     "283754214721847296", // Shiro~#0666
   ],
   shardCount: 6,
-  season: 7,
+  season: 8,
 };
