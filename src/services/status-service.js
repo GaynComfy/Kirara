@@ -3,8 +3,7 @@ let interval = null;
 module.exports = {
   start: async instance => {
     const status = {
-      type: "STREAMING",
-      url: "https://www.twitch.tv/FinalWords79",
+      type: "WATCHING",
     };
     interval = setInterval(async () => {
       const pickedActivity = Math.floor(Math.random() * 4);
