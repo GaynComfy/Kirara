@@ -1,6 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const { getLilliePing } = require("./utils");
 const { version } = require("../../../package.json");
+const Constants = require("../../utils/Constants.json");
 
 const info = {
   name: "bot",
@@ -61,8 +62,9 @@ module.exports = {
         0
       );
       const channelSize = instance.client.channels.cache.size;
-      const InviteEmbed = new MessageEmbed()
+      const embed = new MessageEmbed()
         .setAuthor(`Kirara v${version}`)
+        .setColor(Constants.color)
         .setDescription(
           `<:KiraraBoop:784849773291110460> [Invite me]` +
             `(https://discord.com/oauth2/authorize?client_id=748100524246564894&permissions=511040&scope=bot)\n` +
@@ -73,7 +75,6 @@ module.exports = {
             `🖍️ midori: \`${lillie.ping}\`` +
             (lillie.version ? `, v${lillie.version}` : "")
         )
-        .setColor("#e0e0e0")
         .addField(
           "**🖥️ Bot Details:**",
           `${numberWithCommas(totalGuilds)} Servers\n` +
@@ -87,7 +88,7 @@ module.exports = {
             `${numberWithCommas(channelSize)} Channels`
         );
 
-      message.channel.send({ embed: InviteEmbed });
+      return message.channel.send(embed);
     } catch (err) {
       console.log(err);
     }

@@ -1,6 +1,8 @@
 const { tierInfo } = require("../../utils/cardUtils");
+const { mention, userId } = require("../../utils/regexUtils");
 const { MessageEmbed } = require("discord.js");
 const Color = require("../../utils/Colors.json");
+const Constants = require("../../utils/Constants.json");
 
 const info = {
   name: "stats",
@@ -9,10 +11,6 @@ const info = {
   category: "Shoob",
   cooldown: 5,
 };
-const allowed = ["t1", "t2", "t3", "t4", "t5", "t6"];
-
-const mention = /<@!?(\d{17,19})>/;
-const userId = /\d{17,19}/;
 
 module.exports = {
   execute: async (instance, message, args) => {
@@ -70,7 +68,7 @@ module.exports = {
               "AND discord_id=$1 AND season=$2 GROUP BY tier",
             [member.id, instance.config.season]
           );
-      for (const t of allowed) {
+      for (const t of Constants.tiers) {
         const tier = tierInfo[t.toUpperCase()];
         const entry = result.rows.find(e => e.tier === t[1]);
         const count = entry ? entry.c : "0";
@@ -90,7 +88,7 @@ ${tiers2.join(" | ")}
 ━━━━━━━━━━━━━━━`);
       await message.channel.send(hugEmbed);
     } else {
-      if (!allowed.includes(args[0].toLowerCase())) return false;
+      if (!Constants.tiers.includes(args[0].toLowerCase())) return false;
       const result = isServer
         ? isTotal
           ? await instance.database.pool.query(

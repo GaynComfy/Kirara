@@ -1,7 +1,9 @@
 const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
+const Constants = require("../../utils/Constants.json");
 const { MessageEmbed } = require("discord.js");
 const { getCard } = require("./utils");
+const { cardId } = require("../../utils/regexUtils");
 
 const info = {
   name: "card",
@@ -11,10 +13,6 @@ const info = {
   cooldown: 2,
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
 };
-const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
-
-const cardId = /^(https?:\/\/animesoul\.com\/cards\/info\/)?([a-z0-9]{24})$/;
-const space = / /; // lol
 
 module.exports = {
   execute: async (instance, message, args) => {
@@ -29,7 +27,7 @@ module.exports = {
       args[0].toLowerCase() === "global" || args[0].toLowerCase() === "g";
     if (isEvent || isGlobal || isOldGlobal) args.shift();
     if (args.length === 0) return false;
-    const hasTier = allowed.includes(args[0].toLowerCase());
+    const hasTier = Constants.allTiers.includes(args[0].toLowerCase());
     const hasCardId = cardId.test(args[0]);
     if (hasTier && args.length === 1) return false;
     const tier = hasTier ? args.shift()[1].toUpperCase() : "all";
@@ -45,7 +43,7 @@ module.exports = {
       const name = args.join(" ");
       card =
         (await Fetcher.fetchByName(instance, name, tier, isEvent)) ||
-        (space.test(name)
+        (name.indexOf(" ") !== -1
           ? await Fetcher.fetchByName(
               instance,
               [...args.slice(-1), ...args.slice(0, -1)].join(" "),

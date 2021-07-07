@@ -1,13 +1,6 @@
 const Redis = require("ioredis");
 const { MessageEmbed } = require("discord.js");
-const tierSettings = {
-  1: { emoji: "<:NewT1:781684991372689458>", num: 1, color: "#e8e8e8" },
-  2: { emoji: "<:NewT2:781684993071251476>", num: 2, color: "#2ed60d" },
-  3: { emoji: "<:NewT3:781684993331953684>", num: 3, color: "#1a87ed" },
-  4: { emoji: "<:NewT4:781684993449001011>", num: 4, color: "#a623a6" },
-  5: { emoji: "<:NewT5:781684993834352680>", num: 5, color: "#ffe814" },
-  6: { emoji: "<:NewT6:781684992937558047>", num: 6, color: "#ff170f" },
-};
+const { tierInfo } = require("../utils/cardUtils");
 
 let client = null;
 let deleteInterval = null;
@@ -35,7 +28,7 @@ module.exports = {
         if (instance.client.guilds.cache.has(data.server_id)) {
           const guild = instance.client.guilds.cache.get(data.server_id);
           const messageChannel = guild.channels.cache.get(data.channel_id);
-          const settings = tierSettings[data.tier];
+          const settings = tierInfo[`T${data.tier.toUpperCase()}`];
 
           const timers = instance.shared["timer"][data.channel_id];
           if (timers) {
@@ -47,16 +40,6 @@ module.exports = {
               const i = timers.indexOf(s);
               if (i !== -1) timers.splice(i, 1);
             }
-          }
-
-          if (
-            typeof instance.shared["cooldown"] === "object" &&
-            instance.settings[data.server_id]["cooldown:notify"]
-          ) {
-            instance.shared["cooldown"][data.channel_id] = {
-              chan: messageChannel,
-              time: Date.now(),
-            };
           }
 
           if (instance.guilds[data.server_id].log_channel) {

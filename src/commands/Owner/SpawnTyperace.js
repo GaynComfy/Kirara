@@ -9,6 +9,7 @@ const {
   genShoobCaptcha,
 } = require("../../utils/typeRaceUtils");
 const { withOwner } = require("../../utils/hooks");
+const { cardId } = require("../../utils/regexUtils");
 
 const info = {
   name: "spawn",
@@ -30,8 +31,6 @@ const tiers = {
   S: "#000001",
 };
 const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
-const cardId = /^(https?:\/\/animesoul\.com\/cards\/info\/)?([a-z0-9]{24})$/;
-const space = / /; // lol
 
 const channelMap = [];
 const end = (startTime, time) => {
@@ -71,7 +70,7 @@ module.exports = {
           const name = args.join(" ");
           card =
             (await Fetcher.fetchByName(instance, name, tier, isEvent)) ||
-            (space.test(name)
+            (name.indexOf(" ") !== -1
               ? await Fetcher.fetchByName(
                   instance,
                   [...args.slice(-1), ...args.slice(0, -1)].join(" "),

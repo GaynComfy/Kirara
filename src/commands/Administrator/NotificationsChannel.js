@@ -14,6 +14,7 @@ const info = {
 
 const exec = async (instance, message, args, type) => {
   const embed = new MessageEmbed().setColor("RANDOM");
+
   const {
     rows: [result],
   } = await instance.database.simpleQuery("SETTINGS", {
@@ -145,8 +146,7 @@ const execute = async (instance, message, args) => {
     } else return false;
     const embed = await exec(instance, message, args, type);
     if (embed === null) return false;
-    message.channel.send(embed);
-    return true;
+    return message.channel.send(embed);
   });
 };
 

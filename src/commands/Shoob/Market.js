@@ -4,6 +4,7 @@ const Color = require("../../utils/Colors.json");
 const { MessageEmbed } = require("discord.js");
 const { createPagedResults } = require("../../utils/PagedResults");
 const { tierInfo } = require("../../utils/cardUtils");
+const Constants = require("../../utils/Constants.json");
 
 const info = {
   name: "market",
@@ -13,7 +14,6 @@ const info = {
   cooldown: 2,
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
 };
-const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
 const allowedSortings = [
   "r",
   "recent",
@@ -24,7 +24,6 @@ const allowedSortings = [
   "o",
   "oldest",
 ];
-const space = / /; // lol
 
 const sortListings = (arr, opt) => {
   if (opt === "r" || opt === "recent")
@@ -182,7 +181,9 @@ module.exports = {
       (args[0].toLowerCase() === "event" || args[0].toLowerCase() === "e");
     if (isEvent) args.shift();
     const hasTier =
-      args.length > 0 ? allowed.includes(args[0].toLowerCase()) : false;
+      args.length > 0
+        ? Constants.allTiers.includes(args[0].toLowerCase())
+        : false;
     const tier = hasTier ? args.shift()[1].toUpperCase() : "all";
     if (args.length === 0) return processWithoutCard(instance, message, tier);
 
@@ -194,7 +195,7 @@ module.exports = {
     message.channel.startTyping();
     const card =
       (await Fetcher.fetchByName(instance, name, tier, isEvent)) ||
-      (space.test(name)
+      (name.indexOf(" ") !== -1
         ? await Fetcher.fetchByName(
             instance,
             [...args.slice(-1), ...args.slice(0, -1)].join(" "),

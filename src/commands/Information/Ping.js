@@ -6,12 +6,11 @@ const info = {
   matchCase: false,
   category: "Information",
 };
-
 module.exports = {
   execute: async (instance, message) => {
     const msgPing = Math.round(Date.now() - message.createdTimestamp);
     const { ping } = await getLilliePing();
-    const InviteEmbed = new MessageEmbed()
+    const embed = new MessageEmbed()
       .setAuthor("Latency for Kirara")
       .setDescription(
         `🏓 Command: \`${msgPing}ms\`\n` +
@@ -19,7 +18,7 @@ module.exports = {
           `🖍️ midori: \`${ping}\``
       )
       .setColor("#e0e0e0");
-    await message.channel.send(InviteEmbed);
+    return message.channel.send(embed);
   },
   info,
   help: {

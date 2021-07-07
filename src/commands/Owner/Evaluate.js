@@ -1,15 +1,8 @@
 const { MessageEmbed } = require("discord.js");
 const { withOwner } = require("../../utils/hooks");
+const util = require("util");
 const Color = require("../../utils/Colors.json");
-const info = {
-  name: "evaluate",
-  aliases: ["eval"],
-  matchCase: false,
-  category: "Owner",
-  ownerOnly: true,
-  cooldown: 60,
-  disabled: process.env.NODE_ENV !== "development",
-};
+
 const clean = text => {
   if (typeof text === "string") {
     return text
@@ -20,6 +13,15 @@ const clean = text => {
   }
 };
 
+const info = {
+  name: "evaluate",
+  aliases: ["eval"],
+  matchCase: false,
+  category: "Owner",
+  ownerOnly: true,
+  cooldown: 60,
+  disabled: process.env.NODE_ENV !== "development",
+};
 module.exports = {
   execute: async (instance, message, args) => {
     return withOwner(
@@ -31,7 +33,7 @@ module.exports = {
           let evaled = eval(code);
 
           if (typeof evaled !== "string") {
-            evaled = require("util").inspect(evaled);
+            evaled = util.inspect(evaled);
           }
           if (evaled.length > 2000) {
             const embed = new MessageEmbed()
@@ -41,9 +43,11 @@ module.exports = {
               .setColor(Color.red);
             return message.channel.send(embed);
           }
-          message.channel.send(clean(evaled), { code: "xl" });
+          return message.channel.send(clean(evaled), { code: "xl" });
         } catch (err) {
-          message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+          return message.channel.send(
+            `\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``
+          );
         }
       },
       instance.config.owner

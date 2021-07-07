@@ -1,16 +1,9 @@
 const Redis = require("ioredis");
 const { MessageEmbed } = require("discord.js");
 const Constants = require("../utils/Constants.json");
-const tierSettings = {
-  1: { emoji: "<:NewT1:781684991372689458>", num: 1, color: "#e8e8e8" },
-  2: { emoji: "<:NewT2:781684993071251476>", num: 2, color: "#2ed60d" },
-  3: { emoji: "<:NewT3:781684993331953684>", num: 3, color: "#1a87ed" },
-  4: { emoji: "<:NewT4:781684993449001011>", num: 4, color: "#a623a6" },
-  5: { emoji: "<:NewT5:781684993834352680>", num: 5, color: "#ffe814" },
-  6: { emoji: "<:NewT6:781684992937558047>", num: 6, color: "#ff170f" },
-};
-const allowed = ["3", "4", "5", "6", "S"];
-const allAllowed = ["2"].concat(allowed);
+const { tierInfo } = require("../utils/cardUtils");
+
+const allAllowed = ["2", "3"].concat(Constants.allowedAucTiers);
 
 let client = null;
 let deleteInterval = null;
@@ -32,24 +25,24 @@ module.exports = {
       if (channel !== "games") return;
 
       const data = JSON.parse(message);
+      const tier = `T${data.tier.toUpperCase()}`;
       if (
         // normal cases
         (process.env.NODE_ENV !== "development" &&
-          !allowed.includes(data.tier)) ||
+          !Constants.allowedAucTiers.includes(tier)) ||
         // ToDo: change this to checker if the user/server has voted in top.gg
-        (process.env.NODE_ENV === "development" &&
-          !allAllowed.includes(data.tier))
+        (process.env.NODE_ENV === "development" && !allAllowed.includes(tier))
       )
         return;
 
-      const tier = tierSettings[data.tier];
+      const tierSettings = tierInfo[tier];
       const embed = new MessageEmbed()
         .setTitle(`> <:SShoob:783636544720207903> Enter the Minigame`)
         .setURL(`https://animesoul.com/mini-game/${data.id}`)
-        .setColor(tier.color)
+        .setColor(tierSettings.color)
         .setThumbnail(`https://animesoul.com/api/cardr/${data.card_id}`)
         .setDescription(
-          `${tier.emoji} [\`${data.card_name}\` • \`T${data.tier}\`]` +
+          `${tierSettings.emoji} [\`${data.card_name}\` • \`T${data.tier}\`]` +
             `(https://animesoul.com/cards/info/${data.card_id}) • \`V${data.version}\` is on a minigame!`
         );
 

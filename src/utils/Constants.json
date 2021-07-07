@@ -2,6 +2,18 @@
   "name": "Kirara",
   "avatar": "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png",
   "footer": "https://cdn.discordapp.com/attachments/755444853084651572/769403818600300594/GACGIF.gif",
+  "color": "#570489",
+  "tiers": ["t1", "t2", "t3", "t4", "t5", "t6"],
+  "allTiers": ["t1", "t2", "t3", "t4", "t5", "t6", "ts"],
+  "emotes": {
+    "t1": "<:NewT1:781684991372689458>",
+    "t2": "<:NewT2:781684993071251476>",
+    "t3": "<:NewT3:781684993331953684>",
+    "t4": "<:NewT4:781684993449001011>",
+    "t5": "<:NewT5:781684993834352680>",
+    "t6": "<:NewT6:781684992937558047>"
+  },
+  "allowedAucTiers": ["4", "5", "6", "S"],
   "network": [
     "290843998296342529",
     "564465841517625384",

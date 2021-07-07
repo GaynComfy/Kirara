@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const Constants = require("../../utils/Constants.json");
 
 const info = {
   name: "help",
@@ -17,6 +18,8 @@ module.exports = {
     const prefix =
       instance.guilds[message.guild.id].prefix || instance.config.prefix;
     const all = Object.values(instance.eventManager.commands);
+    const embed = new MessageEmbed().setColor("#e0e0e0");
+
     if (args.length === 0) {
       const categories = [];
       all.forEach(elem => {
@@ -24,8 +27,7 @@ module.exports = {
           categories.push(elem.info.category);
       });
 
-      const embed = new MessageEmbed()
-        .setColor("#e0e0e0")
+      embed
         .setAuthor(
           `Help Menu${message.guild ? ` | ${message.guild.name}` : ""}`,
           message.guild
@@ -37,7 +39,7 @@ module.exports = {
         )
         .setFooter(
           `by G&C Dev Team | ${prefix}help [cmd] | discord.gg/comfy`,
-          "https://cdn.comfy.gay/a/kMjAyMC0wMQ.png"
+          Constants.avatar
         );
       categories.forEach(category => {
         const dirSize = all.filter(cmd => {
@@ -62,13 +64,12 @@ module.exports = {
 
       return message.channel.send(embed);
     }
+
     const cmd = all.find(
       e => e.info.name === args[0] || (e.info.aliases || []).includes(args[0])
     );
-    let embed = new MessageEmbed();
     if (cmd) {
       embed
-        .setColor("#e0e0e0")
         .setAuthor(
           `Help: ${cmd.info.name}${
             message.guild ? ` | ${message.guild.name}` : ""
@@ -94,7 +95,7 @@ module.exports = {
     cmd.help.examples.join("\n+ ") || cmd.aliases[0]
   }\`\`\``
         )
-        .setFooter("Syntax: <required> | [optional]");
+        .setFooter("Syntax: <required> | [optional]", Constants.avatar);
     } else {
       embed
         .setColor("#ff1100")

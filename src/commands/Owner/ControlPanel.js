@@ -8,6 +8,7 @@ const info = {
   matchCase: false,
   category: "Owner",
   ownerOnly: true,
+  disabled: true,
 };
 const numberWithCommas = entry =>
   entry.toLocaleString(undefined, {

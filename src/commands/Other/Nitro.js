@@ -24,27 +24,28 @@ module.exports = {
       account = message.member;
     }
     const mem = account.user;
+
+    const embed = new MessageEmbed();
     if (!account.premiumSinceTimestamp) {
-      const embed = new MessageEmbed()
+      embed
         .setDescription(
           `\`${account.username || mem.username}\` is not boosting this server`
         )
-        .setColor("#FF0000");
-
-      message.channel.send({ embed: embed });
+        .setColor("#ff0000");
     } else {
       const since = humanizeDuration(
         Date.now() - account.premiumSinceTimestamp,
         { round: true, units: ["y", "mo", "w", "d", "h", "m"] }
       );
 
-      const embed = new MessageEmbed()
+      embed
         .setDescription(
           `\`${mem.username}\` has been boosting this server for \`${since}\``
         )
         .setColor("#e444f2");
-      message.channel.send({ embed: embed });
     }
+
+    return message.channel.send(embed);
   },
   info,
   help: {

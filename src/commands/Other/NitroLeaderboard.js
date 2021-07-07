@@ -1,6 +1,8 @@
 const { MessageEmbed } = require("discord.js");
 const humanizeDuration = require("humanize-duration");
 const { pageThroughCollection } = require("../../utils/PagedResults");
+const Constants = require("../../utils/Constants.json");
+
 const info = {
   name: "boosters",
   aliases: ["nitrolb", "nitroleaderboard"],
@@ -10,12 +12,12 @@ const info = {
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
   disabled: process.env.NODE_ENV !== "development",
 };
-
 module.exports = {
   execute: async (instance, message) => {
     message.channel.startTyping();
-    //intent will only work on verified bot
-    message.guild.members
+
+    // intent will only work on verified bot
+    return message.guild.members
       .fetch()
       .then(allMembers => {
         const allBoosters = allMembers
@@ -31,11 +33,10 @@ module.exports = {
           const embed = new MessageEmbed()
             .setDescription("\uD83D\uDCA2 Nobody is boosting this server!")
             .setColor("#ff1100");
-          message.channel.send(embed);
-          return;
+          return message.channel.send(embed);
         }
 
-        pageThroughCollection(message, allBoosters, (boosters, page) => {
+        return pageThroughCollection(message, allBoosters, (boosters, page) => {
           const offset = page.index * page.perPage;
 
           return new MessageEmbed()
@@ -43,7 +44,7 @@ module.exports = {
               `Server Boost Leaderboard in ${message.guild.name}`,
               message.guild.iconURL({ dynamic: true })
             )
-            .setColor("#ba30ba")
+            .setColor(Constants.color)
             .setDescription(
               boosters.map(
                 (member, index) =>
@@ -69,6 +70,7 @@ module.exports = {
       .catch(err => {
         console.log(err);
         message.channel.stopTyping();
+        throw err;
       });
   },
   info,

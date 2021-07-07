@@ -10,6 +10,7 @@ module.exports = {
   execute: async (instance, message, args) => {
     return withRights(message.member, async () => {
       const embed = new MessageEmbed().setColor("RANDOM");
+
       if (args.length === 0) {
         const prefix =
           instance.guilds[message.guild.id].prefix || instance.config.prefix;
@@ -37,8 +38,7 @@ module.exports = {
       } else {
         return false;
       }
-      message.channel.send(embed);
-      return true;
+      return message.channel.send(embed);
     });
   },
   info,

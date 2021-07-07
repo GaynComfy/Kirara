@@ -12,6 +12,7 @@ module.exports = {
   execute: async (instance, message, args) => {
     return withRights(message.member, async () => {
       const embed = new MessageEmbed().setColor("RANDOM");
+
       if (args.length === 0) {
         const logChn = instance.guilds[message.guild.id].log_channel;
         if (logChn) {
@@ -63,6 +64,7 @@ module.exports = {
           `<a:Sirona_Tick:749202570341384202> Logs channel set to <#${chn.id}>!`
         );
       } else return false;
+
       return message.channel.send(embed);
     });
   },

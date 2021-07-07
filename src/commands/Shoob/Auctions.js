@@ -6,6 +6,8 @@ const Color = require("../../utils/Colors.json");
 const { MessageEmbed } = require("discord.js");
 const { tierInfo } = require("../../utils/cardUtils");
 const { createMessagePagedResults } = require("../../utils/PagedResults");
+const { aucId, cardId } = require("../../utils/regexUtils");
+const Constants = require("../../utils/Constants.json");
 
 const info = {
   name: "auctions",
@@ -15,11 +17,6 @@ const info = {
   cooldown: 2,
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
 };
-const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
-
-const cardId = /^(https?:\/\/animesoul\.com\/cards\/info\/)([a-z0-9]{24})$/;
-const aucId = /^(https?:\/\/animesoul\.com\/auction\/)?([a-z0-9]{24})$/;
-const space = / /; // lol
 
 // why is this on a different function? who knows
 const getListings = async (instance, page, tier, card_id, active) => {
@@ -200,7 +197,9 @@ module.exports = {
         : false;
     if (hasAll) args.shift();
     const hasTier =
-      args.length >= 1 ? allowed.includes(args[0].toLowerCase()) : false;
+      args.length >= 1
+        ? Constants.allTiers.includes(args[0].toLowerCase())
+        : false;
     const hasCardId = args.length >= 1 ? cardId.test(args[0]) : false;
     const hasAucId =
       args.length >= 1 && !hasCardId ? aucId.test(args[0]) : false;
@@ -211,7 +210,7 @@ module.exports = {
       const name = args.join(" ");
       const card =
         (await Fetcher.fetchByName(instance, name, tier ? tier : "all")) ||
-        (space.test(name)
+        (name.indexOf(" ") !== -1
           ? await Fetcher.fetchByName(
               instance,
               [...args.slice(-1), ...args.slice(0, -1)].join(" "),

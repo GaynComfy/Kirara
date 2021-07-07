@@ -1,6 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const { withOwner } = require("../../utils/hooks");
 const { pageThroughList } = require("../../utils/PagedResults");
+const Constants = require("../../utils/Constants.json");
 
 const info = {
   name: "guildlist",
@@ -30,8 +31,8 @@ module.exports = {
                 page.total
               }:**`
             )
-            .setDescription("```" + formatted.join("\n") + "```")
-            .setColor("RANDOM");
+            .setColor(Constants.color)
+            .setDescription("```" + formatted.join("\n") + "```");
         });
       },
       instance.config.owner

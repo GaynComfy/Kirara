@@ -12,56 +12,48 @@ module.exports = {
     return withRights(message.member, async () => {
       if (args.length === 0) return false;
       if (!allowed.includes(args[0].toLowerCase())) return false;
-      const result = await instance.database.simpleQuery("SETTINGS", {
-        key: "roleplay_size:" + message.channel.id,
+      const embed = new MessageEmbed.setColor("RANDOM");
+
+      const { rows: result } = await instance.database.simpleQuery("SETTINGS", {
+        key: `roleplay_size:${message.channel.id}`,
         value: "true",
       });
       if (args[0] === "small") {
-        if (result.rows.length === 1) {
-          const embed = new MessageEmbed()
-            .setDescription(
-              "<:Sirona_NoCross:762606114444935168> Already set to small."
-            )
-            .setColor("RANDOM");
-          return message.channel.send(embed);
+        if (result.length === 1) {
+          embed.setDescription(
+            "<:Sirona_NoCross:762606114444935168> Already set to small."
+          );
         }
         await instance.database.simpleInsert("SETTINGS", {
-          key: "roleplay_size:" + message.channel.id,
+          key: `roleplay_size:${message.channel.id}`,
           value: "true",
           server_id: instance.serverIds[message.guild.id],
           guild_id: message.guild.id,
         });
         instance.settings[message.guild.id][
-          "roleplay_size:" + message.channel.id
+          `roleplay_size:${message.channel.id}`
         ] = true;
-        const embed = new MessageEmbed()
-          .setDescription(
-            "<a:Sirona_Tick:749202570341384202> Set to small embeds!"
-          )
-          .setColor("RANDOM");
-        return message.channel.send(embed);
+        embed.setDescription(
+          "<a:Sirona_Tick:749202570341384202> Set to small embeds!"
+        );
       } else {
-        if (result.rows.length !== 1) {
-          const embed = new MessageEmbed()
-            .setDescription(
-              "<:Sirona_NoCross:762606114444935168> Already set to big."
-            )
-            .setColor("RANDOM");
-          return message.channel.send(embed);
+        if (result.length !== 1) {
+          embed.setDescription(
+            "<:Sirona_NoCross:762606114444935168> Already set to big."
+          );
         }
         await instance.database.simpleDelete("SETTINGS", {
-          id: result.rows[0].id,
+          id: result[0].id,
         });
         delete instance.settings[message.guild.id][
-          "roleplay_size:" + message.channel.id
+          `roleplay_size:${message.channel.id}`
         ];
-        const embed = new MessageEmbed()
-          .setDescription(
-            "<a:Sirona_Tick:749202570341384202> Set to big embeds!"
-          )
-          .setColor("RANDOM");
-        return message.channel.send(embed);
+        embed.setDescription(
+          "<a:Sirona_Tick:749202570341384202> Set to big embeds!"
+        );
       }
+
+      return message.channel.send(embed);
     });
   },
   info,

@@ -3,6 +3,7 @@ const Color = require("../../utils/Colors.json");
 const { getCachedURL } = require("../../utils/cacheUtils");
 const { MessageEmbed, MessageAttachment } = require("discord.js");
 const { createCanvas, loadImage } = require("canvas");
+const { mention, userId } = require("../../utils/regexUtils");
 const isDev = process.env.NODE_ENV === "development";
 const { owner } = isDev
   ? require("../../config-dev.js")
@@ -24,8 +25,6 @@ const tierPositions = [
   { t: "5", x: 735, y: 360 },
   { t: "6", x: 935, y: 360 },
 ];
-const mention = /<@!?(\d{17,19})>/;
-const userId = /\d{17,19}/;
 
 module.exports = {
   execute: async (instance, message, args) => {
