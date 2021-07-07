@@ -28,7 +28,10 @@ module.exports = {
         ((args[0] === "1" && fusedUser) ||
           (userId.test(args[0]) &&
             (await instance.client.users.fetch(args[0]).catch(() => {})))));
-    if (args.length >= 1 && (mention.test(args[0]) || userId.test(args[0])))
+    if (
+      args.length >= 1 &&
+      (args[0] === "1" || mention.test(args[0]) || userId.test(args[0]))
+    )
       args.shift();
     if (!user) {
       user = message.author;
