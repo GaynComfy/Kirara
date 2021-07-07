@@ -6,6 +6,12 @@ const { cardId, mention, userId } = require("../../utils/regexUtils");
 const { tierInfo } = require("../../utils/cardUtils");
 const Constants = require("../../utils/Constants.json");
 
+const fusedUser = {
+  id: "1",
+  username: "Fusion",
+  displayAvatarURL: () => "https://cdn.animesoul.com/images/users/1.jpg",
+};
+
 const info = {
   name: "inventory",
   aliases: ["inv"],
@@ -14,14 +20,14 @@ const info = {
   cooldown: 2,
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
 };
-
 module.exports = {
   execute: async (instance, message, args) => {
     let user =
       message.mentions.users.first() ||
       (args.length >= 1 &&
-        userId.test(args[0]) &&
-        (await instance.client.users.fetch(args[0]).catch(() => {})));
+        ((args[0] === "1" && fusedUser) ||
+          (userId.test(args[0]) &&
+            (await instance.client.users.fetch(args[0]).catch(() => {})))));
     if (args.length >= 1 && (mention.test(args[0]) || userId.test(args[0])))
       args.shift();
     if (!user) {
