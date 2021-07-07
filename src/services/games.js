@@ -3,7 +3,7 @@ const { MessageEmbed } = require("discord.js");
 const Constants = require("../utils/Constants.json");
 const { tierInfo } = require("../utils/cardUtils");
 
-const allAllowed = ["2", "3"].concat(Constants.allowedAucTiers);
+const allAllowed = ["T2", "T3"].concat(Constants.allowedAucTiers);
 
 let client = null;
 let deleteInterval = null;
