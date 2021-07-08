@@ -75,6 +75,9 @@ module.exports = {
       const embed = new MessageEmbed()
         .setAuthor("Global Leaderboard", Constants.avatar)
         .setColor(claimers.length > 0 ? "#f49e17" : Color.red)
+        .setDescription(
+          "**CLAIMS ARE CURRENTLY NOT COUNTED**\nWe're waiting on an update from Anime Soul to fix this."
+        )
         .setImage(Constants.footer)
         .setFooter(
           (!singlePage

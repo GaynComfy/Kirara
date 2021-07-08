@@ -10,6 +10,7 @@ const info = {
   category: "Shoob",
   cooldown: 5,
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
+  disabled: true,
 };
 const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
 

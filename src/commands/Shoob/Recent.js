@@ -59,9 +59,10 @@ module.exports = {
       .setTitle(selectedTitle)
       .setColor(selectedColor)
       .setDescription(
-        `Showing ${
-          isGlobal ? "global claims" : `claims in \`${message.guild.name}\``
-        }`
+        "**CLAIMS ARE CURRENTLY NOT COUNTED**\nWe're waiting on an update from Anime Soul to fix this.\n\n" +
+          `Showing ${
+            isGlobal ? "global claims" : `claims in \`${message.guild.name}\``
+          }`
       );
     if (recentCards.length !== 0) {
       if (!reverse) recentCards.reverse();
