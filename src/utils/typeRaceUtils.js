@@ -230,13 +230,13 @@ const genSpawnCaptcha = async () => {
   const characters = Math.round(4 + Math.random() * (6 - 4));
   const rColor = tColors[Math.floor(Math.random * tColors.length)];
 
-  const captcha = new CaptchaGenerator({ width: 600, height: 200 })
+  const captcha = new CaptchaGenerator({ width: 270, height: 70 })
     .setCaptcha({
       characters,
       color: rColor,
       text: randomStr(characters),
     })
-    .setTrace({ color: rColor, opacity: 1 });
+    .setTrace({ color: rColor });
 
   return {
     buffer: await captcha.generate(),
