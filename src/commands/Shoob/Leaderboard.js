@@ -125,7 +125,7 @@ module.exports = {
         message.guild.iconURL({ dynamic: true })
       )
       .setDescription(
-        "**CLAIMS ARE CURRENTLY NOT COUNTED**\nWe're waiting on an update from Anime Soul to fix this."
+        "**CLAIMS ARE CURRENTLY HIT AND MISS**\nWe're waiting on an update from Anime Soul to fix this."
       )
       .attachFiles([attachment])
       .setImage("attachment://leaderboard.png");

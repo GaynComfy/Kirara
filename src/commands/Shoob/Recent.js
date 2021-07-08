@@ -59,7 +59,7 @@ module.exports = {
       .setTitle(selectedTitle)
       .setColor(selectedColor)
       .setDescription(
-        "**CLAIMS ARE CURRENTLY NOT COUNTED**\nWe're waiting on an update from Anime Soul to fix this.\n\n" +
+        "**CLAIMS ARE CURRENTLY HIT AND MISS**\nWe're waiting on an update from Anime Soul to fix this.\n\n" +
           `Showing ${
             isGlobal ? "global claims" : `claims in \`${message.guild.name}\``
           }`

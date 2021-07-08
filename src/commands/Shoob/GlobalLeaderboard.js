@@ -76,7 +76,7 @@ module.exports = {
         .setAuthor("Global Leaderboard", Constants.avatar)
         .setColor(claimers.length > 0 ? "#f49e17" : Color.red)
         .setDescription(
-          "**CLAIMS ARE CURRENTLY NOT COUNTED**\nWe're waiting on an update from Anime Soul to fix this."
+          "**CLAIMS ARE CURRENTLY HIT AND MISS**\nWe're waiting on an update from Anime Soul to fix this."
         )
         .setImage(Constants.footer)
         .setFooter(
