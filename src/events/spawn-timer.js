@@ -1,4 +1,5 @@
 const { getTimer } = require("../utils/spawnUtils");
+const { tierInfo } = require("../utils/cardUtils");
 
 module.exports = {
   execute: async (instance, message) => {
@@ -26,11 +27,18 @@ module.exports = {
           continue;
         }
 
+        const tieri = Object.values(tierInfo).find(
+          t => t.color === `#${embed.color.toString(16).toLowerCase()}`
+        );
+        let tier;
+        if (tieri) tier = tieri.num.toString();
+
         if (!instance.shared["timer"][message.channel.id])
           instance.shared["timer"][message.channel.id] = [];
 
         instance.shared["timer"][message.channel.id].push({
           name: embed.title,
+          tier,
           msg,
           time: message.createdTimestamp,
           last: new Date(),
