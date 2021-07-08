@@ -4,7 +4,7 @@ exports.getTimer = (since, now = new Date()) => {
   // not even going to waste time looking
   const passed = now - since;
   if (passed >= 20000) return false;
-  const secs = Math.round(15 - passed / 1000);
+  const secs = Math.max(Math.round(15 - passed / 1000), 0);
 
   let emote = "🟢";
   let color = "#16c60c";
@@ -15,7 +15,7 @@ exports.getTimer = (since, now = new Date()) => {
     emote = "🟡";
     color = "#fff100";
   }
-  let text = `${emote} | **Time remaining till despawn** \`${secs}\``;
+  let text = `${emote} | **Time remaining for spawn** \`${secs}\``;
 
   if (passed > 15000) {
     text = "<:SShoob:783636544720207903> | **Looks like nobody got the card!**";

@@ -10,7 +10,7 @@ module.exports = {
       for (const chan of Object.keys(instance.shared["timer"])) {
         const chn = instance.shared["timer"][chan];
         for (const timer of chn) {
-          if (new Date() - timer.last < 3500) continue;
+          if (new Date() - timer.last < 3600) continue;
           const embed = await getTimer(timer.time);
           if (!embed) {
             timer.msg.delete().catch(() => {});
