@@ -8,6 +8,7 @@ const info = {
   matchCase: false,
   category: "Administration",
   perms: ["MENTION_EVERYONE"],
+  disabled: false, // now against Anime Soul rules
 };
 module.exports = {
   execute: async (instance, message, args) => {

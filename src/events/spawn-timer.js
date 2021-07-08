@@ -9,22 +9,18 @@ module.exports = {
       return;
     }
     for (const embed of message.embeds) {
-      const word = embed.title;
-      if (!word || !word.includes("Tier:")) continue;
-
-      const parts = word.split(" Tier: ");
-      const name = parts[0];
-      const tier = parts[parts.length - 1];
+      const word = embed.description;
+      if (!word || !word.startsWith("To claim, ")) continue;
 
       if (
         instance.guilds[message.guild.id] &&
         instance.guilds[message.guild.id].timer
       ) {
-        const embed = await getTimer(message.createdTimestamp);
-        if (!embed) continue;
+        const timer = await getTimer(message.createdTimestamp);
+        if (!timer) continue;
         let msg;
         try {
-          msg = await message.channel.send(embed);
+          msg = await message.channel.send(timer);
         } catch (err) {
           console.error(err);
           continue;
@@ -34,8 +30,7 @@ module.exports = {
           instance.shared["timer"][message.channel.id] = [];
 
         instance.shared["timer"][message.channel.id].push({
-          name,
-          tier,
+          name: embed.title,
           msg,
           time: message.createdTimestamp,
           last: new Date(),

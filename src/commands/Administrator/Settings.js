@@ -11,7 +11,7 @@ const info = {
 module.exports = {
   execute: async (instance, message /*args*/) => {
     return withRights(message.member, async () => {
-      const { rows: roleQuery } = await instance.database.simpleQuery(
+      /*const { rows: roleQuery } = await instance.database.simpleQuery(
         "CARD_ROLES",
         {
           server_id: instance.serverIds[message.guild.id],
@@ -25,7 +25,7 @@ module.exports = {
         else role = `${role}: Not set`;
 
         return role;
-      });
+      });*/
 
       const claimQuery = {
         key: "claim:enabled",
@@ -52,12 +52,12 @@ module.exports = {
         )
         .addField("Event", event, true)
         .addField("Claim messages", toggle, true)
-        .addField("Spawn logs", logs, true)
-        .addField(
+        .addField("Spawn logs", logs, true);
+      /*.addField(
           "Spawn roles",
           roleQuery.length === 0 ? "No roles set" : roleArray,
           true
-        );
+        )*/
 
       return message.channel.send(embed);
     });

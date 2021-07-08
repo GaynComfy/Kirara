@@ -32,9 +32,7 @@ module.exports = {
 
           const timers = instance.shared["timer"][data.channel_id];
           if (timers) {
-            const s = timers.find(
-              p => p.tier === data.tier && p.name === data.card_name
-            );
+            const s = timers.find(p => p.name === data.card_name);
             if (s) {
               s.msg.delete().catch(() => {});
               const i = timers.indexOf(s);

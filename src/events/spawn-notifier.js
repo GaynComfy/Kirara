@@ -28,5 +28,5 @@ module.exports = {
       }
     }
   },
-  eventName: "message",
+  eventName: "_disabled_message",
 };
