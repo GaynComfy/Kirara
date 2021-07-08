@@ -27,9 +27,8 @@ module.exports = {
           continue;
         }
 
-        const tieri = Object.values(tierInfo).find(
-          t => t.color === `#${embed.color.toString(16).toLowerCase()}`
-        );
+        const tierColor = `#${embed.color.toString(16).toLowerCase()}`;
+        const tieri = Object.values(tierInfo).find(t => t.color === tierColor);
         let tier;
         if (tieri) tier = tieri.num.toString();
 
