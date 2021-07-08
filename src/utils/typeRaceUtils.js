@@ -1,6 +1,7 @@
 const tcaptcha = require("trek-captcha");
 const { CaptchaGenerator } = require("captcha-canvas");
 const { createCanvas, registerFont } = require("canvas");
+const { tierInfo } = require("./cardUtils");
 registerFont("./src/assets/Porter.ttf", { family: "Porter" });
 
 const optout = require("./cacheUtils").getOptOutStmt(
@@ -17,17 +18,12 @@ const randomStr = len => {
   return rStr;
 };
 
-const colors = {
-  // 1: "#ffffff",
-  // 2: "#7aff8d",
-  3: "#58a0e3",
-  4: "#ad58e3",
-  5: "#f8f105",
-  6: "#ea2222",
-  // 7: "#aaaaaa",
-  // 8: "#000000",
-};
-const tColors = Object.values(colors);
+const colors = {};
+const tColors = [];
+Object.values(tierInfo).forEach(t => {
+  colors[t.num] = t.color;
+  tColors.push(t.color);
+});
 
 const diffs = {
   e: "easy",
@@ -36,6 +32,7 @@ const diffs = {
   i: "impossible",
   c: "collect",
   s: "shoob",
+  p: "spawn",
 };
 const difficulty = {
   easy: 6,
@@ -44,6 +41,7 @@ const difficulty = {
   impossible: 14,
   collect: 8,
   shoob: 5,
+  spawn: 6,
 };
 
 const defs = {
@@ -228,6 +226,24 @@ const genCollectCaptcha = async tier => {
   };
 };
 
+const genSpawnCaptcha = async () => {
+  const characters = Math.round(4 + Math.random() * (6 - 4));
+  const rColor = tColors[Math.floor(Math.random * tColors.length)];
+
+  const captcha = new CaptchaGenerator({ width: 600, height: 200 })
+    .setCaptcha({
+      characters,
+      color: rColor,
+      text: randomStr(characters),
+    })
+    .setTrace({ color: rColor, opacity: 1 });
+
+  return {
+    buffer: await captcha.generate(),
+    txt: captcha.text.toLowerCase(),
+  };
+};
+
 const genRandomCaptcha = async diff => {
   if (!diff || !difficulty[diff]) diff = "hard";
   const captcha = new CaptchaGenerator({ width: 600, height: 200 })
@@ -249,6 +265,8 @@ const genCaptcha = async (diff = "hard", tier = false) => {
   switch (diff) {
     case "shoob":
       return genShoobCaptcha();
+    case "spawn":
+      return genSpawnCaptcha();
     case "collect":
       return genCollectCaptcha(tier);
     default:
