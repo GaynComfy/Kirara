@@ -11,7 +11,7 @@ module.exports = {
     }
     for (const embed of message.embeds) {
       const word = embed.description;
-      if (!word || !word.startsWith("To claim, ")) continue;
+      if (!word || !embed.title || !word.startsWith("To claim, ")) continue;
 
       if (
         instance.guilds[message.guild.id] &&
