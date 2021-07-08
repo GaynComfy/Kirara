@@ -8,12 +8,15 @@ module.exports = {
       return;
     }
     for (const embed of message.embeds) {
-      const word = embed.title;
-      if (!word || !word.includes("Tier:")) continue;
+      const word = embed.description;
+      if (!word || !word.startsWith("To claim, ")) continue;
 
-      const parts = word.split(" Tier: ");
-      const name = parts[0];
-      const tier = parts[parts.length - 1];
+      const tieri = Object.values(tierInfo).find(
+        t => t.color === embed.hexColor
+      );
+      if (!tieri) return;
+      const tier = tieri.num.toString();
+      const name = embed.title.split(" Tier: ")[0];
 
       const result = await instance.database.simpleQuery("CARD_ROLES", {
         tier: `t${tier}`,
@@ -21,9 +24,7 @@ module.exports = {
       });
       if (result.rows.length === 1) {
         await message.channel.send(
-          `${tierInfo[`T${tier}`].emoji} <@&${
-            result.rows[0].role_id
-          }> | \`${name} T${tier} has spawned!\``
+          `${tieri.emoji} <@&${result.rows[0].role_id}> | \`${name} T${tier} has spawned!\``
         );
       }
     }

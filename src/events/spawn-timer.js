@@ -32,12 +32,13 @@ module.exports = {
         );
         let tier;
         if (tieri) tier = tieri.num.toString();
+        const name = embed.title.split(" Tier: ")[0];
 
         if (!instance.shared["timer"][message.channel.id])
           instance.shared["timer"][message.channel.id] = [];
 
         instance.shared["timer"][message.channel.id].push({
-          name: embed.title,
+          name,
           tier,
           msg,
           time: message.createdTimestamp,
