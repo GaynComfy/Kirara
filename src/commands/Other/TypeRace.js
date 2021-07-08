@@ -1,23 +1,16 @@
 const { MessageAttachment, MessageEmbed } = require("discord.js");
 const Color = require("../../utils/Colors.json");
 const {
-  colors,
   diffs,
   difficulty,
   getCpm,
   userPlay,
   genCaptcha,
 } = require("../../utils/typeRaceUtils");
-const tiers = Object.keys(colors);
+const { tierInfo } = require("../../utils/cardUtils");
 
-const info = {
-  name: "typerace",
-  aliases: ["tr"],
-  matchCase: false,
-  category: "UwU",
-  perms: ["ATTACH_FILES"],
-  needsQueue: true,
-};
+const tiers = Object.keys(tierInfo).map(t => t.toLowerCase());
+const diffKeys = Object.keys(diffs);
 
 const end = (startTime, endTime) => {
   let timeDiff = endTime - startTime; // in ms
@@ -28,6 +21,14 @@ const end = (startTime, endTime) => {
 };
 const channelMap = [];
 
+const info = {
+  name: "typerace",
+  aliases: ["tr"],
+  matchCase: false,
+  category: "UwU",
+  perms: ["ATTACH_FILES"],
+  needsQueue: true,
+};
 module.exports = {
   execute: async (instance, message, args, queue) => {
     if (channelMap[message.channel.id])
@@ -38,11 +39,12 @@ module.exports = {
       typeof di === "string" &&
       di[0] === "t" &&
       !isNaN(di[1]) &&
-      tiers.indexOf(di[1]) !== -1
+      tiers.indexOf(di) !== -1 &&
+      di !== "ts"
         ? parseInt(di[1])
         : false;
     if (tier !== false) di = "collect";
-    if (di !== false && !Object.keys(diffs).includes(di[0])) return false;
+    if (di !== false && !diffKeys.includes(di[0])) return false;
 
     const s = Symbol();
     channelMap[message.channel.id] = s;
@@ -60,7 +62,7 @@ module.exports = {
       .attachFiles([attachment])
       .setColor(Color.default)
       .setImage("attachment://captcha.png");
-    if (diff === "shoob")
+    if (diff === "shoob" || diff === "spawn")
       embed.setDescription("To claim, use: `claim [captcha code]`");
     else if (diff === "collect")
       embed.setDescription("To claim, use: `collect [captcha code]`");
@@ -78,7 +80,7 @@ module.exports = {
       msg =>
         channelMap[message.channel.id] === s &&
         msg.content.toLowerCase() ===
-          (diff === "shoob"
+          (diff === "shoob" || diff === "spawn"
             ? `claim ${txt}`
             : diff === "collect"
             ? `collect ${txt}`

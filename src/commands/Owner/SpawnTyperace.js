@@ -6,10 +6,13 @@ const Fetcher = require("../../utils/CardFetcher");
 const {
   getCpm,
   userPlay,
-  genShoobCaptcha,
+  genSpawnCaptcha,
 } = require("../../utils/typeRaceUtils");
 const { withOwner } = require("../../utils/hooks");
 const { cardId } = require("../../utils/regexUtils");
+const { tierInfo } = require("../../utils/cardUtils");
+
+const tiers = Object.keys(tierInfo).map(t => t.toLowerCase());
 
 const info = {
   name: "spawn",
@@ -20,17 +23,6 @@ const info = {
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
   disabled: process.env.NODE_ENV !== "development",
 };
-
-const tiers = {
-  1: "#cccccc",
-  2: "#7aff8d",
-  3: "#58a0e3",
-  4: "#ad58e3",
-  5: "#f8f105",
-  6: "#ea2222",
-  S: "#000001",
-};
-const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
 
 const channelMap = [];
 const end = (startTime, time) => {
@@ -54,7 +46,7 @@ module.exports = {
           args[0].toLowerCase() === "event" || args[0].toLowerCase() === "e";
         if (isEvent) args.shift();
         if (args.length === 0) return false;
-        const hasTier = allowed.includes(args[0].toLowerCase());
+        const hasTier = tiers.includes(args[0].toLowerCase());
         const hasCardId = cardId.test(args[0]);
         if (hasTier && args.length === 1) return false;
         const tier = hasTier ? args.shift()[1].toUpperCase() : "all";
@@ -105,7 +97,7 @@ module.exports = {
         ctx.drawImage(cardImg, 0, 0, 300, 380);
 
         // Shoob captcha
-        const { buffer, txt } = await genShoobCaptcha();
+        const { buffer, txt } = await genSpawnCaptcha();
         const captchaImg = await loadImage(buffer);
         ctx.drawImage(captchaImg, 21, 359, 259, 67);
 
