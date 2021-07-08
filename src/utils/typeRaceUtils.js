@@ -228,7 +228,7 @@ const genCollectCaptcha = async tier => {
 
 const genSpawnCaptcha = async () => {
   const characters = Math.round(4 + Math.random() * (6 - 4));
-  const rColor = tColors[Math.floor(Math.random * tColors.length)];
+  const rColor = tColors[Math.floor(Math.random() * tColors.length)];
 
   const captcha = new CaptchaGenerator({ width: 270, height: 70 })
     .setCaptcha({
