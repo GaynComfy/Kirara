@@ -12,7 +12,7 @@ module.exports = {
     return withRights(message.member, async () => {
       if (args.length === 0) return false;
       if (!allowed.includes(args[0].toLowerCase())) return false;
-      const embed = new MessageEmbed.setColor("RANDOM");
+      const embed = new MessageEmbed().setColor("RANDOM");
 
       const { rows: result } = await instance.database.simpleQuery("SETTINGS", {
         key: `roleplay_size:${message.channel.id}`,
