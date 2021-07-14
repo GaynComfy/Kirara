@@ -10,7 +10,7 @@ module.exports = {
       await channel.send(
         `User <@!${newMember.user.id}> [${newMember.user.id}] stopped boosting.`
       );
-    } else {
+    } else if (newMember.premiumSince && !oldMember.premiumSince) {
       await channel.send(
         `User <@!${newMember.user.id}> [${newMember.user.id}] is now boosting.`
       );
