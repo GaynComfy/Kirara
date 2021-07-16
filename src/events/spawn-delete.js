@@ -23,5 +23,5 @@ module.exports = {
       );
     }
   },
-  eventName: "message_delete",
+  eventName: "messageDelete",
 };
