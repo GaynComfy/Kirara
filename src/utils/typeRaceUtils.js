@@ -235,6 +235,7 @@ const genSpawnCaptcha = async () => {
       characters,
       color: rColor,
       text: randomStr(characters),
+      rotate: 5,
     })
     .setTrace({ color: rColor, opacity: 0.5 });
 
