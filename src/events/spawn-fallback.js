@@ -41,7 +41,7 @@ const processSpawn = async (instance, message, embed) => {
   });
 
   console.debug(
-    `[${instance.client.shard.ids[0]}] Shoob spawned T${tier} ${name} on <#${message.channel.id}}> [${message.id}]`
+    `[${instance.client.shard.ids[0]}] Shoob spawned T${tier} ${name} on <#${message.channel.id}> [${message.id}]`
   );
 };
 const processClaim = async (instance, message, embed) => {
