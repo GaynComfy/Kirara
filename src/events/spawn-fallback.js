@@ -91,7 +91,7 @@ const processDespawn = async (instance, message) => {
     const s = instance.shared["spawn"][message.channel.id][i];
     s.despawn = true;
     s.time = new Date();
-    delSpawns.splice(i, 1);
+    spawns.splice(i, 1);
     console.debug(
       `[${instance.client.shard.ids[0]}] T${s.tier} ${s.card_name} (deleted spawn) despawned on <#${s.channel_id}>`
     );
