@@ -85,14 +85,13 @@ const processDespawn = async (instance, message) => {
   );
   if (delSpawns.length > 0) {
     // let's suppose we're dealing with a deleted spawn here
-    const spawn = delSpawns[0];
-    const i = spawns.indexOf(spawn);
+    const i = spawns.indexOf(delSpawns[0]);
     if (i === -1) return; // oh fuck
 
     const s = instance.shared["spawn"][message.channel.id][i];
     s.despawn = true;
     s.time = new Date();
-    delSpawns.splice(0, 1);
+    delSpawns.splice(i, 1);
     console.debug(
       `[${instance.client.shard.ids[0]}] T${s.tier} ${s.card_name} (deleted spawn) despawned on <#${s.channel_id}>`
     );
