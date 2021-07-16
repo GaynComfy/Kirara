@@ -245,6 +245,7 @@ const genRandomCaptcha = async diff => {
       color: "#8cbaff",
       text: randomStr(difficulty[diff]),
       rotate: 0,
+      skew: false,
     })
     .setDecoy({ opacity: difficulty[diff] >= 8 ? 0.8 : 0 })
     .setTrace({ color: "#8cbaff", opacity: difficulty[diff] < 14 ? 1 : 0 });
