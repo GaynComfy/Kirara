@@ -37,6 +37,7 @@ const processSpawn = async (instance, message, embed) => {
     time: new Date(),
     kirara: true,
     despawn: false,
+    deleted: false,
   });
 
   console.debug(
@@ -77,11 +78,30 @@ const processDespawn = async (instance, message) => {
   if (!instance.shared["spawnDelete"][message.channel.id])
     instance.shared["spawnDelete"][message.channel.id] = [];
 
-  instance.shared["spawnDelete"][message.channel.id].push(new Date());
+  const spawns = instance.shared["spawn"][message.channel.id];
 
-  console.debug(
-    `[${instance.client.shard.ids[0]}] A card just despawned on <#${message.channel.id}>`
+  const delSpawns = instance.shared["spawn"][message.channel.id].filter(
+    s => s.deleted === true && new Date() - s.time >= 15000
   );
+  if (delSpawns.length > 0) {
+    // let's suppose we're dealing with a deleted spawn here
+    const spawn = delSpawns[0];
+    const i = spawns.indexOf(spawn);
+    if (i === -1) return; // oh fuck
+
+    const s = instance.shared["spawn"][message.channel.id][i];
+    s.despawn = true;
+    s.time = new Date();
+    console.debug(
+      `[${instance.client.shard.ids[0]}] T${s.tier} ${s.card_name} (deleted spawn) despawned on <#${s.channel_id}>`
+    );
+  } else {
+    instance.shared["spawnDelete"][message.channel.id].push(new Date());
+
+    console.debug(
+      `[${instance.client.shard.ids[0]}] A card just despawned on <#${message.channel.id}>`
+    );
+  }
 };
 
 module.exports = {
