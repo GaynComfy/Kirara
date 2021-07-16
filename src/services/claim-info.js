@@ -34,7 +34,7 @@ module.exports = {
           if (timers) {
             const s = timers.find(
               p =>
-                p.msg.channel?.id === data.message_id ||
+                (p.msg.channel && p.msg.channel.id === data.message_id) ||
                 ((p.tier ? p.tier === data.tier : true) &&
                   p.name === data.card_name)
             );
