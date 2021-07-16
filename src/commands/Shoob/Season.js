@@ -27,23 +27,17 @@ module.exports = {
       s = JSON.parse(e);
     } else {
       // ToDo: GET RID OF THIS ASAP
-      const {
-        rows: claimed,
-      } = await instance.database.pool.query(
+      const { rows: claimed } = await instance.database.pool.query(
         "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE claimed=true " +
           "AND server_id=$1 AND season=$2 GROUP BY tier",
         [instance.serverIds[message.guild.id], instance.config.season]
       );
-      const {
-        rows: despawn,
-      } = await instance.database.pool.query(
+      const { rows: despawn } = await instance.database.pool.query(
         "SELECT COUNT(id) c FROM CARD_CLAIMS WHERE claimed=false " +
           "AND server_id=$1 AND season=$2",
         [instance.serverIds[message.guild.id], instance.config.season]
       );
-      const {
-        rows: claimers,
-      } = await instance.database.pool.query(
+      const { rows: claimers } = await instance.database.pool.query(
         "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
           "AND server_id=$1 AND season=$2 GROUP BY discord_id ORDER BY c DESC",
         [instance.serverIds[message.guild.id], instance.config.season]
@@ -94,8 +88,8 @@ module.exports = {
       )
       .setColor(Color.pink)
       .setDescription(
-        "**CLAIMS ARE CURRENTLY HIT AND MISS**\nWe're waiting on an update from Anime Soul to fix this.\n\n" +
-          `In this season **${total} cards** have spawned:\n\n` +
+        //"**CLAIMS ARE CURRENTLY HIT AND MISS**\nWe're waiting on an update from Anime Soul to fix this.\n\n" +
+        `In this season **${total} cards** have spawned:\n\n` +
           tiers1.join(" | ") +
           `\n` +
           tiers2.join(" | ") +

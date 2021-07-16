@@ -30,9 +30,7 @@ module.exports = {
         const e = await instance.cache.get(k);
         claimers = JSON.parse(e);
       } else {
-        const {
-          rows: claims,
-        } = await instance.database.pool.query(
+        const { rows: claims } = await instance.database.pool.query(
           "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
             "AND season=$1 AND " +
             optout +
@@ -75,9 +73,9 @@ module.exports = {
       const embed = new MessageEmbed()
         .setAuthor("Global Leaderboard", Constants.avatar)
         .setColor(claimers.length > 0 ? "#f49e17" : Color.red)
-        .setDescription(
+        /*.setDescription(
           "**CLAIMS ARE CURRENTLY HIT AND MISS**\nWe're waiting on an update from Anime Soul to fix this."
-        )
+        )*/
         .setImage(Constants.footer)
         .setFooter(
           (!singlePage

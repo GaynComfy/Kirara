@@ -15,9 +15,7 @@ module.exports = {
     message.channel.startTyping();
     message.channel.stopTyping();
 
-    const {
-      rows: claimers,
-    } = await instance.database.pool.query(
+    const { rows: claimers } = await instance.database.pool.query(
       "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
         "AND server_id=$1 AND season=$2 GROUP BY discord_id ORDER BY c DESC LIMIT 10",
       [instance.serverIds[message.guild.id], instance.config.season - 1]
@@ -47,9 +45,9 @@ module.exports = {
         message.guild.iconURL({ dynamic: true })
       )
       .setColor(claimers.length > 0 ? "#f49e17" : Color.red)
-      .setDescription(
+      /*.setDescription(
         "**CLAIMS ARE CURRENTLY HIT AND MISS**\nWe're waiting on an update from Anime Soul to fix this."
-      )
+      )*/
       .setImage(Constants.footer)
       .addField(`•   __User__`, users, true)
       .addField(`•   __Claims__`, claims, true);

@@ -69,9 +69,7 @@ const getTopPlayers = async (instance, limit) => {
 
   const diffPlayers = [];
   for (const diff of Object.values(diffs)) {
-    const {
-      rows,
-    } = await instance.database.pool.query(
+    const { rows } = await instance.database.pool.query(
       "SELECT * FROM TYPERACE_STATS WHERE DIFFICULTY = $1 AND " +
         optout +
         " ORDER BY top ASC LIMIT $2",
@@ -89,9 +87,7 @@ const getTopPlayers = async (instance, limit) => {
 };
 
 const getTopPlayersByDiff = async (instance, diff, limit, offset) => {
-  const {
-    rows,
-  } = await instance.database.pool.query(
+  const { rows } = await instance.database.pool.query(
     "SELECT * FROM TYPERACE_STATS WHERE DIFFICULTY = $1 AND " +
       optout +
       " ORDER BY top ASC LIMIT $2 OFFSET $3",
@@ -102,9 +98,7 @@ const getTopPlayersByDiff = async (instance, diff, limit, offset) => {
 };
 
 const userAllInfo = async (instance, userId) => {
-  const {
-    rows,
-  } = await instance.database.pool.query(
+  const { rows } = await instance.database.pool.query(
     "SELECT difficulty, top, last, first, total, cid FROM TYPERACE_STATS WHERE discord_id = $1 AND " +
       optout,
     [userId]
@@ -129,9 +123,7 @@ const userAllInfo = async (instance, userId) => {
   return user;
 };
 const userInfo = async (instance, userId, diff) => {
-  const {
-    rows,
-  } = await instance.database.pool.query(
+  const { rows } = await instance.database.pool.query(
     "SELECT * FROM TYPERACE_STATS WHERE discord_id = $1 AND difficulty = $2",
     [userId, diff]
   );
@@ -237,7 +229,7 @@ const genSpawnCaptcha = async () => {
       text: randomStr(characters),
       rotate: 5,
     })
-    .setTrace({ color: rColor, opacity: 0.5 });
+    .setTrace({ color: rColor });
 
   return {
     buffer: await captcha.generate(),
@@ -252,6 +244,7 @@ const genRandomCaptcha = async diff => {
       characters: difficulty[diff],
       color: "#8cbaff",
       text: randomStr(difficulty[diff]),
+      rotate: 0,
     })
     .setDecoy({ opacity: difficulty[diff] >= 8 ? 0.8 : 0 })
     .setTrace({ color: "#8cbaff", opacity: difficulty[diff] < 14 ? 1 : 0 });

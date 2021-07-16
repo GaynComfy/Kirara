@@ -30,9 +30,7 @@ module.exports = {
 
     return createPagedResults(message, Infinity, async page => {
       const offset = (page > last && last !== -1 ? last : page) * 8;
-      const {
-        rows: claimers,
-      } = await instance.database.pool.query(
+      const { rows: claimers } = await instance.database.pool.query(
         "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
           "AND server_id=$1 AND time > $2 GROUP BY discord_id " +
           "ORDER BY c DESC LIMIT 8 OFFSET $3",
@@ -76,9 +74,9 @@ module.exports = {
           message.guild.iconURL({ dynamic: true })
         )
         .setColor(claimers.length > 0 ? "#f49e17" : Color.red)
-        .setDescription(
+        /*.setDescription(
           "**CLAIMS ARE CURRENTLY HIT AND MISS**\nWe're waiting on an update from Anime Soul to fix this."
-        )
+        )*/
         .setImage(Constants.footer)
         .setFooter(
           (!singlePage
