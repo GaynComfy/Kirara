@@ -228,8 +228,10 @@ const genSpawnCaptcha = async () => {
       color: rColor,
       text: randomStr(characters),
       rotate: 5,
+      skew: true,
     })
-    .setTrace({ color: rColor });
+    .setDecoy({ opacity: 0.8 })
+    .setTrace({ color: rColor, opacity: 1 });
 
   return {
     buffer: await captcha.generate(),
