@@ -33,6 +33,7 @@ const processSpawn = async (instance, message, embed) => {
     channel_id: message.channel.id,
     message_id: message.id,
     tier,
+    image_url: `https://animesoul.com/api/cardr/${card_id}`,
     time: new Date(),
     kirara: true,
     despawn: false,
@@ -40,7 +41,7 @@ const processSpawn = async (instance, message, embed) => {
   });
 
   console.debug(
-    `[${instance.client.shard.ids[0]}] Shoob spawned T${tier} ${name} on <#${message.channel.id}}> - ${message.id}`
+    `[${instance.client.shard.ids[0]}] Shoob spawned T${tier} ${name} on <#${message.channel.id}}> [${message.id}]`
   );
 };
 const processClaim = async (instance, message, embed) => {
@@ -53,7 +54,7 @@ const processClaim = async (instance, message, embed) => {
   const spawn = chanSpawns.find(s => s.card_name === claim[2]);
   if (!spawn) {
     return console.error(
-      `[${instance.client.shard.ids[0]}] Got an unknown claim for ${claim[2]} V${claim[3]} from ${claim[1]}`
+      `[${instance.client.shard.ids[0]}] Got an unknown claim for ${claim[2]} V${claim[3]} from <@!${claim[1]}>`
     );
   }
 
@@ -67,7 +68,7 @@ const processClaim = async (instance, message, embed) => {
   };
 
   console.debug(
-    `[${instance.client.shard.ids[0]}] <@!${claim[1]}> claimed T${chanSpawns[index].tier} ${spawn.card_name} V${claim[3]} on <#${message.channel.id}}>`
+    `[${instance.client.shard.ids[0]}] <@!${claim[1]}> claimed T${chanSpawns[index].tier} ${spawn.card_name} V${claim[3]} on <#${message.channel.id}>`
   );
 };
 const processDespawn = async (instance, message) => {
@@ -78,7 +79,7 @@ const processDespawn = async (instance, message) => {
   instance.shared["spawnDelete"][message.channel.id].push(new Date());
 
   console.debug(
-    `[${instance.client.shard.ids[0]}] A card just despawned on <#${message.channel.id}}>`
+    `[${instance.client.shard.ids[0]}] A card just despawned on <#${message.channel.id}>`
   );
 };
 

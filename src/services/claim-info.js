@@ -34,13 +34,28 @@ module.exports = {
           if (timers) {
             const s = timers.find(
               p =>
-                (p.tier ? p.tier === data.tier : true) &&
-                p.name === data.card_name
+                p.msg.channel?.id === data.message_id ||
+                ((p.tier ? p.tier === data.tier : true) &&
+                  p.name === data.card_name)
             );
             if (s) {
               s.msg.delete().catch(() => {});
               const i = timers.indexOf(s);
               if (i !== -1) timers.splice(i, 1);
+            }
+          }
+
+          const spawns = instance.shared["spawn"][data.channel_id];
+          if (spawns) {
+            const s = spawns.find(
+              p =>
+                p.message_id === data.message_id ||
+                ((p.tier ? p.tier === data.tier : true) &&
+                  p.card_name === data.card_name)
+            );
+            if (s) {
+              const i = spawns.indexOf(s);
+              if (i !== -1) spawns.splice(i, 1);
             }
           }
 
