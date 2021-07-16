@@ -12,6 +12,12 @@ module.exports = {
     for (const embed of message.embeds) {
       const word = embed.description;
       if (!word || !embed.title || !word.startsWith("To claim, ")) continue;
+      const tieri = Object.values(tierInfo).find(
+        t => t.color === embed.hexColor
+      );
+      let tier;
+      if (tieri) tier = tieri.num.toString();
+      const name = embed.title.split(" Tier: ")[0];
 
       if (
         instance.guilds[message.guild.id] &&
@@ -26,13 +32,6 @@ module.exports = {
           console.error(err);
           continue;
         }
-
-        const tieri = Object.values(tierInfo).find(
-          t => t.color === embed.hexColor
-        );
-        let tier;
-        if (tieri) tier = tieri.num.toString();
-        const name = embed.title.split(" Tier: ")[0];
 
         if (!instance.shared["timer"][message.channel.id])
           instance.shared["timer"][message.channel.id] = [];

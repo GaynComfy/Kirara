@@ -55,11 +55,13 @@ module.exports = {
                   "https://cdn.animesoul.com/images/content/shoob/shoob-no-empty-space.png"
                 )
                 .setColor(settings.color)
-                .setThumbnail(
-                  encodeURI(data.image_url).replace(".webp", ".gif")
-                )
                 .setFooter(data.server_name)
                 .setTimestamp();
+              if (data.image_url) {
+                log.setThumbnail(
+                  encodeURI(data.image_url).replace(".webp", ".gif")
+                );
+              }
               if (data.claimed) {
                 log.setDescription(
                   `${settings.emoji} <@${data.discord_id}> has claimed [${data.card_name} Tier: ${data.tier}]` +
@@ -124,8 +126,12 @@ module.exports = {
               .setFooter(
                 `Got a problem? Use ${prefix}support\nWant to invite the bot? Use ${prefix}invite`
               )
-              .setColor(settings.color)
-              .setThumbnail(encodeURI(data.image_url).replace(".webp", ".gif"));
+              .setColor(settings.color);
+            if (data.image_url) {
+              oweeet.setThumbnail(
+                encodeURI(data.image_url).replace(".webp", ".gif")
+              );
+            }
 
             try {
               const msg = await messageChannel.send(oweeet);

@@ -28,9 +28,9 @@ class CardFetcher {
     axiosRetry(this.instance, { retries: 3 });
   }
   async fetchByName(instance, name, tier = "all", event = false) {
-    const k = `cardsearch${
-      event ? ":event" : ""
-    }:${tier}:${name.toLowerCase().replace(/ /g, "-")}`;
+    const k = `cardsearch${event ? ":event" : ""}:${tier}:${name
+      .toLowerCase()
+      .replace(/ /g, "-")}`;
 
     const exists = await instance.cache.exists(k);
     if (exists) {
@@ -48,9 +48,9 @@ class CardFetcher {
     return card;
   }
   async fetchAllByName(instance, name, tier = "all", event = false) {
-    const k = `cardlist${
-      event ? ":event" : ""
-    }:${tier}:${name.toLowerCase().replace(/ /g, "-")}`;
+    const k = `cardlist${event ? ":event" : ""}:${tier}:${name
+      .toLowerCase()
+      .replace(/ /g, "-")}`;
 
     const exists = await instance.cache.exists(k);
     if (exists) {
