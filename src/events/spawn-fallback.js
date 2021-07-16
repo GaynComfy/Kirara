@@ -37,7 +37,6 @@ const processSpawn = async (instance, message, embed) => {
     time: new Date(),
     kirara: true,
     despawn: false,
-    deleted: false,
   });
 
   console.debug(
@@ -58,9 +57,11 @@ const processClaim = async (instance, message, embed) => {
     );
   }
 
-  const index = chanSpawns.indexOf(spawn);
-  chanSpawns[index] = {
-    ...chanSpawns[index],
+  const i = chanSpawns.indexOf(spawn);
+  if (i === -1) return;
+
+  chanSpawns[i] = {
+    ...chanSpawns[i],
     claimed: true,
     issue: parseInt(claim[3]),
     discord_id: claim[1],
@@ -68,7 +69,7 @@ const processClaim = async (instance, message, embed) => {
   };
 
   console.debug(
-    `[${instance.client.shard.ids[0]}] <@!${claim[1]}> claimed T${chanSpawns[index].tier} ${spawn.card_name} V${claim[3]} on <#${message.channel.id}>`
+    `[${instance.client.shard.ids[0]}] <@!${claim[1]}> claimed T${chanSpawns[i].tier} ${spawn.card_name} V${claim[3]} on <#${message.channel.id}>`
   );
 };
 const processDespawn = async (instance, message) => {
