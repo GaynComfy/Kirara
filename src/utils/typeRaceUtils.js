@@ -285,6 +285,7 @@ module.exports = {
   userPlay,
   genShoobCaptcha,
   genCollectCaptcha,
+  genSpawnCaptcha,
   genRandomCaptcha,
   genCaptcha,
 };
