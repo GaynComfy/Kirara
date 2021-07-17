@@ -43,6 +43,16 @@ const saveSpawn = async (instance, data) => {
 
   await client.publish("claims", JSON.stringify(data));
 
+  if (data.claimed) {
+    console.debug(
+      `[${instance.client.shard.ids[0]}] <@!${data.discord_id}> claimed T${data.tier} ${data.card_name} V${data.issue} on <#${data.channel_id}>`
+    );
+  } else {
+    console.debug(
+      `[${instance.client.shard.ids[0]}] T${data.tier} ${data.card_name} despawned on <#${data.channel_id}>`
+    );
+  }
+
   instance.kClaims++;
 };
 

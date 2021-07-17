@@ -78,6 +78,7 @@ class Instance {
     );
     for (const file of entries) {
       const event = require(`./${file}`);
+      if (event.disabled) continue;
       if (!event.eventName) throw new Error(`no event name specified! ${file}`);
       if (event.init) await event.init(this);
       if (!events[event.eventName]) events[event.eventName] = [];
@@ -101,6 +102,7 @@ class Instance {
     );
     for (const file of entries) {
       const event = require(`./${file}`);
+      if (event.disabled) continue;
       if (!event.stop || !event.start)
         throw new Error(`Services need a start/stop export to work ${file}`);
       if (event.init) await event.init(this);

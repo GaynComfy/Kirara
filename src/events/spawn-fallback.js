@@ -64,10 +64,6 @@ const processClaim = async (instance, message, embed) => {
   const i = chanSpawns.indexOf(spawn);
   if (i === -1) return;
   chanSpawns[i] = newSpawn;
-
-  console.debug(
-    `[${instance.client.shard.ids[0]}] <@!${claim[1]}> claimed T${newSpawn.tier} ${spawn.card_name} V${claim[3]} on <#${message.channel.id}>`
-  );
 };
 const processDespawn = async (instance, message) => {
   if (!instance.shared["spawn"][message.channel.id]) return;
@@ -83,10 +79,6 @@ const processDespawn = async (instance, message) => {
 
     s.despawn = true;
     s.time = new Date();
-
-    console.debug(
-      `[${instance.client.shard.ids[0]}] T${s.tier} ${s.card_name} despawned on <#${s.channel_id}>`
-    );
   } else {
     console.error(
       `[${instance.client.shard.ids[0]}] An unknown card despawned on <#${message.channel.id}>...`
