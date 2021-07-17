@@ -6,6 +6,7 @@ const Redis = require("ioredis");
 
 let client = null;
 let updateInterval = null;
+let deleteInterval = null;
 
 const saveSpawn = async (instance, data) => {
   const serverId = instance.serverIds[data.server_id];
@@ -58,6 +59,7 @@ module.exports = {
     client = new Redis(`redis://${config.cache.host}:${config.cache.port}`);
 
     const spawns = instance.shared["spawn"];
+    const spwDels = instance.shared["spawnDelete"];
 
     // Handler for claims updater
     updateInterval = setInterval(async () => {
@@ -79,13 +81,30 @@ module.exports = {
             // looks like this spawn was lost on time...
             const i = chn.indexOf(spawn);
             if (i !== -1) chn.splice(i, 1);
+
+            console.error(
+              `[${instance.client.shard.ids[0]}] T${spawn.tier} ${spawn.card_name} [${spawn.message_id}] got lost on time...`
+            );
           }
         }
       }
     }, 1000);
+    deleteInterval = setInterval(async () => {
+      for (const chan of Object.keys(spwDels)) {
+        const chn = spwDels[chan];
+        for (const timer of chn) {
+          if (new Date() - timer >= 30000) {
+            // looks like this despawn was lost on time...
+            const i = chn.indexOf(timer);
+            if (i !== -1) chn.splice(i, 1);
+          }
+        }
+      }
+    }, 5000);
   },
   stop: async () => {
     if (updateInterval) clearInterval(updateInterval);
+    if (deleteInterval) clearInterval(deleteInterval);
     if (client !== null) {
       client.end(true);
       client = null;
