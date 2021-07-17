@@ -18,8 +18,8 @@ exports.getTimer = (since, now = new Date()) => {
   let text = `${emote} | **Time remaining for spawn** \`${secs}\``;
 
   if (passed > 15000) {
-    text = "<:SShoob:783636544720207903> | **Looks like nobody got the card!**";
-    color = "#000000";
+    text = "<a:Sirona_loading:748854549703426118> Please wait...";
+    color = "RANDOM";
   }
 
   return new MessageEmbed().setColor(color).setDescription(text);
