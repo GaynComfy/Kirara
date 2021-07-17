@@ -116,8 +116,8 @@ module.exports = {
           .attachFiles([attachment])
           .setImage(`attachment://${filename}`)
           .setFooter(
-            "https://repo.mplauncher.pl/fun/wla/AS.webp",
-            "Powered by AS Devs"
+            "Powered by AS Devs",
+            "https://repo.mplauncher.pl/fun/wla/AS.webp"
           );
 
         const m = await message.channel.send(embed);
@@ -148,8 +148,8 @@ module.exports = {
                 `<@!${msg.author.id}> got the \`${card.name}\` Issue #: \`0\`. See Who Sent The Message.`
               )
               .setFooter(
-                "https://repo.mplauncher.pl/fun/wla/AS.webp",
-                "Powered by AS Devs"
+                "Powered by AS Devs",
+                "https://repo.mplauncher.pl/fun/wla/AS.webp"
               );
 
             msg.channel.send(embed);
@@ -187,8 +187,8 @@ module.exports = {
                 "Looks like nobody got the dropped card this time."
               )
               .setFooter(
-                "https://repo.mplauncher.pl/fun/wla/AS.webp",
-                "Powered by AS Devs"
+                "Powered by AS Devs",
+                "https://repo.mplauncher.pl/fun/wla/AS.webp"
               );
 
             message.channel.send(embed).then(msg =>
