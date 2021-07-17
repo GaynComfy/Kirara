@@ -102,18 +102,23 @@ module.exports = {
         ctx.drawImage(captchaImg, 21, 359, 259, 67);
 
         // the fake spawn
-        const attachment = new MessageAttachment(canvas.toBuffer(), "name.png");
+        const filename = `Anime_Soul-${message.guild.id}-${message.channel.id}-claim-drop.png`;
+        const attachment = new MessageAttachment(canvas.toBuffer(), filename);
         const embed = new MessageEmbed()
-          .setColor(tiers[card.tier.toUpperCase()] || "#aaaaaa")
-          .setTitle(`${card.name} Tier: ${card.tier.toUpperCase()}`)
-          .setURL("https://animesoul.com/")
+          .setColor(tiers[card.tier.toLowerCase()] || "#aaaaaa")
+          .setTitle(card.name)
+          .setURL(`https://animesoul.com/cards/info/${card.id}`)
           .setDescription(
-            `To claim, use: \`claim [captcha code]\`\n` +
+            `To claim, use \`claim [captcha code]\`\n` +
               `[See your card inventory on our site.](https://animesoul.com/inventory)\n` +
               `[Support us and get global rewards!](https://animesoul.com/premium)`
           )
           .attachFiles([attachment])
-          .setImage("attachment://name.png");
+          .setImage(`attachment://${filename}`)
+          .setFooter(
+            "https://repo.mplauncher.pl/fun/wla/AS.webp",
+            "Powered by AS Devs"
+          );
 
         const m = await message.channel.send(embed);
         const startTime = m.createdTimestamp;
@@ -138,10 +143,13 @@ module.exports = {
 
           if (first) {
             const embed = new MessageEmbed()
-              .setColor("#80ca57")
+              .setColor("#466fe9")
               .setDescription(
-                `<:green:807545430815801364> <@!${msg.author.id}> got the card! ` +
-                  `Sadly not a real claim. Sent from Kirara!`
+                `<@!${msg.author.id}> got the \`${card.name}\` Issue #: \`0\`. See Who Sent The Message.`
+              )
+              .setFooter(
+                "https://repo.mplauncher.pl/fun/wla/AS.webp",
+                "Powered by AS Devs"
               );
 
             msg.channel.send(embed);
@@ -173,15 +181,22 @@ module.exports = {
           delete channelMap[message.channel.id];
 
           if (plays.length === 0) {
-            m.delete().catch(() => {});
-            message.channel
-              .send(
-                `Looks like no one got the card \`${card.name} ` +
-                  `T${card.tier.toUpperCase()}\` at this time..`
+            const embed = new MessageEmbed()
+              .setColor("#ea2222")
+              .setDescription(
+                "Looks like nobody got the dropped card this time."
               )
-              .then(msg =>
-                setTimeout(() => msg.delete().catch(() => {}), 5000)
+              .setFooter(
+                "https://repo.mplauncher.pl/fun/wla/AS.webp",
+                "Powered by AS Devs"
               );
+
+            message.channel.send(embed).then(msg =>
+              setTimeout(() => {
+                m.delete().catch(() => {});
+                msg.delete().catch(() => {});
+              }, 3000)
+            );
           } else {
             const result = new MessageEmbed()
               .setTitle("Type race results: Shoob <:SShoob:783636544720207903>")
