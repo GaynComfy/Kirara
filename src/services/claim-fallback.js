@@ -64,7 +64,7 @@ module.exports = {
         for (const spawn of chn) {
           if (
             (spawn.claimed === true || spawn.despawn === true) &&
-            new Date() - spawn.time >= 1500
+            new Date() - spawn.time >= 850
           ) {
             // a card was claimed/despawned, and we've not received an event from Anime Soul - so send it.
             await saveSpawn(instance, spawn)
