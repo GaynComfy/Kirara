@@ -106,7 +106,7 @@ module.exports = {
         const attachment = new MessageAttachment(canvas.toBuffer(), filename);
         const embed = new MessageEmbed()
           .setColor(
-            (tierInfo[card.tier.toUpperCase()] || {}).color || "#aaaaaa"
+            (tierInfo[`T${card.tier.toUpperCase()}`] || {}).color || "#aaaaaa"
           )
           .setTitle(card.name)
           .setURL(`https://animesoul.com/cards/info/${card.id}`)
