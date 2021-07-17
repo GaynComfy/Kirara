@@ -30,9 +30,7 @@ module.exports = {
           const messageChannel = guild.channels.cache.get(data.channel_id);
           const settings = tierInfo[`T${data.tier.toUpperCase()}`];
 
-          if (data.kirara) {
-            instance.asClaims++;
-          } else {
+          if (!data.kirara) {
             const shardId = instance.client.shard.ids[0];
             if (data.claimed) {
               console.debug(
@@ -43,6 +41,7 @@ module.exports = {
                 `[${shardId}] [API] T${data.tier} ${data.card_name} despawned on <#${data.channel_id}>`
               );
             }
+            instance.asClaims++;
           }
 
           const timers = instance.shared["timer"][data.channel_id];
