@@ -68,7 +68,7 @@ module.exports = {
         for (const spawn of chn) {
           if (
             (spawn.claimed === true || spawn.despawn === true) &&
-            new Date() - spawn.time >= 850
+            new Date() - spawn.time >= 1350
           ) {
             // a card was claimed/despawned, and we've not received an event from Anime Soul - so send it.
             await saveSpawn(instance, spawn)
@@ -83,7 +83,7 @@ module.exports = {
             if (i !== -1) chn.splice(i, 1);
 
             console.error(
-              `[${instance.client.shard.ids[0]}] T${spawn.tier} ${spawn.card_name} [${spawn.message_id}] got lost on time...`
+              `[${instance.client.shard.ids[0]}] T${spawn.tier} ${spawn.card_name} [${spawn.message_id}] got lost in time...`
             );
           }
         }
