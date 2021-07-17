@@ -18,7 +18,6 @@ module.exports = {
       });
     }, 1000);
 
-    const shardId = instance.client.shard.ids[0];
     const { config } = instance;
     client = new Redis(`redis://${config.cache.host}:${config.cache.port}`);
     client.subscribe("claims");
@@ -31,11 +30,12 @@ module.exports = {
           const messageChannel = guild.channels.cache.get(data.channel_id);
           const settings = tierInfo[`T${data.tier.toUpperCase()}`];
 
-          if (data.claimed) {
+          const shardId = instance.client.shard.ids[0];
+          if (data.claimed && !data.kirara) {
             console.debug(
               `[${shardId}] [API] <@!${data.discord_id}> claimed T${data.tier} ${data.card_name} V${data.issue} on <#${data.channel_id}>`
             );
-          } else {
+          } else if (!data.kirara) {
             console.debug(
               `[${shardId}] [API] T${data.tier} ${data.card_name} despawned on <#${data.channel_id}>`
             );

@@ -81,7 +81,7 @@ const processDespawn = async (instance, message) => {
   const spawns = instance.shared["spawn"][message.channel.id];
 
   const delSpawn = instance.shared["spawn"][message.channel.id].find(
-    s => s.deleted === true && new Date() - s.time >= 15000
+    s => s.deleted === true && !s.despawn && new Date() - s.time >= 15000
   );
   if (delSpawn) {
     // let's suppose we're dealing with a deleted spawn here
