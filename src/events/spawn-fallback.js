@@ -72,18 +72,14 @@ const processDespawn = async (instance, message) => {
   const spawn = spawns.find(
     s => !s.claimed && !s.despawn && Date.now() - s.time >= 15000
   );
-  if (spawn) {
-    const i = spawns.indexOf(spawn);
-    if (i === -1) return; // oh fuck
-    const s = spawns[i];
+  if (!spawn) return;
 
-    s.despawn = true;
-    s.time = new Date();
-  } else {
-    console.error(
-      `[${instance.client.shard.ids[0]}] An unknown card despawned on <#${message.channel.id}>...`
-    );
-  }
+  const i = spawns.indexOf(spawn);
+  if (i === -1) return; // oh fuck
+  const s = spawns[i];
+
+  s.despawn = true;
+  s.time = new Date();
 };
 
 module.exports = {
