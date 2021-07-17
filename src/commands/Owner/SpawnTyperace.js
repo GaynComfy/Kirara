@@ -105,7 +105,9 @@ module.exports = {
         const filename = `Anime_Soul-${message.guild.id}-${message.channel.id}-claim-drop.png`;
         const attachment = new MessageAttachment(canvas.toBuffer(), filename);
         const embed = new MessageEmbed()
-          .setColor(tiers[card.tier.toLowerCase()] || "#aaaaaa")
+          .setColor(
+            (tierInfo[card.tier.toUpperCase()] || {}).color || "#aaaaaa"
+          )
           .setTitle(card.name)
           .setURL(`https://animesoul.com/cards/info/${card.id}`)
           .setDescription(
