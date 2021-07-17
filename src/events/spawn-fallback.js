@@ -52,11 +52,7 @@ const processClaim = async (instance, message, embed) => {
   if (!claim) return; // how we did even get here???
 
   const spawn = chanSpawns.find(s => s.card_name === claim[2]);
-  if (!spawn) {
-    return console.error(
-      `[${instance.client.shard.ids[0]}] Got an unknown claim for ${claim[2]} V${claim[3]} from <@!${claim[1]}>`
-    );
-  }
+  if (!spawn) return;
 
   const i = chanSpawns.indexOf(spawn);
   if (i === -1) return;
@@ -98,10 +94,6 @@ const processDespawn = async (instance, message) => {
     );
   } else {
     instance.shared["spawnDelete"][message.channel.id].push(new Date());
-
-    console.debug(
-      `[${instance.client.shard.ids[0]}] A card just despawned on <#${message.channel.id}>`
-    );
   }
 };
 

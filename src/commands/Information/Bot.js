@@ -85,7 +85,9 @@ module.exports = {
           `**🟢 Shard: ${shardid}**`,
           `${numberWithCommas(guildSize)} Servers\n` +
             `${numberWithCommas(userSize)} Users\n` +
-            `${numberWithCommas(channelSize)} Channels`
+            `${numberWithCommas(channelSize)} Channels\n\n` +
+            `${numberWithCommas(instance.asClaims)} AS claims\n` +
+            `${numberWithCommas(instance.kClaims)} Kirara claims`
         );
 
       return message.channel.send(embed);

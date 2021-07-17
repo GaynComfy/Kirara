@@ -66,6 +66,8 @@ class Instance {
     this.shared = {};
     this.trivia = {};
     this.queues = {};
+    this.asClaims = 0;
+    this.kClaims = 0;
   }
   async prepareEvents() {
     const events = {};

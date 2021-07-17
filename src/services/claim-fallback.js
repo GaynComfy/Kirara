@@ -43,6 +43,8 @@ const saveSpawn = async (instance, data) => {
   });
 
   await client.publish("claims", JSON.stringify(data));
+
+  instance.kClaims++;
 };
 
 module.exports = {
