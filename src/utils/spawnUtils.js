@@ -1,6 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 
-exports.getTimer = (since, now = new Date()) => {
+exports.getTimer = (since, now = Date.now()) => {
   // not even going to waste time looking
   const passed = now - since;
   if (passed >= 20000) return false;

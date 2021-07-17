@@ -37,7 +37,6 @@ const processSpawn = async (instance, message, embed) => {
     time: new Date(),
     kirara: true,
     despawn: false,
-    deleted: false,
   });
 
   console.debug(
@@ -54,46 +53,44 @@ const processClaim = async (instance, message, embed) => {
   const spawn = chanSpawns.find(s => s.card_name === claim[2]);
   if (!spawn) return;
 
-  const i = chanSpawns.indexOf(spawn);
-  if (i === -1) return;
-
-  chanSpawns[i] = {
-    ...chanSpawns[i],
+  const newSpawn = {
+    ...spawn,
     claimed: true,
     issue: parseInt(claim[3]),
     discord_id: claim[1],
     time: new Date(),
   };
 
+  const i = chanSpawns.indexOf(spawn);
+  if (i === -1) return;
+  chanSpawns[i] = newSpawn;
+
   console.debug(
-    `[${instance.client.shard.ids[0]}] <@!${claim[1]}> claimed T${chanSpawns[i].tier} ${spawn.card_name} V${claim[3]} on <#${message.channel.id}>`
+    `[${instance.client.shard.ids[0]}] <@!${claim[1]}> claimed T${newSpawn.tier} ${spawn.card_name} V${claim[3]} on <#${message.channel.id}>`
   );
 };
 const processDespawn = async (instance, message) => {
   if (!instance.shared["spawn"][message.channel.id]) return;
-  if (!instance.shared["spawnDelete"][message.channel.id])
-    instance.shared["spawnDelete"][message.channel.id] = [];
-
   const spawns = instance.shared["spawn"][message.channel.id];
 
-  const delSpawn = instance.shared["spawn"][message.channel.id].find(
-    s => s.deleted === true && !s.despawn && new Date() - s.time >= 15000
+  const spawn = spawns.find(
+    s => !s.claimed && !s.despawn && Date.now() - s.time >= 15000
   );
-  if (delSpawn) {
-    // let's suppose we're dealing with a deleted spawn here
-    const i = spawns.indexOf(delSpawn);
+  if (spawn) {
+    const i = spawns.indexOf(spawn);
     if (i === -1) return; // oh fuck
+    const s = spawns[i];
 
-    const s = instance.shared["spawn"][message.channel.id][i];
     s.despawn = true;
-    s.deleted = false;
     s.time = new Date();
 
     console.debug(
-      `[${instance.client.shard.ids[0]}] T${s.tier} ${s.card_name} (deleted spawn) despawned on <#${s.channel_id}>`
+      `[${instance.client.shard.ids[0]}] T${s.tier} ${s.card_name} despawned on <#${s.channel_id}>`
     );
   } else {
-    instance.shared["spawnDelete"][message.channel.id].push(new Date());
+    console.error(
+      `[${instance.client.shard.ids[0]}] An unknown card despawned on <#${message.channel.id}>...`
+    );
   }
 };
 
@@ -110,7 +107,7 @@ module.exports = {
         await processSpawn(instance, message, embed);
       } else if (!embed.title && hasClaimed.test(embed.description)) {
         await processClaim(instance, message, embed);
-      } else if ((embed.description || "") === hasDespawned) {
+      } else if (embed.description === hasDespawned) {
         await processDespawn(instance, message);
       }
     }

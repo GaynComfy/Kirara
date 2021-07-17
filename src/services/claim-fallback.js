@@ -1,12 +1,10 @@
 // This processes claims as we get them based on Shoob's sent embeds.
 // This will work in case an API request gets lost, midori is down,
 // or they break the bot as they did in the Shoob 2 rewrite.
-// Fuck AS. -JeDaYoshi
 const Redis = require("ioredis");
 
 let client = null;
 let updateInterval = null;
-let deleteInterval = null;
 
 const saveSpawn = async (instance, data) => {
   const serverId = instance.serverIds[data.server_id];
@@ -51,7 +49,6 @@ const saveSpawn = async (instance, data) => {
 module.exports = {
   start: async instance => {
     if (!instance.shared["spawn"]) instance.shared["spawn"] = {};
-    if (!instance.shared["spawnDelete"]) instance.shared["spawnDelete"] = {};
 
     // Redis client (yes, we submit claims so the same bot handles it...
     // very efficient I know. but to be fair, it's the best to balance it.)
@@ -59,7 +56,6 @@ module.exports = {
     client = new Redis(`redis://${config.cache.host}:${config.cache.port}`);
 
     const spawns = instance.shared["spawn"];
-    const spwDels = instance.shared["spawnDelete"];
 
     // Handler for claims updater
     updateInterval = setInterval(async () => {
@@ -68,17 +64,17 @@ module.exports = {
         for (const spawn of chn) {
           if (
             (spawn.claimed === true || spawn.despawn === true) &&
-            new Date() - spawn.time >= 1350
+            Date.now() - spawn.time >= 1350
           ) {
-            // a card was claimed/despawned, and we've not received an event from Anime Soul - so send it.
+            // a card was claimed/despawned, and we've not received an event from Anime Soul - so save it.
             await saveSpawn(instance, spawn)
               .then(() => {
                 const i = chn.indexOf(spawn);
                 if (i !== -1) chn.splice(i, 1);
               })
               .catch(err => console.error(err));
-          } else if (new Date() - spawn.time >= 30000) {
-            // looks like this spawn was lost on time...
+          } else if (Date.now() - spawn.time >= 20000) {
+            // looks like this spawn was lost in time...
             const i = chn.indexOf(spawn);
             if (i !== -1) chn.splice(i, 1);
 
@@ -89,22 +85,9 @@ module.exports = {
         }
       }
     }, 1000);
-    deleteInterval = setInterval(async () => {
-      for (const chan of Object.keys(spwDels)) {
-        const chn = spwDels[chan];
-        for (const timer of chn) {
-          if (new Date() - timer >= 30000) {
-            // looks like this despawn was lost on time...
-            const i = chn.indexOf(timer);
-            if (i !== -1) chn.splice(i, 1);
-          }
-        }
-      }
-    }, 5000);
   },
   stop: async () => {
     if (updateInterval) clearInterval(updateInterval);
-    if (deleteInterval) clearInterval(deleteInterval);
     if (client !== null) {
       client.end(true);
       client = null;

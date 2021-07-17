@@ -41,7 +41,8 @@ module.exports = {
           tier,
           msg,
           time: message.createdTimestamp,
-          last: new Date(),
+          message_id: message.id,
+          last: Date.now(),
         });
       }
     }
