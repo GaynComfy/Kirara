@@ -96,8 +96,11 @@ module.exports = {
         );
         ctx.drawImage(cardImg, 0, 0, 300, 380);
 
+        const color =
+          (tierInfo[`T${card.tier.toUpperCase()}`] || {}).color || "#aaaaaa";
+
         // Shoob captcha
-        const { buffer, txt } = await genSpawnCaptcha();
+        const { buffer, txt } = await genSpawnCaptcha(color);
         const captchaImg = await loadImage(buffer);
         ctx.drawImage(captchaImg, 21, 359, 259, 67);
 
@@ -105,9 +108,7 @@ module.exports = {
         const filename = `Anime_Soul-${message.guild.id}-${message.channel.id}-claim-drop.png`;
         const attachment = new MessageAttachment(canvas.toBuffer(), filename);
         const embed = new MessageEmbed()
-          .setColor(
-            (tierInfo[`T${card.tier.toUpperCase()}`] || {}).color || "#aaaaaa"
-          )
+          .setColor(color)
           .setTitle(card.name)
           .setURL(`https://animesoul.com/cards/info/${card.id}`)
           .setDescription(

@@ -218,20 +218,21 @@ const genCollectCaptcha = async tier => {
   };
 };
 
-const genSpawnCaptcha = async () => {
+const genSpawnCaptcha = async (
+  color = tColors[Math.floor(Math.random() * tColors.length)]
+) => {
   const characters = Math.round(4 + Math.random() * (6 - 4));
-  const rColor = tColors[Math.floor(Math.random() * tColors.length)];
 
   const captcha = new CaptchaGenerator({ width: 270, height: 70 })
     .setCaptcha({
       characters,
-      color: rColor,
+      color,
       text: randomStr(characters),
       rotate: 5,
       skew: true,
     })
     .setDecoy({ opacity: 0.8 })
-    .setTrace({ color: rColor, opacity: 1 });
+    .setTrace({ color, opacity: 1 });
 
   return {
     buffer: await captcha.generate(),
