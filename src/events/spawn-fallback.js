@@ -17,7 +17,7 @@ const processSpawn = async (instance, message, embed) => {
   if (tieri) tier = tieri.num.toString();
   else {
     try {
-      tier = (await CardFetcher.fetchById(instance, cardId, false)).tier;
+      tier = (await CardFetcher.fetchById(instance, card_id, false)).tier;
     } catch {}
   }
 
