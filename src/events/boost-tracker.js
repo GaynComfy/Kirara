@@ -31,7 +31,7 @@ module.exports = {
         `User <@!${newMember.user.id}> [${newMember.user.id}] is now boosting. (${newSince})`
       );
     } else if (
-      oldMember.premiumSinceTimestamp !== newMember.premiumSinceTimestamp
+      oldMember.premiumSinceTimestamp > newMember.premiumSinceTimestamp
     ) {
       // timestamp for booster changed (boost change)
       await channel.send(

@@ -1,7 +1,4 @@
 const axios = require("axios");
-const axiosRetry = require("axios-retry");
-
-axiosRetry(axios, { retries: 3 });
 
 const getCachedURL = async (instance, url) => {
   const k = `url:${Buffer.from(url).toString("base64")}`;
@@ -12,7 +9,14 @@ const getCachedURL = async (instance, url) => {
     return e;
   }
 
-  const r = await axios.get(url, { responseType: "arraybuffer" });
+  let r;
+
+  try {
+    r = await axios.get(url, { responseType: "arraybuffer" });
+  } catch (err) {
+    console.error(err);
+    return "./src/assets/default/0.png";
+  }
   instance.cache.setExpire(k, r.data, 604800);
   return r.data;
 };
