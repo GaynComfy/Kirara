@@ -132,16 +132,19 @@ module.exports = {
       client.on("message", async (channel, msg) => {
         await onMessage(channel, msg);
         for (let i = 1; i < instance.client.shard.count; i++) {
-          await instance.client.shard.broadcastEval(
-            `this.b_handle_auction(\`${channel}\`, \`${msg}\`)`,
-            i
-          );
+          await instance.client.shard
+            .broadcastEval(
+              `this.b_handle_auction(${JSON.stringify(
+                channel
+              )}, ${JSON.stringify(msg)})`,
+              i
+            )
+            .catch(err => console.log(err));
         }
       });
     } else {
-      instance.client.b_handle_auction = async (channel, data) => {
-        await onMessage(channel, data);
-      };
+      instance.client.b_handle_auction = async (channel, data) =>
+        onMessage(channel, data);
     }
   },
   stop: async () => {
