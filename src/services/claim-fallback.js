@@ -99,6 +99,8 @@ module.exports = {
             console.error(
               `[${instance.client.shard.ids[0]}] T${spawn.tier} ${spawn.card_name} [${spawn.message_id}] got lost in time...`
             );
+
+            await saveSpawn(instance, spawn).catch(err => console.error(err));
           }
         }
       }
