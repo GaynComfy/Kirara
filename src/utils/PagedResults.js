@@ -59,25 +59,15 @@ const createPagedResults = async (
   const sentMessage = botMessage
     ? await botMessage.edit(root)
     : await message.channel.send(root);
+  if (maxPages < 2) {
+    return sentMessage;
+  }
 
   try {
-    if (maxPages < 2) {
-      return sentMessage;
-    }
-
-    /*sentMessage
-      .react(FAST_REVERSE_SYMBOL)
-      .then(() => sentMessage.react(BACK_SYMBOL))
-      .then(() => sentMessage.react(FORWARD_SYMBOL))
-      .then(
-        () => maxPages !== Infinity && sentMessage.react(FAST_FORWARD_SYMBOL)
-      )
-      .then(() => refresh && sentMessage.react(REPEAT_SYMBOL));*/
-
     const reacts = [BACK_SYMBOL, FORWARD_SYMBOL];
     if (refresh) reacts.push(REPEAT_SYMBOL);
-
     multiReact(sentMessage, reacts).catch(() => {});
+
     return sentMessage
       .createReactionCollector(emojiFilter, collectorOpts)
       .on("collect", async (r, user) => {
@@ -122,6 +112,7 @@ const createPagedResults = async (
     console.error(err);
     if (sentMessage) sentMessage.edit(embed);
     else sendError(message.channel);
+    return null;
   }
 };
 

@@ -1,4 +1,4 @@
-const axios = require("axios");
+const axios = require("axios").default;
 const axiosRetry = require("axios-retry");
 
 const tN = tier => (tier.toLowerCase() === "s" ? 8 : parseInt(tier));

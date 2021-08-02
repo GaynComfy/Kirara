@@ -14,6 +14,29 @@ const saveSpawn = async (instance, data) => {
     );
   }
 
+  try {
+    await instance.database.simpleInsert("CARD_CLAIMS", {
+      claimed: data.claimed,
+      server_id: serverId,
+      discord_id: data.discord_id,
+      channel_id: data.channel_id,
+      message_id: data.message_id,
+      card_id: data.card_id,
+      card_name: data.card_name,
+      image_url: data.image_url,
+      issue: data.issue,
+      tier: data.tier,
+      from_clyde: data.from_clyde,
+      time: data.time,
+      season: instance.config.season,
+    });
+  } catch (e) {
+    if (e.code === "23505") {
+      // duplicate
+      return;
+    }
+    throw e;
+  }
   if (data.claimed) {
     await instance.database.pool.query(
       "UPDATE SERVERS SET claims = claims + 1, spawns = spawns +1 WHERE id=$1",
@@ -25,21 +48,6 @@ const saveSpawn = async (instance, data) => {
       [serverId]
     );
   }
-  await instance.database.simpleInsert("CARD_CLAIMS", {
-    claimed: data.claimed,
-    server_id: serverId,
-    discord_id: data.discord_id,
-    channel_id: data.channel_id,
-    message_id: data.message_id,
-    card_id: data.card_id,
-    card_name: data.card_name,
-    image_url: data.image_url,
-    issue: data.issue,
-    tier: data.tier,
-    from_clyde: data.from_clyde,
-    time: data.time,
-    season: instance.config.season,
-  });
 
   await client.publish("claims", JSON.stringify(data));
 

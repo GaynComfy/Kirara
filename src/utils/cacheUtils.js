@@ -1,4 +1,4 @@
-const axios = require("axios");
+const axios = require("axios").default;
 
 const getCachedURL = async (instance, url) => {
   const k = `url:${Buffer.from(url).toString("base64")}`;
