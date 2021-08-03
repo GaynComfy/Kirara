@@ -9,9 +9,10 @@ const { owner } = isDev
 class EventManager {
   /**
    *
-   * @param {Instance} instance
-   * @param {*} events
-   * @param {*} commands
+   * @param {require("./Instance").Instance} instance
+   * @param {object[]} events
+   * @param {object[]} commands
+   * @param {object[]} services
    */
   constructor(instance, events, commands, services) {
     this.instance = instance;

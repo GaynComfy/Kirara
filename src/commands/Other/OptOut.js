@@ -24,7 +24,7 @@ module.exports = {
       const status = setting ? "opted out" : "opted in";
       const toggle = setting ? "no" : "yes";
       embed.setDescription(
-        `<a:Sirona_loading:748854549703426118> <@!${discord_id}> is currently \`${status}\` on leaderboards.\n` +
+        `<a:Sirona_loading:748854549703426118> <@!${discord_id}> is currently \`${status}\` for leaderboards.\n` +
           `<a:Sirona_star:748985391360507924> You can use \`${prefix}lb-optout ${toggle}\` to toggle this.`
       );
     } else if (args.length === 1) {
@@ -47,7 +47,7 @@ module.exports = {
       const status = setting ? "opted in" : "opted out";
       embed
         .setDescription(
-          `<a:Sirona_Tick:749202570341384202> <@!${discord_id}> is now \`${status}\` from leaderboards.`
+          `<a:Sirona_Tick:749202570341384202> <@!${discord_id}> is now \`${status}\` for leaderboards.`
         )
         .setColor("RANDOM");
     } else return false;

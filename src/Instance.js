@@ -47,11 +47,11 @@ class Queue {
 class Instance {
   /**
    *
-   * @param {*} config
-   * @param {PgApi} database
-   * @param {RedisApi} cache
-   * @param {Client} client
-   * @param {*} onReady
+   * @param {object} config
+   * @param {require("./storage/database/Api")} database
+   * @param {require("./storage/redis/Api")} cache
+   * @param {require("discord.js").Client} client
+   * @param {function} onReady
    */
   constructor(config, database, cache, client, onReady) {
     this.config = config;

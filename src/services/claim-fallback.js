@@ -55,6 +55,10 @@ const saveSpawn = async (instance, data) => {
     console.debug(
       `[${instance.client.shard.ids[0]}] <@!${data.discord_id}> claimed T${data.tier} ${data.card_name} V${data.issue} on <#${data.channel_id}>`
     );
+  } else if (!data.despawn) {
+    console.error(
+      `[${instance.client.shard.ids[0]}] T${data.tier} ${data.card_name} [${data.message_id}] got lost in time... (despawned)`
+    );
   } else {
     console.debug(
       `[${instance.client.shard.ids[0]}] T${data.tier} ${data.card_name} despawned on <#${data.channel_id}>`
@@ -81,8 +85,9 @@ module.exports = {
         const chn = spawns[chan];
         for (const spawn of chn) {
           if (
-            (spawn.claimed === true || spawn.despawn === true) &&
-            Date.now() - spawn.time >= 1350
+            ((spawn.claimed === true || spawn.despawn === true) &&
+              Date.now() - spawn.time >= 1350) ||
+            Date.now() - spawn.time >= 20000
           ) {
             // a card was claimed/despawned, and we've not received an event from Anime Soul - so save it.
             await saveSpawn(instance, spawn)
@@ -91,16 +96,6 @@ module.exports = {
                 if (i !== -1) chn.splice(i, 1);
               })
               .catch(err => console.error(err));
-          } else if (Date.now() - spawn.time >= 20000) {
-            // looks like this spawn was lost in time...
-            const i = chn.indexOf(spawn);
-            if (i !== -1) chn.splice(i, 1);
-
-            console.error(
-              `[${instance.client.shard.ids[0]}] T${spawn.tier} ${spawn.card_name} [${spawn.message_id}] got lost in time...`
-            );
-
-            await saveSpawn(instance, spawn).catch(err => console.error(err));
           }
         }
       }
