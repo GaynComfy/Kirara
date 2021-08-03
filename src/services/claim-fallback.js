@@ -57,7 +57,7 @@ const saveSpawn = async (instance, data) => {
     );
   } else if (!data.despawn) {
     console.error(
-      `[${instance.client.shard.ids[0]}] T${data.tier} ${data.card_name} [${data.message_id}] got lost in time... (despawned)`
+      `[${instance.client.shard.ids[0]}] T${data.tier} ${data.card_name} [${data.message_id}] got lost in time on <#${data.channel_id}>... (despawned)`
     );
   } else {
     console.debug(
