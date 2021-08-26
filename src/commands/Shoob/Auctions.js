@@ -155,11 +155,7 @@ const computeAuction = async (instance, aid) => {
       (asAuc ? asAuc.date_ending * 1000 : localAuc.date_ending) > Date.now()
         ? "Ending"
         : "Ended",
-      dayjs(
-        asAuc && !localAucResult
-          ? asAuc.date_ending * 1000
-          : localAuc.date_ending
-      ).fromNow(),
+      dayjs(asAuc ? asAuc.date_ending * 1000 : localAuc.date_ending).fromNow(),
       true
     )
     .addField(
