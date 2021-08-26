@@ -14,6 +14,9 @@ const info = {
   category: "UwU",
 };
 
+const initialDiffs = Object.keys(diffs);
+const fullDiffs = Object.values(diffs);
+
 const mention = /<@!?(\d{17,19})>/;
 const userId = /\d{17,19}/;
 
@@ -74,9 +77,11 @@ module.exports = {
       );
     } else {
       // get stats for a specific typerace
-      const di = args.shift()[0].toLowerCase();
-      if (!Object.keys(diffs).includes(di)) return false;
-      const diff = diffs[di];
+      const di = args.shift().toLowerCase();
+      const iDi = di[0];
+      const isDi = fullDiffs.includes(di);
+      if (!fullDiffs.includes(di) && !initialDiffs.includes(iDi)) return false;
+      const diff = isDi ? di : diffs[di];
       const stats = await userInfo(instance, member.id, diff);
       const dName = diff.charAt(0).toUpperCase() + diff.substring(1);
 
