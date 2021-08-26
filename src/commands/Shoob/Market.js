@@ -6,6 +6,8 @@ const { createPagedResults } = require("../../utils/PagedResults");
 const { tierInfo } = require("../../utils/cardUtils");
 const Constants = require("../../utils/Constants.json");
 
+dayjs.extend(require("dayjs/plugin/relativeTime"));
+
 const info = {
   name: "market",
   aliases: ["mk"],

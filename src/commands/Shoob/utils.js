@@ -8,6 +8,8 @@ const { MessageEmbed } = require("discord.js");
 const { createPagedResults } = require("../../utils/PagedResults");
 const { tierInfo } = require("../../utils/cardUtils");
 
+dayjs.extend(require("dayjs/plugin/relativeTime"));
+
 exports.getCard = async (instance, message, card, tracked, botMessage) => {
   if (card === null) return false;
   const tierSettings = tierInfo[`T${card.tier}`];

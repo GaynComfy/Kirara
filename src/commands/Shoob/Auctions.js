@@ -9,6 +9,8 @@ const { createMessagePagedResults } = require("../../utils/PagedResults");
 const { aucId, cardId } = require("../../utils/regexUtils");
 const Constants = require("../../utils/Constants.json");
 
+dayjs.extend(require("dayjs/plugin/relativeTime"));
+
 const info = {
   name: "auctions",
   aliases: ["auc", "auction"],
@@ -72,7 +74,7 @@ const computeListings = async (instance, page, tier, card_id, active) => {
       `> **${i + 1}.** \`T${item.tier || " "}\` •` +
       ` [\`${item.card_name.substr(0, 15)}` +
       ` V${item.version}\`](https://animesoul.com/auction/${item.auction_id})` +
-      ` | Started \`${dayjs(item.date_added ?? Date.now()).fromNow()}\``
+      ` | Started \`${dayjs(item.date_added).fromNow()}\``
   );
 
   const embed = new MessageEmbed()
