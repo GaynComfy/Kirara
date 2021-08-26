@@ -1,6 +1,6 @@
 // this is probably the most complex command in the bot
 
-const moment = require("moment");
+const dayjs = require("dayjs");
 const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
 const { MessageEmbed } = require("discord.js");
@@ -72,7 +72,7 @@ const computeListings = async (instance, page, tier, card_id, active) => {
       `> **${i + 1}.** \`T${item.tier || " "}\` •` +
       ` [\`${item.card_name.substr(0, 15)}` +
       ` V${item.version}\`](https://animesoul.com/auction/${item.auction_id})` +
-      ` | Started \`${moment(item.date_added).fromNow()}\``
+      ` | Started \`${dayjs(item.date_added).fromNow()}\``
   );
 
   const embed = new MessageEmbed()
@@ -144,7 +144,7 @@ const computeAuction = async (instance, aid) => {
     .addField("Min. Increment", `\`+富 ${localAuc.minimum}\``, true)
     .addField(
       "Added",
-      moment(
+      dayjs(
         asAuc && !localAucResult
           ? localAuc.date_added * 1000
           : localAuc.date_added
@@ -155,7 +155,7 @@ const computeAuction = async (instance, aid) => {
       (asAuc ? asAuc.date_ending * 1000 : localAuc.date_ending) > Date.now()
         ? "Ending"
         : "Ended",
-      moment(
+      dayjs(
         asAuc && !localAucResult
           ? localAuc.date_ending * 1000
           : localAuc.date_ending
@@ -176,7 +176,7 @@ const computeAuction = async (instance, aid) => {
         bid =>
           `> • \`富 ${bid.bid_amount}\` | ` +
           `[${bid.username}](https://animesoul.com/user/${bid.discord_id}) | ` +
-          `\`${moment(bid.date_added * 1000).fromNow()}\``
+          `\`${dayjs(bid.date_added * 1000).fromNow()}\``
       );
     embed.addField(
       `${asAuc.bids} ${asAuc.bids === 1 ? "Bid" : "Bids"}`,

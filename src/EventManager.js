@@ -35,14 +35,17 @@ class EventManager {
       const prefix =
         (this.instance.guilds[message.guild.id] || {}).prefix ||
         this.config.prefix;
-      const mentionMatch = this.mentionRegex.test(message.content);
-      if (mentionMatch || message.content.toLowerCase().indexOf(prefix) === 0) {
+      const hasPrefix = message.content.toLowerCase().indexOf(prefix) === 0;
+      const mentionMatch =
+        !hasPrefix && this.mentionRegex.test(message.content);
+
+      if (hasPrefix || mentionMatch) {
         if (message.author.bot && message.author.id !== "736067018628792322")
           return;
         const plen = mentionMatch
           ? message.content.match(this.mentionRegex)[0].length
           : prefix.length;
-        const args = message.content.slice(plen).trim().split(/ +/g);
+        const args = message.content.substring(plen).trim().split(" ");
         const commandName = args.shift();
         const command = this.commands[commandName];
         if (command) {
@@ -94,9 +97,7 @@ class EventManager {
       this.discordReady = true;
       // process queued commands
       for (const elem of this.commandQueue) {
-        await this.commandExecution(elem[0], elem[1], elem[2]).catch(err =>
-          console.error(err)
-        );
+        await this.commandExecution(...elem).catch(err => console.error(err));
       }
       this.commandQueue = null;
     });

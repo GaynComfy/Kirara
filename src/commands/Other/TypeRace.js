@@ -140,7 +140,9 @@ module.exports = {
 
       const result = new MessageEmbed()
         .setTitle(
-          `Type race results: ${diff.charAt(0).toUpperCase() + diff.slice(1)}` +
+          `Type race results: ${
+            diff.charAt(0).toUpperCase() + diff.substring(1)
+          }` +
             (["shoob", "collect"].includes(diff)
               ? ` <:SShoob:783636544720207903>`
               : "")

@@ -47,9 +47,16 @@ exports.withCooldown = async (
 ) => {
   if (cd <= 0) return handler();
   const cdKey = `cmdcooldown:${message.channel.id}:${message.author.id}:${command}`;
+  const cdReactKey = `cmdcooldownw:${message.channel.id}:${message.author.id}:${command}`;
 
   // are we in cooldown?
   if (await cache.exists(cdKey)) {
+    // have we indicated the user that they are if so?
+    if (!(await cache.exists(cdReactKey))) {
+      // give them an indicator they need to wait
+      message.react("🕘").catch(() => {});
+      await cache.setExpire(cdReactKey, "1", 5);
+    }
     return null;
   }
 
@@ -82,7 +89,8 @@ exports.verifyPerms = async (instance, message, perms) => {
 
   if (missing.length > 0) {
     const prefix =
-      instance.guilds[message.guild.id].prefix || instance.config.prefix;
+      (instance.guilds[message.guild.id] || {}).prefix ||
+      instance.config.prefix;
     const isAdmin = message.member.hasPermission("ADMINISTRATOR");
     const canSendMessages =
       member.hasPermission("SEND_MESSAGES") || chanPerms.has("SEND_MESSAGES");
@@ -93,7 +101,7 @@ exports.verifyPerms = async (instance, message, perms) => {
         (canSendMessages
           ? "I'm sorry, but I can't execute that command!"
           : `You just tried executing a command on <#${message.channel.id}>, but I can't since`) +
-          " I am missing permissions to do what's required for it! To be exact:\n```diff\n- " +
+          " I am missing permissions to do what's required! To be exact:\n```diff\n- " +
           missing.join("\n- ") +
           "```\n" +
           (isAdmin

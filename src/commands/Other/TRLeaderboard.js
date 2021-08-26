@@ -53,7 +53,7 @@ module.exports = {
         }
 
         if (top.length > 0)
-          tops[diff.charAt(0).toUpperCase() + diff.slice(1)] = top;
+          tops[diff.charAt(0).toUpperCase() + diff.substring(1)] = top;
       }
 
       const pages = Math.ceil(Object.keys(tops).length / 3);
@@ -92,7 +92,7 @@ module.exports = {
     } else {
       // multiple pages for per-difficulty typerace lb
       const diff = diffs[di];
-      const dName = diff.charAt(0).toUpperCase() + diff.slice(1);
+      const dName = diff.charAt(0).toUpperCase() + diff.substring(1);
       let last = -1;
 
       return createPagedResults(message, Infinity, async page => {

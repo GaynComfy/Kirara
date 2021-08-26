@@ -49,7 +49,7 @@ module.exports = {
           const topCpm = getCpm(d.difficulty, d.top);
           const lastCpm = getCpm(d.difficulty, d.last);
           const dName =
-            d.difficulty.charAt(0).toUpperCase() + d.difficulty.slice(1);
+            d.difficulty.charAt(0).toUpperCase() + d.difficulty.substring(1);
           embed.addField(
             dName,
             `**Top**: \`${d.top}s\` (\`${topCpm} CPM\`) | **Last**: \`${d.last}s\` (\`${lastCpm} CPM\`)\n` +
@@ -78,7 +78,7 @@ module.exports = {
       if (!Object.keys(diffs).includes(di)) return false;
       const diff = diffs[di];
       const stats = await userInfo(instance, member.id, diff);
-      const dName = diff.charAt(0).toUpperCase() + diff.slice(1);
+      const dName = diff.charAt(0).toUpperCase() + diff.substring(1);
 
       const topCpm = getCpm(diff, stats.top);
       const lastCpm = getCpm(diff, stats.last);

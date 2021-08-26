@@ -1,4 +1,4 @@
-const moment = require("moment");
+const dayjs = require("dayjs");
 const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
 const { MessageEmbed } = require("discord.js");
@@ -67,7 +67,7 @@ const processWithCard = async (instance, message, option, card) => {
       listing =>
         `> [• \`Issue: ${listing.item.issue}\`](https://animesoul.com/market) | ` +
         `Price: \`富 ${listing.price}\` | ` +
-        `Added: \`${moment(listing.date_added * 1000).fromNow()}\``
+        `Added: \`${dayjs(listing.date_added * 1000).fromNow()}\``
     );
 
     const embed = new MessageEmbed()
@@ -141,7 +141,7 @@ const processWithoutCard = async (instance, message, tier) => {
           15
         )}\`](https://animesoul.com/cards/info/${listing.item.id}) | ` +
         `• \`V${listing.item.issue}\` | \`富 ${listing.price}\` | ` +
-        ` \`${moment(listing.date_added * 1000).fromNow()}\``
+        ` \`${dayjs(listing.date_added * 1000).fromNow()}\``
     );
 
     const embed = new MessageEmbed()

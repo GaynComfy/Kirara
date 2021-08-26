@@ -9,7 +9,8 @@ const Constants = require("../../utils/Constants.json");
 const fusedUser = {
   id: "1",
   username: "Fusion",
-  displayAvatarURL: () => "https://cdn.animesoul.com/images/users/1.jpg",
+  displayAvatarURL: () =>
+    "https://discord.com/assets/18126c8a9aafeefa76bbb770759203a9.png",
 };
 
 const info = {
@@ -23,14 +24,17 @@ const info = {
 module.exports = {
   execute: async (instance, message, args) => {
     let user =
-      message.mentions.users.first() ||
+      message.mentions.users.first() || // first mention on the message
       (args.length >= 1 &&
-        ((args[0] === "1" && fusedUser) ||
-          (userId.test(args[0]) &&
-            (await instance.client.users.fetch(args[0]).catch(() => {})))));
+        (((args[0] === "1" || args[0] === "fused") && fusedUser) || // if first argument is 1 or fused
+          (userId.test(args[0]) && // if it's a user ID
+            (await instance.client.users.fetch(args[0]).catch(() => {}))))); // and we can fetch it
     if (
       args.length >= 1 &&
-      (args[0] === "1" || mention.test(args[0]) || userId.test(args[0]))
+      (args[0] === "1" ||
+        args[0] === "fused" ||
+        mention.test(args[0]) ||
+        userId.test(args[0]))
     )
       args.shift();
     if (!user) {
@@ -144,6 +148,6 @@ module.exports = {
       "inv",
     ],
     description:
-      "Fetch a users inventory\nNote that this will display information about a user",
+      "Fetch a users inventory\nNote that this will display information about a user!",
   },
 };

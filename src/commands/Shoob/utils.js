@@ -1,6 +1,6 @@
 // yes I definitely didn't move all of this to a file just to re-use
 // the same code in both Card and Search, considering no need was needed.
-const moment = require("moment");
+const dayjs = require("dayjs");
 const Fetcher = require("../../utils/CardFetcher");
 const DbFetcher = require("../../utils/DbFetcher");
 const Constants = require("../../utils/Constants.json");
@@ -88,7 +88,7 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
           listing =>
             `> [• \`Issue: ${listing.item.issue}\`](https://animesoul.com/market) | ` +
             `Price: \`富 ${listing.price}\` | ` +
-            `Added: \`${moment(listing.date_added * 1000).fromNow()}\``
+            `Added: \`${dayjs(listing.date_added * 1000).fromNow()}\``
         );
 
         embed

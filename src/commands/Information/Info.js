@@ -13,7 +13,7 @@ const embed = new MessageEmbed()
   .addField(
     "Team and Collaborators:",
     "`JeDaYoshi#7942`, `Liz3#0001`, `⋆˚🌺⃤ 𝒥𝑜𝓇𝑔𝓎 ₊ ˚#2024`, `Nota#1576`, " +
-      "`Shiro~#0666`, `offbeatwitch#8860`, `Riku#1111`"
+      "`offbeatwitch#8860`, `Riku#1111`"
   )
   .setFooter("Roleplay images provided by https://waifu.pics");
 
