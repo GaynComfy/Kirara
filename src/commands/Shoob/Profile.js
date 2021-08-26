@@ -42,9 +42,7 @@ module.exports = {
     message.channel.startTyping();
 
     const user = await Fetcher.fetchProfile(instance, member.id);
-    const {
-      rows: cards,
-    } = await instance.database.pool.query(
+    const { rows: cards } = await instance.database.pool.query(
       "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE discord_id=$1 AND server_id=$2 AND SEASON=$3 GROUP BY tier",
       [member.id, instance.serverIds[message.guild.id], instance.config.season]
     );
@@ -115,12 +113,6 @@ module.exports = {
           (viewer && viewer.discord_id !== ""
             ? `\n<:KiraraPeek:784849772272025600> ` +
               `Last viewed by [**__${viewer.username}__**](https://animesoul.com/user/${viewer.discord_id})`
-            : "") +
-          (user && user.card_game_senpai
-            ? `\n<:KiraraFufu:784849773160431626> **Card Game Sensei**`
-            : "") +
-          (user && user.trusted
-            ? `\n<:KiraraSleepy:784849773097517086> **Trusted!**`
             : "") +
           (owner.includes(member.id)
             ? `\n<:KiraraHugHeart:798460293491326986> **Kirara Developer <3**`

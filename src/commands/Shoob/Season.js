@@ -88,7 +88,6 @@ module.exports = {
       )
       .setColor(Color.pink)
       .setDescription(
-        //"**CLAIMS ARE CURRENTLY HIT AND MISS**\nWe're waiting on an update from Anime Soul to fix this.\n\n" +
         `In this season **${total} cards** have spawned:\n\n` +
           tiers1.join(" | ") +
           `\n` +

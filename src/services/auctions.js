@@ -59,7 +59,7 @@ module.exports = {
         .sort((a, b) => {
           // give priority to network servers
           // maybe use this in the future for top.gg votes rewards too?
-          // also maybe priorise those servers with most claims first too. but that needs more changes
+          // also maybe prioritise those servers with most claims first too. but that needs more changes
           if (Constants.network.includes(b.id)) return 1;
           if (Constants.network.includes(a.id)) return -1;
           return 0;

@@ -7,7 +7,6 @@ const info = {
   aliases: ["plb"],
   matchCase: false,
   category: "Shoob",
-  perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
 };
 
 module.exports = {
@@ -45,9 +44,6 @@ module.exports = {
         message.guild.iconURL({ dynamic: true })
       )
       .setColor(claimers.length > 0 ? "#f49e17" : Color.red)
-      /*.setDescription(
-        "**CLAIMS ARE CURRENTLY HIT AND MISS**\nWe're waiting on an update from Anime Soul to fix this."
-      )*/
       .setImage(Constants.footer)
       .addField(`•   __User__`, users, true)
       .addField(`•   __Claims__`, claims, true);
