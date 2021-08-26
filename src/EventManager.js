@@ -6,6 +6,8 @@ const { owner } = isDev
   ? require("./config-dev.js")
   : require("./config-prod.js");
 
+const spaces = / +/g;
+
 class EventManager {
   /**
    *
@@ -45,7 +47,7 @@ class EventManager {
         const plen = mentionMatch
           ? message.content.match(this.mentionRegex)[0].length
           : prefix.length;
-        const args = message.content.substring(plen).trim().split(" ");
+        const args = message.content.substring(plen).trim().split(spaces);
         const commandName = args.shift();
         const command = this.commands[commandName];
         if (command) {
