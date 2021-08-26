@@ -17,7 +17,7 @@ const getCachedURL = async (instance, url) => {
     console.error(err);
     return "./src/assets/default/0.png";
   }
-  instance.cache.setExpire(k, r.data, 604800);
+  instance.cache.setExpire(k, r.data, 86400);
   return r.data;
 };
 

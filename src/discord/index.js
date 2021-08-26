@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 
 module.exports = (token = process.env.TOKEN) => {
   const client = new Discord.Client({
+    disableMentions: "everyone",
     messageCacheMaxSize: 200,
     messageCacheLifetime: 1800,
     messageSweepInterval: 1800,
@@ -16,8 +17,6 @@ module.exports = (token = process.env.TOKEN) => {
   });
   return {
     client,
-    login: () => {
-      client.login(token);
-    },
+    login: () => client.login(token),
   };
 };
