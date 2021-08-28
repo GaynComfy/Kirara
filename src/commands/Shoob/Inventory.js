@@ -49,7 +49,6 @@ module.exports = {
       args.length >= 1 && Constants.allTiers.includes(args[0].toLowerCase());
     const hasCardId = args.length >= 1 && cardId.test(args[0]);
     if (isEvent && hasTier && args.length === 1) return false;
-    message.channel.startTyping();
     let tier = hasTier ? args.shift()[1].toUpperCase() : "all";
     const card_id = hasCardId ? cardId.exec(args.shift())[2] : null;
     let card = null;
@@ -73,7 +72,6 @@ module.exports = {
           : null);
     }
     if (card === null && (card_id || args.length >= 1)) {
-      message.channel.stopTyping();
       const embed = new MessageEmbed()
         .setDescription(
           `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
@@ -83,7 +81,6 @@ module.exports = {
       return null;
     }
     if (card) tier = card.tier;
-    message.channel.stopTyping();
     let last = -1;
     return createPagedResults(message, Infinity, async page => {
       const offset = (page > last && last !== -1 ? last : page) * 8;
