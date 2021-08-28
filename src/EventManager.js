@@ -24,7 +24,7 @@ class EventManager {
     this.events = events;
     this.commands = commands;
     this.services = services;
-    this.mentionRegex = new RegExp(`^<@!?748100524246564894 ?`);
+    this.mentionRegex = new RegExp(`^<@!?748100524246564894> ?`);
     this.commandQueue = [];
     this.discordReady = false;
   }
