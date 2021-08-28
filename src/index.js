@@ -23,7 +23,7 @@ const start = async () => {
     discordClient,
     onReady
   );
-  await instance.bootrap();
+  await instance.bootrap(false, false);
 };
 start().catch(err => {
   console.error(err);

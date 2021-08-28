@@ -9,9 +9,10 @@ let updateInterval = null;
 const saveSpawn = async (instance, data) => {
   const serverId = instance.serverIds[data.server_id];
   if (!serverId) {
-    return console.error(
+    console.error(
       "DID WE JUST TRY TO HANDLE A CLAIM FROM A SERVER WE DON'T KNOW?"
     );
+    return;
   }
 
   try {
@@ -70,6 +71,7 @@ const saveSpawn = async (instance, data) => {
 
 module.exports = {
   start: async instance => {
+    if (updateInterval !== null || client !== null) return;
     if (!instance.shared["spawn"]) instance.shared["spawn"] = {};
 
     // Redis client (yes, we submit claims so the same bot handles it...
@@ -102,7 +104,10 @@ module.exports = {
     }, 1000);
   },
   stop: async () => {
-    if (updateInterval) clearInterval(updateInterval);
+    if (updateInterval) {
+      clearInterval(updateInterval);
+      updateInterval = null;
+    }
     if (client !== null) {
       client.end(true);
       client = null;

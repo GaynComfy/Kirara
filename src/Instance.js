@@ -68,6 +68,7 @@ class Instance {
     this.queues = {};
     this.asClaims = 0;
     this.kClaims = 0;
+    this.bootstrapped = false;
   }
   async prepareEvents() {
     const events = {};
@@ -143,27 +144,27 @@ class Instance {
     this.queues[id] = new Queue();
   }
   async reload() {
-    if (!this.bootstrapped) return;
-    console.log("invoked reload", this.client.shard.ids);
-    this.eventManager.cleanup();
-    this.eventManager = null;
-    const commands = await this.prepareCommands();
-    const events = await this.prepareEvents();
-    const services = await this.prepareServices();
+    if (!this.bootstrapped)
+      throw new Error("reloading when we're already started!");
 
-    this.eventManager = new EventManager(this, events, commands, services);
-    await this.eventManager.setup(true);
-    this.bootstrapped = true;
+    console.debug(`[${this.client.shard.ids[0]}] invoked reload`);
+    let wasReady = this.eventManager ? this.eventManager.discordReady : false;
+    if (this.eventManager) this.eventManager.cleanup();
+    this.eventManager = null;
+    this.bootstrapped = false;
+    return await this.bootrap(wasReady, true);
   }
-  async bootrap() {
-    if (this.bootstrapped) return;
+  async bootrap(wasReady = false, reload = false) {
+    if (this.bootstrapped)
+      throw new Error("starting when we're already running!");
+
     const commands = await this.prepareCommands();
     const events = await this.prepareEvents();
     const services = await this.prepareServices();
     this.eventManager = new EventManager(this, events, commands, services);
-    await this.eventManager.setup();
+    await this.eventManager.setup(wasReady);
     this.bootstrapped = true;
-    this.onReady();
+    if (!reload) this.onReady();
   }
 }
 module.exports = Instance;

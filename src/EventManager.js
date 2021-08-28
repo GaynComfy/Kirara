@@ -1,10 +1,11 @@
+const { ShardingClient } = require("statcord.js");
 const { withCooldown, verifyPerms } = require("./utils/hooks");
 const sendError = require("./utils/SendError");
 const sendUsage = require("./utils/SendUsage");
-const isDev = process.env.NODE_ENV === "development";
-const { owner } = isDev
-  ? require("./config-dev.js")
-  : require("./config-prod.js");
+const { owner } =
+  process.env.NODE_ENV === "development"
+    ? require("./config-dev.js")
+    : require("./config-prod.js");
 
 const spaces = / +/g;
 
@@ -23,16 +24,13 @@ class EventManager {
     this.events = events;
     this.commands = commands;
     this.services = services;
-    this.mentionRegex = null;
+    this.mentionRegex = new RegExp(`^<@!?748100524246564894 ?`);
     this.commandQueue = [];
     this.discordReady = false;
   }
   registerOnMessage() {
     const otherHandlers = this.events["message"];
     this.client.on("message", async message => {
-      if (!this.mentionRegex)
-        this.mentionRegex = new RegExp(`^<@!?${this.client.user.id}> ?`);
-
       if (message.channel.type === "dm") return; // ToDo: Reimplement
       const prefix =
         (this.instance.guilds[message.guild.id] || {}).prefix ||
@@ -89,11 +87,13 @@ class EventManager {
   }
   registerOnReady() {
     this.client.on("ready", async t => {
+      this.mentionRegex = new RegExp(`^<@!?${this.client.user.id}> ?`);
       const otherHandlers = this.events["ready"];
       if (otherHandlers)
         for (const handler of otherHandlers) {
           await handler.execute(this.instance, t);
         }
+      if (this.discordReady) return;
       // start services after this
       this.services.forEach(element => element.start(this.instance));
       this.discordReady = true;
@@ -101,7 +101,7 @@ class EventManager {
       for (const elem of this.commandQueue) {
         await this.commandExecution(...elem).catch(err => console.error(err));
       }
-      this.commandQueue = null;
+      this.commandQueue = [];
     });
   }
   async commandExecution(command, message, args) {
@@ -161,17 +161,13 @@ class EventManager {
       command.info.cooldown || 0,
       true
     );
-  }
-  cleanup() {
-    Object.keys(this.events)
-      .filter((value, index, self) => self.indexOf(value) === index)
-      .forEach(key => this.client.removeAllListeners(key));
-    for (const service of this.services) {
-      service.stop(this.instance);
-    }
-    this.events = {};
-    this.commands = {};
-    this.services = [];
+
+    // statcord reports
+    ShardingClient.postCommand(
+      command.info.name,
+      message.author.id,
+      this.client
+    );
   }
   registerEventHandler(name, handlers) {
     this.client.on(name, async (...params) => {
@@ -188,14 +184,27 @@ class EventManager {
       }
     });
   }
-  setup(reload = false) {
+  cleanup() {
+    Object.keys(this.events)
+      .filter((value, index, self) => self.indexOf(value) === index)
+      .forEach(key => this.client.removeAllListeners(key));
+    for (const service of this.services) {
+      service.stop(this.instance);
+    }
+    this.events = {};
+    this.commands = {};
+    this.services = [];
+  }
+  setup(wasReady = false) {
     Object.keys(this.events).forEach(elem => {
       if (elem === "message" || elem === "ready") return;
       this.registerEventHandler(elem, this.events[elem]);
     });
     this.registerOnMessage();
-    if (!reload) this.registerOnReady();
-    else this.services.forEach(element => element.start(this.instance));
+    this.registerOnReady();
+    if (wasReady)
+      this.services.forEach(element => element.start(this.instance));
+    this.discordReady = wasReady;
   }
 }
 module.exports = EventManager;

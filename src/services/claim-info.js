@@ -8,6 +8,8 @@ const deleteMap = {};
 
 module.exports = {
   start: async instance => {
+    if (deleteInterval !== null || client !== null) return;
+
     deleteInterval = setInterval(async () => {
       const now = Date.now();
       Object.keys(deleteMap).forEach(k => {
@@ -172,7 +174,10 @@ module.exports = {
     });
   },
   stop: async () => {
-    if (deleteInterval) clearInterval(deleteInterval);
+    if (deleteInterval) {
+      clearInterval(deleteInterval);
+      deleteInterval = null;
+    }
     if (client !== null) {
       client.removeAllListeners("message");
       client.end(true);

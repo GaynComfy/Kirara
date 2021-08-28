@@ -4,6 +4,7 @@ let updateInterval = null;
 
 module.exports = {
   start: async instance => {
+    if (updateInterval !== null) return;
     if (!instance.shared["timer"]) instance.shared["timer"] = {};
 
     updateInterval = setInterval(async () => {
@@ -38,6 +39,9 @@ module.exports = {
     }, 1000);
   },
   stop: async () => {
-    if (updateInterval) clearInterval(updateInterval);
+    if (updateInterval) {
+      clearInterval(updateInterval);
+      updateInterval = null;
+    }
   },
 };

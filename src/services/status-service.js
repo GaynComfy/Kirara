@@ -5,6 +5,8 @@ module.exports = {
     const status = {
       type: "WATCHING",
     };
+    if (interval !== null) return;
+
     interval = setInterval(async () => {
       const pickedActivity = Math.floor(Math.random() * 4);
       switch (pickedActivity) {
@@ -52,6 +54,9 @@ module.exports = {
     }, 1000 * 60);
   },
   stop: async () => {
-    if (interval !== null) clearInterval(interval);
+    if (interval !== null) {
+      clearInterval(interval);
+      interval = null;
+    }
   },
 };
