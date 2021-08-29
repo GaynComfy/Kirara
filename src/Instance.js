@@ -150,7 +150,8 @@ class Instance {
     if (!this.bootstrapped)
       throw new Error("reloading when we're already started!");
 
-    console.debug(`[${this.client.shard.ids[0]}] invoked reload`);
+    const id = this.client && this.client.shard ? this.client.shard.ids[0] : 0;
+    console.debug(`[${id}] invoked reload`);
     let wasReady = this.eventManager ? this.eventManager.discordReady : false;
     if (this.eventManager) this.eventManager.cleanup();
     this.eventManager = null;
