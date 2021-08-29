@@ -89,10 +89,11 @@ class EventManager {
     this.client.on("ready", async t => {
       this.mentionRegex = new RegExp(`^<@!?${this.client.user.id}> ?`);
       const otherHandlers = this.events["ready"];
-      if (otherHandlers)
+      if (otherHandlers) {
         for (const handler of otherHandlers) {
           await handler.execute(this.instance, t);
         }
+      }
       if (this.discordReady) return;
       // start services after this
       this.services.forEach(element => element.start(this.instance));
@@ -195,15 +196,22 @@ class EventManager {
     this.commands = {};
     this.services = [];
   }
-  setup(wasReady = false) {
+  async setup(wasReady = false) {
     Object.keys(this.events).forEach(elem => {
       if (elem === "message" || elem === "ready") return;
       this.registerEventHandler(elem, this.events[elem]);
     });
     this.registerOnMessage();
     this.registerOnReady();
-    if (wasReady)
+    if (wasReady) {
+      const otherHandlers = this.events["ready"];
+      if (otherHandlers) {
+        for (const handler of otherHandlers) {
+          await handler.execute(this.instance);
+        }
+      }
       this.services.forEach(element => element.start(this.instance));
+    }
     this.discordReady = wasReady;
   }
 }
