@@ -78,6 +78,7 @@ class Instance {
       name => name.endsWith(".js")
     );
     for (const file of entries) {
+      delete require.cache[`./${file}`];
       const event = require(`./${file}`);
       if (event.disabled) continue;
       if (!event.eventName) throw new Error(`no event name specified! ${file}`);
@@ -102,6 +103,7 @@ class Instance {
       name => name.endsWith(".js")
     );
     for (const file of entries) {
+      delete require.cache[`./${file}`];
       const event = require(`./${file}`);
       if (event.disabled) continue;
       if (!event.stop || !event.start)
@@ -120,6 +122,7 @@ class Instance {
       name => name.endsWith(".js") && !name.endsWith("utils.js")
     );
     for (const file of entries) {
+      delete require.cache[`./${file}`];
       const command = require(`./${file}`);
       if (commands[command.info.name]) {
         throw new Error(`Duplicated command ${command.info.name}`);
