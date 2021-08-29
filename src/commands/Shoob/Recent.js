@@ -63,8 +63,10 @@ module.exports = {
             [instance.serverIds[message.guild.id], instance.config.season]
           );
 
-      const expireTime = hasTier ? 60 * 20 : 60 * 10;
-      instance.cache.setExpire(k, JSON.stringify(cards), expireTime);
+      if (!isGlobal) {
+        const expireTime = hasTier ? 60 * 20 : 60 * 10;
+        instance.cache.setExpire(k, JSON.stringify(cards), expireTime);
+      }
       recentCards = cards;
     }
 
