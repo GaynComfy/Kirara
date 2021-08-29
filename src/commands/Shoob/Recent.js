@@ -40,6 +40,9 @@ module.exports = {
     if (exists) {
       const e = await instance.cache.get(k);
       recentCards = JSON.parse(e);
+      // workaround for broken last spawn time
+      const i = recentCards.length - 1;
+      recentCards[i].time = new Date(recentCards[i].time);
     } else {
       const { rows: cards } = isGlobal // only if global
         ? hasTier
