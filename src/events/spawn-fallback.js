@@ -39,9 +39,11 @@ const processSpawn = async (instance, message, embed) => {
     despawn: false,
   });
 
-  console.debug(
-    `[${instance.client.shard.ids[0]}] Shoob spawned T${tier} ${name} on <#${message.channel.id}> [${message.id}]`
-  );
+  if (process.env.NODE_ENV !== "production") {
+    console.debug(
+      `[${instance.client.shard.ids[0]}] Shoob spawned T${tier} ${name} on <#${message.channel.id}> [${message.id}]`
+    );
+  }
 };
 const processClaim = async (instance, message, embed) => {
   if (!instance.shared["spawn"][message.channel.id]) return;

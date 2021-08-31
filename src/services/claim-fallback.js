@@ -52,18 +52,20 @@ const saveSpawn = async (instance, data) => {
 
   await client.publish("claims", JSON.stringify(data));
 
-  if (data.claimed) {
-    console.debug(
-      `[${instance.client.shard.ids[0]}] <@!${data.discord_id}> claimed T${data.tier} ${data.card_name} V${data.issue} on <#${data.channel_id}>`
-    );
-  } else if (!data.despawn) {
-    console.error(
-      `[${instance.client.shard.ids[0]}] T${data.tier} ${data.card_name} [${data.message_id}] got lost in time on <#${data.channel_id}>... (despawned)`
-    );
-  } else {
-    console.debug(
-      `[${instance.client.shard.ids[0]}] T${data.tier} ${data.card_name} despawned on <#${data.channel_id}>`
-    );
+  if (process.env.NODE_ENV !== "production") {
+    if (data.claimed) {
+      console.debug(
+        `[${instance.client.shard.ids[0]}] <@!${data.discord_id}> claimed T${data.tier} ${data.card_name} V${data.issue} on <#${data.channel_id}>`
+      );
+    } else if (!data.despawn) {
+      console.error(
+        `[${instance.client.shard.ids[0]}] T${data.tier} ${data.card_name} [${data.message_id}] got lost in time on <#${data.channel_id}>... (despawned)`
+      );
+    } else {
+      console.debug(
+        `[${instance.client.shard.ids[0]}] T${data.tier} ${data.card_name} despawned on <#${data.channel_id}>`
+      );
+    }
   }
 
   instance.kClaims++;

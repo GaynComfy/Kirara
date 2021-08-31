@@ -34,14 +34,16 @@ module.exports = {
 
           if (!data.kirara) {
             const shardId = instance.client.shard.ids[0];
-            if (data.claimed) {
-              console.debug(
-                `[${shardId}] [API] <@!${data.discord_id}> claimed T${data.tier} ${data.card_name} V${data.issue} on <#${data.channel_id}>`
-              );
-            } else {
-              console.debug(
-                `[${shardId}] [API] T${data.tier} ${data.card_name} despawned on <#${data.channel_id}>`
-              );
+            if (process.env.NODE_ENV !== "production") {
+              if (data.claimed) {
+                console.debug(
+                  `[${shardId}] [API] <@!${data.discord_id}> claimed T${data.tier} ${data.card_name} V${data.issue} on <#${data.channel_id}>`
+                );
+              } else {
+                console.debug(
+                  `[${shardId}] [API] T${data.tier} ${data.card_name} despawned on <#${data.channel_id}>`
+                );
+              }
             }
             instance.asClaims++;
           }

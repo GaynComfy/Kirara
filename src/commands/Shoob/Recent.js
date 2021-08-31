@@ -34,7 +34,7 @@ module.exports = {
     const k = `recent:${instance.serverIds[message.guild.id]}:${
       hasTier ? tier : "all"
     }`;
-    const exists = !isGlobal && (await instance.cache.exists(k));
+    const exists = false; // !isGlobal && (await instance.cache.exists(k));
 
     let recentCards;
     if (exists) {

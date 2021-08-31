@@ -26,7 +26,7 @@ module.exports = {
           log_channel: null,
           timer: false,
         };
-        console.log("Adding Guild ", server.id, server.name);
+        console.log("Adding guild ", server.id, server.name);
       } else {
         const serverObj = query.rows[0];
         instance.serverIds[server.id] = serverObj.id;
