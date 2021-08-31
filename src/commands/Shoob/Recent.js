@@ -66,6 +66,8 @@ module.exports = {
       recentCards = cards;
     }
 
+    recentCards = Array.from(recentCards);
+
     const selectedTitle = hasTier
       ? `${tierSettings.emoji} __Recent cards: Tier ${tierSettings.num}__`
       : "<:Flame:783439293506519101> __Recent cards__";
