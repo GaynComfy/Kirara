@@ -68,26 +68,8 @@ const saveSpawn = async (instance, data) => {
 
   instance.kClaims++;
 
-  // pre-cache results for recent command
-  const { rows: tierVer } = await instance.database.pool.query(
-    "SELECT * FROM CARD_CLAIMS WHERE server_id=$1 AND season=$2 AND tier=$3 ORDER BY id DESC LIMIT 5",
-    [serverId, instance.config.season, data.tier]
-  );
-  const { rows: allTier } = await instance.database.pool.query(
-    "SELECT * FROM CARD_CLAIMS WHERE server_id=$1 AND season=$2 ORDER BY id DESC LIMIT 5",
-    [serverId, instance.config.season]
-  );
-
-  instance.cache.setExpire(
-    `recent:${serverId}:all`,
-    JSON.stringify(allTier),
-    60 * 10
-  );
-  instance.cache.setExpire(
-    `recent:${serverId}:${data.tier}`,
-    JSON.stringify(tierVer),
-    60 * 20
-  );
+  instance.cache.delete(`recent:${serverId}:all`);
+  instance.cache.delete(`recent:${serverId}:${data.tier}`);
 };
 
 module.exports = {
