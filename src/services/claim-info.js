@@ -9,6 +9,7 @@ const deleteMap = {};
 module.exports = {
   start: async instance => {
     if (deleteInterval !== null || client !== null) return;
+    if (!instance.shared["recent"]) instance.shared["recent"] = {};
 
     deleteInterval = setInterval(async () => {
       const now = Date.now();
@@ -71,6 +72,9 @@ module.exports = {
               if (i !== -1) spawns.splice(i, 1);
             }
           }
+
+          delete instance.shared["recent"][`${data.server_id}:all`];
+          delete instance.shared["recent"][`${data.server_id}:${data.tier}`];
 
           if (instance.guilds[data.server_id].log_channel) {
             const logChannel = guild.channels.cache.get(

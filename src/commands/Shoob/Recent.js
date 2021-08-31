@@ -31,17 +31,11 @@ module.exports = {
     const tier = hasTier ? args.shift()[1].toUpperCase() : null;
     const tierSettings = hasTier ? tierInfo[`T${tier}`] : {};
 
-    const k = `recent:${instance.serverIds[message.guild.id]}:${
-      hasTier ? tier : "all"
-    }`;
-    const exists = false; // !isGlobal && (await instance.cache.exists(k));
+    const k = `${message.guild.id}:${hasTier ? tier : "all"}`;
 
     let recentCards;
-    if (exists) {
-      const e = await instance.cache.get(k);
-      recentCards = JSON.parse(e);
-      // workaround for broken last spawn time
-      recentCards[0].time = new Date(recentCards[0].time);
+    if (!isGlobal && instance.shared["recent"][k]) {
+      recentCards = instance.shared["recent"][k].cards;
     } else {
       const { rows: cards } = isGlobal // only if global
         ? hasTier
@@ -64,8 +58,10 @@ module.exports = {
           );
 
       if (!isGlobal) {
-        const expireTime = hasTier ? 60 * 20 : 60 * 10;
-        instance.cache.setExpire(k, JSON.stringify(cards), expireTime);
+        instance.shared["recent"][k] = {
+          cards,
+          lastUpdated: Date.now(),
+        };
       }
       recentCards = cards;
     }

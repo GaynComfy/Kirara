@@ -69,9 +69,6 @@ const saveSpawn = async (instance, data) => {
   }
 
   instance.kClaims++;
-
-  instance.cache.delete(`recent:${serverId}:all`);
-  instance.cache.delete(`recent:${serverId}:${data.tier}`);
 };
 
 module.exports = {
