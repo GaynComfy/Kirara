@@ -9,11 +9,12 @@ const optout = require("./cacheUtils").getOptOutStmt(
 );
 
 const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const randomStr = len => {
+const shoobCharSet = "ABCDEF";
+const randomStr = (len, chars = charSet) => {
   let rStr = "";
   for (let i = 0; i < len; i++) {
-    let rPos = Math.floor(Math.random() * charSet.length);
-    rStr += charSet.substring(rPos, rPos + 1);
+    let rPos = Math.floor(Math.random() * chars.length);
+    rStr += chars.substring(rPos, rPos + 1);
   }
   return rStr;
 };
@@ -189,7 +190,7 @@ const genShoobCaptcha = async () => {
 const genCollectCaptcha = async tier => {
   const captcha = createCanvas(300, 32);
   const ctx = captcha.getContext("2d");
-  const chars = randomStr(8);
+  const chars = randomStr(8, shoobCharSet);
 
   ctx.lineWidth = "1px";
   ctx.font = "36px Porter";
@@ -227,7 +228,7 @@ const genSpawnCaptcha = async (
     .setCaptcha({
       characters,
       color,
-      text: randomStr(characters),
+      text: randomStr(characters, shoobCharSet),
       rotate: 5,
       skew: true,
     })
