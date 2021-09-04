@@ -190,7 +190,7 @@ const genShoobCaptcha = async () => {
 const genCollectCaptcha = async tier => {
   const captcha = createCanvas(300, 32);
   const ctx = captcha.getContext("2d");
-  const chars = randomStr(8, shoobCharSet);
+  const chars = randomStr(8);
 
   ctx.lineWidth = "1px";
   ctx.font = "36px Porter";
