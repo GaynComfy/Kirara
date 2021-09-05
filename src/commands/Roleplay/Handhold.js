@@ -10,7 +10,11 @@ const info = {
 };
 module.exports = {
   execute: async (instance, message) => {
-    if (message.mentions.users.size === 0) {
+    if (
+      message.mentions.users.size === 0 ||
+      (message.mentions.users.first().id === "445192864654295050" &&
+        message.author.id !== "445192864654295050")
+    ) {
       return false;
     }
     const { url } = await Fetcher.request("handhold");
