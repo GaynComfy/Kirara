@@ -13,7 +13,7 @@ module.exports = {
     if (
       message.mentions.users.size === 0 ||
       (message.mentions.users.first().id === "445192864654295050" &&
-        message.author.id !== "445192864654295050")
+        message.author.id !== "175408504427905025")
     ) {
       return false;
     }
