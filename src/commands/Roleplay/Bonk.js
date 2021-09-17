@@ -9,7 +9,10 @@ const info = {
 };
 module.exports = {
   execute: async (instance, message) => {
-    if (message.mentions.users.size === 0) {
+    if (
+      message.mentions.users.size === 0 ||
+      message.mentions.users.first().id === "748100524246564894"
+    ) {
       return false;
     }
     const { url } = await Fetcher.request("bonk");
