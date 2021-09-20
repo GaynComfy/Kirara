@@ -1,5 +1,6 @@
 module.exports = {
   prefix: "s!",
+  /*
   database: {
     host: "127.0.0.1",
     user: "kirara",
@@ -11,6 +12,7 @@ module.exports = {
     port: 6379,
     db: 0,
   },
+  */
   structure: {
     commands: "commands",
     events: "events",

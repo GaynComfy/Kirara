@@ -15,7 +15,7 @@ const getCachedURL = async (instance, url) => {
     r = await axios.get(url, { responseType: "arraybuffer" });
   } catch (err) {
     console.error(err);
-    return "./src/assets/default/0.png";
+    return "./assets/imagees/default/0.png";
   }
   instance.cache.setExpire(k, r.data, 86400);
   return r.data;
