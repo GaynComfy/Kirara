@@ -5,10 +5,6 @@ const config = isDev ? require("./config-dev") : require("./config-prod");
 const { ShardingManager } = require("discord.js");
 const { ShardingClient } = require("statcord.js");
 
-const { registerFont } = require("canvas");
-registerFont("./assets/fonts/CenturyGothic.ttf", { family: "Century Gothic" });
-registerFont("./assets/fonts/Porter.ttf", { family: "Porter" });
-
 const shardManager = new ShardingManager("./src/index.js", {
   totalShards: config.shardCount || 2,
   token: process.env.TOKEN,
