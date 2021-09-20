@@ -9,11 +9,13 @@ module.exports = (config, isProd) => {
       database: config.database.database,
       port: config.database.port,
     };
+
     if (isProd || config.database.password || process.env.PG_PASSWORD) {
       connectionProps.password =
         config.database.password || process.env.PG_PASSWORD || null;
     }
-    const pool = new Pool(connectionProps);
+
+    const pool = new Pool({ config });
     resolve(new PgApi(pool, config.database));
   });
 };

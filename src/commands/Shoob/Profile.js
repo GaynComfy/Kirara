@@ -53,7 +53,7 @@ module.exports = {
       [member.id, instance.serverIds[message.guild.id], instance.config.season]
     );
 
-    const background1 = await loadImage("./src/assets/profile.png");
+    const background1 = await loadImage("./assets/images/profile.png");
     const background2 = await loadImage("./src/assets/profile_anim.gif");
     const avatarB = await getCachedURL(
       instance,
