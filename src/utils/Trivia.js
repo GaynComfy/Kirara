@@ -4,7 +4,7 @@ const sleep = time => new Promise(r => setTimeout(r, time));
 
 // ToDo: change this in the future as we develop this further
 const questions = JSON.parse(
-  require("fs").readFileSync("./src/assets/questions.json")
+  require("fs").readFileSync("./assets/questions.json")
 );
 
 const shuffle = array => {

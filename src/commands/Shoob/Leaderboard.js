@@ -1,9 +1,7 @@
 const Color = require("../../utils/Colors.json");
 const { getCachedURL } = require("../../utils/cacheUtils");
-const { createCanvas, loadImage, registerFont } = require("canvas");
+const { createCanvas, loadImage } = require("canvas");
 const { MessageEmbed, MessageAttachment } = require("discord.js");
-registerFont("./src/assets/CenturyGothic.ttf", { family: "Century Gothic" });
-registerFont("./src/assets/AppleColorEmoji.ttf", { family: "Apple" });
 
 const info = {
   name: "leaderboard",
@@ -56,7 +54,7 @@ module.exports = {
       return message.channel.send(embed);
     }
 
-    const background = await loadImage("./src/assets/leaderboard2.png");
+    const background = await loadImage("./assets/images/leaderboard2.png");
     const iconURL = message.guild.iconURL({ format: "png", size: 64 });
     const canvas = createCanvas(800, 600);
     const ctx = canvas.getContext("2d");
@@ -90,7 +88,7 @@ module.exports = {
             user.displayAvatarURL({ format: "png", size: 512 })
           ));
         const avatar = await loadImage(
-          avatarB ? avatarB : `./src/assets/default/${aid}.png`
+          avatarB ? avatarB : `./assets/images/default/${aid}.png`
         );
         ctx.save();
         ctx.arc(179.5, 245.5, 79, 0, Math.PI * 2, true);

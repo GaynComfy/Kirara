@@ -1,8 +1,7 @@
 const tcaptcha = require("trek-captcha");
 const { CaptchaGenerator } = require("captcha-canvas");
-const { createCanvas, registerFont } = require("canvas");
+const { createCanvas } = require("canvas");
 const { tierInfo } = require("./cardUtils");
-registerFont("./src/assets/Porter.ttf", { family: "Porter" });
 
 const optout = require("./cacheUtils").getOptOutStmt(
   "TYPERACE_STATS.discord_id"
