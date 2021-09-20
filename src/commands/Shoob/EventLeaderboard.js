@@ -47,7 +47,7 @@ module.exports = {
           )
           .setColor(Color.red);
         await message.channel.send(embed);
-        return true;
+        return null;
       }
       if (claimers.length === 0 && last === -1) {
         last = page - 1;
