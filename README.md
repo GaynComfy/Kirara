@@ -6,7 +6,7 @@ idk yet will see
 
 Get Docker/docker-compose
 
-Create `.env.dev` in the project root and put the following
+Just use `SET VAR=CONTENT` for now
 
 ```
 TOKEN=TOKEN+HERE

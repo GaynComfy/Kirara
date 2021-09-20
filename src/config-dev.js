@@ -4,10 +4,11 @@ module.exports = {
     host: "127.0.0.1",
     user: "kirarabeta",
     database: "kirarabeta",
+    password: "kirarabeta",
     port: 5432,
   },
   cache: {
-    host: "redis",
+    host: "127.0.0.1",
     port: 6379,
     db: 1,
   },
@@ -24,7 +25,8 @@ module.exports = {
     "175408504427905025", // JeDaYoshi#7942
     "97707213690249216", // offbeatwitch#8860
     "445192864654295050", // RaiYito#3718
+    "634288114172690432", // Pitofūi#8997
   ],
-  shardCount: 2,
+  shardCount: 1,
   season: 10,
 };
