@@ -1,4 +1,3 @@
-const Redis = require("ioredis");
 const { MessageEmbed } = require("discord.js");
 const { tierInfo } = require("../utils/cardUtils");
 
@@ -21,8 +20,7 @@ module.exports = {
       });
     }, 1000);
 
-    const { config } = instance;
-    client = new Redis(`redis://${config.cache.host}:${config.cache.port}`);
+    client = instance.events;
     client.subscribe("claims");
     client.on("message", async (channel, message) => {
       if (channel === "claims") {

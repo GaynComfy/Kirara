@@ -1,18 +1,5 @@
 module.exports = {
   prefix: "k!",
-  /**
-  database: {
-    host: "127.0.0.1",
-    user: "kirarabeta",
-    database: "kirarabeta",
-    port: 5432,
-  },
-  cache: {
-    host: "127.0.0.1",
-    port: 6379,
-    db: 1,
-  },
-  */
   structure: {
     commands: "commands",
     events: "events",

@@ -1,4 +1,3 @@
-const Redis = require("ioredis");
 const { MessageEmbed } = require("discord.js");
 const Constants = require("../utils/Constants.json");
 const { tierInfo } = require("../utils/cardUtils");
@@ -22,7 +21,7 @@ module.exports = {
         delete deleteMap[k];
       });
     }, 1000);
-    const { config } = instance;
+
     const onMessage = async (channel, message) => {
       if (channel !== "games") return;
 
@@ -111,7 +110,8 @@ module.exports = {
         }
       }
     };
-    client = new Redis(`redis://${config.cache.host}:${config.cache.port}`);
+
+    client = instance.events;
     client.subscribe("games");
     client.on("message", onMessage);
   },

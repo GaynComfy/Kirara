@@ -1,21 +1,9 @@
 const { Pool } = require("pg");
 const PgApi = require("./Api");
 
-module.exports = (config, isProd) => {
+module.exports = config => {
   return new Promise(resolve => {
-    const connectionProps = {
-      user: config.database.user,
-      host: config.database.host,
-      database: config.database.database,
-      port: config.database.port,
-    };
-
-    if (isProd || config.database.password || process.env.PG_PASSWORD) {
-      connectionProps.password =
-        config.database.password || process.env.PG_PASSWORD || null;
-    }
-
-    const pool = new Pool({ config });
-    resolve(new PgApi(pool, config.database));
+    const pool = new Pool(config);
+    resolve(new PgApi(pool, config));
   });
 };
