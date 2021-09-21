@@ -1,4 +1,3 @@
-const Redis = require("ioredis");
 const { MessageEmbed } = require("discord.js");
 const Constants = require("../utils/Constants.json");
 const { tierInfo } = require("../utils/cardUtils");
@@ -22,7 +21,6 @@ module.exports = {
         delete deleteMap[k];
       });
     }, 1000);
-    const { config } = instance;
     const onMessage = async (channel, message) => {
       if (channel !== "auctions") return;
 
@@ -129,7 +127,7 @@ module.exports = {
     };
     const shard_id = instance.client.shard.ids[0];
     if (shard_id === 0) {
-      client = new Redis(`redis://${config.cache.host}:${config.cache.port}`);
+      client = instance.events;
       client.subscribe("auctions");
       client.on("message", async (channel, msg) => {
         await onMessage(channel, msg);

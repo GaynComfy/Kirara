@@ -1,4 +1,3 @@
-const Redis = require("ioredis");
 const { withOwner } = require("../../utils/hooks");
 const info = {
   name: "msg",
@@ -7,12 +6,7 @@ const info = {
   ownerOnly: true,
   cooldown: 5,
 };
-let client;
 module.exports = {
-  init: async instance => {
-    const { config } = instance;
-    client = new Redis(`redis://${config.cache.host}:${config.cache.port}`);
-  },
   execute: async (instance, message, args) => {
     return withOwner(
       message.author.id,
@@ -22,7 +16,7 @@ module.exports = {
         if (message.author.id === id) return false;
         const t = 1000 * 60 * Number.parseInt(args.shift());
         const messageText = args.join(" ");
-        client.publish(
+        instance.events.publish(
           "msg_msg",
           JSON.stringify({ id, t, message: messageText })
         );

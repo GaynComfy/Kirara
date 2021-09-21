@@ -53,10 +53,11 @@ class Instance {
    * @param {require("discord.js").Client} client
    * @param {function} onReady
    */
-  constructor(config, database, cache, client, onReady) {
+  constructor(config, database, cache, events, client, onReady) {
     this.config = config;
     this.database = database;
     this.cache = cache;
+    this.events = events;
     this.client = client;
     client.b_instance = this;
     this.onReady = onReady;
