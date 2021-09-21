@@ -1,21 +1,5 @@
 module.exports = {
   prefix: "k!",
-<<<<<<< HEAD:config-dev.js
-=======
-  /**
-  database: {
-    host: "127.0.0.1",
-    user: "kirarabeta",
-    database: "kirarabeta",
-    port: 5432,
-  },
-  cache: {
-    host: "127.0.0.1",
-    port: 6379,
-    db: 1,
-  },
-  */
->>>>>>> 00e793d (im done for the day and committing. The .env stuff doesn't run yet):src/config-dev.js
   structure: {
     commands: "commands",
     events: "events",

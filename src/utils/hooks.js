@@ -1,6 +1,6 @@
 const isDev = process.env.NODE_ENV === "development";
 const { owner } = isDev
-  ? require("../config-dev.js")
+  ? require("../../config-dev.js")
   : require("../config-prod.js");
 
 exports.withRole = async (member, handler, role) => {

@@ -4,7 +4,7 @@ const sendError = require("./utils/SendError");
 const sendUsage = require("./utils/SendUsage");
 const { owner } =
   process.env.NODE_ENV === "development"
-    ? require("./config-dev.js")
+    ? require("../config-dev.js")
     : require("./config-prod.js");
 
 const spaces = / +/g;
