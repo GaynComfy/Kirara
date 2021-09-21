@@ -5,20 +5,23 @@ const config =
     : require("./config-prod");
 
 // Database Connection
-const postgresConnect = require("./storage/database/");
-const { RedisAPI, RedisEvents } = require("./storage/redis/");
+const postgresConnector = require("./storage/database/");
+const redisConnector = require("./storage/redis/");
 
-// Register Canvas
 const { registerFont } = require("canvas");
-registerFont("./assets/fonts/CenturyGothic.ttf", { family: "Century Gothic" });
-registerFont("./assets/fonts/Porter.ttf", { family: "Porter" });
 
 // Discord Client
-const discordConnect = require("./discord/");
+const discordConnector = require("./discord/");
 
 const Instance = require("./Instance");
 const start = async () => {
-  const pgAPI = await postgresConnect({
+  // Register Canvas fonts
+  registerFont("./assets/fonts/CenturyGothic.ttf", {
+    family: "Century Gothic",
+  });
+  registerFont("./assets/fonts/Porter.ttf", { family: "Porter" });
+
+  const pgAPI = await postgresConnector({
     host: process.env.PG_HOST,
     port: process.env.PG_PORT,
     user: process.env.PG_USER,
@@ -26,20 +29,20 @@ const start = async () => {
     database: process.env.PG_DATABASE,
   });
 
-  const redisAPI = await RedisAPI({
+  const redisAPI = await redisConnector({
     host: process.env.REDIS_HOST,
     port: process.env.REDIS_PORT,
     password: process.env.REDIS_PASSWORD,
     database: process.env.REDIS_DATABASE,
   });
 
-  const redisEvents = await RedisEvents({
+  const redisEvents = await redisConnector({
     host: process.env.REDIS_HOST,
     port: process.env.REDIS_PORT,
     password: process.env.REDIS_PASSWORD,
   });
 
-  const { client: discordClient, login: onReady } = await discordConnect();
+  const { client: discordClient, login: onReady } = await discordConnector();
   const instance = new Instance(
     config,
     pgAPI,
