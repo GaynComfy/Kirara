@@ -26,28 +26,23 @@ module.exports = {
         }
         case 2: {
           try {
-            const size = await instance.client.shard.fetchClientValues(
-              "guilds.cache.size"
+            const claims = await instance.client.shard.broadcastEval(
+              "this.b_instance.asClaims + this.b_instance.kClaims"
             );
             await instance.client.user.setActivity(
-              `Guilds | ${size
-                .reduce((acc, guildCount) => acc + guildCount, 0)
+              `Claims | ${claims
+                .reduce((acc, cc) => acc + cc, 0)
                 .toLocaleString(undefined, { style: "decimal" })}`,
               status
             );
-          } catch (ignored) {}
+          } catch {
+            await instance.client.user.setActivity("trouble!", status);
+          }
+
           break;
         }
         case 3: {
-          const users = await instance.client.shard.broadcastEval(
-            "this.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)"
-          );
-          await instance.client.user.setActivity(
-            `Users | ${users
-              .reduce((acc, memberCount) => acc + memberCount, 0)
-              .toLocaleString(undefined, { style: "decimal" })}`,
-            status
-          );
+          await instance.client.user.setActivity("comfy.gay", status);
           break;
         }
       }
