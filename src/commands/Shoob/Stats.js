@@ -4,6 +4,9 @@ const { MessageEmbed } = require("discord.js");
 const Color = require("../../utils/Colors.json");
 const Constants = require("../../utils/Constants.json");
 
+const TOTAL = ["total", "t", "a"];
+const SERVER = ["server", "s"];
+
 const info = {
   name: "stats",
   aliases: ["t"],
@@ -24,15 +27,10 @@ module.exports = {
     if (!member) {
       member = message.author;
     }
-    const isServer =
-      args.length >= 1 &&
-      (args[0].toLowerCase() === "server" || args[0].toLowerCase() === "s");
+    const isServer = args.length >= 1 && SERVER.includes(args[0].toLowerCase());
     if (isServer) args.shift();
-    const isTotal =
-      args.length >= 1 &&
-      (args[0].toLowerCase() === "total" ||
-        args[0].toLowerCase() === "t" ||
-        args[0].toLowerCase() === "a");
+
+    const isTotal = args.length >= 1 && TOTAL.includes(args[0].toLowerCase());
     if (isTotal) args.shift();
 
     if (args.length === 0) {

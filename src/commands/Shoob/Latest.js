@@ -3,6 +3,8 @@ const { MessageEmbed } = require("discord.js");
 const { createPagedResults } = require("../../utils/PagedResults");
 const { tierInfo } = require("../../utils/cardUtils");
 
+const EVENT = ["event", "e"];
+
 const info = {
   name: "latest",
   aliases: ["cards", "l"],
@@ -16,13 +18,12 @@ const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
 
 module.exports = {
   execute: async (instance, message, args) => {
-    const isEvent =
-      args.length >= 1 &&
-      (args[0].toLowerCase() === "event" || args[0].toLowerCase() === "e");
+    const isEvent = args.length >= 1 && EVENT.includes(args[0].toLowerCase());
+
     if (isEvent) args.shift();
     if (isEvent && args.length === 0) return false;
-    const hasTier = args.length >= 1 && allowed.includes(args[0].toLowerCase());
-    if (!hasTier) return false;
+    if (!allowed.includes(args[0].toLowerCase())) return false;
+
     const tier = args.shift()[1].toUpperCase();
 
     let last = -1;

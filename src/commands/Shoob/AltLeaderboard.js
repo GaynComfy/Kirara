@@ -3,6 +3,8 @@ const Constants = require("../../utils/Constants.json");
 const { MessageEmbed } = require("discord.js");
 const { createPagedResults } = require("../../utils/PagedResults");
 
+const TOTAL = ["total", "t", "a"];
+
 const info = {
   name: "altleaderboard",
   aliases: ["alb", "tlb"],
@@ -13,17 +15,13 @@ const info = {
 
 module.exports = {
   execute: async (instance, message, args) => {
-    const isTotal =
-      args.length >= 1 &&
-      (args[0].toLowerCase() === "total" ||
-        args[0].toLowerCase() === "t" ||
-        args[0].toLowerCase() === "a");
+    const isTotal = args.length >= 1 && TOTAL.includes(args[0]);
     if (isTotal) args.shift();
 
     message.channel.startTyping();
+    message.channel.stopTyping();
 
     let last = -1;
-    message.channel.stopTyping();
 
     return createPagedResults(message, Infinity, async page => {
       const offset = (page > last && last !== -1 ? last : page) * 8;
@@ -52,6 +50,7 @@ module.exports = {
           .setColor(Color.red);
         return message.channel.send(embed);
       }
+
       if (claimers.length === 0 && last === -1) {
         last = page - 1;
         if (last === -1) last = 0;

@@ -3,6 +3,8 @@ const { getCachedURL } = require("../../utils/cacheUtils");
 const { createCanvas, loadImage } = require("canvas");
 const { MessageEmbed, MessageAttachment } = require("discord.js");
 
+const TOTAL = ["total", "t", "a"];
+
 const info = {
   name: "leaderboard",
   aliases: ["lb"],
@@ -21,11 +23,8 @@ const applyText = (canvas, text) => {
 };
 module.exports = {
   execute: async (instance, message, args) => {
-    const isTotal =
-      args.length >= 1 &&
-      (args[0].toLowerCase() === "total" ||
-        args[0].toLowerCase() === "t" ||
-        args[0].toLowerCase() === "a");
+    const isTotal = args.length >= 1 && TOTAL.includes(args[0].toLowerCase());
+
     if (isTotal) args.shift();
 
     message.channel.startTyping();

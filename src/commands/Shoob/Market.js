@@ -8,6 +8,8 @@ const Constants = require("../../utils/Constants.json");
 
 dayjs.extend(require("dayjs/plugin/relativeTime"));
 
+const EVENT = ["event", "e"];
+
 const info = {
   name: "market",
   aliases: ["mk"],
@@ -27,18 +29,18 @@ const allowedSortings = [
   "oldest",
 ];
 
+const RECENT = ["r", "recent"];
+const OLDEST = ["o", "oldest"];
+const PRICE_UP = ["pu", "priceup"];
+const PRICE_DOWN = ["pd", "pricedown"];
+
 const sortListings = (arr, opt) => {
-  if (opt === "r" || opt === "recent")
+  if (RECENT.includes(opt))
     return arr.sort((a, b) => b.date_added - a.date_added);
-
-  if (opt === "o" || opt === "oldest")
+  if (OLDEST.includes(opt))
     return arr.sort((a, b) => a.date_added - b.date_added);
-
-  if (opt === "pu" || opt === "priceup")
-    return arr.sort((a, b) => a.price - b.price);
-  if (opt === "pd" || opt === "pricedown")
-    return arr.sort((a, b) => b.price - a.price);
-
+  if (PRICE_UP.includes(opt)) return arr.sort((a, b) => a.price - b.price);
+  if (PRICE_DOWN.includes(opt)) return arr.sort((a, b) => b.price - a.price);
   return arr.sort((a, b) => a.item.issue - b.item.issue);
 };
 
@@ -178,9 +180,7 @@ const processWithoutCard = async (instance, message, tier) => {
 
 module.exports = {
   execute: async (instance, message, args) => {
-    const isEvent =
-      args.length > 0 &&
-      (args[0].toLowerCase() === "event" || args[0].toLowerCase() === "e");
+    const isEvent = args.length > 0 && EVENT.includes(args[0].toLowerCase());
     if (isEvent) args.shift();
     const hasTier =
       args.length > 0
