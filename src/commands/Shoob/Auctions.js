@@ -11,6 +11,8 @@ const Constants = require("../../utils/Constants.json");
 
 dayjs.extend(require("dayjs/plugin/relativeTime"));
 
+const ALL = ["all", "a"]; // See line 190
+
 const info = {
   name: "auctions",
   aliases: ["auc", "auction"],
@@ -22,31 +24,30 @@ const info = {
 
 // why is this on a different function? who knows
 const getListings = async (instance, page, tier, card_id, active) => {
-  let query;
-
   if (card_id)
-    query = await instance.database.pool.query(
-      `SELECT * FROM AUCTIONS WHERE ${
-        active ? "active=true AND " : ""
-      }card_id=$1 ORDER BY id DESC LIMIT 8 OFFSET $2`,
-      [card_id, page * 8]
-    );
-  else if (tier)
-    query = await instance.database.pool.query(
+    return (
+      await instance.database.pool.query(
+        `SELECT * FROM AUCTIONS WHERE ${
+          active ? "active=true AND " : ""
+        }card_id=$1 ORDER BY id DESC LIMIT 8 OFFSET $2`,
+        [card_id, page * 8]
+      )
+    ).rows;
+  if (tier)
+    return await instance.database.pool.query(
       `SELECT * FROM AUCTIONS WHERE ${
         active ? "active=true AND " : ""
       }tier=$1 ORDER BY id DESC LIMIT 8 OFFSET $2`,
       [tier, page * 8]
     );
-  else
-    query = await instance.database.pool.query(
+  return (
+    await instance.database.pool.query(
       `SELECT * FROM AUCTIONS ${
         active ? "WHERE active=true " : ""
       }ORDER BY id DESC LIMIT 8 OFFSET $1`,
       [page * 8]
-    );
-
-  return query.rows;
+    )
+  ).rows;
 };
 
 const computeListings = async (instance, page, tier, card_id, active) => {
@@ -186,9 +187,7 @@ const computeAuction = async (instance, aid) => {
 module.exports = {
   execute: async (instance, message, args) => {
     const hasAll =
-      args.length >= 1
-        ? args[0].toLowerCase() === "all" || args[0].toLowerCase() === "a"
-        : false;
+      args.length >= 1 ? ALL.includes(args[0].toLowerCase()) : false;
     if (hasAll) args.shift();
     const hasTier =
       args.length >= 1

@@ -5,6 +5,10 @@ const { MessageEmbed } = require("discord.js");
 const { getCard } = require("./utils");
 const { cardId } = require("../../utils/regexUtils");
 
+const EVENT = ["event", "e"]; // Consider placing this in utils as it's used in multiple files
+const GLOBAL = ["servers", "bot", "s"];
+const OLD_GLOBAL = ["global", "g"];
+
 const info = {
   name: "card",
   aliases: ["c"],
@@ -17,14 +21,11 @@ const info = {
 module.exports = {
   execute: async (instance, message, args) => {
     if (args.length === 0) return false;
-    const isEvent =
-      args[0].toLowerCase() === "event" || args[0].toLowerCase() === "e";
-    const isGlobal =
-      args[0].toLowerCase() === "servers" ||
-      args[0].toLowerCase() === "bot" ||
-      args[0].toLowerCase() === "s";
-    const isOldGlobal =
-      args[0].toLowerCase() === "global" || args[0].toLowerCase() === "g";
+
+    const isEvent = EVENT.includes(args[0].toLowerCase());
+    const isGlobal = GLOBAL.includes(args[0].toLowerCase());
+    const isOldGlobal = OLD_GLOBAL.includes(args[0].toLowerCase());
+
     if (isEvent || isGlobal || isOldGlobal) args.shift();
     if (args.length === 0) return false;
     const hasTier = Constants.allTiers.includes(args[0].toLowerCase());

@@ -25,8 +25,9 @@ module.exports = {
     }
 
     message.channel.startTyping();
-    let last = -1;
     message.channel.stopTyping();
+
+    let last = -1;
 
     return createPagedResults(message, Infinity, async page => {
       const offset = (page > last && last !== -1 ? last : page) * 8;

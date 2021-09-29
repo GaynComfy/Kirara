@@ -13,6 +13,9 @@ const fusedUser = {
     "https://discord.com/assets/18126c8a9aafeefa76bbb770759203a9.png",
 };
 
+const ONE_OR_FUSED = ["1", "fused"];
+const EVENT = ["event", "e"];
+
 const info = {
   name: "inventory",
   aliases: ["inv"],
@@ -26,29 +29,30 @@ module.exports = {
     let user =
       message.mentions.users.first() || // first mention on the message
       (args.length >= 1 &&
-        (((args[0] === "1" || args[0] === "fused") && fusedUser) || // if first argument is 1 or fused
+        ((ONE_OR_FUSED.includes(args[0]) && fusedUser) || // if first argument is 1 or fused
           (userId.test(args[0]) && // if it's a user ID
             (await instance.client.users.fetch(args[0]).catch(() => {}))))); // and we can fetch it
     if (
       args.length >= 1 &&
-      (args[0] === "1" ||
-        args[0] === "fused" ||
+      (ONE_OR_FUSED.includes(args[0]) ||
         mention.test(args[0]) ||
         userId.test(args[0]))
     )
       args.shift();
-    if (!user) {
-      user = message.author;
-    }
-    const isEvent =
-      args.length >= 1 &&
-      (args[0].toLowerCase() === "event" || args[0].toLowerCase() === "e");
+
+    if (!user) user = message.author;
+
+    const isEvent = args.length >= 1 && EVENT.includes(args[0]);
+
     if (isEvent) args.shift();
     if (isEvent && args.length === 0) return false;
+
     const hasTier =
       args.length >= 1 && Constants.allTiers.includes(args[0].toLowerCase());
     const hasCardId = args.length >= 1 && cardId.test(args[0]);
+
     if (isEvent && hasTier && args.length === 1) return false;
+
     let tier = hasTier ? args.shift()[1].toUpperCase() : "all";
     const card_id = hasCardId ? cardId.exec(args.shift())[2] : null;
     let card = null;
