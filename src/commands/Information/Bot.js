@@ -83,7 +83,7 @@ module.exports = {
             (lillie.version ? `, v${lillie.version}` : "")
         )
         .addField(
-          "**🖥️ Bot Details:**",
+          "**🖥️ Bot Details**",
           `${numberWithCommas(totalGuilds)} Servers\n` +
             `${numberWithCommas(totalMembers)} Users\n` +
             `${numberWithCommas(channels)} Channels\n\n` +
@@ -92,7 +92,7 @@ module.exports = {
           true
         )
         .addField(
-          `**🟢 Shard: ${shardid}**`,
+          `**🟢 Shard ${shardid}**`,
           `${numberWithCommas(guildSize)} Servers\n` +
             `${numberWithCommas(userSize)} Users\n` +
             `${numberWithCommas(channelSize)} Channels\n\n` +
