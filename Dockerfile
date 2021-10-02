@@ -1,8 +1,20 @@
-FROM node:15.2.1
+FROM node:14.18.0-alpine3.14 AS builder
 WORKDIR /usr/app
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+RUN apk --no-cache add build-base cairo-dev giflib-dev jpeg-dev libpng-dev librsvg-dev pango-dev
 
-COPY package*.json ./
-RUN npm install
-COPY src src
-CMD ["npm", "run", "shards"]
+COPY package*.json /usr/app/
+RUN npm install --production
+
+COPY . /usr/app/
+RUN yarn pack --filename package.tgz
+
+FROM node:14.18.0-alpine3.14
+COPY --from=builder /usr/app/package.tgz /usr/app/
+RUN apk --no-cache add rsync tar \
+    && tar -xzf /usr/app/package.tgz && rsync -vua --delete-after /usr/app/package/ /usr/app/ \
+    && apk --no-cache del rsync tar \
+    && npm rm -g npm; rm -rf /root/.npm
+COPY --from=builder /usr/app/app_node_modules/ /usr/app/node_modules/
+
+USER node
+ENTRYPOINT ["node", "src/sharder.js"]

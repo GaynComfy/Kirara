@@ -8,7 +8,7 @@
     "dev": "node src/index.js",
     "lint": "eslint --ext .js --fix src",
     "pre-commit": "pretty-quick --staged && lint-staged",
-    "postinstall": "sh -c 'is-ci || husky install'; true"
+    "postinstall": "is-ci || husky install; true"
   },
   "keywords": [
     "discord",
@@ -21,6 +21,9 @@
   ],
   "license": "UNLICENSED",
   "private": true,
+  "files": [
+    "src/**/*"
+  ],
   "dependencies": {
     "axios": "^0.22.0",
     "axios-retry": "^3.2.0",
