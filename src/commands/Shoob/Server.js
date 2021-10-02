@@ -28,9 +28,7 @@ module.exports = {
       0
     );
     var channels = results[2].flat();
-    const {
-      rows: recentCards,
-    } = await instance.database.pool.query(
+    const { rows: recentCards } = await instance.database.pool.query(
       "SELECT claims, spawns FROM SERVERS WHERE id=$1",
       [instance.serverIds[message.guild.id]]
     );
@@ -72,12 +70,14 @@ module.exports = {
 
 = SERVER/GUILD =
 • Name       :: ${message.guild.name}
-• Claims     :: ${Number.parseInt(
-      recentCards[0].claims
-    ).toLocaleString(undefined, { style: "decimal", maximumFractionDigits: 0 })}
-• Spawns     :: ${Number.parseInt(
-      recentCards[0].spawns
-    ).toLocaleString(undefined, { style: "decimal", maximumFractionDigits: 0 })}
+• Claims     :: ${Number.parseInt(recentCards[0].claims).toLocaleString(
+      undefined,
+      { style: "decimal", maximumFractionDigits: 0 }
+    )}
+• Spawns     :: ${Number.parseInt(recentCards[0].spawns).toLocaleString(
+      undefined,
+      { style: "decimal", maximumFractionDigits: 0 }
+    )}
 
 = TOP 5 SERVERS =
 ${topped.join("\n")}

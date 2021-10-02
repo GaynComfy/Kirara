@@ -48,9 +48,7 @@ module.exports = {
             .setDescription(
               boosters.map(
                 (member, index) =>
-                  `${
-                    offset + index + 1
-                  }. ${member} *(${humanizeDuration(
+                  `${offset + index + 1}. ${member} *(${humanizeDuration(
                     Date.now() - member.premiumSinceTimestamp,
                     { round: true, units: ["y", "mo", "w", "d", "h", "m"] }
                   )})*`
