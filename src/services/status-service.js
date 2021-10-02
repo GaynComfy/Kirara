@@ -35,8 +35,9 @@ module.exports = {
                 .toLocaleString(undefined, { style: "decimal" })}`,
               status
             );
-          } catch {
+          } catch (err) {
             await instance.client.user.setActivity("trouble!", status);
+            console.error(err);
           }
 
           break;

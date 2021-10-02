@@ -8,7 +8,7 @@
     "dev": "node src/index.js",
     "lint": "eslint --ext .js --fix src",
     "pre-commit": "pretty-quick --staged && lint-staged",
-    "postinstall": "is-ci || husky install; true"
+    "postinstall": "is-ci || husky install || true"
   },
   "keywords": [
     "discord",
@@ -38,7 +38,6 @@
     "trek-captcha": "^0.4.0"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
