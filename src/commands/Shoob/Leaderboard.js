@@ -63,7 +63,7 @@ module.exports = {
     if (iconURL) {
       const iconB = await getCachedURL(instance, iconURL);
       const icon = await loadImage(iconB);
-      ctx.drawImage(icon, 360, 55, 58, 58);
+      ctx.drawImage(icon, 366, 56, 53, 53);
     }
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
     ctx.textAlign = "center";
