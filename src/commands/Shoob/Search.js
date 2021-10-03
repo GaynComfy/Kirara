@@ -18,6 +18,16 @@ const info = {
   category: "Shoob",
   cooldown: 2,
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
+  usage: "search [event] [servers] [tier] <name/card ID/link>",
+  examples: [
+    "search servers t6 Alice",
+    "search event t4 Rem",
+    "search t6 Rin",
+    "search Nezuko",
+    "search 5d7577216f818277a57e5698",
+  ],
+  description:
+    "Fetch all cards by tier & name. Returns the card info if only one was found.",
 };
 
 module.exports = {
@@ -128,16 +138,4 @@ module.exports = {
     return createMessagePagedResults(message, 1, handler);
   },
   info,
-  help: {
-    usage: "search [event] [servers] [tier] <name/card ID/link>",
-    examples: [
-      "search servers t6 Alice",
-      "search event t4 Rem",
-      "search t6 Rin",
-      "search Nezuko",
-      "search 5d7577216f818277a57e5698",
-    ],
-    description:
-      "Fetch all cards by tier & name. Returns the card info if only one was found.",
-  },
 };

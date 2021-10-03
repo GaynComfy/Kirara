@@ -6,6 +6,9 @@ const info = {
   matchCase: false,
   category: "UwU",
   cooldown: 60,
+  usage: "avatar <@user>",
+  examples: ["avatar @JeDaYoshi"],
+  description: "Show someone's avatar!",
 };
 const mention = /<@!?(\d{17,19})>/;
 const userId = /\d{17,19}/;
@@ -37,9 +40,4 @@ module.exports = {
     message.channel.send(embed);
   },
   info,
-  help: {
-    usage: "avatar <@user>",
-    examples: ["avatar @JeDaYoshi"],
-    description: "Show someone's avatar!",
-  },
 };

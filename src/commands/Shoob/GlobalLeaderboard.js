@@ -14,6 +14,9 @@ const info = {
   category: "Shoob",
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
   disabled: process.env.NODE_ENV !== "development",
+  usage: "glb [total]",
+  examples: ["glb", "glb [total]"],
+  description: "Top global claims!",
 };
 
 module.exports = {
@@ -92,9 +95,4 @@ module.exports = {
     });
   },
   info,
-  help: {
-    usage: "glb [total]",
-    examples: ["glb", "glb [total]"],
-    description: "Top global claims!",
-  },
 };

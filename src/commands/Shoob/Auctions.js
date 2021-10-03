@@ -20,6 +20,16 @@ const info = {
   category: "Shoob",
   cooldown: 2,
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
+  usage: "auctions [all] [[tier] [name]/[card link]/[auction ID/link]]",
+  examples: [
+    "auctions",
+    "auc t6",
+    "auc all t5 Konata Izumi",
+    "auc 5fd246b9c797c534105c637b",
+    "auc https://animesoul.com/auction/5fd41e3f8030b66973438e3a",
+    "auc a https://animesoul.com/cards/info/5fdbd604b3395a516de95394",
+  ],
+  description: "Watch active auctions and their information live!",
 };
 
 // why is this on a different function? who knows
@@ -255,16 +265,4 @@ module.exports = {
     return coll;
   },
   info,
-  help: {
-    usage: "auctions [all] [[tier] [name]/[card link]/[auction ID/link]]",
-    examples: [
-      "auctions",
-      "auc t6",
-      "auc all t5 Konata Izumi",
-      "auc 5fd246b9c797c534105c637b",
-      "auc https://animesoul.com/auction/5fd41e3f8030b66973438e3a",
-      "auc a https://animesoul.com/cards/info/5fdbd604b3395a516de95394",
-    ],
-    description: "Watch active auctions and their information live!",
-  },
 };

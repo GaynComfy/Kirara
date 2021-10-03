@@ -13,13 +13,11 @@ const info = {
   name: "invite",
   matchCase: false,
   category: "Information",
+  usage: "invite",
+  examples: ["invite"],
+  description: "Invite this awesome bot to other servers!",
 };
 module.exports = {
   execute: async (instance, message) => message.channel.send(embed),
   info,
-  help: {
-    usage: "invite",
-    examples: ["invite"],
-    description: "Invite this awesome bot to other servers!",
-  },
 };

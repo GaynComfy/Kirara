@@ -15,6 +15,9 @@ const info = {
   matchCase: false,
   category: "Shoob",
   perms: ["ATTACH_FILES"],
+  usage: "profile [@user]",
+  examples: ["profile", "rank @JeDaYoshi"],
+  description: "See your profile and your claim count!",
 };
 
 const tierPositions = [
@@ -132,9 +135,4 @@ module.exports = {
     return message.channel.send(embed);
   },
   info,
-  help: {
-    usage: "profile [@user]",
-    examples: ["profile", "rank @JeDaYoshi"],
-    description: "See your profile and your claim count!",
-  },
 };

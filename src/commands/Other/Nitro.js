@@ -7,6 +7,9 @@ const info = {
   matchCase: false,
   category: "UwU",
   cooldown: 2,
+  usage: "nitro <@user>",
+  examples: ["nitro @Alycans"],
+  description: "Show the time an user has been Nitro Boosting!",
 };
 const mention = /<@!?(\d{17,19})>/;
 const userId = /\d{17,19}/;
@@ -48,9 +51,4 @@ module.exports = {
     return message.channel.send(embed);
   },
   info,
-  help: {
-    usage: "nitro <@user>",
-    examples: ["nitro @Alycans"],
-    description: "Show the time an user has been Nitro Boosting!",
-  },
 };

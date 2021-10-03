@@ -5,6 +5,9 @@ const info = {
   name: "event",
   matchCase: false,
   category: "Administration",
+  usage: "event <start|on|off|end>",
+  examples: ["event"],
+  description: "Set a Shoob claiming event counter on your server!",
 };
 const allowed = ["start", "on", "end", "off"];
 module.exports = {
@@ -42,9 +45,4 @@ module.exports = {
     });
   },
   info,
-  help: {
-    usage: "event <start|on|off|end>",
-    examples: ["event"],
-    description: "Set a Shoob claiming event counter on your server!",
-  },
 };

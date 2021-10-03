@@ -7,6 +7,9 @@ const info = {
   matchCase: false,
   category: "Shoob",
   cooldown: 15,
+  usage: "season",
+  examples: ["season"],
+  description: "Shows season information for the server!",
 };
 
 module.exports = {
@@ -100,9 +103,4 @@ module.exports = {
     return message.channel.send(embed);
   },
   info,
-  help: {
-    usage: "season",
-    examples: ["season"],
-    description: "Shows season information for the server!",
-  },
 };

@@ -7,6 +7,9 @@ const info = {
   aliases: ["log"],
   matchCase: false,
   category: "Administration",
+  usage: "logs [#channel]",
+  examples: ["logs #asn-shoob-logs", "log"],
+  description: "Set Shoob log channel on your server!",
 };
 module.exports = {
   execute: async (instance, message, args) => {
@@ -69,9 +72,4 @@ module.exports = {
     });
   },
   info,
-  help: {
-    usage: "logs [#channel]",
-    examples: ["logs #asn-shoob-logs", "log"],
-    description: "Set Shoob log channel on your server!",
-  },
 };

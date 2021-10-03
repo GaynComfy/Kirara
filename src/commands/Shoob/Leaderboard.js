@@ -11,6 +11,9 @@ const info = {
   matchCase: false,
   category: "Shoob",
   perms: ["ATTACH_FILES"],
+  usage: "lb [total]",
+  examples: ["lb", "leaderboard total"],
+  description: "Top claims on the server!",
 };
 
 const applyText = (canvas, text) => {
@@ -129,9 +132,4 @@ module.exports = {
     return true;
   },
   info,
-  help: {
-    usage: "lb [total]",
-    examples: ["lb", "leaderboard total"],
-    description: "Top claims on the server!",
-  },
 };

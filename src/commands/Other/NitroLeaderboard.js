@@ -11,6 +11,9 @@ const info = {
   cooldown: 2,
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
   disabled: process.env.NODE_ENV !== "development",
+  usage: "boosters",
+  examples: ["boosters"],
+  description: "Show the server boosters leaderboard.",
 };
 module.exports = {
   execute: async (instance, message) => {
@@ -48,9 +51,7 @@ module.exports = {
             .setDescription(
               boosters.map(
                 (member, index) =>
-                  `${
-                    offset + index + 1
-                  }. ${member} *(${humanizeDuration(
+                  `${offset + index + 1}. ${member} *(${humanizeDuration(
                     Date.now() - member.premiumSinceTimestamp,
                     { round: true, units: ["y", "mo", "w", "d", "h", "m"] }
                   )})*`
@@ -74,9 +75,4 @@ module.exports = {
       });
   },
   info,
-  help: {
-    usage: "boosters",
-    examples: ["boosters"],
-    description: "Show the server boosters leaderboard.",
-  },
 };

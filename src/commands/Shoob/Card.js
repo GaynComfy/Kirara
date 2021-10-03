@@ -16,6 +16,15 @@ const info = {
   category: "Shoob",
   cooldown: 2,
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
+  usage: "card [event] [servers] [tier] <name/card ID/link>",
+  examples: [
+    "card servers t6 Alice",
+    "card event t4 Rem",
+    "card t6 Rin",
+    "card Nezuko",
+    "card 5d7577216f818277a57e5698",
+  ],
+  description: "Fetch a card by tier & name",
 };
 
 module.exports = {
@@ -66,15 +75,4 @@ module.exports = {
     return getCard(instance, message, card, isGlobal);
   },
   info,
-  help: {
-    usage: "card [event] [servers] [tier] <name/card ID/link>",
-    examples: [
-      "card servers t6 Alice",
-      "card event t4 Rem",
-      "card t6 Rin",
-      "card Nezuko",
-      "card 5d7577216f818277a57e5698",
-    ],
-    description: "Fetch a card by tier & name",
-  },
 };

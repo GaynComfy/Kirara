@@ -28,6 +28,9 @@ const info = {
   category: "UwU",
   perms: ["ATTACH_FILES"],
   needsQueue: true,
+  usage: "typerace [shoob/collect/easy/medium/hard/impossible]",
+  examples: ["typerace", "tr s"],
+  description: "See who's the fastest resolving the captcha!",
 };
 module.exports = {
   execute: async (instance, message, args, queue) => {
@@ -165,9 +168,4 @@ module.exports = {
     return collector;
   },
   info,
-  help: {
-    usage: "typerace [shoob/collect/easy/medium/hard/impossible]",
-    examples: ["typerace", "tr s"],
-    description: "See who's the fastest resolving the captcha!",
-  },
 };

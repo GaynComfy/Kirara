@@ -7,6 +7,9 @@ const info = {
   matchCase: false,
   category: "Roleplay",
   cooldown: 15,
+  usage: "handhold <@user>",
+  examples: ["handhold @Alycans"],
+  description: "Handholds a user",
 };
 module.exports = {
   execute: async (instance, message) => {
@@ -44,9 +47,4 @@ module.exports = {
     return true;
   },
   info,
-  help: {
-    usage: "handhold <@user>",
-    examples: ["handhold @Alycans"],
-    description: "Handholds a user",
-  },
 };

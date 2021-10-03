@@ -5,6 +5,9 @@ const info = {
   name: "claim",
   matchCase: false,
   category: "Administration",
+  usage: "claim [on/off]",
+  examples: ["claim", "claim off"],
+  description: "Toggle the Shoob card claim message!",
 };
 const allowed = ["on", "off"];
 module.exports = {
@@ -55,9 +58,4 @@ module.exports = {
     });
   },
   info,
-  help: {
-    usage: "claim [on/off]",
-    examples: ["claim", "claim off"],
-    description: "Toggle the Shoob card claim message!",
-  },
 };

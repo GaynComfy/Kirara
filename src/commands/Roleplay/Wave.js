@@ -6,6 +6,9 @@ const info = {
   matchCase: false,
   category: "Roleplay",
   cooldown: 15,
+  usage: "wave [@user]",
+  examples: ["wave", "wave @~Nota~"],
+  description: "Waves!",
 };
 module.exports = {
   execute: async (instance, message) => {
@@ -28,9 +31,4 @@ module.exports = {
     return true;
   },
   info,
-  help: {
-    usage: "wave [@user]",
-    examples: ["wave", "wave @~Nota~"],
-    description: "Waves!",
-  },
 };

@@ -5,7 +5,11 @@ const info = {
   name: "help",
   matchCase: false,
   category: "Information",
+  usage: "help",
+  examples: ["help", "commands", "h bot"],
+  description: "Displays the commands of the bot",
 };
+
 const emotes = {
   Information: "<:KiraraHmm:775767857811816478>",
   Administration: "<:KiraraSmart:775767857798578207>",
@@ -13,6 +17,7 @@ const emotes = {
   UwU: "<:KiraraBlush:775767857324752908>",
   Roleplay: "<:AiriKiraraHug:775767850946265104>",
 };
+
 module.exports = {
   execute: async (instance, message, args) => {
     const prefix =
@@ -89,10 +94,10 @@ module.exports = {
   **Owner Only**: \`${
     cmd.info.ownerOnly || cmd.ownerOnly ? "Yes" : "No" || "No"
   }\`
-  **Description**: ${cmd.help.description || "A command"}
-  **Usage**: \`${cmd.help.usage || ""}\`
+  **Description**: ${cmd.info.description || "A command"}
+  **Usage**: \`${cmd.info.usage || ""}\`
   **Examples**:\n\`\`\`diff\n+ ${
-    cmd.help.examples.join("\n+ ") || cmd.aliases[0]
+    cmd.info.examples.join("\n+ ") || cmd.aliases[0]
   }\`\`\``
         )
         .setFooter("Syntax: <required> | [optional]", Constants.avatar);
@@ -106,9 +111,4 @@ module.exports = {
     return message.channel.send(embed);
   },
   info,
-  help: {
-    usage: "help",
-    examples: ["help", "commands", "h bot"],
-    description: "Displays the commands of the bot",
-  },
 };

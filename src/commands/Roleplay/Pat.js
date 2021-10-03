@@ -6,6 +6,9 @@ const info = {
   matchCase: false,
   category: "Roleplay",
   cooldown: 15,
+  usage: "pat <@user>",
+  examples: ["pat @~Nota~"],
+  description: "Pats a user",
 };
 module.exports = {
   execute: async (instance, message) => {
@@ -40,9 +43,4 @@ module.exports = {
     return true;
   },
   info,
-  help: {
-    usage: "pat <@user>",
-    examples: ["pat @~Nota~"],
-    description: "Pats a user",
-  },
 };

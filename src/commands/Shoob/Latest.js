@@ -13,6 +13,9 @@ const info = {
   cooldown: 5,
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
   disabled: true,
+  usage: "latest [event] <tier>",
+  examples: ["latest ts", "l e t6"],
+  description: "Watch the latest added cards per-tier!",
 };
 const allowed = ["t1", "t2", "t3", "t4", "t5", "t6", "ts"];
 
@@ -89,9 +92,4 @@ module.exports = {
     });
   },
   info,
-  help: {
-    usage: "latest [event] <tier>",
-    examples: ["latest ts", "l e t6"],
-    description: "Watch the latest added cards per-tier!",
-  },
 };

@@ -13,6 +13,9 @@ const info = {
   matchCase: false,
   category: "Shoob",
   cooldown: 5,
+  usage: "stats [@user] [server] [total] [T1|T2|T3|T4|T5|T6]",
+  examples: ["stats t1", "stats @JeDaYoshi t6"],
+  description: "Show an user's claiming stats in certain tiers.",
 };
 
 module.exports = {
@@ -155,9 +158,4 @@ ${tiers2.join(" | ")}
     return true;
   },
   info,
-  help: {
-    usage: "stats [@user] [server] [total] [T1|T2|T3|T4|T5|T6]",
-    examples: ["stats t1", "stats @JeDaYoshi t6"],
-    description: "Show an user's claiming stats in certain tiers.",
-  },
 };

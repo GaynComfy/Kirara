@@ -7,6 +7,9 @@ const info = {
   matchCase: false,
   category: "Roleplay",
   cooldown: 15,
+  usage: "poke <@user>",
+  examples: ["poke @~Nota~"],
+  description: "Pokes a user",
 };
 module.exports = {
   execute: async (instance, message) => {
@@ -41,9 +44,4 @@ module.exports = {
     return true;
   },
   info,
-  help: {
-    usage: "poke <@user>",
-    examples: ["poke @~Nota~"],
-    description: "Pokes a user",
-  },
 };

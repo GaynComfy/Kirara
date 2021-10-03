@@ -6,6 +6,9 @@ const info = {
   matchCase: false,
   category: "Administration",
   perms: ["READ_MESSAGE_HISTORY"],
+  usage: "timer [on/off]",
+  examples: ["timer on", "timer"],
+  description: "Toggle the timer for Shoob card spawns!",
 };
 const allowed = ["on", "off"];
 module.exports = {
@@ -43,9 +46,4 @@ module.exports = {
     });
   },
   info,
-  help: {
-    usage: "timer [on/off]",
-    examples: ["timer on", "timer"],
-    description: "Toggle the timer for Shoob card spawns!",
-  },
 };
