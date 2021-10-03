@@ -9,6 +9,9 @@ const info = {
   matchCase: false,
   category: "Shoob",
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
+  usage: "elb",
+  examples: ["elb"],
+  description: "Top claims of the server during an event!",
 };
 
 module.exports = {
@@ -94,9 +97,4 @@ module.exports = {
     });
   },
   info,
-  help: {
-    usage: "elb",
-    examples: ["elb"],
-    description: "Top claims of the server during an event!",
-  },
 };

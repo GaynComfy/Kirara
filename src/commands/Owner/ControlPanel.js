@@ -9,6 +9,9 @@ const info = {
   category: "Owner",
   ownerOnly: true,
   disabled: true,
+  usage: "cp",
+  examples: ["cp"],
+  description: "View Server Settings.",
 };
 const numberWithCommas = entry =>
   entry.toLocaleString(undefined, {
@@ -187,9 +190,4 @@ module.exports = {
     );
   },
   info,
-  help: {
-    usage: "cp",
-    examples: ["cp"],
-    description: "View Server Settings.",
-  },
 };

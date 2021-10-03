@@ -14,13 +14,11 @@ const info = {
   name: "support",
   matchCase: false,
   category: "Information",
+  usage: "support",
+  examples: ["support"],
+  description: "Join the Support server!",
 };
 module.exports = {
   execute: async (instance, message) => message.channel.send(embed),
   info,
-  help: {
-    usage: "support",
-    examples: ["support"],
-    description: "Join the Support server!",
-  },
 };

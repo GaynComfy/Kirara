@@ -4,21 +4,16 @@ const getCachedURL = async (instance, url) => {
   const k = `url:${Buffer.from(url).toString("base64")}`;
   const exists = await instance.cache.exists(k);
 
-  if (exists) {
-    const e = await instance.cache.get(k, true);
-    return e;
-  }
-
-  let r;
+  if (exists) return await instance.cache.get(k, true);
 
   try {
-    r = await axios.get(url, { responseType: "arraybuffer" });
+    let r = await axios.get(url, { responseType: "arraybuffer" });
+    instance.cache.setExpire(k, r.data, 86400);
+    return r.data;
   } catch (err) {
     console.error(err);
     return "./assets/imagees/default/0.png";
   }
-  instance.cache.setExpire(k, r.data, 86400);
-  return r.data;
 };
 
 const getOptOutStmt = idColumn =>

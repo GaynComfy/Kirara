@@ -8,6 +8,9 @@ const info = {
   matchCase: false,
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
   disabled: process.env.NODE_ENV !== "development",
+  usage: "trivia [interval=<secs>] [amount=<questions>] [jointime=<secs>]",
+  examples: ["trivia", "trivia interval=30 amount=5 jointime=60"],
+  description: "Start a trivia game! (A minimum of 2 players is required)",
 };
 
 const noUsersEmbed = new MessageEmbed()
@@ -111,9 +114,4 @@ module.exports = {
       "MANAGE_MESSAGES"
     ),
   info,
-  help: {
-    usage: "trivia [interval=<secs>] [amount=<questions>] [jointime=<secs>]",
-    examples: ["trivia", "trivia interval=30 amount=5 jointime=60"],
-    description: "Start a trivia game! (A minimum of 2 players is required)",
-  },
 };

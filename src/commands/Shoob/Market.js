@@ -10,14 +10,6 @@ dayjs.extend(require("dayjs/plugin/relativeTime"));
 
 const EVENT = ["event", "e"];
 
-const info = {
-  name: "market",
-  aliases: ["mk"],
-  matchCase: false,
-  category: "Shoob",
-  cooldown: 2,
-  perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
-};
 const allowedSortings = [
   "r",
   "recent",
@@ -28,6 +20,26 @@ const allowedSortings = [
   "o",
   "oldest",
 ];
+
+const info = {
+  name: "market",
+  aliases: ["mk"],
+  matchCase: false,
+  category: "Shoob",
+  cooldown: 2,
+  perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
+  usage: "market [event] [tier] [option] [name]",
+  examples: [
+    "mk",
+    "market t6 Alice",
+    "market event t4 Rem",
+    "market t6 Rin",
+    "market Sora and Shiro",
+  ],
+  description:
+    "Get Market entries for a card! Valid options: " +
+    allowedSortings.join(","),
+};
 
 const RECENT = ["r", "recent"];
 const OLDEST = ["o", "oldest"];
@@ -219,17 +231,4 @@ module.exports = {
     return true;
   },
   info,
-  help: {
-    usage: "market [event] [tier] [option] [name]",
-    examples: [
-      "mk",
-      "market t6 Alice",
-      "market event t4 Rem",
-      "market t6 Rin",
-      "market Sora and Shiro",
-    ],
-    description:
-      "Get Market entries for a card! Valid options: " +
-      allowedSortings.join(","),
-  },
 };

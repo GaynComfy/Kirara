@@ -5,6 +5,10 @@ const info = {
   aliases: ["optout"],
   matchCase: false,
   category: "Information",
+  usage: "lb-optout [yes/no]",
+  examples: ["lb-optout yes", "lb-optout no"],
+  description:
+    "Use to see & change if you are opted out of global leaderboards",
 };
 
 module.exports = {
@@ -55,10 +59,4 @@ module.exports = {
     return message.channel.send(embed);
   },
   info,
-  help: {
-    usage: "lb-optout [yes/no]",
-    examples: ["lb-optout yes", "lb-optout no"],
-    description:
-      "Use to see & change if you are opted out of global leaderboards",
-  },
 };

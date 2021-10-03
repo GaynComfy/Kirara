@@ -21,6 +21,9 @@ const info = {
   ownerOnly: true,
   cooldown: 60,
   disabled: process.env.NODE_ENV !== "development",
+  usage: "eval <code>",
+  examples: ["eval message.author.id"],
+  description: "Evaluate JavaScript code! (Definitely not unsafe!)",
 };
 module.exports = {
   execute: async (instance, message, args) => {
@@ -54,9 +57,4 @@ module.exports = {
     );
   },
   info,
-  help: {
-    usage: "eval <code>",
-    examples: ["eval message.author.id"],
-    description: "Evaluate JavaScript code! (Definitely not unsafe!)",
-  },
 };

@@ -16,6 +16,10 @@ const info = {
   category: "UwU",
   cooldown: 10,
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
+  usage: "trlb [shoob/collect/easy/medium/hard/impossible]",
+  examples: ["trlb", "trlb i"],
+  description:
+    "Top players of the Type Race, with the fastest known by Kirara!",
 };
 
 module.exports = {
@@ -159,10 +163,4 @@ module.exports = {
     }
   },
   info,
-  help: {
-    usage: "trlb [shoob/collect/easy/medium/hard/impossible]",
-    examples: ["trlb", "trlb i"],
-    description:
-      "Top players of the Type Race, with the fastest known by Kirara!",
-  },
 };

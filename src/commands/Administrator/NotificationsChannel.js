@@ -10,6 +10,14 @@ const info = {
   aliases: ["notifications", "notif"],
   matchCase: false,
   category: "Administration",
+  usage: "notifs <auctions/minigames> <#channel/off> [autodelete in mins/off]",
+  examples: [
+    "notifs auc #asn-auctions",
+    "notifs games #asn-network-chet 5",
+    "notifs mg #asn-network-chet off",
+    "notifs all off",
+  ],
+  description: "Set up notifications for AS Auctions, Minigames and the likes!",
 };
 
 const exec = async (instance, message, args, type) => {
@@ -153,16 +161,4 @@ const execute = async (instance, message, args) => {
 module.exports = {
   execute,
   info,
-  help: {
-    usage:
-      "notifs <auctions/minigames> <#channel/off> [autodelete in mins/off]",
-    examples: [
-      "notifs auc #asn-auctions",
-      "notifs games #asn-network-chet 5",
-      "notifs mg #asn-network-chet off",
-      "notifs all off",
-    ],
-    description:
-      "Set up notifications for AS Auctions, Minigames and the likes!",
-  },
 };

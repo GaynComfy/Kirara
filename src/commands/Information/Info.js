@@ -21,13 +21,11 @@ const info = {
   name: "info",
   matchCase: false,
   category: "Information",
+  usage: "info",
+  examples: ["info"],
+  description: "Bot info!",
 };
 module.exports = {
   execute: async (instance, message) => message.channel.send(embed),
   info,
-  help: {
-    usage: "info",
-    examples: ["info"],
-    description: "Bot info!",
-  },
 };

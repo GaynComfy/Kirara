@@ -5,6 +5,9 @@ const info = {
   name: "donate",
   matchCase: false,
   category: "Information",
+  usage: "donate",
+  examples: ["donate"],
+  description: "Donate to the owners for more nice work!",
 };
 module.exports = {
   execute: async (instance, message) => {
@@ -18,9 +21,4 @@ module.exports = {
     return message.channel.send(embed);
   },
   info,
-  help: {
-    usage: "donate",
-    examples: ["donate"],
-    description: "Donate to the owners for more nice work!",
-  },
 };

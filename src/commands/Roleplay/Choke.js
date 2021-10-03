@@ -4,6 +4,9 @@ const info = {
   category: "Roleplay",
   cooldown: 15,
   disabled: process.env.NODE_ENV !== "development",
+  usage: "choke",
+  examples: ["choke"],
+  description: "just choke",
 };
 module.exports = {
   execute: async (instance, message) => {
@@ -12,9 +15,4 @@ module.exports = {
     );
   },
   info,
-  help: {
-    usage: "choke",
-    examples: ["choke"],
-    description: "just choke",
-  },
 };

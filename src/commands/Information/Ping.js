@@ -5,6 +5,9 @@ const info = {
   name: "ping",
   matchCase: false,
   category: "Information",
+  usage: "ping",
+  examples: ["ping"],
+  description: "Pong!",
 };
 module.exports = {
   execute: async (instance, message) => {
@@ -21,9 +24,4 @@ module.exports = {
     return message.channel.send(embed);
   },
   info,
-  help: {
-    usage: "ping",
-    examples: ["ping"],
-    description: "Pong!",
-  },
 };

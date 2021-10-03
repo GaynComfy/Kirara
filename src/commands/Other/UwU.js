@@ -6,6 +6,9 @@ const info = {
   category: "UwU",
   perms: ["MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
   disabled: process.env.NODE_ENV !== "development",
+  usage: "uwu",
+  examples: ["uwu"],
+  description: "UwU!",
 };
 module.exports = {
   execute: async (instance, message) => {
@@ -15,9 +18,4 @@ module.exports = {
     );
   },
   info,
-  help: {
-    usage: "uwu",
-    examples: ["uwu"],
-    description: "UwU!",
-  },
 };

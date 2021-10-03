@@ -5,6 +5,9 @@ const info = {
   name: "prefix",
   matchCase: false,
   category: "Administration",
+  usage: "prefix [prefix]",
+  examples: ["prefix k!", "prefix"],
+  description: "Change the bot's prefix",
 };
 module.exports = {
   execute: async (instance, message, args) => {
@@ -42,9 +45,4 @@ module.exports = {
     });
   },
   info,
-  help: {
-    usage: "prefix [prefix]",
-    examples: ["prefix k!", "prefix"],
-    description: "Change the bot's prefix",
-  },
 };

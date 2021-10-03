@@ -12,6 +12,9 @@ const info = {
   aliases: ["tri", "trs"],
   matchCase: false,
   category: "UwU",
+  usage: "typeraceinfo [@user] [shoob/collect/easy/medium/hard/impossible]",
+  examples: ["tri", "tri @JeDaYoshi", "trs @Shiro i"],
+  description: "See Type race stats!",
 };
 
 const initialDiffs = Object.keys(diffs);
@@ -101,9 +104,4 @@ module.exports = {
     return message.channel.send(embed);
   },
   info,
-  help: {
-    usage: "typeraceinfo [@user] [shoob/collect/easy/medium/hard/impossible]",
-    examples: ["tri", "tri @JeDaYoshi", "trs @Shiro i"],
-    description: "See Type race stats!",
-  },
 };

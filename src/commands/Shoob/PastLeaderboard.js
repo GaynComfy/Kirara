@@ -7,6 +7,9 @@ const info = {
   aliases: ["plb"],
   matchCase: false,
   category: "Shoob",
+  usage: "plb [total]",
+  examples: ["plb"],
+  description: "See the past season's server leaderboard!",
 };
 
 module.exports = {
@@ -51,9 +54,4 @@ module.exports = {
     return message.channel.send(embed);
   },
   info,
-  help: {
-    usage: "plb [total]",
-    examples: ["plb"],
-    description: "See the past season's server leaderboard!",
-  },
 };

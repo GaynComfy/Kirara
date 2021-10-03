@@ -6,6 +6,9 @@ const info = {
   matchCase: false,
   category: "Roleplay",
   cooldown: 15,
+  usage: "lick <@user>",
+  examples: ["lick @~Nota~"],
+  description: "Licks a user",
 };
 module.exports = {
   execute: async (instance, message) => {
@@ -40,9 +43,4 @@ module.exports = {
     return true;
   },
   info,
-  help: {
-    usage: "lick <@user>",
-    examples: ["lick @~Nota~"],
-    description: "Licks a user",
-  },
 };

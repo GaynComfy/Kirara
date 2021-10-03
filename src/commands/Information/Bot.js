@@ -7,6 +7,9 @@ const info = {
   name: "bot",
   matchCase: false,
   category: "Information",
+  usage: "bot",
+  examples: ["bot"],
+  description: "Check bot stats!",
 };
 const numberWithCommas = entry =>
   entry.toLocaleString(undefined, {
@@ -96,9 +99,4 @@ module.exports = {
     }
   },
   info,
-  help: {
-    usage: "bot",
-    examples: ["bot"],
-    description: "Check bot stats!",
-  },
 };

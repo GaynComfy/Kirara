@@ -5,6 +5,9 @@ const info = {
   name: "rpsize",
   matchCase: false,
   category: "Administration",
+  usage: "rpsize <small/big>",
+  examples: ["rpsize big"],
+  description: "Set the embed size for Roleplay commands",
 };
 const allowed = ["small", "big"];
 module.exports = {
@@ -57,9 +60,4 @@ module.exports = {
     });
   },
   info,
-  help: {
-    usage: "rpsize <small/big>",
-    examples: ["rpsize big"],
-    description: "Set the embed size for Roleplay commands",
-  },
 };

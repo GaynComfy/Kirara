@@ -6,6 +6,9 @@ const info = {
   aliases: ["toggle"],
   matchCase: false,
   category: "Administration",
+  usage: "toggle [command] [on/off]",
+  examples: ["toggle neko", "toggle uwu off"],
+  description: "Enable or disable commands for usage by server members.",
 };
 const allowed = ["on", "off"];
 module.exports = {
@@ -95,9 +98,4 @@ module.exports = {
     });
   },
   info,
-  help: {
-    usage: "toggle [command] [on/off]",
-    examples: ["toggle neko", "toggle uwu off"],
-    description: "Enable or disable commands for usage by server members.",
-  },
 };

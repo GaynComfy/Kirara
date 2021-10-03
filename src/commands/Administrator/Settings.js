@@ -7,6 +7,9 @@ const info = {
   name: "settings",
   matchCase: false,
   category: "Administration",
+  usage: "settings",
+  examples: ["settings"],
+  description: "View the server settings!",
 };
 module.exports = {
   execute: async (instance, message /*args*/) => {
@@ -63,9 +66,4 @@ module.exports = {
     });
   },
   info,
-  help: {
-    usage: "settings",
-    examples: ["settings"],
-    description: "View the server settings!",
-  },
 };

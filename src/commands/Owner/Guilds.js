@@ -10,6 +10,9 @@ const info = {
   category: "Owner",
   ownerOnly: true,
   cooldown: 5,
+  usage: "guilds",
+  examples: ["guilds"],
+  description: "Display Bot Joined Guilds",
 };
 
 module.exports = {
@@ -39,9 +42,4 @@ module.exports = {
     );
   },
   info,
-  help: {
-    usage: "guilds",
-    examples: ["guilds"],
-    description: "Display Bot Joined Guilds",
-  },
 };

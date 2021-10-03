@@ -11,6 +11,9 @@ const info = {
   matchCase: false,
   category: "Shoob",
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
+  usage: "alb [total]",
+  examples: ["alb", "tlb [total]"],
+  description: "Top claims on the server, but without images!",
 };
 
 module.exports = {
@@ -95,9 +98,4 @@ module.exports = {
     });
   },
   info,
-  help: {
-    usage: "alb [total]",
-    examples: ["alb", "tlb [total]"],
-    description: "Top claims on the server, but without images!",
-  },
 };

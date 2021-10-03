@@ -6,6 +6,10 @@ const info = {
   aliases: ["ctoggle"],
   matchCase: false,
   category: "Administration",
+  usage: "ctoggle [category] [on/off]",
+  examples: ["ctoggle Shoob", "ctoggle Roleplay on"],
+  description:
+    "Enable or disable whole command categories for usage by server members.",
 };
 const allowed = ["on", "off"];
 module.exports = {
@@ -74,10 +78,4 @@ module.exports = {
     });
   },
   info,
-  help: {
-    usage: "ctoggle [category] [on/off]",
-    examples: ["ctoggle Shoob", "ctoggle Roleplay on"],
-    description:
-      "Enable or disable whole command categories for usage by server members.",
-  },
 };

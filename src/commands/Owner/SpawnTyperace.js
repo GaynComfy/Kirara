@@ -22,6 +22,9 @@ const info = {
   ownerOnly: true,
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
   disabled: process.env.NODE_ENV !== "development",
+  usage: "spawn <<event> [tier] <card name>/<card ID>>",
+  examples: ["spawn"],
+  description: '"debugging"',
 };
 
 const channelMap = [];
@@ -215,9 +218,4 @@ module.exports = {
     );
   },
   info,
-  help: {
-    usage: "spawn <<event> [tier] <card name>/<card ID>>",
-    examples: ["spawn"],
-    description: '"debugging"',
-  },
 };

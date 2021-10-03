@@ -5,6 +5,9 @@ const info = {
   matchCase: false,
   category: "Owner",
   ownerOnly: true,
+  usage: "reload",
+  examples: ["reload"],
+  description: "Nuclear option! You know, can end wrong and all!",
 };
 
 module.exports = {
@@ -19,9 +22,4 @@ module.exports = {
     );
   },
   info,
-  help: {
-    usage: "reload",
-    examples: ["reload"],
-    description: "Nuclear option! You know, can end wrong and all!",
-  },
 };

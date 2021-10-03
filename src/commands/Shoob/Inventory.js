@@ -23,7 +23,17 @@ const info = {
   category: "Shoob",
   cooldown: 2,
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
+  usage: "inventory [@user] [event] [tier] [card name/ID/link]",
+  examples: [
+    "inventory @Alycans",
+    "inv @Liz3 t6",
+    "inv @JeDaYoshi t6 Rin",
+    "inv",
+  ],
+  description:
+    "Fetch a users inventory\nNote that this will display information about a user!",
 };
+
 module.exports = {
   execute: async (instance, message, args) => {
     let user =
@@ -140,15 +150,4 @@ module.exports = {
     });
   },
   info,
-  help: {
-    usage: "inventory [@user] [event] [tier] [card name/ID/link]",
-    examples: [
-      "inventory @Alycans",
-      "inv @Liz3 t6",
-      "inv @JeDaYoshi t6 Rin",
-      "inv",
-    ],
-    description:
-      "Fetch a users inventory\nNote that this will display information about a user!",
-  },
 };
