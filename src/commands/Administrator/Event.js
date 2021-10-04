@@ -10,14 +10,14 @@ const info = {
   description: "Set a Shoob claiming event counter on your server!",
 };
 const allowed = ["start", "on", "end", "off"];
+const onOrStart = ["on", "start"];
 module.exports = {
   execute: async (instance, message, args) => {
     return withRights(message.member, async () => {
-      if (args.length === 0 || !allowed.includes(args[0].toLowerCase())) {
+      if (args.length === 0 || !allowed.includes(args[0].toLowerCase()))
         return false;
-      }
-      const arg = args[0].toLowerCase();
-      const newState = arg === "on" || arg === "start";
+
+      const newState = onOrStart.includes(args[0].toLowerCase());
       const update = {
         event: newState,
       };
