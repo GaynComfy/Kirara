@@ -3,7 +3,7 @@ const { MessageEmbed } = require("discord.js");
 const { createPagedResults } = require("../../utils/PagedResults");
 const { tierInfo } = require("../../utils/cardUtils");
 
-const EVENT = ["event", "e"];
+const { EVENT } = require("./utils").constants;
 
 const info = {
   name: "latest",

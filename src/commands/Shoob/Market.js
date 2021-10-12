@@ -8,7 +8,7 @@ const Constants = require("../../utils/Constants.json");
 
 dayjs.extend(require("dayjs/plugin/relativeTime"));
 
-const EVENT = ["event", "e"];
+const { EVENT } = require("./utils").constants;
 
 const allowedSortings = [
   "r",

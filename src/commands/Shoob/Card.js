@@ -5,9 +5,7 @@ const { MessageEmbed } = require("discord.js");
 const { getCard } = require("./utils");
 const { cardId } = require("../../utils/regexUtils");
 
-const EVENT = ["event", "e"]; // Consider placing this in utils as it's used in multiple files
-const GLOBAL = ["servers", "bot", "s"];
-const OLD_GLOBAL = ["global", "g"];
+const { EVENT, GLOBAL, OLD_GLOBAL } = require("./utils").constants;
 
 const info = {
   name: "card",

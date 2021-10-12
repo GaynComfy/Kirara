@@ -10,6 +10,15 @@ const { tierInfo } = require("../../utils/cardUtils");
 
 dayjs.extend(require("dayjs/plugin/relativeTime"));
 
+const TOTAL = ["total", "t", "a"];
+const ALL = ["all", "a"];
+const EVENT = ["event", "e"];
+const GLOBAL = ["servers", "bot", "s"];
+const OLD_GLOBAL = ["global", "g"];
+const SERVER = ["server", "s"];
+
+exports.constants = { TOTAL, ALL, EVENT, GLOBAL, OLD_GLOBAL, SERVER };
+
 exports.getCard = async (instance, message, card, tracked, botMessage) => {
   if (card === null) return false;
   const tierSettings = tierInfo[`T${card.tier}`];

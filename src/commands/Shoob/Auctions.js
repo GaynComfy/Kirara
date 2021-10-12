@@ -11,7 +11,7 @@ const Constants = require("../../utils/Constants.json");
 
 dayjs.extend(require("dayjs/plugin/relativeTime"));
 
-const ALL = ["all", "a"]; // See line 190
+const { ALL } = require("./utils").constants;
 
 const info = {
   name: "auctions",

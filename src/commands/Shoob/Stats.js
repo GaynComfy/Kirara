@@ -4,8 +4,7 @@ const { MessageEmbed } = require("discord.js");
 const Color = require("../../utils/Colors.json");
 const Constants = require("../../utils/Constants.json");
 
-const TOTAL = ["total", "t", "a"];
-const SERVER = ["server", "s"];
+const { TOTAL, SERVER } = require("./utils").constants;
 
 const info = {
   name: "stats",

@@ -3,7 +3,7 @@ const Constants = require("../../utils/Constants.json");
 const { MessageEmbed } = require("discord.js");
 const { createPagedResults } = require("../../utils/PagedResults");
 
-const TOTAL = ["total", "t", "a"];
+const { TOTAL } = require("./utils").constants;
 
 const info = {
   name: "altleaderboard",

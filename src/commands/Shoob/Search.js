@@ -7,9 +7,7 @@ const { getCard } = require("./utils");
 const { createMessagePagedResults } = require("../../utils/PagedResults");
 const { cardId } = require("../../utils/regexUtils");
 
-const EVENT = ["event", "e"];
-const GLOBAL = ["servers", "bot", "s"];
-const OLD_GLOBAL = ["global", "g"];
+const { EVENT, GLOBAL, OLD_GLOBAL } = require("./utils").constants;
 
 const info = {
   name: "search",

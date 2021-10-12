@@ -3,7 +3,7 @@ const { getCachedURL } = require("../../utils/cacheUtils");
 const { createCanvas, loadImage } = require("canvas");
 const { MessageEmbed, MessageAttachment } = require("discord.js");
 
-const TOTAL = ["total", "t", "a"];
+const { TOTAL } = require("./utils").constants;
 
 const info = {
   name: "leaderboard",
