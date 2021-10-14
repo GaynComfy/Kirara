@@ -25,14 +25,14 @@
     "src/**/*"
   ],
   "dependencies": {
-    "axios": "^0.22.0",
-    "axios-retry": "^3.2.0",
+    "axios": "^0.23.0",
+    "axios-retry": "^3.2.2",
     "canvas": "^2.8.0",
     "captcha-canvas": "^2.3.1",
     "dayjs": "^1.10.7",
     "discord.js": "^12.5.3",
     "humanize-duration": "^3.27.0",
-    "ioredis": "^4.27.9",
+    "ioredis": "^4.28.0",
     "pg": "^8.7.1",
     "statcord.js": "^3.3.0",
     "trek-captcha": "^0.4.0"
@@ -43,14 +43,14 @@
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.2",
     "is-ci": "^3.0.0",
-    "lint-staged": "^11.1.2",
+    "lint-staged": "^11.2.3",
     "prettier": "^2.4.1",
     "pretty-quick": "^3.1.1"
   },
   "optionalDependencies": {
-    "bufferutil": "^4.0.4",
+    "bufferutil": "^4.0.5",
     "erlpack": "github:JeDaYoshi/erlpack#74a4525",
-    "utf-8-validate": "^5.0.6",
+    "utf-8-validate": "^5.0.7",
     "zlib-sync": "^0.1.7"
   }
 }
