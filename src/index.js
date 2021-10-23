@@ -1,8 +1,8 @@
 // Program Metadata
 const config =
   process.env.NODE_ENV === "development"
-    ? require("./config-dev")
-    : require("./config-prod");
+    ? require("../config-dev")
+    : require("../config-prod");
 
 // Database Connection
 const postgresConnector = require("./storage/database/");

@@ -111,7 +111,7 @@ module.exports = {
       }
     };
 
-    client = instance.events;
+    client = instance.redisEvents;
     client.subscribe("games");
     client.on("message", onMessage);
   },
