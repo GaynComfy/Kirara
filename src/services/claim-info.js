@@ -20,7 +20,7 @@ module.exports = {
       });
     }, 1000);
 
-    client = instance.events;
+    client = instance.redisEvents;
     client.subscribe("claims");
     client.on("message", async (channel, message) => {
       if (channel === "claims") {

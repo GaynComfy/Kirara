@@ -77,7 +77,7 @@ module.exports = {
 
     // Redis client (yes, we submit claims so the same bot handles it...
     // very efficient I know. but to be fair, it's the best to balance it.)
-    client = instance.events;
+    client = instance.redisEvents;
     const spawns = instance.shared["spawn"];
 
     // Handler for claims updater

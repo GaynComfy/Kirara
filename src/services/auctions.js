@@ -127,7 +127,7 @@ module.exports = {
     };
     const shard_id = instance.client.shard.ids[0];
     if (shard_id === 0) {
-      client = instance.events;
+      client = instance.redisEvents;
       client.subscribe("auctions");
       client.on("message", async (channel, msg) => {
         await onMessage(channel, msg).catch(err => console.error(err));
