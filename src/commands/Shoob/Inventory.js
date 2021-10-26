@@ -6,6 +6,8 @@ const { cardId, mention, userId } = require("../../utils/regexUtils");
 const { tierInfo } = require("../../utils/cardUtils");
 const Constants = require("../../utils/Constants.json");
 
+const { EVENT } = require("./utils").constants;
+
 const fusedUser = {
   id: "1",
   username: "Fusion",
@@ -14,7 +16,6 @@ const fusedUser = {
 };
 
 const ONE_OR_FUSED = ["1", "fused"];
-const EVENT = ["event", "e"];
 
 const info = {
   name: "inventory",
