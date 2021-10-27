@@ -15,6 +15,15 @@ class RedisApi {
   set(key, value) {
     return this.client.set(key, value);
   }
+  increment(key, n) {
+    return this.client.incr(key, n)
+  }
+  decrementBy(key, n) {
+    return this.client.decrby(key, n)
+  }
+  incrementBy(key, n) {
+    return this.client.incrby(key, n)
+  }
   setExpire(key, value, timeout) {
     return this.client.setex(key, timeout, value);
   }

@@ -6,13 +6,15 @@ const CardFetcher = require("../utils/CardFetcher");
 const hasClaimed = /<@!?(\d{17,19})> got the `(.*)` Issue #: `(\d{1,6})`./;
 const hasDespawned = "Looks like nobody got the dropped card this time.";
 
+const tiers = Object.values(tierInfo);
+
 const processSpawn = async (instance, message, embed) => {
   if (!instance.shared["spawn"][message.channel.id])
     instance.shared["spawn"][message.channel.id] = [];
 
   const name = embed.title.split(" Tier: ")[0];
   const card_id = cardId.exec(embed.url)[2];
-  const tieri = Object.values(tierInfo).find(t => t.color === embed.hexColor);
+  const tieri = tiers.find(t => t.color === embed.hexColor);
   let tier = "";
   if (tieri) tier = tieri.num.toString();
   else {

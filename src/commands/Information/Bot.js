@@ -30,6 +30,8 @@ const fetchData = async instance => {
     instance.client.shard.broadcastEval(
       "this.guilds.cache.map((guild) => guild.channels.cache.size)"
     ),
+    instance.client.shard.broadcastEval("this.b_instance.asClaims"),
+    instance.client.shard.broadcastEval("this.b_instance.kClaims"),
   ];
   const results = await Promise.all(promises);
   const totalGuilds = results[0].reduce(
@@ -40,13 +42,17 @@ const fetchData = async instance => {
     (acc, memberCount) => acc + memberCount,
     0
   );
-  let channels = results[2].flat(5);
-  channels = channels.reduce((a, b) => a + b, 0);
+  const channels = results[2].flat(5).reduce((a, b) => a + b, 0);
+
+  const asClaims = results[3].reduce((acc, cc) => acc + cc, 0);
+  const kClaims = results[4].reduce((acc, cc) => acc + cc, 0);
 
   const obj = {
     totalGuilds,
     totalMembers,
     channels,
+    asClaims,
+    kClaims,
   };
   // no need to await this, we just want it saved
   cache.setExpire("botstats:latest", JSON.stringify(obj), 120);
@@ -57,7 +63,8 @@ module.exports = {
     try {
       const ping = Math.round(Date.now() - message.createdTimestamp);
       const lillie = await getLilliePing();
-      const { totalGuilds, totalMembers, channels } = await fetchData(instance);
+      const { totalGuilds, totalMembers, channels, asClaims, kClaims } =
+        await fetchData(instance);
       const shardid = instance.client.shard.ids[0] + 1;
       const guildSize = instance.client.guilds.cache.size;
       const userSize = instance.client.guilds.cache.reduce(
@@ -79,18 +86,22 @@ module.exports = {
             (lillie.version ? `, v${lillie.version}` : "")
         )
         .addField(
-          "**🖥️ Bot Details:**",
+          "**🖥️ Bot Details**",
           `${numberWithCommas(totalGuilds)} Servers\n` +
             `${numberWithCommas(totalMembers)} Users\n` +
-            `${numberWithCommas(channels)} Channels`
+            `${numberWithCommas(channels)} Channels\n\n` +
+            `${numberWithCommas(asClaims)} AS claims\n` +
+            `${numberWithCommas(kClaims)} Kirara claims`,
+          true
         )
         .addField(
-          `**🟢 Shard: ${shardid}**`,
+          `**🟢 Shard ${shardid}**`,
           `${numberWithCommas(guildSize)} Servers\n` +
             `${numberWithCommas(userSize)} Users\n` +
             `${numberWithCommas(channelSize)} Channels\n\n` +
             `${numberWithCommas(instance.asClaims)} AS claims\n` +
-            `${numberWithCommas(instance.kClaims)} Kirara claims`
+            `${numberWithCommas(instance.kClaims)} Kirara claims`,
+          true
         );
 
       return message.channel.send(embed);

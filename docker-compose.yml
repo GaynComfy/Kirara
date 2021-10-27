@@ -11,8 +11,6 @@ services:
     depends_on:
       - database
       - redis
-    env_file:
-      - .env.dev
   database:
     image: postgres
     environment:

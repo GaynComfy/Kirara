@@ -1,9 +1,7 @@
 exports.withCount = async (instance, type, userId, targetId, handler) => {
   let received;
   let send;
-  const {
-    rows,
-  } = await instance.database.pool.query(
+  const { rows } = await instance.database.pool.query(
     "SELECT * FROM ROLEPLAY_COUNT WHERE (discord_id = $1 AND type = $3) OR (discord_id = $2 AND type = $3)",
     [userId, targetId, type]
   );
