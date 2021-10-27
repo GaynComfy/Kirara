@@ -15,7 +15,7 @@ class RedisApi {
   set(key, value) {
     return this.client.set(key, value);
   }
-  inrement(key, n) {
+  increment(key, n) {
     return this.client.incr(key, n)
   }
   incrementBy(key, n) {
