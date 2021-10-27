@@ -8,11 +8,11 @@ module.exports = {
         let spawnerFromBot = null;
         let cardMultiplier = 0;
         if(message.author.bot) {
-            if(message.author.id === "646937666251915264" && message.content.test(karuta_regex)) {
+            if(message.author.id === "646937666251915264" && karuta_regex.test(message.content)) {
                 const info = karuta_regex.exec(message.content)
                  spawnerFromBot = info[1]
                 cardMultiplier = Number.parseInt(info[2])
-            } else if (message.author.id === "673362753489993749" && message.content.test(shoob_regex)) {
+            } else if (message.author.id === "673362753489993749" && shoob_regex.test(message.content)) {
                 const info = shoob_regex.exec(message.content)
                 spawnerFromBot = info[1]
                 cardMultiplier = 1;
