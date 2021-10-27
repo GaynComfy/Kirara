@@ -18,6 +18,9 @@ class RedisApi {
   increment(key, n) {
     return this.client.incr(key, n)
   }
+  decrementBy(key, n) {
+    return this.client.decrby(key, n)
+  }
   incrementBy(key, n) {
     return this.client.incrby(key, n)
   }
