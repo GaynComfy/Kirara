@@ -28,8 +28,9 @@ module.exports = {
         if(value > THRESH_HOLD) {
             const role_key = `xpcount_role:${id}`
             if(! (await instance.cache.exists(role_key))) {
-                instance.cache.set(role_key, "1");
                 await message.member.roles.add(ROLE_ID);
+                instance.cache.set(role_key, "1");
+
             }
         }
 
