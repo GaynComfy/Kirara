@@ -90,29 +90,20 @@ module.exports = {
             message.reply("done");
             return true;
           }
-          case "add": {
+          case "change": {
             const value = Number.parseInt(args[2]);
             if (Number.isNaN(value)) return false;
             const val = await instance.cache.incrementBy(
               `xpcount:${id}`,
               value
             );
-            await maybeGrantRole(instance, id, val);
-            message.reply("done");
-            return true;
-          }
-          case "remove": {
-            const value = Number.parseInt(args[2]);
-            if (Number.isNaN(value)) return false;
-            const now = await instance.cache.get(`xpcount:${id}`);
-            if (now - value < 0) {
-              message.reply("would end up in negative value");
-              return false;
+            if (val <= 0) {
+                await instance.cache.delete(`xpcount:${id}`);
+                await maybeGrantRole(instance, id, 0);
+            } else {
+                await maybeGrantRole(instance, id, val);
+
             }
-            const next = now - value;
-            if (next === 0) await instance.cache.delete(`xpcount:${id}`);
-            else await instance.cache.decrementBy(`xpcount:${id}`, value);
-            await maybeGrantRole(instance, id, next);
             message.reply("done");
             return true;
           }
@@ -128,7 +119,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "points <userid> [add/remove/delete/set/top] [value]",
+    usage: "points <userid> [change/delete/set/top] [value]",
     examples: ["points @liz3 set 455"],
     description: "Manipulate a users points or see the top 10",
   },
