@@ -11,6 +11,9 @@ const info = {
   category: "Owner",
   ownerOnly: true,
   cooldown: 5,
+  usage: "points <userid> [change/delete/set/top] [value]",
+  examples: ["points @liz3 set 455"],
+  description: "Manipulate a users points or see the top 10",
 };
 const maybeGrantRole = async (instance, id, value) => {
   const has = await instance.cache.exists(`xpcount_role:${id}`);
@@ -116,9 +119,4 @@ module.exports = {
     });
   },
   info,
-  help: {
-    usage: "points <userid> [change/delete/set/top] [value]",
-    examples: ["points @liz3 set 455"],
-    description: "Manipulate a users points or see the top 10",
-  },
 };
