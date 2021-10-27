@@ -4,9 +4,10 @@ const THRESH_HOLD = 1200;
 const ROLE_ID = "902758184794595380"
 module.exports = {
     execute: async (instance, message) => {
-        if (!message.guild || message.guild.id !== "378599231583289346") return;
+        if (!message.guild || message.guild.id !== "378599231583289346" || message.channel.id === "695675260254814298") return;
         let spawnerFromBot = null;
         let cardMultiplier = 0;
+
         if(message.author.bot) {
             if(message.author.id === "646937666251915264" && karuta_regex.test(message.content)) {
                 const info = karuta_regex.exec(message.content)
