@@ -1,6 +1,6 @@
 const dayjs = require("dayjs");
 
-const ROLE_ID = "";
+const ROLE_ID = "902758184794595380";
 const sleep = time => new Promise(resolve => setTimeout(resolve, time));
 
 let interval = null;

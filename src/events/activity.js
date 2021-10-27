@@ -1,7 +1,7 @@
 const karuta_regex = /<@!?(\d{17,19})> is dropping (\d) cards!/
 const shoob_regex = /<@!?(\d{17,19})> is dropping a card for the Community, be the one to collect it!/
 const THRESH_HOLD = 1200;
-const ROLE_ID = ""
+const ROLE_ID = "902758184794595380"
 module.exports = {
     execute: async (instance, message) => {
         if (!message.guild || message.guild.id !== "378599231583289346") return;
