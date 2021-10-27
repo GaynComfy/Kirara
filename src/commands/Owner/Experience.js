@@ -59,9 +59,9 @@ module.exports = {
           .addField(
             "Top",
             sorted.slice(0, 10).map((entry, index) => {
-              return `${index + 1}. \`${
+              return `${index + 1}. <@!${
                 entry.id
-              }\`: ${entry.value.toLocaleString()}`;
+              }>: ${entry.value.toLocaleString()}`;
             })
           );
         message.channel.send(embed);
@@ -80,7 +80,6 @@ module.exports = {
         message.reply(`user has ${points} pts. Role granted ? ${role}`);
         return true;
       } else {
-
         switch (args[1]) {
           case "set": {
             const value = Number.parseInt(args[2]);
@@ -98,11 +97,10 @@ module.exports = {
               value
             );
             if (val <= 0) {
-                await instance.cache.delete(`xpcount:${id}`);
-                await maybeGrantRole(instance, id, 0);
+              await instance.cache.delete(`xpcount:${id}`);
+              await maybeGrantRole(instance, id, 0);
             } else {
-                await maybeGrantRole(instance, id, val);
-
+              await maybeGrantRole(instance, id, val);
             }
             message.reply("done");
             return true;
