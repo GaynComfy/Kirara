@@ -62,7 +62,7 @@ module.exports = {
               return `${index + 1}. \`${
                 entry.id
               }\`: ${entry.value.toLocaleString()}`;
-            })
+            }).join("\n")
           );
         message.channel.send(embed);
         return true;
@@ -80,6 +80,7 @@ module.exports = {
         message.reply(`user has ${points} pts. Role granted ? ${role}`);
         return true;
       } else {
+
         switch (args[1]) {
           case "set": {
             const value = Number.parseInt(args[2]);
