@@ -1,5 +1,4 @@
-const { checkPerms, withRights } = require("../../utils/hooks");
-const Color = require("../../utils/Colors.json");
+const { withRights } = require("../../utils/hooks");
 const { MessageEmbed } = require("discord.js");
 const THRESH_HOLD = 1200;
 const ROLE_ID = "902758184794595380";
@@ -11,6 +10,7 @@ const info = {
   category: "Owner",
   ownerOnly: true,
   cooldown: 5,
+  disabled: process.env.NODE_ENV !== "development",
 };
 const maybeGrantRole = async (instance, id, value) => {
   const has = await instance.cache.exists(`xpcount_role:${id}`);

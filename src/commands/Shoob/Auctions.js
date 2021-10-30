@@ -125,6 +125,10 @@ const computeAuction = async (instance, aid) => {
       )
       .setColor(Color.red);
   const tier = localAuc.tier;
+  let bidders = 0;
+  if (asAuc) {
+    bidders = new Set(...asAuc.bidders.map(bid => bid.discord_id)).size;
+  }
 
   // holy mess
   const embed = new MessageEmbed()
@@ -137,13 +141,9 @@ const computeAuction = async (instance, aid) => {
     .setThumbnail(`https://animesoul.com/api/cardr/${localAuc.card_id}`)
     .setColor(tier ? tierInfo[`T${tier}`].color : Color.default)
     .setDescription(!asAuc ? "⏱️ **This auction is no longer active.**\n" : "")
-    .addField(
-      "Starting Bid",
-      `\`富 ${Math.round(localAuc.bn / 5) + localAuc.minimum}\``,
-      true
-    )
+    .addField("Starting Bid", `\`富 ${Math.round(localAuc.bn / 5)}\``, true)
     .addField("Buy Now", `\`富 ${localAuc.bn}\``, true)
-    .addField("Min. Increment", `\`+富 ${localAuc.minimum}\``, true)
+    .addField("Bidders", `\`${bidders}\``, true)
     .addField(
       "Added",
       dayjs(
@@ -195,12 +195,49 @@ module.exports = {
         ? Constants.allTiers.includes(args[0].toLowerCase())
         : false;
     const hasCardId = args.length >= 1 ? cardId.test(args[0]) : false;
-    const hasAucId =
-      args.length >= 1 && !hasCardId ? aucId.test(args[0]) : false;
+    const hasAucId = args.length >= 1 ? aucId.test(args[0]) : false;
+    const caId = hasCardId || hasAucId ? args.shift() : null;
     const tier = hasTier ? args.shift()[1].toUpperCase() : null;
-    const auc_id = hasAucId ? aucId.exec(args.shift())[2] : null;
-    let card_id = hasCardId ? cardId.exec(args.shift())[2] : null;
-    if (!auc_id && !card_id && args.length >= 1) {
+    let card_id = hasCardId ? cardId.exec(caId)[2] : null;
+    let auc_id = hasAucId ? aucId.exec(caId)[2] : null;
+    if (auc_id && card_id) {
+      // we were given an ID, but we don't know what is it for. let's check by querying all of it!
+      // ToDo: maybe we should NOT use a lot of promises, but it's the best bet we have right now
+      // after this we can check if we can query database and such, but we're fine atm
+
+      const checkId = await Promise.all([
+        Fetcher.fetchAuctionById(instance, auc_id),
+        Fetcher.fetchById(instance, card_id, true),
+        Fetcher.fetchById(instance, card_id, false),
+      ]).filter(c => c !== null);
+
+      if (checkId.length !== 1) {
+        console.error(
+          `! We ended up with more than 1 auction/card while identifying ID: ${JSON.stringify(
+            checkId
+          )}`
+        );
+        return false;
+      }
+
+      const check = checkId[0];
+      if (check.claim_count !== undefined) {
+        // card ID to search
+        auc_id = null;
+      } else if (check.bids !== undefined) {
+        // auction ID
+        card_id = null;
+      } else {
+        // unknown
+        throw new Error(
+          `Couldn't identify if ID was either an auction or a card: ${JSON.stringify(
+            check
+          )}`
+        );
+      }
+    }
+
+    if (!caId && args.length >= 1) {
       const name = args.join(" ");
       const card =
         (await Fetcher.fetchByName(instance, name, tier ? tier : "all")) ||
