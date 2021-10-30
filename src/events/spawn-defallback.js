@@ -6,10 +6,7 @@ const processDespawn = async (instance, message) => {
   const spawns = instance.shared["spawn"][message.channel.id];
 
   const spawn = spawns.find(s => s.message_id === message.id);
-  if (!spawn)
-    return console.error(
-      `! A card despawned (${message.id}), but I couldn't find it on our tracked spawns.`
-    );
+  if (!spawn) return;
 
   const i = spawns.indexOf(spawn);
   if (i === -1) return; // oh fuck
