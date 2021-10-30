@@ -14,8 +14,7 @@ module.exports = {
       async () => {
         const msg = message.channel.send("> // System Reloading //");
         await instance.initReload();
-        await msg;
-        await msg.edit("> _Reload complete._ (This should have not happened!)");
+        await (await msg).edit("> _Reload complete._");
       },
       instance.config.owner
     );
