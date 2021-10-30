@@ -8,7 +8,7 @@ const processDespawn = async (instance, message) => {
   const spawn = spawns.find(s => s.message_id === message.id);
   if (!spawn)
     return console.error(
-      `!A card despawned (${message.id}), but I couldn't find it on cache.`
+      `! A card despawned (${message.id}), but I couldn't find it on our tracked spawns.`
     );
 
   const i = spawns.indexOf(spawn);
