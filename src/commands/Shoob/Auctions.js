@@ -205,11 +205,13 @@ module.exports = {
       // ToDo: maybe we should NOT use a lot of promises, but it's the best bet we have right now
       // after this we can check if we can query database and such, but we're fine atm
 
-      const checkId = await Promise.all([
-        Fetcher.fetchAuctionById(instance, auc_id),
-        Fetcher.fetchById(instance, card_id, true),
-        Fetcher.fetchById(instance, card_id, false),
-      ]).filter(c => c !== null);
+      const checkId = (
+        await Promise.all([
+          Fetcher.fetchAuctionById(instance, auc_id),
+          Fetcher.fetchById(instance, card_id, true),
+          Fetcher.fetchById(instance, card_id, false),
+        ])
+      ).filter(c => c !== null);
 
       if (checkId.length !== 1) {
         console.error(
