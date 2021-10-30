@@ -208,16 +208,16 @@ module.exports = {
       const checkId = (
         await Promise.all([
           Fetcher.fetchAuctionById(instance, auc_id),
-          Fetcher.fetchById(instance, card_id, true),
           Fetcher.fetchById(instance, card_id, false),
+          Fetcher.fetchById(instance, card_id, true),
         ])
       ).filter(c => c !== null);
 
       if (checkId.length !== 1) {
         console.error(
-          `! We ended up with more than 1 auction/card while identifying ID: ${JSON.stringify(
+          `! We didn't end up with 1 auction or card while identifying ID: ${JSON.stringify(
             checkId
-          )}`
+          )} (${caId})`
         );
         return false;
       }
@@ -234,7 +234,7 @@ module.exports = {
         throw new Error(
           `Couldn't identify if ID was either an auction or a card: ${JSON.stringify(
             check
-          )}`
+          )} (${caId})`
         );
       }
     }

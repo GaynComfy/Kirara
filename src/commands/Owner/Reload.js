@@ -12,8 +12,9 @@ module.exports = {
     return withOwner(
       message.author.id,
       async () => {
-        message.channel.send("// System Reloading //");
+        const msg = message.channel.send("> // System Reloading //");
         instance.initReload();
+        (await msg).edit("> _Reload complete._");
       },
       instance.config.owner
     );
