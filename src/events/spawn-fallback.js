@@ -4,7 +4,6 @@ const { cardId } = require("../utils/regexUtils");
 const CardFetcher = require("../utils/CardFetcher");
 
 const hasClaimed = /<@!?(\d{17,19})> got the `(.*)` Issue #: `(\d{1,6})`./;
-const hasDespawned = "Looks like nobody got the dropped card this time.";
 
 const tiers = Object.values(tierInfo);
 
@@ -69,22 +68,6 @@ const processClaim = async (instance, message, embed) => {
   if (i === -1) return;
   chanSpawns[i] = newSpawn;
 };
-const processDespawn = async (instance, message) => {
-  if (!instance.shared["spawn"][message.channel.id]) return;
-  const spawns = instance.shared["spawn"][message.channel.id];
-
-  const spawn = spawns.find(
-    s => !s.claimed && !s.despawn && Date.now() - s.time >= 15000
-  );
-  if (!spawn) return;
-
-  const i = spawns.indexOf(spawn);
-  if (i === -1) return; // oh fuck
-  const s = spawns[i];
-
-  s.despawn = true;
-  s.time = new Date();
-};
 
 module.exports = {
   execute: async (instance, message) => {
@@ -99,8 +82,6 @@ module.exports = {
         await processSpawn(instance, message, embed);
       } else if (!embed.title && hasClaimed.test(embed.description)) {
         await processClaim(instance, message, embed);
-      } else if (embed.description === hasDespawned) {
-        await processDespawn(instance, message);
       }
     }
   },
