@@ -214,12 +214,12 @@ module.exports = {
       ).filter(c => c !== null);
 
       if (checkId.length !== 1) {
-        console.error(
-          `! We didn't end up with 1 auction or card while identifying ID: ${JSON.stringify(
-            checkId
-          )} (${caId})`
-        );
-        return false;
+        const embed = new MessageEmbed()
+          .setDescription(
+            "<:Sirona_NoCross:762606114444935168> I couldn't find a card or auction with that ID."
+          )
+          .setColor(Color.red);
+        return message.channel.send(embed);
       }
 
       const check = checkId[0];
@@ -256,7 +256,7 @@ module.exports = {
             `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
           )
           .setColor(Color.red);
-        return message.channel.send({ embed });
+        return message.channel.send(embed);
       }
       card_id = card.id;
     }
@@ -301,7 +301,7 @@ module.exports = {
       "auctions",
       "auc t6",
       "auc all t5 Konata Izumi",
-      "auc 5fd246b9c797c534105c637b",
+      "auc 5db4e4ff8ed9e66176623239",
       "auc https://animesoul.com/auction/5fd41e3f8030b66973438e3a",
       "auc a https://animesoul.com/cards/info/5fdbd604b3395a516de95394",
     ],
