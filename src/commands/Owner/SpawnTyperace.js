@@ -186,7 +186,7 @@ module.exports = {
           if (plays.length === 0) {
             embed
               .setDescription(
-                "Looks like nobody got the dropped card this time."
+                "Looks like nobody got the dropped\ncard this time."
               )
               .setColor("#FF0000");
 

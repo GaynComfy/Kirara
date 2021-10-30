@@ -1,5 +1,5 @@
 // Tracks despawns as they happen lively on Shoob.
-const hasDespawned = "Looks like nobody got the dropped card this time.";
+const hasDespawned = "Looks like nobody got the dropped\ncard this time.";
 
 const processDespawn = async (instance, message) => {
   if (!instance.shared["spawn"][message.channel.id]) return;
