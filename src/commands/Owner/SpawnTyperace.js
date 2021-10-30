@@ -194,7 +194,7 @@ module.exports = {
               .then(() =>
                 setTimeout(() => {
                   m.delete().catch(() => {});
-                }, 10000)
+                }, 15000)
               )
               .catch(console.error);
           } else {
