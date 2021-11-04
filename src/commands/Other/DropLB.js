@@ -55,10 +55,12 @@ module.exports = {
       const spawns = [];
 
       for (const [i, entry] of spawners.entries()) {
-        const user = await instance.client.users.fetch(entry.discord_id);
+        const user = await instance.client.users.fetch(entry.id);
         const mention = user ? `<@!${user.id}>` : "`User left`";
         users.push(`> \`${i + 1 + page * 8}.\` ${mention}`);
-        spawns.push(`> \`${entry.c} ${entry.c === "1" ? "card" : "cards"}\``);
+        spawns.push(
+          `> \`${entry.value} ${entry.value === "1" ? "card" : "cards"}\``
+        );
       }
 
       const embed = new MessageEmbed()
