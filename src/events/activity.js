@@ -6,12 +6,7 @@ const ROLE_ID = "902758184794595380";
 module.exports = {
   disabled: process.env.NODE_ENV !== "development",
   execute: async (instance, message) => {
-    if (
-      !message.guild ||
-      message.guild.id !== "378599231583289346" ||
-      message.channel.id === "695675260254814298"
-    )
-      return;
+    if (!message.guild || message.guild.id !== "378599231583289346") return;
     let spawnerFromBot = null;
     let cardMultiplier = 0;
 
@@ -33,6 +28,8 @@ module.exports = {
       } else {
         return;
       }
+    } else if (message.channel.id === "695675260254814298") {
+      return;
     }
 
     const id = spawnerFromBot || message.author.id;
