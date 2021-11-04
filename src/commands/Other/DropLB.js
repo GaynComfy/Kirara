@@ -65,10 +65,10 @@ module.exports = {
 
       const embed = new MessageEmbed()
         .setAuthor(
-          `${message.guild.name}'s Karuta drop Leaderboard`,
+          `Karuta drop Leaderboard!`,
           message.guild.iconURL({ dynamic: true })
         )
-        .setColor(spawners.length > 0 ? "#f49e17" : Color.red)
+        .setColor(spawners.length > 0 ? "#da7357" : Color.red)
         .setImage(Constants.footer)
         .setFooter(
           (!singlePage
