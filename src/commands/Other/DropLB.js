@@ -78,7 +78,7 @@ module.exports = {
             (page !== 0 ? " | React ◀️ to go back" : "")
         )
         .addField(`•   __User__`, users, true)
-        .addField(`•   __Spawns__`, spawns, true);
+        .addField(`•   __Drops__`, spawns, true);
 
       if (last === 0) {
         await message.channel.send(embed);
