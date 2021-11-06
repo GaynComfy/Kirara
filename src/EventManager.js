@@ -113,6 +113,7 @@ class EventManager {
     if (!this.instance.settings[message.guild.id]) return;
     if (command.info.guilds && !command.info.guilds.includes(message.guild.id))
       return; // return if not found
+
     if (
       (this.instance.settings[message.guild.id][
         `category:${command.info.category.toLowerCase()}:disabled`
@@ -125,9 +126,7 @@ class EventManager {
     )
       return; // command is disabled and they're not an admin/owner, nothing to do here
 
-    console.debug(
-      `[${this.client.shard.ids[0]}] <#${message.channel.id}> ${message.author.tag} > ${command.info.name}`
-    );
+    const startMs = Date.now();
 
     // verify if we have the right permissions
     const perms = [
@@ -156,11 +155,20 @@ class EventManager {
           return result;
         } catch (err) {
           sendError(message.channel);
+          const endMs = Date.now() - startMs;
+          console.error(
+            `[${this.client.shard.ids[0]}] <#${message.channel.id}> ${message.author.tag} > ${command.info.name} (${endMs}ms)`
+          );
           console.error(err);
         }
       },
       command.info.cooldown || 0,
       true
+    );
+
+    const endMs = Date.now() - startMs;
+    console.debug(
+      `[${this.client.shard.ids[0]}] <#${message.channel.id}> ${message.author.tag} > ${command.info.name} (${endMs}ms)`
     );
 
     // statcord reports
