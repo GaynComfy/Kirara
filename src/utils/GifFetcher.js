@@ -3,7 +3,10 @@ const axios = require("axios").default;
 class GifFetcher {
   constructor() {
     this.map = {};
-    this.instance = axios.create({ baseURL: "https://api.waifu.pics/sfw" });
+    this.instance = axios.create({
+      baseURL: "https://api.waifu.pics/sfw",
+      timeout: 500,
+    });
   }
   request(type) {
     return new Promise((resolve, reject) => {
