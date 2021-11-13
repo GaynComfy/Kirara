@@ -110,21 +110,36 @@ class EventManager {
       this.commandQueue.push([command, message, args]);
       return;
     }
-    if (!this.instance.settings[message.guild.id]) return;
+    if (!this.instance.settings[message.guild.id]) {
+      console.error(
+        `!! Just got a command from ${message.guild.id}, but I don't know what server it is!`
+      );
+      return message.channel
+        .send(
+          "**⚠️ WARNING:** I don't know this server. This is an error on the bot.\n" +
+            "Mind helping me to report it to my dev team? (<https://discord.gg/comfy> and DM `Sirona-Kirara Support#8123`)"
+        )
+        .catch(() => {});
+    }
     if (command.info.guilds && !command.info.guilds.includes(message.guild.id))
-      return; // return if not found
+      return; // return if we're not supposed to be used here
 
-    if (
-      (this.instance.settings[message.guild.id][
+    const disabled =
+      this.instance.settings[message.guild.id][
         `category:${command.info.category.toLowerCase()}:disabled`
       ] ||
-        this.instance.settings[message.guild.id][
-          `cmd:${command.info.name}:disabled`
-        ]) &&
-      !message.member.hasPermission("ADMINISTRATOR") &&
-      !owner.includes(message.author.id)
-    )
-      return; // command is disabled and they're not an admin/owner, nothing to do here
+      this.instance.settings[message.guild.id][
+        `cmd:${command.info.name}:disabled`
+      ];
+    if (disabled) {
+      if (
+        !message.member.hasPermission("ADMINISTRATOR") &&
+        !owner.includes(message.author.id)
+      )
+        return; // command is disabled and they're not an admin/owner, nothing to do here
+      // otherwise...
+      message.react("<:Sirona_yesh:762603569538531328>").catch(() => {}); // give an indicator they're breaking the law™️
+    }
 
     const startMs = Date.now();
 
@@ -155,9 +170,8 @@ class EventManager {
           return result;
         } catch (err) {
           sendError(message.channel);
-          const endMs = Date.now() - startMs;
           console.error(
-            `[${this.client.shard.ids[0]}] <#${message.channel.id}> ${message.author.tag} > ${command.info.name} (${endMs}ms)`
+            `[${this.client.shard.ids[0]}] <#${message.channel.id}> ${message.author.tag} > ${command.info.name}`
           );
           console.error(err);
         }
