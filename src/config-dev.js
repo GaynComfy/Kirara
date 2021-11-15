@@ -1,7 +1,7 @@
 module.exports = {
   prefix: "k!",
   database: {
-    host: "127.0.0.1",
+    host: "10.0.0.4",
     user: "kirarabeta",
     database: "kirarabeta",
     port: 5432,
