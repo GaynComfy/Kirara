@@ -45,25 +45,21 @@ const createPagedResults = async (
     ALL_SYMBOLS.includes(r.emoji.name) && user.id === message.author.id;
   let page = 0;
   let root = embed;
+  let sentMessage = null;
+  let running = false;
+
   try {
     root = await getMessageForPage(page, message.author);
-  } catch (err) {
-    console.error(err);
-    sendError(message.channel);
-    return null;
-  }
+    // we are expecting for the function to handle it.
+    if (!root) return null;
 
-  // we are expecting for the function to handle it.
-  if (!root) return null;
+    sentMessage = botMessage
+      ? await botMessage.edit(root)
+      : await message.channel.send(root);
+    if (maxPages < 2) {
+      return sentMessage;
+    }
 
-  const sentMessage = botMessage
-    ? await botMessage.edit(root)
-    : await message.channel.send(root);
-  if (maxPages < 2) {
-    return sentMessage;
-  }
-
-  try {
     const reacts = [BACK_SYMBOL, FORWARD_SYMBOL];
     if (refresh) reacts.push(REPEAT_SYMBOL);
     multiReact(sentMessage, reacts).catch(() => {});
@@ -71,6 +67,7 @@ const createPagedResults = async (
     return sentMessage
       .createReactionCollector(emojiFilter, collectorOpts)
       .on("collect", async (r, user) => {
+        if (running === true) return;
         let newPage = page;
         switch (r.emoji.name) {
           case FAST_REVERSE_SYMBOL:
@@ -97,6 +94,7 @@ const createPagedResults = async (
           return r.users.remove(user).catch(() => {});
 
         let res;
+        running = true;
         try {
           res = await getMessageForPage(newPage, user);
           if (res && res !== true) sentMessage.edit(res);
@@ -104,7 +102,8 @@ const createPagedResults = async (
           console.error(err);
           sentMessage.edit(embed);
         }
-        await r.users.remove(user).catch(() => {});
+        running = false;
+        r.users.remove(user).catch(() => {});
         if (res) page = newPage;
       })
       .on("end", () => sentMessage.reactions.removeAll().catch(() => {}));
@@ -129,25 +128,22 @@ const createMessagePagedResults = async (
   let page = 0;
   let root = embed;
   let inSubPage = false;
+  let sentMessage = null;
+  let running = false;
 
   try {
     root = await getMessageForPage(page, message.author, inSubPage, null);
-  } catch (err) {
-    console.error(err);
-    sendError(message.channel);
-    return null;
-  }
 
-  // we are expecting for the function to handle it.
-  if (!root) return null;
-  userMap[`${message.channel.id}:${message.author.id}`] = s;
+    // we are expecting for the function to handle it.
+    if (!root) return null;
+    userMap[`${message.channel.id}:${message.author.id}`] = s;
 
-  const sentMessage = await message.channel.send(root);
+    sentMessage = await message.channel.send(root);
 
-  try {
     return sentMessage.channel
       .createMessageCollector(filter, collectorOpts)
       .on("collect", async (m, user) => {
+        if (running === true) return;
         let newPage = page;
         let index = inSubPage;
         const cmd = command(m.content);
@@ -176,6 +172,7 @@ const createMessagePagedResults = async (
             }
             break;
         }
+        running = true;
         try {
           const res = await getMessageForPage(
             newPage,
@@ -192,6 +189,7 @@ const createMessagePagedResults = async (
           sendError(sentMessage.channel);
           console.error(err);
         }
+        running = false;
         m.delete().catch(() => {});
       })
       .on("end", () => {
