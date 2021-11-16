@@ -19,7 +19,7 @@ class GifFetcher {
     };
     this.instance = axios.create({
       baseURL: "https://api.waifu.pics/sfw",
-      timeout: 400, // it should take less than a roundtrip to the other side of the world
+      timeout: 500, // it should take less than a roundtrip to the other side of the world
     });
   }
   request(type) {
