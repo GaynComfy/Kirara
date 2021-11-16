@@ -110,6 +110,8 @@ class EventManager {
       this.commandQueue.push([command, message, args]);
       return;
     }
+    const startMs = Date.now();
+
     if (!this.instance.settings[message.guild.id]) {
       console.error(
         `!! Just got a command from ${message.guild.id}, but I don't know what server it is!`
@@ -141,8 +143,6 @@ class EventManager {
       message.react("<:Sirona_yesh:762603569538531328>").catch(() => {}); // give an indicator they're breaking the law™️
     }
 
-    const startMs = Date.now();
-
     // verify if we have the right permissions
     const perms = [
       "SEND_MESSAGES",
@@ -164,25 +164,26 @@ class EventManager {
             this.instance,
             message,
             args,
-            needsQueue ? this.instance.queues[message.channel.id] : null
+            needsQueue ? this.instance.queues[message.channel.id] : undefined
           );
           if (result === false) sendUsage(message.channel, command.help);
           return result;
         } catch (err) {
-          sendError(message.channel);
           console.error(
             `[${this.client.shard.ids[0]}] <#${message.channel.id}> ${message.author.tag} > ${command.info.name}`
           );
           console.error(err);
+          sendError(message.channel);
         }
       },
       command.info.cooldown || 0,
       true
     );
 
-    const endMs = Date.now() - startMs;
+    const endMs = Date.now();
     console.debug(
-      `[${this.client.shard.ids[0]}] <#${message.channel.id}> ${message.author.tag} > ${command.info.name} (${endMs}ms)`
+      `[${this.client.shard.ids[0]}] <#${message.channel.id}> ${message.author.tag} > ${command.info.name}` +
+        `(${endMs - startMs}ms/${endMs - message.createdTimestamp}ms)`
     );
 
     // statcord reports

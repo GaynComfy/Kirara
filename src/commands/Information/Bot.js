@@ -58,7 +58,7 @@ const fetchData = async instance => {
 module.exports = {
   execute: async (instance, message) => {
     try {
-      const ping = Math.round(Date.now() - message.createdTimestamp);
+      const ping = Date.now() - message.createdTimestamp;
       const lillie = await getLilliePing();
       const { totalGuilds, totalMembers, channels, asClaims, kClaims } =
         await fetchData(instance);
@@ -78,7 +78,7 @@ module.exports = {
             `<a:KiraraHearto:775767859786809384> [Donate]` +
             `(https://donatebot.io/checkout/378599231583289346?buyer=${message.author.id})\n\n` +
             `🏓 Command: \`${ping}ms\`\n` +
-            `💓 Gateway: \`${Math.round(instance.client.ws.ping)}ms\`\n` +
+            `💓 Gateway: \`${instance.client.ws.ping}ms\`\n` +
             `🖍️ midori: \`${lillie.ping}\`` +
             (lillie.version ? `, v${lillie.version}` : "")
         )
