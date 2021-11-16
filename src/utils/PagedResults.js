@@ -97,7 +97,7 @@ const createPagedResults = async (
         running = true;
         try {
           res = await getMessageForPage(newPage, user);
-          if (res && res !== true) sentMessage.edit(res);
+          if (res && res !== true) await sentMessage.edit(res);
         } catch (err) {
           console.error(err);
           sentMessage.edit(embed);
@@ -181,7 +181,7 @@ const createMessagePagedResults = async (
             sentMessage
           );
           if (res) {
-            if (res !== true) sentMessage.edit(res);
+            if (res !== true) await sentMessage.edit(res);
             page = newPage;
             inSubPage = index;
           }
