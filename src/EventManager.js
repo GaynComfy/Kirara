@@ -182,7 +182,7 @@ class EventManager {
 
     const endMs = Date.now();
     console.debug(
-      `[${this.client.shard.ids[0]}] <#${message.channel.id}> ${message.author.tag} > ${command.info.name}` +
+      `[${this.client.shard.ids[0]}] <#${message.channel.id}> ${message.author.tag} > ${command.info.name} ` +
         `(${endMs - startMs}ms/${endMs - message.createdTimestamp}ms` +
         `/${startMs - message.createdTimestamp}ms)`
     );
