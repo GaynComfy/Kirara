@@ -75,7 +75,7 @@ exports.checkPerms = async (instance, channel, perms) => {
 };
 
 exports.verifyPerms = async (instance, message, perms) => {
-  const member = await message.guild.members.fetch(instance.client.user.id);
+  const member = message.guild.members.cache.get(instance.client.user.id);
   if (!member) return false; // ???
 
   // nice workaround
