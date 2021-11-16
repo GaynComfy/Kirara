@@ -78,15 +78,14 @@ exports.verifyPerms = async (instance, message, perms) => {
   const member = message.guild.members.cache.get(instance.client.user.id);
   if (!member) return false; // ???
 
+  const userPerms = new Permissions(
+    member.roles.cache.map(role => role.permissions)
+  ).freeze();
+  if (userPerms.has(Permissions.FLAGS.ADMINISTRATOR)) return true;
   // nice workaround
   const chanPerms = message.channel.permissionsFor(instance.client.user) || {
     has: () => false,
   };
-
-  const userPerms = new Permissions(
-    member.roles.cache.map(role => role.permissions)
-  );
-  if (userPerms.has(Permissions.FLAGS.ADMINISTRATOR)) return true;
 
   const missing = perms.filter(p => !userPerms.has(p) && !chanPerms.has(p));
 
