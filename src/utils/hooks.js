@@ -1,4 +1,5 @@
 const isDev = process.env.NODE_ENV === "development";
+const { Permissions } = require("discord.js");
 const { owner } = isDev
   ? require("../../config-dev.js")
   : require("../config-prod.js");
@@ -74,18 +75,19 @@ exports.checkPerms = async (instance, channel, perms) => {
 };
 
 exports.verifyPerms = async (instance, message, perms) => {
-  if (!message.guild || !perms || perms.length <= 0) return false;
-
   const member = message.guild.members.cache.get(instance.client.user.id);
   if (!member) return false; // ???
+
+  const userPerms = new Permissions(
+    member.roles.cache.map(role => role.permissions)
+  ).freeze();
+  if (userPerms.has(Permissions.FLAGS.ADMINISTRATOR)) return true;
   // nice workaround
   const chanPerms = message.channel.permissionsFor(instance.client.user) || {
     has: () => false,
   };
 
-  const missing = perms.filter(
-    p => !member.hasPermission(p) && !chanPerms.has(p)
-  );
+  const missing = perms.filter(p => !userPerms.has(p) && !chanPerms.has(p));
 
   if (missing.length > 0) {
     const prefix =

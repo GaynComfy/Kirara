@@ -97,20 +97,21 @@ module.exports = {
     }
     if (card) tier = card.tier;
     let last = -1;
+    let cardAmt = 6;
     return createPagedResults(message, Infinity, async page => {
-      const offset = (page > last && last !== -1 ? last : page) * 8;
+      const offset = (page > last && last !== -1 ? last : page) * cardAmt;
       const result = await Fetcher.fetchInventory(
         instance,
         user.id,
         tier !== "all" ? tier : null,
         offset,
-        "8",
+        cardAmt.toString(),
         card ? card.id : null
       );
       if (result.length === 0 && last === -1) {
         last = page - 1;
         if (last === -1) last = 0;
-      } else if (result.length < 8 && last === -1) {
+      } else if (result.length < cardAmt && last === -1) {
         last = page;
       }
       if (last !== -1 && page > last) return null;

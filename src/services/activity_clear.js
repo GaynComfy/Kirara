@@ -6,6 +6,7 @@ const sleep = time => new Promise(resolve => setTimeout(resolve, time));
 let interval = null;
 let lastDay = dayjs().day();
 module.exports = {
+  disabled: process.env.NODE_ENV !== "development",
   start(instance) {
     interval = setInterval(async () => {
       if (!instance.client.guilds.cache.has("378599231583289346")) return;

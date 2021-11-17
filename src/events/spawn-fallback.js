@@ -100,6 +100,7 @@ module.exports = {
       } else if (!embed.title && hasClaimed.test(embed.description)) {
         await processClaim(instance, message, embed);
       } else if (embed.description === hasDespawned) {
+        // only here because spawnpack is still not updated
         await processDespawn(instance, message);
       }
     }

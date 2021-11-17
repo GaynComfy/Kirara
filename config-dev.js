@@ -16,5 +16,5 @@ module.exports = {
     "634288114172690432", // Pitofūi#8997
   ],
   shardCount: 2,
-  season: 11,
+  season: 12,
 };

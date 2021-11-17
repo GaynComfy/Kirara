@@ -23,6 +23,7 @@ class CardFetcher {
       headers: {
         Authorization: token,
       },
+      timeout: 5000,
       validateStatus: s => s < 500,
     });
     axiosRetry(this.instance, { retries: 3 });

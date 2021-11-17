@@ -11,13 +11,13 @@ const info = {
 };
 module.exports = {
   execute: async (instance, message) => {
-    const msgPing = Math.round(Date.now() - message.createdTimestamp);
+    const msgPing = Date.now() - message.createdTimestamp;
     const { ping } = await getLilliePing();
     const embed = new MessageEmbed()
       .setAuthor("Latency for Kirara")
       .setDescription(
         `🏓 Command: \`${msgPing}ms\`\n` +
-          `💓 Gateway: \`${Math.round(instance.client.ws.ping)}ms\`\n` +
+          `💓 Gateway: \`${instance.client.ws.ping}ms\`\n` +
           `🖍️ midori: \`${ping}\``
       )
       .setColor("#e0e0e0");

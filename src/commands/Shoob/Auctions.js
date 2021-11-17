@@ -25,7 +25,7 @@ const info = {
     "auctions",
     "auc t6",
     "auc all t5 Konata Izumi",
-    "auc 5fd246b9c797c534105c637b",
+    "auc 5db4e4ff8ed9e66176623239",
     "auc https://animesoul.com/auction/5fd41e3f8030b66973438e3a",
     "auc a https://animesoul.com/cards/info/5fdbd604b3395a516de95394",
   ],
@@ -136,6 +136,10 @@ const computeAuction = async (instance, aid) => {
       )
       .setColor(Color.red);
   const tier = localAuc.tier;
+  let bidders = 0;
+  if (asAuc) {
+    bidders = new Set(...asAuc.bidders.map(bid => bid.discord_id)).size;
+  }
 
   // holy mess
   const embed = new MessageEmbed()
@@ -148,13 +152,9 @@ const computeAuction = async (instance, aid) => {
     .setThumbnail(`https://animesoul.com/api/cardr/${localAuc.card_id}`)
     .setColor(tier ? tierInfo[`T${tier}`].color : Color.default)
     .setDescription(!asAuc ? "⏱️ **This auction is no longer active.**\n" : "")
-    .addField(
-      "Starting Bid",
-      `\`富 ${Math.round(localAuc.bn / 5) + localAuc.minimum}\``,
-      true
-    )
+    .addField("Starting Bid", `\`富 ${Math.round(localAuc.bn / 5)}\``, true)
     .addField("Buy Now", `\`富 ${localAuc.bn}\``, true)
-    .addField("Min. Increment", `\`+富 ${localAuc.minimum}\``, true)
+    .addField("Bidders", `\`${bidders}\``, true)
     .addField(
       "Added",
       dayjs(
@@ -204,12 +204,51 @@ module.exports = {
         ? Constants.allTiers.includes(args[0].toLowerCase())
         : false;
     const hasCardId = args.length >= 1 ? cardId.test(args[0]) : false;
-    const hasAucId =
-      args.length >= 1 && !hasCardId ? aucId.test(args[0]) : false;
+    const hasAucId = args.length >= 1 ? aucId.test(args[0]) : false;
+    const caId = hasCardId || hasAucId ? args.shift() : null;
     const tier = hasTier ? args.shift()[1].toUpperCase() : null;
-    const auc_id = hasAucId ? aucId.exec(args.shift())[2] : null;
-    let card_id = hasCardId ? cardId.exec(args.shift())[2] : null;
-    if (!auc_id && !card_id && args.length >= 1) {
+    let card_id = hasCardId ? cardId.exec(caId)[2] : null;
+    let auc_id = hasAucId ? aucId.exec(caId)[2] : null;
+    if (auc_id && card_id) {
+      // we were given an ID, but we don't know what is it for. let's check by querying all of it!
+      // ToDo: maybe we should NOT use a lot of promises, but it's the best bet we have right now
+      // after this we can check if we can query database and such, but we're fine atm
+
+      const checkId = (
+        await Promise.all([
+          Fetcher.fetchAuctionById(instance, auc_id),
+          Fetcher.fetchById(instance, card_id, false),
+          Fetcher.fetchById(instance, card_id, true),
+        ])
+      ).filter(c => c !== null);
+
+      if (checkId.length !== 1) {
+        const embed = new MessageEmbed()
+          .setDescription(
+            "<:Sirona_NoCross:762606114444935168> I couldn't find a card or auction with that ID."
+          )
+          .setColor(Color.red);
+        return message.channel.send(embed);
+      }
+
+      const check = checkId[0];
+      if (check.claim_count !== undefined) {
+        // card ID to search
+        auc_id = null;
+      } else if (check.bids !== undefined) {
+        // auction ID
+        card_id = null;
+      } else {
+        // unknown
+        throw new Error(
+          `Couldn't identify if ID was either an auction or a card: ${JSON.stringify(
+            check
+          )} (${caId})`
+        );
+      }
+    }
+
+    if (!caId && args.length >= 1) {
       const name = args.join(" ");
       const card =
         (await Fetcher.fetchByName(instance, name, tier ? tier : "all")) ||
@@ -226,7 +265,7 @@ module.exports = {
             `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
           )
           .setColor(Color.red);
-        return message.channel.send({ embed });
+        return message.channel.send(embed);
       }
       card_id = card.id;
     }

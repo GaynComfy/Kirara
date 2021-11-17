@@ -142,7 +142,7 @@ class Instance {
     return commands;
   }
   async initReload() {
-    this.client.shard.broadcastEval(`this.b_instance.reload()`);
+    return await this.client.shard.broadcastEval(`this.b_instance.reload()`);
   }
   createQueue(id) {
     this.queues[id] = new Queue();

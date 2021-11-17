@@ -187,22 +187,19 @@ module.exports = {
           delete channelMap[message.channel.id];
 
           if (plays.length === 0) {
-            const embed = new MessageEmbed()
-              .setColor("#ea2222")
+            embed
               .setDescription(
-                "Looks like nobody got the dropped card this time."
+                "Looks like nobody got the dropped\ncard this time."
               )
-              .setFooter(
-                "Powered by AS Devs",
-                "https://repo.mplauncher.pl/fun/wla/AS.webp"
-              );
+              .setColor("#FF0000");
 
-            message.channel.send(embed).then(msg =>
-              setTimeout(() => {
-                m.delete().catch(() => {});
-                msg.delete().catch(() => {});
-              }, 3000)
-            );
+            m.edit(embed)
+              .then(() =>
+                setTimeout(() => {
+                  m.delete().catch(() => {});
+                }, 15000)
+              )
+              .catch(console.error);
           } else {
             const result = new MessageEmbed()
               .setTitle("Type race results: Shoob <:SShoob:783636544720207903>")

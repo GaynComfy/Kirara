@@ -8,7 +8,7 @@ module.exports = {
     if (interval !== null) return;
 
     interval = setInterval(async () => {
-      const pickedActivity = Math.floor(Math.random() * 4);
+      const pickedActivity = Math.floor(Math.random() * 5);
       switch (pickedActivity) {
         case 0: {
           await instance.client.user.setActivity(
@@ -36,14 +36,21 @@ module.exports = {
               status
             );
           } catch (err) {
-            await instance.client.user.setActivity("trouble!", status);
             console.error(err);
+            await instance.client.user.setActivity("trouble!", status);
           }
 
           break;
         }
         case 3: {
           await instance.client.user.setActivity("comfy.gay", status);
+          break;
+        }
+        case 4: {
+          await instance.client.user.setActivity(
+            `Invite | ${instance.config.prefix}invite`,
+            status
+          );
           break;
         }
       }

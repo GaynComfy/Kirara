@@ -57,7 +57,6 @@ module.exports = {
     );
 
     const background1 = await loadImage("./assets/images/profile.png");
-    const background2 = await loadImage("./src/assets/profile_anim.gif");
     const avatarB = await getCachedURL(
       instance,
       member.displayAvatarURL({ format: "png", size: 512 })
@@ -66,7 +65,6 @@ module.exports = {
 
     const canvas = createCanvas(1100, 400);
     const ctx = canvas.getContext("2d");
-    ctx.drawImage(background2, 26, 6, 390, 390);
     ctx.drawImage(avatar, 26, 6, 390, 390);
     ctx.drawImage(background1, 0, 0, canvas.width, canvas.height);
 
@@ -98,6 +96,7 @@ module.exports = {
     const color =
       (user &&
         ((owner.includes(member.id) && Color.trusted) ||
+          (user.trusted && Color.cardmaker) ||
           (user.premium && Color.premium))) ||
       Color.default;
 
@@ -119,6 +118,9 @@ module.exports = {
             : "") +
           (owner.includes(member.id)
             ? `\n<:KiraraHugHeart:798460293491326986> **Kirara Developer <3**`
+            : "") +
+          (user.trusted
+            ? `\n<:KiraraSleepy:784849773097517086> **Card Maker!**`
             : "")
       )
       .attachFiles([attachment])

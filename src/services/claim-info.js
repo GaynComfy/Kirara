@@ -145,16 +145,11 @@ module.exports = {
           )
             return;
 
-          const prefix =
-            instance.guilds[guild.id].prefix || instance.config.prefix;
           if (messageChannel) {
             const oweeet = new MessageEmbed()
               .setDescription(
                 `<a:Sirona_loading:748854549703426118> [\`${data.card_name}\`](https://animesoul.com/cards/info/${data.card_id}) ` +
-                  `Issue #: \`${data.issue}\` has been claimed!\n${settings.emoji} Added to <@${data.discord_id}>'s database.\n\u200b`
-              )
-              .setFooter(
-                `Got a problem? Use ${prefix}support\nWant to invite the bot? Use ${prefix}invite`
+                  `Issue #: \`${data.issue}\` has been claimed!\n\n${settings.emoji} Added to <@${data.discord_id}>'s database.`
               )
               .setColor(settings.color);
             if (data.image_url) {

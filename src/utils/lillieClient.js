@@ -5,6 +5,7 @@ class lillieClient {
     this.instance = axios.create({
       baseURL,
       headers: { "x-kirara-verify": token },
+      timeout: 500,
     });
   }
   async request(route) {

@@ -30,6 +30,7 @@ module.exports = {
       s = JSON.parse(e);
     } else {
       // ToDo: GET RID OF THIS ASAP
+      message.channel.startTyping();
       const { rows: claimed } = await instance.database.pool.query(
         "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE claimed=true " +
           "AND server_id=$1 AND season=$2 GROUP BY tier",
@@ -54,6 +55,7 @@ module.exports = {
         },
       };
       instance.cache.setExpire(k, JSON.stringify(s), 60 * 15);
+      message.channel.stopTyping();
     }
 
     const tiers = [];

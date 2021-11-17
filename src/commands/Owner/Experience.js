@@ -1,5 +1,4 @@
-const { checkPerms, withRights } = require("../../utils/hooks");
-const Color = require("../../utils/Colors.json");
+const { withRights } = require("../../utils/hooks");
 const { MessageEmbed } = require("discord.js");
 const THRESH_HOLD = 1200;
 const ROLE_ID = "902758184794595380";
@@ -14,6 +13,7 @@ const info = {
   usage: "points <userid> [change/delete/set/top] [value]",
   examples: ["points @liz3 set 455"],
   description: "Manipulate a users points or see the top 10",
+  disabled: process.env.NODE_ENV !== "development",
 };
 const maybeGrantRole = async (instance, id, value) => {
   const has = await instance.cache.exists(`xpcount_role:${id}`);
