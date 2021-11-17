@@ -2,33 +2,28 @@ const axios = require("axios").default;
 
 class GifFetcher {
   constructor() {
-    // add some fallbacks in case we lag on start
-    this.map = {
-      hug: { url: "https://i.waifu.pics/HWhukIP.gif" },
-      neko: { url: "https://i.waifu.pics/Qyr5N-~.png" },
-      pat: { url: "https://i.waifu.pics/vAcG_hT.gif" },
-      bonk: { url: "https://i.waifu.pics/XCxAgkz.gif" },
-      wave: { url: "https://i.waifu.pics/Jvi3~TN.gif" },
-      yeet: { url: "https://i.waifu.pics/9CeCIw4.gif" },
-      awoo: {
-        url: "https://cdn.discordapp.com/attachments/690981388299665478/808348212456194108/alydrip.png",
-      },
-      lick: { url: "https://i.waifu.pics/p0FcuY4.gif" },
-      kiss: { url: "https://i.waifu.pics/ROlkkMZ.gif" },
-      handhold: { url: "https://i.waifu.pics/gsFX6IT.gif" },
-    };
+    this.map = {};
     this.instance = axios.create({
       baseURL: "https://api.waifu.pics/sfw",
       timeout: 500, // it should take less than a roundtrip to the other side of the world
     });
+    // pre-cache map
+    this.cache().catch(console.error);
   }
   request(type) {
     return new Promise((resolve, reject) => {
       this.instance
         .get(`/${type}`)
         .then(res => {
-          this.map[type] = res.data;
-          resolve(res.data);
+          const { data } = res;
+          if (!data || !data.url) {
+            throw new Error(
+              `No data received from Waifu.pics: ${JSON.stringify(data)}`
+            );
+          }
+
+          this.map[type] = data;
+          resolve(data);
         })
         .catch(err => {
           if (this.map[type]) {
@@ -38,6 +33,20 @@ class GifFetcher {
           }
           reject(err);
         });
+    });
+  }
+  async cache() {
+    const endpoints = await axios.get("https://api.waifu.pics/endpoints");
+    const { sfw } = endpoints.data;
+    const result = await Promise.all(
+      sfw.map(type =>
+        axios.get(`https://api.waifu.pics/sfw/${type}`).catch(() => {})
+      )
+    );
+    sfw.forEach((type, i) => {
+      const { data } = result[i];
+      if (!data || !data.url) return;
+      this.map[type] = data;
     });
   }
 }

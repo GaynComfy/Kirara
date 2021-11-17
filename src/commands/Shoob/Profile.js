@@ -95,6 +95,7 @@ module.exports = {
     const color =
       (user &&
         ((owner.includes(member.id) && Color.trusted) ||
+          (user.trusted && Color.cardmaker) ||
           (user.premium && Color.premium))) ||
       Color.default;
 
@@ -116,6 +117,9 @@ module.exports = {
             : "") +
           (owner.includes(member.id)
             ? `\n<:KiraraHugHeart:798460293491326986> **Kirara Developer <3**`
+            : "") +
+          (user.trusted
+            ? `\n<:KiraraSleepy:784849773097517086> **Card Maker!**`
             : "")
       )
       .attachFiles([attachment])
