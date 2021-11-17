@@ -193,6 +193,9 @@ class EventManager {
       message.author.id,
       this.client
     );
+
+    // just in case
+    message.channel.stopTyping();
   }
   registerEventHandler(name, handlers) {
     this.client.on(name, async (...params) => {
