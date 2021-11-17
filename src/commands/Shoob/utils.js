@@ -125,7 +125,7 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
             return null;
           const offset = pnum * 10;
 
-          let issues;
+          let issues = [];
           if (tracked) {
             issues = await DbFetcher.fetchOwners(
               instance,
@@ -143,7 +143,6 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
             for (const claim of entries) {
               const history = claim.trade_history;
               const username = history[history.length - 1].username;
-              issues = [];
               issues.push({
                 discord_id: claim.discord_id,
                 username,
