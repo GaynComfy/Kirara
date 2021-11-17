@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node src/sharder.js",
     "dev": "node src/index.js",
-    "lint": "eslint --ext .js --fix src",
+    "lint": "eslint --ext .js src",
+    "lint:fix": "eslint --ext .js --fix src",
     "pre-commit": "pretty-quick --staged && lint-staged",
     "postinstall": "is-ci || husky install || true"
   },
