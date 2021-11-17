@@ -16,7 +16,6 @@ const ALL_SYMBOLS = [
   REPEAT_SYMBOL,
 ];
 
-const collectorOpts = { idle: 45 * 1000 };
 const userMap = {};
 const embed = new MessageEmbed()
   .setDescription(
@@ -54,8 +53,8 @@ const createPagedResults = async (
     if (!root) return null;
 
     sentMessage = botMessage
-      ? await botMessage.edit(root)
-      : await message.channel.send(root);
+      ? await botMessage.edit({ embeds: [root] })
+      : await message.channel.send({ embeds: [root] });
     if (maxPages < 2) {
       return sentMessage;
     }
@@ -65,7 +64,7 @@ const createPagedResults = async (
     multiReact(sentMessage, reacts).catch(() => {});
 
     return sentMessage
-      .createReactionCollector(emojiFilter, collectorOpts)
+      .createReactionCollector({ emojiFilter, idle: 45 * 1000 })
       .on("collect", async (r, user) => {
         if (running === true) return;
         let newPage = page;
@@ -97,10 +96,10 @@ const createPagedResults = async (
         running = true;
         try {
           res = await getMessageForPage(newPage, user);
-          if (res && res !== true) await sentMessage.edit(res);
+          if (res && res !== true) await sentMessage.edit({ embeds: [res] });
         } catch (err) {
           console.error(err);
-          sentMessage.edit(embed);
+          sentMessage.edit({ embeds: [embed] });
         }
         running = false;
         r.users.remove(user).catch(() => {});
@@ -109,7 +108,7 @@ const createPagedResults = async (
       .on("end", () => sentMessage.reactions.removeAll().catch(() => {}));
   } catch (err) {
     console.error(err);
-    if (sentMessage) sentMessage.edit(embed);
+    if (sentMessage) sentMessage.edit({ embeds: [embed] });
     else sendError(message.channel);
     return null;
   }
@@ -138,10 +137,10 @@ const createMessagePagedResults = async (
     if (!root) return null;
     userMap[`${message.channel.id}:${message.author.id}`] = s;
 
-    sentMessage = await message.channel.send(root);
+    sentMessage = await message.channel.send({ embeds: [root] });
 
     return sentMessage.channel
-      .createMessageCollector(filter, collectorOpts)
+      .createMessageCollector({ filter, idle: 45 * 1000 })
       .on("collect", async (m, user) => {
         if (running === true) return;
         let newPage = page;
@@ -181,7 +180,7 @@ const createMessagePagedResults = async (
             sentMessage
           );
           if (res) {
-            if (res !== true) await sentMessage.edit(res);
+            if (res !== true) await sentMessage.edit({ embeds: [res] });
             page = newPage;
             inSubPage = index;
           }
@@ -198,7 +197,7 @@ const createMessagePagedResults = async (
       });
   } catch (err) {
     console.error(err);
-    if (sentMessage) sentMessage.edit(embed);
+    if (sentMessage) sentMessage.edit({ embeds: [embed] });
     else sendError(message.channel);
     return null;
   }

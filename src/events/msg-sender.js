@@ -8,7 +8,7 @@ module.exports = {
     client = new Redis(`redis://${config.cache.host}:${config.cache.port}`);
     client.subscribe("msg_msg");
 
-    client.on("message", (channel, message) => {
+    client.on("messageCreate", (channel, message) => {
       const parsed = JSON.parse(message);
       data[parsed.id] = { end: Date.now() + parsed.t, message: parsed.message };
     });
@@ -20,5 +20,5 @@ module.exports = {
       await author.send(data[author.id].message);
     }
   },
-  eventName: "message",
+  eventName: "messageCreate",
 };

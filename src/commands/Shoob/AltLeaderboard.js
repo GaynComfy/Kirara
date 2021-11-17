@@ -20,8 +20,7 @@ module.exports = {
         args[0].toLowerCase() === "a");
     if (isTotal) args.shift();
 
-    message.channel.startTyping();
-    message.channel.stopTyping();
+    message.channel.sendTyping();
 
     let last = -1;
 
@@ -50,7 +49,7 @@ module.exports = {
             }.`
           )
           .setColor(Color.red);
-        await message.channel.send(embed);
+        await message.channel.send({ embeds: [embed] });
         return null;
       }
       if (claimers.length === 0 && last === -1) {
@@ -90,7 +89,7 @@ module.exports = {
         .addField(`•   __Claims__`, claims, true);
 
       if (last === 0) {
-        await message.channel.send(embed);
+        await message.channel.send({ embeds: [embed] });
         return false;
       }
       return embed;

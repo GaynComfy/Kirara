@@ -39,7 +39,7 @@ module.exports = {
       member = message.author;
     }
 
-    message.channel.startTyping();
+    message.channel.sendTyping();
 
     const user = await Fetcher.fetchProfile(instance, member.id);
     const { rows: cards } = await instance.database.pool.query(
@@ -120,7 +120,6 @@ module.exports = {
             ? `\n<:KiraraSleepy:784849773097517086> **Card Maker!**`
             : "")
       )
-      .attachFiles([attachment])
       .setImage("attachment://profile.png");
 
     if (user) {
@@ -130,8 +129,7 @@ module.exports = {
         .addField("Views", user.views, true);
     }
 
-    message.channel.stopTyping();
-    return message.channel.send(embed);
+    return message.channel.send({ embeds: [embed], files: [attachment] });
   },
   info,
   help: {

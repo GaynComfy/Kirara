@@ -33,7 +33,7 @@ module.exports = {
           `<:Sirona_NoCross:762606114444935168> This server has no dropped cards this month.`
         )
         .setColor(Color.red);
-      return await message.channel.send(embed);
+      return await message.channel.send({ embeds: [embed] });
     }
 
     const sorted = values.sort((a, b) => b.value - a.value);
@@ -81,7 +81,7 @@ module.exports = {
         .addField(`•   __Drops__`, spawns, true);
 
       if (last === 0) {
-        await message.channel.send(embed);
+        await message.channel.send({ embeds: [embed] });
         return false;
       }
       return embed;

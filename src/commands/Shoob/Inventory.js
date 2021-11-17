@@ -77,7 +77,7 @@ module.exports = {
           `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
         )
         .setColor(Color.red);
-      message.channel.send(embed);
+      message.channel.send({ embeds: [embed] });
       return null;
     }
     if (card) tier = card.tier;
@@ -130,7 +130,7 @@ module.exports = {
           : "- No cards <:SShoob:783636544720207903>"
       );
       if (last === 0) {
-        await message.channel.send(embed);
+        await message.channel.send({ embeds: [embed] });
         return false;
       }
       return embed;

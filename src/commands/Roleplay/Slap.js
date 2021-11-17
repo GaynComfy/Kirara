@@ -33,7 +33,7 @@ module.exports = {
         embed.setFooter(
           `${message.author.username} slapped others ${send} times and was slapped ${received} times`
         );
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
       }
     );
 

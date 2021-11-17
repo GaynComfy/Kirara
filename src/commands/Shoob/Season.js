@@ -27,7 +27,7 @@ module.exports = {
       s = JSON.parse(e);
     } else {
       // ToDo: GET RID OF THIS ASAP
-      message.channel.startTyping();
+      message.channel.sendTyping();
       const { rows: claimed } = await instance.database.pool.query(
         "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE claimed=true " +
           "AND server_id=$1 AND season=$2 GROUP BY tier",
@@ -52,7 +52,6 @@ module.exports = {
         },
       };
       instance.cache.setExpire(k, JSON.stringify(s), 60 * 15);
-      message.channel.stopTyping();
     }
 
     const tiers = [];
@@ -99,7 +98,7 @@ module.exports = {
           `**${s.claimers.c} users** have claimed cards on this server.` +
           (s.claimers.c > 0 ? `\n\n${top3.join("\n")}` : "")
       );
-    return message.channel.send(embed);
+    return message.channel.send({ embeds: [embed] });
   },
   info,
   help: {

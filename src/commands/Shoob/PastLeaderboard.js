@@ -11,8 +11,7 @@ const info = {
 
 module.exports = {
   execute: async (instance, message) => {
-    message.channel.startTyping();
-    message.channel.stopTyping();
+    message.channel.sendTyping();
 
     const { rows: claimers } = await instance.database.pool.query(
       "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
@@ -25,7 +24,7 @@ module.exports = {
           `<:Sirona_NoCross:762606114444935168> This server has no claimed cards for the past season.`
         )
         .setColor(Color.red);
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     }
 
     const users = [];
@@ -48,7 +47,7 @@ module.exports = {
       .addField(`•   __User__`, users, true)
       .addField(`•   __Claims__`, claims, true);
 
-    return message.channel.send(embed);
+    return message.channel.send({ embeds: [embed] });
   },
   info,
   help: {

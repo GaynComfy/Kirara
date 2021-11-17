@@ -20,13 +20,12 @@ module.exports = {
           `<:Sirona_NoCross:762606114444935168> No event is currently going on.`
         )
         .setColor(Color.red);
-      await message.channel.send(embed);
+      await message.channel.send({ embeds: [embed] });
       return true;
     }
 
-    message.channel.startTyping();
+    message.channel.sendTyping();
     let last = -1;
-    message.channel.stopTyping();
 
     return createPagedResults(message, Infinity, async page => {
       const offset = (page > last && last !== -1 ? last : page) * 8;
@@ -46,7 +45,7 @@ module.exports = {
             `<:Sirona_NoCross:762606114444935168> This server has no claimed cards this event.`
           )
           .setColor(Color.red);
-        await message.channel.send(embed);
+        await message.channel.send({ embeds: [embed] });
         return null;
       }
       if (claimers.length === 0 && last === -1) {
@@ -86,7 +85,7 @@ module.exports = {
         .addField(`•   __Claims__`, claims, true);
 
       if (last === 0) {
-        await message.channel.send(embed);
+        await message.channel.send({ embeds: [embed] });
         return false;
       }
       return embed;

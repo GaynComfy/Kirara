@@ -101,7 +101,7 @@ module.exports = {
           true
         );
 
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     } catch (err) {
       console.log(err);
     }

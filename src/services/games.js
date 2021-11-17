@@ -71,7 +71,7 @@ module.exports = {
         if (logChannel) {
           const autodel = instance.settings[guild.id]["games_autodelete"];
           try {
-            const msg = await logChannel.send(embed);
+            const msg = await logChannel.send({ embeds: [embed] });
             if (autodel) {
               deleteMap[msg.id] = {
                 msg,
@@ -113,7 +113,7 @@ module.exports = {
     };
     client = new Redis(`redis://${config.cache.host}:${config.cache.port}`);
     client.subscribe("games");
-    client.on("message", onMessage);
+    client.on("messageCreate", onMessage);
   },
   stop: async () => {
     if (deleteInterval) {
@@ -121,7 +121,7 @@ module.exports = {
       deleteInterval = null;
     }
     if (client !== null) {
-      client.removeAllListeners("message");
+      client.removeAllListeners("messageCreate");
       client.end(true);
       client = null;
     }

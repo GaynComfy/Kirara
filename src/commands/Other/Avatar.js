@@ -34,7 +34,7 @@ module.exports = {
       )
       .setColor("RANDOM")
       .setImage(target.displayAvatarURL({ dynamic: true, size: 4096 }));
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
   },
   info,
   help: {

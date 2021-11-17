@@ -81,7 +81,7 @@ module.exports = {
             (page !== 0 ? " | React ◀️ to go back" : "")
         );
       if (last === 0) {
-        await message.channel.send(embed);
+        await message.channel.send({ embeds: [embed] });
         return false;
       }
       return embed;

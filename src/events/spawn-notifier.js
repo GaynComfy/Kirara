@@ -29,6 +29,6 @@ module.exports = {
       }
     }
   },
-  eventName: "message",
+  eventName: "messageCreate",
   disabled: true,
 };

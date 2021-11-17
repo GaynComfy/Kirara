@@ -33,7 +33,7 @@ module.exports = {
         embed.setFooter(
           `${message.author.username} gave others ${send} pats and received ${received} pats`
         );
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
       }
     );
 

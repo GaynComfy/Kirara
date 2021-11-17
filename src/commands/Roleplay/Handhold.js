@@ -37,7 +37,7 @@ module.exports = {
         embed.setFooter(
           `${message.author.username} handholded others ${send} times and received ${received} handholds`
         );
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
       }
     );
 

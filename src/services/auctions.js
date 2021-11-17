@@ -87,7 +87,7 @@ module.exports = {
         if (logChannel) {
           const autodel = instance.settings[guild.id]["notif_autodelete"];
           try {
-            const msg = await logChannel.send(embed);
+            const msg = await logChannel.send({ embeds: [embed] });
             if (autodel) {
               deleteMap[msg.id] = {
                 msg,
@@ -131,7 +131,7 @@ module.exports = {
     if (shard_id === 0) {
       client = new Redis(`redis://${config.cache.host}:${config.cache.port}`);
       client.subscribe("auctions");
-      client.on("message", async (channel, msg) => {
+      client.on("messageCreate", async (channel, msg) => {
         await onMessage(channel, msg).catch(err => console.error(err));
         for (let i = 1; i < instance.client.shard.count; i++) {
           await instance.client.shard
@@ -155,7 +155,7 @@ module.exports = {
       deleteInterval = null;
     }
     if (client !== null) {
-      client.removeAllListeners("message");
+      client.removeAllListeners("messageCreate");
       client.end(true);
       client = null;
     }

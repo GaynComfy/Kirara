@@ -18,7 +18,7 @@ module.exports = {
     )
       embed.setThumbnail(url);
     else embed.setImage(url);
-    await message.channel.send(embed);
+    await message.channel.send({ embeds: [embed] });
     return true;
   },
   info,

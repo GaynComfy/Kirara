@@ -52,7 +52,7 @@ module.exports = {
         .setColor("RANDOM");
     } else return false;
 
-    return message.channel.send(embed);
+    return message.channel.send({ embeds: [embed] });
   },
   info,
   help: {

@@ -81,12 +81,16 @@ module.exports = {
             `Be fast! You can join within ${opts.jointime / 1000} seconds`
           );
 
-        const collectorMessage = await message.channel.send(embed);
+        const collectorMessage = await message.channel.send({
+          embeds: [embed],
+        });
 
-        const collector = collectorMessage.createReactionCollector(
-          (reaction, user) => reaction.emoji.name == "✅" && !user.bot,
-          { time: opts.jointime }
-        );
+        const filter = (reaction, user) =>
+          reaction.emoji.name == "✅" && !user.bot;
+        const collector = collectorMessage.createReactionCollector({
+          filter,
+          time: opts.jointime,
+        });
         collector.on("collect", (r, user) => {
           if (!participants[user.id])
             participants[user.id] = { id: user.id, name: user.username };
@@ -94,7 +98,7 @@ module.exports = {
         collector.on("end", () => {
           delete startQueue[message.guild.id];
           if (Object.keys(participants).length < 1) {
-            return collectorMessage.edit(noUsersEmbed);
+            return collectorMessage.edit({ embeds: [noUsersEmbed] });
           }
           return runGame(
             instance,

@@ -121,7 +121,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
       embed.addField(`Answer ${elem.key}`, elem.description)
     );
     if (question.image) embed.setImage(question.image);
-    const msg = await channel.send(embed);
+    const msg = await channel.send({ embeds: [embed] });
     current = {
       name: question.name,
       answers: {},
@@ -158,7 +158,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
         .setDescription(question.description)
         .addField(`${answer.key}: ${answer.description}`, winners)
         .setFooter(`${correct.length} of ${all} participants got it right!`);
-      await msg.edit(results);
+      await msg.edit({ embeds: [results] });
     } else {
       const results = new MessageEmbed()
         .setColor("#dd3333")
@@ -167,7 +167,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
           `${question.description}\n\n**Nobody got it right!** The answer was:\n> ${answer.key}: ${answer.description}`
         )
         .setFooter(`${all} participants tried!`);
-      await msg.edit(results);
+      await msg.edit({ embeds: [results] });
     }
 
     answers.push(current);
@@ -258,7 +258,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
     .addField("Leaderboard", friends)
     .setFooter("Thank you for participating into this quiz with us!");
 
-  return channel.send(finalEmbed);
+  return channel.send({ embeds: [finalEmbed] });
 };
 
 module.exports = { runGame };

@@ -27,7 +27,7 @@ module.exports = {
         if (!timer) continue;
         let msg;
         try {
-          msg = await message.channel.send(timer);
+          msg = await message.channel.send({ embeds: [timer] });
         } catch (err) {
           console.error(err);
           continue;
@@ -47,5 +47,5 @@ module.exports = {
       }
     }
   },
-  eventName: "message",
+  eventName: "messageCreate",
 };

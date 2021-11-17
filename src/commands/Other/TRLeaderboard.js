@@ -25,8 +25,7 @@ module.exports = {
     const prefix =
       instance.guilds[message.guild.id].prefix || instance.config.prefix;
 
-    message.channel.startTyping();
-    message.channel.stopTyping();
+    message.channel.sendTyping();
 
     if (!di) {
       // leaderboard for all difficulties.
@@ -104,7 +103,7 @@ module.exports = {
               `<:Sirona_NoCross:762606114444935168> No players have played this difficulty!`
             )
             .setColor(Color.red);
-          await message.channel.send(embed);
+          await message.channel.send({ embeds: [embed] });
           return false;
         }
         if (stats.length === 0 && last === -1) {
@@ -151,7 +150,7 @@ module.exports = {
           .addField(`•   __Time__`, time, true);
 
         if (last === 0) {
-          await message.channel.send(embed);
+          await message.channel.send({ embeds: [embed] });
           return false;
         }
         return embed;

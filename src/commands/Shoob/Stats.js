@@ -86,7 +86,7 @@ module.exports = {
 ${tiers1.join(" | ")}
 ${tiers2.join(" | ")}
 ━━━━━━━━━━━━━━━`);
-      await message.channel.send(hugEmbed);
+      await message.channel.send({ embeds: [hugEmbed] });
     } else {
       if (!Constants.tiers.includes(args[0].toLowerCase())) return false;
       const result = isServer
@@ -151,7 +151,7 @@ ${tiers2.join(" | ")}
         embed.addField(`Recent claims:`, toDisplay);
       }
 
-      message.channel.send(embed);
+      message.channel.send({ embeds: [embed] });
     }
 
     return true;

@@ -53,7 +53,7 @@ module.exports = {
         );
       }
 
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     });
   },
   info,
