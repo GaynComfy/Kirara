@@ -6,8 +6,8 @@ const { createCanvas, loadImage } = require("canvas");
 const { mention, userId } = require("../../utils/regexUtils");
 const isDev = process.env.NODE_ENV === "development";
 const { owner } = isDev
-  ? require("../../config-dev.js")
-  : require("../../config-prod.js");
+  ? require("../../../config-dev")
+  : require("../../../config-prod");
 
 const info = {
   name: "profile",

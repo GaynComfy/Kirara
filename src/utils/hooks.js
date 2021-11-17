@@ -1,8 +1,8 @@
 const isDev = process.env.NODE_ENV === "development";
 const { Permissions } = require("discord.js");
 const { owner } = isDev
-  ? require("../../config-dev.js")
-  : require("../config-prod.js");
+  ? require("../../config-dev")
+  : require("../../config-prod");
 
 exports.withRole = async (member, handler, role) => {
   if (!member || !member.roles || !member.roles.cache)
