@@ -26,10 +26,10 @@
     "src/**/*"
   ],
   "dependencies": {
-    "axios": "^0.23.0",
-    "axios-retry": "^3.2.2",
+    "axios": "^0.24.0",
+    "axios-retry": "^3.2.4",
     "canvas": "^2.8.0",
-    "captcha-canvas": "^2.3.1",
+    "captcha-canvas": "^3.1.0",
     "dayjs": "^1.10.7",
     "discord.js": "^12.5.3",
     "humanize-duration": "^3.27.0",
@@ -39,14 +39,14 @@
     "trek-captcha": "^0.4.0"
   },
   "devDependencies": {
-    "eslint": "^7.32.0",
+    "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "husky": "^7.0.2",
-    "is-ci": "^3.0.0",
-    "lint-staged": "^11.2.3",
+    "husky": "^7.0.4",
+    "is-ci": "^3.0.1",
+    "lint-staged": "^12.0.2",
     "prettier": "^2.4.1",
-    "pretty-quick": "^3.1.1"
+    "pretty-quick": "^3.1.2"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.5",

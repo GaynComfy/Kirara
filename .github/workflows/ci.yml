@@ -36,9 +36,9 @@ jobs:
         with:
           path: |
             ${{ github.workspace }}/node_modules
-          key: ${{ matrix.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          key: ubuntu-npm-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ matrix.os }}-npm-
+            ubuntu-npm-
 
       - name: Install dependencies
         run: npm ci
