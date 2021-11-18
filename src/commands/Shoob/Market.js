@@ -27,6 +27,8 @@ const allowedSortings = [
   "oldest",
 ];
 
+const badItems = ["Key Shard"];
+
 const sortListings = (arr, opt) => {
   if (opt === "r" || opt === "recent")
     return arr.sort((a, b) => b.date_added - a.date_added);
@@ -135,17 +137,22 @@ const processWithoutCard = async (instance, message, tier) => {
     const isLast = last !== -1 && page === last;
     const tierSettings = tier !== "all" ? tierInfo[`T${tier}`] : null;
 
-    const market = result.map(
-      (listing, i) =>
-        `> **${i + 1}.** \`T${
-          listing.item.tier
-        }\` • [\`${listing.item.name.substr(
-          0,
-          15
-        )}\`](https://animesoul.com/cards/info/${listing.item.id}) | ` +
-        `• \`V${listing.item.issue}\` | \`富 ${listing.price}\` | ` +
-        ` \`${dayjs(listing.date_added * 1000).fromNow()}\``
-    );
+    const market = result.map((t, i) => {
+      let item = `> **${i + 1}.** `;
+      const name = t.item_name.substr(0, 15);
+      if (!badItems.includes(t.item_name)) {
+        // cards
+        item += `\`T${t.item.tier}\``;
+        item += `• [\`${name}\`](https://animesoul.com/cards/info/${t.item.id})`;
+        item += ` | • \`V${t.item.issue}\``;
+      } else {
+        // items
+        item += `**${name}**`;
+      }
+      item += ` | \`富 ${t.price}\``;
+      item += ` | \`${dayjs(t.date_added * 1000).fromNow()}\``;
+      return item;
+    });
 
     const embed = new MessageEmbed()
       .setTitle(
