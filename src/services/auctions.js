@@ -145,8 +145,8 @@ module.exports = {
         }
       });
     } else {
-      instance.client.b_handle_auction = async (channel, data) =>
-        await onMessage(channel, data).catch(err => console.error(err));
+      instance.client.b_handle_auction = async ({ channel, msg }) =>
+        await onMessage(channel, msg).catch(err => console.error(err));
     }
   },
   stop: async () => {
