@@ -40,8 +40,6 @@ const createPagedResults = async (
   refresh = false,
   botMessage = null
 ) => {
-  const emojiFilter = (r, user) =>
-    ALL_SYMBOLS.includes(r.emoji.name) && user.id === message.author.id;
   let page = 0;
   let root = embed;
   let sentMessage = null;
@@ -59,12 +57,14 @@ const createPagedResults = async (
       return sentMessage;
     }
 
+    const filter = (r, user) =>
+      ALL_SYMBOLS.includes(r.emoji.name) && user.id === message.author.id;
     const reacts = [BACK_SYMBOL, FORWARD_SYMBOL];
     if (refresh) reacts.push(REPEAT_SYMBOL);
     multiReact(sentMessage, reacts).catch(() => {});
 
     return sentMessage
-      .createReactionCollector({ emojiFilter, idle: 45 * 1000 })
+      .createReactionCollector({ filter, idle: 45 * 1000 })
       .on("collect", async (r, user) => {
         if (running === true) return;
         let newPage = page;
@@ -120,10 +120,6 @@ const createMessagePagedResults = async (
   getMessageForPage
 ) => {
   const s = Symbol();
-  const filter = m =>
-    m.author.id == message.author.id && // it's sent by the user who requested the list
-    s === userMap[`${message.channel.id}:${message.author.id}`] && // no other command is running with us
-    command(m.content); // is a valid command
   let page = 0;
   let root = embed;
   let inSubPage = false;
@@ -138,6 +134,11 @@ const createMessagePagedResults = async (
     userMap[`${message.channel.id}:${message.author.id}`] = s;
 
     sentMessage = await message.channel.send({ embeds: [root] });
+
+    const filter = m =>
+      m.author.id == message.author.id && // it's sent by the user who requested the list
+      s === userMap[`${message.channel.id}:${message.author.id}`] && // no other command is running with us
+      command(m.content); // is a valid command
 
     return sentMessage.channel
       .createMessageCollector({ filter, idle: 45 * 1000 })

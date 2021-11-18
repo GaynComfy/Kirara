@@ -44,13 +44,15 @@ module.exports = {
             )
             .setColor(Constants.color)
             .setDescription(
-              boosters.map(
-                (member, index) =>
-                  `${offset + index + 1}. ${member} *(${humanizeDuration(
-                    Date.now() - member.premiumSinceTimestamp,
-                    { round: true, units: ["y", "mo", "w", "d", "h", "m"] }
-                  )})*`
-              )
+              boosters
+                .map(
+                  (member, index) =>
+                    `${offset + index + 1}. ${member} *(${humanizeDuration(
+                      Date.now() - member.premiumSinceTimestamp,
+                      { round: true, units: ["y", "mo", "w", "d", "h", "m"] }
+                    )})*`
+                )
+                .join("\n")
             )
             .setFooter(
               (page.total > 1
