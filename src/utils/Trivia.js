@@ -156,7 +156,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
         .setColor("#aaddaa")
         .setTitle(`${question.name} results`)
         .setDescription(question.description)
-        .addField(`${answer.key}: ${answer.description}`, winners)
+        .addField(`${answer.key}: ${answer.description}`, winners.join("\n"))
         .setFooter(`${correct.length} of ${all} participants got it right!`);
       await msg.edit({ embeds: [results] });
     } else {
