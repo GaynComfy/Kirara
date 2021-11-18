@@ -1,7 +1,7 @@
 module.exports = {
   execute: async instance => {
     console.log("ready", instance.client.shard.ids[0]);
-    for (const server of instance.client.guilds.cache.array()) {
+    for (const server of instance.client.guilds.cache.map(guild => guild)) {
       const query = await instance.database.simpleQuery("SERVERS", {
         guild_id: server.id,
       });

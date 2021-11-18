@@ -56,7 +56,7 @@ module.exports = {
         );
 
       const guilds = instance.client.guilds.cache
-        .array()
+        .map(guild => guild)
         .filter(g => instance.settings[g.id]["notif_channel"])
         .sort((a, b) => {
           // give priority to network servers

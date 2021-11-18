@@ -49,7 +49,7 @@ module.exports = {
         );
 
       const guilds = instance.client.guilds.cache
-        .array()
+        .map(guild => guild)
         .filter(g => instance.settings[g.id]["games_channel"])
         .sort((a, b) => {
           // give priority to network servers
