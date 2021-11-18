@@ -49,7 +49,6 @@ module.exports = {
         );
 
       const guilds = instance.client.guilds.cache
-        .map(guild => guild)
         .filter(g => instance.settings[g.id]["games_channel"])
         .sort((a, b) => {
           // give priority to network servers
@@ -64,7 +63,7 @@ module.exports = {
         `[${instance.client.shard.ids[0]}] Broadcasting minigame ${data.id} to ${guilds.length} guilds`
       );
 
-      for (const guild of guilds) {
+      for (const guild of guilds.values()) {
         const logChannel = guild.channels.cache.get(
           instance.settings[guild.id]["games_channel"]
         );

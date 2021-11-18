@@ -9,8 +9,7 @@ exports.withRole = async (member, handler, role) => {
     throw new Error("roles not present on user or user not defined");
   if (!role) return handler();
   if (typeof role === "object") role = role.id;
-  if (member.roles.cache.map(role => role).find(r => r.id === role))
-    return handler();
+  if (member.roles.cache.find(r => r.id === role)) return handler();
 
   member
     .send(`You are missing a required role for this command: \`${role.name}\`.`)

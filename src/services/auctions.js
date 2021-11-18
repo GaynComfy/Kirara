@@ -56,7 +56,6 @@ module.exports = {
         );
 
       const guilds = instance.client.guilds.cache
-        .map(guild => guild)
         .filter(g => instance.settings[g.id]["notif_channel"])
         .sort((a, b) => {
           // give priority to network servers
@@ -71,7 +70,7 @@ module.exports = {
         `[${instance.client.shard.ids[0]}] Broadcasting auction ${data.id} to ${guilds.length} guilds`
       );
       //      let ranSleep = false;
-      for (const guild of guilds) {
+      for (const guild of guilds.values()) {
         // if(!Constants.network.includes(guild.id) && !ranSleep) {
         //   const len = guilds.filter(g => !Constants.network.includes(g.id)).length;
         //   const shard_id = instance.client.shard.ids[0];
