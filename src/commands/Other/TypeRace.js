@@ -155,9 +155,9 @@ module.exports = {
         );
       } else {
         result
-          .addField("•   __User__", results.toString(), true)
-          .addField("•   __CPM__", resultsw.toString(), true)
-          .addField("•   __Time__", timer.toString(), true);
+          .addField("•   __User__", results.join("\n"), true)
+          .addField("•   __CPM__", resultsw.join("\n"), true)
+          .addField("•   __Time__", timer.join("\n"), true);
       }
       message.channel.send({ embeds: [result] });
     });

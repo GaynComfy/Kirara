@@ -120,10 +120,10 @@ module.exports = {
             cards.length > 2 ? `1-${cards.length}` : "1"
           }** to view a specific card.`
         )
-        .addField("•   **N.** `T ` • __**Cards**__", names.toString(), true)
+        .addField("•   **N.** `T ` • __**Cards**__", names.join("\n"), true)
         .addField(
           `•   __${isEvent ? "Event" : "Source"}__`,
-          source.toString(),
+          source.join("\n"),
           true
         );
     };

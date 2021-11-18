@@ -128,7 +128,7 @@ module.exports = {
                   `[\`${e.name}\`](https://animesoul.com/cards/info/${e.card_id}) ` +
                   `| \`Issue: ${e.issue}\``
               )
-              .toString()
+              .join("\n")
           : "- No cards <:SShoob:783636544720207903>"
       );
       if (last === 0) {

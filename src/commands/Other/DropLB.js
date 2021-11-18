@@ -77,8 +77,8 @@ module.exports = {
             (last === -1 || page < last ? " | React ▶️ for next page" : "") +
             (page !== 0 ? " | React ◀️ to go back" : "")
         )
-        .addField(`•   __User__`, users.toString(), true)
-        .addField(`•   __Drops__`, spawns.toString(), true);
+        .addField(`•   __User__`, users.join("\n"), true)
+        .addField(`•   __Drops__`, spawns.join("\n"), true);
 
       if (last === 0) {
         await message.channel.send({ embeds: [embed] });

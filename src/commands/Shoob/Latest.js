@@ -71,8 +71,8 @@ module.exports = {
         )
         .setColor(tierSettings.color)
         .setURL(`https://animesoul.com/cards`)
-        .addField("•   **__Cards__**", cards.toString(), true)
-        .addField("•   **__Series__**", series.toString(), true)
+        .addField("•   **__Cards__**", cards.join("\n"), true)
+        .addField("•   **__Series__**", series.join("\n"), true)
         .setFooter(
           (!singlePage
             ? `Page: ${last !== -1 && page >= last ? "Last" : page + 1}`

@@ -113,8 +113,8 @@ module.exports = {
           `(https://animesoul.com/cards/info/${item.card_id})`
         );
       });
-      embed.addField("•   `T ` • __**Cards**__", cards.toString(), true);
-      embed.addField("•   __**Claimed by**__", claimers.toString(), true);
+      embed.addField("•   `T ` • __**Cards**__", cards.join("\n"), true);
+      embed.addField("•   __**Claimed by**__", claimers.join("\n"), true);
       const since = humanizeDuration(
         Date.now() - recentCards[reverse ? 0 : recentCards.length - 1].time,
         { round: true, units: ["d", "h", "m", "s"] }
