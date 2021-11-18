@@ -60,7 +60,7 @@ module.exports = {
         });
 
       console.debug(
-        `[${instance.client.shard.ids[0]}] Broadcasting minigame ${data.id} to ${guilds.length} guilds`
+        `[${instance.client.shard.ids[0]}] Broadcasting minigame ${data.id} to ${guilds.size} guilds`
       );
 
       for (const guild of guilds.values()) {
