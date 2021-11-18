@@ -37,8 +37,7 @@ module.exports = {
             : "<:Flame:783439293506519101> The event of this server just ended!"
         )
         .setColor("RANDOM");
-      message.channel.send({ embed: embed });
-      return true;
+      return await message.channel.send({ embeds: [embed] });
     });
   },
   info,
