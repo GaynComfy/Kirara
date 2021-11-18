@@ -136,7 +136,7 @@ module.exports = {
         for (let i = 1; i < instance.client.shard.count; i++) {
           await instance.client.shard
             .broadcastEval(
-              async client => {
+              async (client, { channel, msg }) => {
                 return await client.b_handle_auction(channel, msg);
               },
               { context: { channel, msg }, shard: i }
@@ -145,7 +145,7 @@ module.exports = {
         }
       });
     } else {
-      instance.client.b_handle_auction = async ({ channel, msg }) =>
+      instance.client.b_handle_auction = async (channel, msg) =>
         await onMessage(channel, msg).catch(err => console.error(err));
     }
   },
