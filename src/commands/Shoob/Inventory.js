@@ -129,7 +129,7 @@ module.exports = {
                   `| \`Issue: ${e.issue}\``
               )
               .join("\n")
-          : "- No cards <:SShoob:783636544720207903>"
+          : "- No cards <:Shoob:910973650042236938>"
       );
       if (last === 0) {
         await message.channel.send({ embeds: [embed] });

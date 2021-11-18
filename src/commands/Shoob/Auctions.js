@@ -84,7 +84,7 @@ const computeListings = async (instance, page, tier, card_id, active) => {
     .addField(
       `__${active ? "Active" : "Latest"} Auctions:__`,
       cards.length === 0
-        ? "- None <:SShoob:783636544720207903>"
+        ? "- None <:Shoob:910973650042236938>"
         : cards.join("\n")
     )
     .setFooter(

@@ -107,13 +107,13 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
             .addField(
               "__Top Owners:__",
               topOwners.length === 0
-                ? "- No one <:SShoob:783636544720207903>"
+                ? "- No one <:Shoob:910973650042236938>"
                 : topOwners.join("\n")
             )
             .addField(
               "__Market Listings:__",
               market.length === 0
-                ? "- None <:SShoob:783636544720207903>"
+                ? "- None <:Shoob:910973650042236938>"
                 : market.join("\n")
             );
           break;
@@ -163,7 +163,7 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
             .addField(
               `__${tracked ? "Stored Card Claims" : "Card Owners"}:__`,
               owners.length === 0
-                ? "- No one <:SShoob:783636544720207903>"
+                ? "- No one <:Shoob:910973650042236938>"
                 : owners.join("\n")
             )
             .setImage(Constants.footer)

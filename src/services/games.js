@@ -39,7 +39,7 @@ module.exports = {
 
       const tierSettings = tierInfo[tier];
       const embed = new MessageEmbed()
-        .setTitle(`> <:SShoob:783636544720207903> Enter the Minigame`)
+        .setTitle(`> <:Shoob:910973650042236938> Enter the Minigame`)
         .setURL(`https://animesoul.com/mini-game/${data.id}`)
         .setColor(tierSettings.color)
         .setThumbnail(`https://animesoul.com/api/cardr/${data.card_id}`)
