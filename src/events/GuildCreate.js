@@ -8,7 +8,7 @@ module.exports = {
         guild_id: server.id,
         guild_name: server.name,
 
-        owner_id: server.ownerID,
+        owner_id: server.ownerId,
         description: server.description,
         banner: server.banner || null,
         icon: server.icon || null,

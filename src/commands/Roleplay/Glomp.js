@@ -35,7 +35,7 @@ module.exports = {
         embed.setFooter(
           `${message.author.username} glomped others ${send} times and received ${received} glomps`
         );
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
       }
     );
 

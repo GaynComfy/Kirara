@@ -41,7 +41,7 @@ module.exports = {
       } else {
         return false;
       }
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     });
   },
   info,

@@ -62,7 +62,6 @@ module.exports = {
 
     const attachment = new MessageAttachment(buffer, "captcha.png");
     const embed = new MessageEmbed()
-      .attachFiles([attachment])
       .setColor(Color.default)
       .setImage("attachment://captcha.png");
     if (diff === "shoob" || diff === "spawn")
@@ -72,25 +71,26 @@ module.exports = {
 
     let m;
     try {
-      m = await message.channel.send(embed);
+      m = await message.channel.send({ embeds: [embed], files: [attachment] });
     } catch (err) {
       delete channelMap[message.channel.id];
       throw err;
     }
     const startTime = m.createdTimestamp;
 
-    const collector = message.channel.createMessageCollector(
-      msg =>
-        channelMap[message.channel.id] === s &&
-        msg.content.toLowerCase() ===
-          (diff === "shoob" || diff === "spawn"
-            ? `claim ${txt}`
-            : diff === "collect"
-            ? `collect ${txt}`
-            : txt) &&
-        plays.indexOf(msg.author.id) === -1,
-      { time: difficulty[diff] >= 12 ? 15000 : 10000 }
-    );
+    const filter = msg =>
+      channelMap[message.channel.id] === s &&
+      msg.content.toLowerCase() ===
+        (diff === "shoob" || diff === "spawn"
+          ? `claim ${txt}`
+          : diff === "collect"
+          ? `collect ${txt}`
+          : txt) &&
+      plays.indexOf(msg.author.id) === -1;
+    const collector = message.channel.createMessageCollector({
+      filter,
+      time: difficulty[diff] >= 12 ? 15000 : 10000,
+    });
 
     collector.on("collect", msg => {
       const took = end(startTime, msg.createdTimestamp);
@@ -112,9 +112,9 @@ module.exports = {
         .then(async lastTop => {
           // do not react if we can't
           if (
-            !message.guild
-              .member(instance.client.user)
-              .hasPermission(["ADD_REACTIONS", "READ_MESSAGE_HISTORY"])
+            !message.guild.members.cache
+              .get(instance.client.user.id)
+              .permissions.has(["ADD_REACTIONS", "READ_MESSAGE_HISTORY"])
           )
             return;
 
@@ -158,11 +158,11 @@ module.exports = {
         );
       } else {
         result
-          .addField("•   __User__", results, true)
-          .addField("•   __CPM__", resultsw, true)
-          .addField("•   __Time__", timer, true);
+          .addField("•   __User__", results.join("\n"), true)
+          .addField("•   __CPM__", resultsw.join("\n"), true)
+          .addField("•   __Time__", timer.join("\n"), true);
       }
-      message.channel.send(result);
+      message.channel.send({ embeds: [result] });
     });
 
     return collector;

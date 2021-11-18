@@ -21,7 +21,11 @@ module.exports = {
       message.author.id,
       async () => {
         const eachShardGuilds = await instance.client.shard.broadcastEval(
-          "this.guilds.cache.map(g => ({ name: g.name, count: g.memberCount }))"
+          client =>
+            client.guilds.cache.map(g => ({
+              name: g.name,
+              count: g.memberCount,
+            }))
         );
         const guilds = eachShardGuilds.flat().sort((a, b) => b.count - a.count);
 

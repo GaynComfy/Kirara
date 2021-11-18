@@ -35,7 +35,7 @@ module.exports = {
         embed.setFooter(
           `${message.author.username} gave others ${send} highfives and received ${received} highfives`
         );
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
       }
     );
 

@@ -44,5 +44,5 @@ module.exports = {
       }
     }
   },
-  eventName: "message",
+  eventName: "messageCreate",
 };

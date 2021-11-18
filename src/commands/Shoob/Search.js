@@ -70,7 +70,7 @@ module.exports = {
           `<:Sirona_NoCross:762606114444935168> No cards found for that criteria.`
         )
         .setColor(Color.red);
-      message.channel.send(embed);
+      message.reply({ embeds: [embed] });
       return null;
     }
     if (card) return getCard(instance, message, card, isGlobal);
@@ -129,8 +129,12 @@ module.exports = {
             cards.length > 2 ? `1-${cards.length}` : "1"
           }** to view a specific card.`
         )
-        .addField("•   **N.** `T ` • __**Cards**__", names, true)
-        .addField(`•   __${isEvent ? "Event" : "Source"}__`, source, true);
+        .addField("•   **N.** `T ` • __**Cards**__", names.join("\n"), true)
+        .addField(
+          `•   __${isEvent ? "Event" : "Source"}__`,
+          source.join("\n"),
+          true
+        );
     };
 
     return createMessagePagedResults(message, 1, handler);

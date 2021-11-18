@@ -41,6 +41,8 @@ const info = {
     allowedSortings.join(","),
 };
 
+const badItems = ["Key Shard"];
+
 const RECENT = ["r", "recent"];
 const OLDEST = ["o", "oldest"];
 const PRICE_UP = ["pu", "priceup"];
@@ -65,14 +67,13 @@ const processWithCard = async (instance, message, option, card) => {
     "300"
   );
   const sorted = sortListings(listings, option);
-  message.channel.stopTyping();
   if (sorted.length === 0) {
     const embed = new MessageEmbed()
       .setDescription(
         `<:Sirona_NoCross:762606114444935168> No active market listings for this card!`
       )
       .setColor(Color.red);
-    message.channel.send({ embed });
+    message.reply({ embeds: [embed] });
     return null;
   }
 
@@ -118,7 +119,9 @@ const processWithCard = async (instance, message, option, card) => {
     }
     embed.addField(
       `__Market Listings:__`,
-      market.length === 0 ? "- None <:SShoob:783636544720207903>" : market
+      market.length === 0
+        ? "- None <:Shoob:910973650042236938>"
+        : market.join("\n")
     );
 
     return embed;
@@ -142,23 +145,28 @@ const processWithoutCard = async (instance, message, tier) => {
           `<:Sirona_NoCross:762606114444935168> No active market listings!`
         )
         .setColor(Color.red);
-      message.channel.send({ embed });
+      message.reply({ embeds: [embed] });
       return false;
     }
     const isLast = last !== -1 && page === last;
     const tierSettings = tier !== "all" ? tierInfo[`T${tier}`] : null;
 
-    const market = result.map(
-      (listing, i) =>
-        `> **${i + 1}.** \`T${
-          listing.item.tier
-        }\` • [\`${listing.item.name.substr(
-          0,
-          15
-        )}\`](https://animesoul.com/cards/info/${listing.item.id}) | ` +
-        `• \`V${listing.item.issue}\` | \`富 ${listing.price}\` | ` +
-        ` \`${dayjs(listing.date_added * 1000).fromNow()}\``
-    );
+    const market = result.map((t, i) => {
+      let item = `> **${i + 1}.** `;
+      const name = t.item_name.substr(0, 15);
+      if (!badItems.includes(t.item_name)) {
+        // cards
+        item += `\`T${t.item.tier}\``;
+        item += `• [\`${name}\`](https://animesoul.com/cards/info/${t.item.id})`;
+        item += ` | • \`V${t.item.issue}\``;
+      } else {
+        // items
+        item += `\`--\` • **${name}**`;
+      }
+      item += ` | \`富 ${t.price}\``;
+      item += ` | \`${dayjs(t.date_added * 1000).fromNow()}\``;
+      return item;
+    });
 
     const embed = new MessageEmbed()
       .setTitle(
@@ -179,11 +187,13 @@ const processWithoutCard = async (instance, message, tier) => {
 
     embed.addField(
       `__Market Listings:__`,
-      market.length === 0 ? "- None <:SShoob:783636544720207903>" : market
+      market.length === 0
+        ? "- None <:Shoob:910973650042236938>"
+        : market.join("\n")
     );
 
     if (last === 0) {
-      await message.channel.send(embed);
+      await message.reply({ embeds: [embed] });
       return false;
     }
     return embed;
@@ -206,7 +216,7 @@ module.exports = {
     if (hasOption && args.length === 1) return false;
     const option = hasOption ? args.shift().toLowerCase() : null;
     const name = args.join(" ");
-    message.channel.startTyping();
+    message.channel.sendTyping();
     const card =
       (await Fetcher.fetchByName(instance, name, tier, isEvent)) ||
       (name.indexOf(" ") !== -1
@@ -218,13 +228,12 @@ module.exports = {
           )
         : null);
     if (card === null) {
-      message.channel.stopTyping();
       const embed = new MessageEmbed()
         .setDescription(
           `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
         )
         .setColor(Color.red);
-      message.channel.send({ embed });
+      message.reply({ embeds: [embed] });
       return null;
     }
     await processWithCard(instance, message, option, card);

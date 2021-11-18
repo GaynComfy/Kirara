@@ -125,10 +125,10 @@ class Instance {
     for (const file of entries) {
       delete require.cache[require.resolve(`./${file}`)];
       const command = require(`./${file}`);
+      if (command.info.disabled) continue;
       if (commands[command.info.name]) {
         throw new Error(`Duplicated command ${command.info.name}`);
       }
-      if (command.info.disabled) continue;
       if (command.init) await command.init(this);
       command.file = file;
       console.log(
@@ -142,7 +142,9 @@ class Instance {
     return commands;
   }
   async initReload() {
-    return await this.client.shard.broadcastEval(`this.b_instance.reload()`);
+    return await this.client.shard.broadcastEval(client =>
+      client.b_instance.reload()
+    );
   }
   createQueue(id) {
     this.queues[id] = new Queue();

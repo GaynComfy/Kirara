@@ -26,6 +26,7 @@ module.exports = {
           embed.setDescription(
             "<:Sirona_NoCross:762606114444935168> Already set to small."
           );
+          return message.channel.send({ embeds: [embed] });
         }
         await instance.database.simpleInsert("SETTINGS", {
           key: `roleplay_size:${message.channel.id}`,
@@ -44,6 +45,7 @@ module.exports = {
           embed.setDescription(
             "<:Sirona_NoCross:762606114444935168> Already set to big."
           );
+          return message.channel.send({ embeds: [embed] });
         }
         await instance.database.simpleDelete("SETTINGS", {
           id: result[0].id,
@@ -56,7 +58,7 @@ module.exports = {
         );
       }
 
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     });
   },
   info,

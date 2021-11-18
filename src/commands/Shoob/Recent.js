@@ -118,8 +118,8 @@ module.exports = {
           `(https://animesoul.com/cards/info/${item.card_id})`
         );
       });
-      embed.addField("•   `T ` • __**Cards**__", cards, true);
-      embed.addField("•   __**Claimed by**__", claimers, true);
+      embed.addField("•   `T ` • __**Cards**__", cards.join("\n"), true);
+      embed.addField("•   __**Claimed by**__", claimers.join("\n"), true);
       const since = humanizeDuration(
         Date.now() - recentCards[reverse ? 0 : recentCards.length - 1].time,
         { round: true, units: ["d", "h", "m", "s"] }
@@ -130,7 +130,7 @@ module.exports = {
         "> <:Sirona_NoCross:762606114444935168> No cards have spawned yet this season."
       );
     }
-    return message.channel.send(embed);
+    return message.channel.send({ embeds: [embed] });
   },
   info,
 };

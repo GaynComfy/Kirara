@@ -49,7 +49,7 @@ module.exports = {
             `<:Sirona_NoCross:762606114444935168> The bot hasn't tracked any claims this season.`
           )
           .setColor(Color.red);
-        await message.channel.send(embed);
+        await message.channel.send({ embeds: [embed] });
         return null;
       }
       if (claimers.length === 0 && last === -1) {
@@ -84,11 +84,11 @@ module.exports = {
             (last === -1 || page < last ? " | React ▶️ for next page" : "") +
             (page !== 0 ? " | React ◀️ to go back" : "")
         )
-        .addField(`•   __User__`, users, true)
-        .addField(`•   __Claims__`, claims, true);
+        .addField(`•   __User__`, users.join("\n"), true)
+        .addField(`•   __Claims__`, claims.join("\n"), true);
 
       if (last === 0) {
-        await message.channel.send(embed);
+        await message.channel.send({ embeds: [embed] });
         return false;
       }
       return embed;

@@ -107,7 +107,7 @@ module.exports = {
                 );
               }
               try {
-                await logChannel.send(log);
+                await logChannel.send({ embeds: [log] });
               } catch (err) {
                 console.error(err);
                 if (err.code === 50001 || err.code === 50013) {
@@ -159,7 +159,7 @@ module.exports = {
             }
 
             try {
-              const msg = await messageChannel.send(oweeet);
+              const msg = await messageChannel.send({ embeds: [oweeet] });
               // With T6 spawns being corrupted, I believe it'd be better to do this.
               if (data.tier !== "6")
                 deleteMap[msg.id] = { msg, time: Date.now() + 15 * 1000 };

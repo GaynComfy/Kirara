@@ -94,7 +94,9 @@ const computeListings = async (instance, page, tier, card_id, active) => {
     .setColor(colour)
     .addField(
       `__${active ? "Active" : "Latest"} Auctions:__`,
-      cards.length === 0 ? "- None <:SShoob:783636544720207903>" : cards
+      cards.length === 0
+        ? "- None <:Shoob:910973650042236938>"
+        : cards.join("\n")
     )
     .setFooter(
       `Page: ${page + 1} | ` +
@@ -187,7 +189,7 @@ const computeAuction = async (instance, aid) => {
       );
     embed.addField(
       `${asAuc.bids} ${asAuc.bids === 1 ? "Bid" : "Bids"}`,
-      lastBids.length === 0 ? "-" : lastBids
+      lastBids.length === 0 ? "-" : lastBids.join("\n")
     );
   }
 
@@ -228,7 +230,7 @@ module.exports = {
             "<:Sirona_NoCross:762606114444935168> I couldn't find a card or auction with that ID."
           )
           .setColor(Color.red);
-        return message.channel.send(embed);
+        return message.reply({ embeds: [embed] });
       }
 
       const check = checkId[0];
@@ -265,13 +267,15 @@ module.exports = {
             `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
           )
           .setColor(Color.red);
-        return message.channel.send(embed);
+        return message.channel.send({ embeds: [embed] });
       }
       card_id = card.id;
     }
     if ((auc_id || tier) && !card_id && args.length >= 1) return false;
-    if (auc_id)
-      return message.channel.send(await computeAuction(instance, auc_id));
+    if (auc_id) {
+      const embed = await computeAuction(instance, auc_id);
+      return message.channel.send({ embeds: [embed] });
+    }
 
     let recent;
     let page = 0;
@@ -293,7 +297,7 @@ module.exports = {
       const query = await computeListings(instance, p, tier, card_id, !hasAll);
       if (query.recent.length !== 0) recent = query.recent;
       if (query.recent.length === 0 && page === 0) {
-        await message.channel.send(query.embed);
+        await message.channel.send({ embeds: [query.embed] });
         return false;
       }
 

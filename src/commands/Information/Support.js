@@ -19,6 +19,7 @@ const info = {
   description: "Join the Support server!",
 };
 module.exports = {
-  execute: async (instance, message) => message.channel.send(embed),
+  execute: async (instance, message) =>
+    message.channel.send({ embeds: [embed] }),
   info,
 };

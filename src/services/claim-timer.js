@@ -21,7 +21,7 @@ module.exports = {
           }
 
           await timer.msg
-            .edit(embed)
+            .edit({ embeds: [embed] })
             .then(() => {
               const i = chn.indexOf(timer);
               if (i !== -1) chn[i].last = Date.now();

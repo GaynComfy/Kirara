@@ -26,6 +26,7 @@ const info = {
   description: "Bot info!",
 };
 module.exports = {
-  execute: async (instance, message) => message.channel.send(embed),
+  execute: async (instance, message) =>
+    message.channel.send({ embeds: [embed] }),
   info,
 };

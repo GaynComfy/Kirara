@@ -7,7 +7,7 @@ const info = {
   name: "droplb",
   aliases: ["dlb"],
   matchCase: false,
-  category: "Other",
+  category: "UwU",
   disabled: process.env.NODE_ENV !== "development",
 };
 
@@ -33,7 +33,7 @@ module.exports = {
           `<:Sirona_NoCross:762606114444935168> This server has no dropped cards this month.`
         )
         .setColor(Color.red);
-      return await message.channel.send(embed);
+      return await message.channel.send({ embeds: [embed] });
     }
 
     const sorted = values.sort((a, b) => b.value - a.value);
@@ -77,11 +77,11 @@ module.exports = {
             (last === -1 || page < last ? " | React ▶️ for next page" : "") +
             (page !== 0 ? " | React ◀️ to go back" : "")
         )
-        .addField(`•   __User__`, users, true)
-        .addField(`•   __Drops__`, spawns, true);
+        .addField(`•   __User__`, users.join("\n"), true)
+        .addField(`•   __Drops__`, spawns.join("\n"), true);
 
       if (last === 0) {
-        await message.channel.send(embed);
+        await message.channel.send({ embeds: [embed] });
         return false;
       }
       return embed;

@@ -18,6 +18,7 @@ const info = {
   description: "Invite this awesome bot to other servers!",
 };
 module.exports = {
-  execute: async (instance, message) => message.channel.send(embed),
+  execute: async (instance, message) =>
+    message.channel.send({ embeds: [embed] }),
   info,
 };

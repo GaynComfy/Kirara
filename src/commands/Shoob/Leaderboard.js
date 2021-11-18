@@ -30,7 +30,7 @@ module.exports = {
 
     if (isTotal) args.shift();
 
-    message.channel.startTyping();
+    message.channel.sendTyping();
 
     const { rows: claimers } = isTotal
       ? await instance.database.pool.query(
@@ -45,7 +45,6 @@ module.exports = {
         );
 
     if (claimers.length === 0) {
-      message.channel.stopTyping();
       const embed = new MessageEmbed()
         .setDescription(
           `<:Sirona_NoCross:762606114444935168> This server has no claimed cards${
@@ -53,7 +52,7 @@ module.exports = {
           }.`
         )
         .setColor(Color.red);
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     }
 
     const background = await loadImage("./assets/images/leaderboard2.png");
@@ -124,11 +123,9 @@ module.exports = {
         `${message.guild.name}'s ${isTotal ? "Total " : ""}Leaderboard`,
         message.guild.iconURL({ dynamic: true })
       )
-      .attachFiles([attachment])
       .setImage("attachment://leaderboard.png");
 
-    message.channel.stopTyping();
-    message.channel.send({ embed });
+    message.channel.send({ embeds: [embed], files: [attachment] });
     return true;
   },
   info,

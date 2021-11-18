@@ -38,7 +38,7 @@ module.exports = {
 
       const tierSettings = tierInfo[tier];
       const embed = new MessageEmbed()
-        .setTitle(`> <:SShoob:783636544720207903> Enter the Minigame`)
+        .setTitle(`> <:Shoob:910973650042236938> Enter the Minigame`)
         .setURL(`https://animesoul.com/mini-game/${data.id}`)
         .setColor(tierSettings.color)
         .setThumbnail(`https://animesoul.com/api/cardr/${data.card_id}`)
@@ -48,7 +48,6 @@ module.exports = {
         );
 
       const guilds = instance.client.guilds.cache
-        .array()
         .filter(g => instance.settings[g.id]["games_channel"])
         .sort((a, b) => {
           // give priority to network servers
@@ -60,17 +59,17 @@ module.exports = {
         });
 
       console.debug(
-        `[${instance.client.shard.ids[0]}] Broadcasting minigame ${data.id} to ${guilds.length} guilds`
+        `[${instance.client.shard.ids[0]}] Broadcasting minigame ${data.id} to ${guilds.size} guilds`
       );
 
-      for (const guild of guilds) {
+      for (const guild of guilds.values()) {
         const logChannel = guild.channels.cache.get(
           instance.settings[guild.id]["games_channel"]
         );
         if (logChannel) {
           const autodel = instance.settings[guild.id]["games_autodelete"];
           try {
-            const msg = await logChannel.send(embed);
+            const msg = await logChannel.send({ embeds: [embed] });
             if (autodel) {
               deleteMap[msg.id] = {
                 msg,

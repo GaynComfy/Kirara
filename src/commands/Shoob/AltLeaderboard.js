@@ -21,8 +21,7 @@ module.exports = {
     const isTotal = args.length >= 1 && TOTAL.includes(args[0]);
     if (isTotal) args.shift();
 
-    message.channel.startTyping();
-    message.channel.stopTyping();
+    message.channel.sendTyping();
 
     let last = -1;
 
@@ -51,7 +50,7 @@ module.exports = {
             }.`
           )
           .setColor(Color.red);
-        await message.channel.send(embed);
+        await message.channel.send({ embeds: [embed] });
         return null;
       }
 
@@ -88,11 +87,11 @@ module.exports = {
             (last === -1 || page < last ? " | React ▶️ for next page" : "") +
             (page !== 0 ? " | React ◀️ to go back" : "")
         )
-        .addField(`•   __User__`, users, true)
-        .addField(`•   __Claims__`, claims, true);
+        .addField(`•   __User__`, users.join("\n"), true)
+        .addField(`•   __Claims__`, claims.join("\n"), true);
 
       if (last === 0) {
-        await message.channel.send(embed);
+        await message.channel.send({ embeds: [embed] });
         return false;
       }
       return embed;

@@ -56,7 +56,7 @@ module.exports = {
         .setColor("RANDOM");
     } else return false;
 
-    return message.channel.send(embed);
+    return message.reply({ embeds: [embed] });
   },
   info,
 };

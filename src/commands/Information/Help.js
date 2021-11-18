@@ -67,7 +67,7 @@ module.exports = {
         );
       });
 
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     }
 
     const cmd = all.find(
@@ -108,7 +108,7 @@ module.exports = {
           "<:Sirona_NoCross:762606114444935168> That command doesn't exists."
         );
     }
-    return message.channel.send(embed);
+    return message.channel.send({ embeds: [embed] });
   },
   info,
 };

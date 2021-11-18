@@ -92,7 +92,7 @@ module.exports = {
           `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
         )
         .setColor(Color.red);
-      message.channel.send(embed);
+      message.channel.send({ embeds: [embed] });
       return null;
     }
     if (card) tier = card.tier;
@@ -136,16 +136,18 @@ module.exports = {
       embed.addField(
         `•   __Cards__`,
         result.length > 0
-          ? result.map(
-              e =>
-                `> \`T${e.tier.toUpperCase()}\` • ` +
-                `[\`${e.name}\`](https://animesoul.com/cards/info/${e.card_id}) ` +
-                `| \`Issue: ${e.issue}\``
-            )
-          : "- No cards <:SShoob:783636544720207903>"
+          ? result
+              .map(
+                e =>
+                  `> \`T${e.tier.toUpperCase()}\` • ` +
+                  `[\`${e.name}\`](https://animesoul.com/cards/info/${e.card_id}) ` +
+                  `| \`Issue: ${e.issue}\``
+              )
+              .join("\n")
+          : "- No cards <:Shoob:910973650042236938>"
       );
       if (last === 0) {
-        await message.channel.send(embed);
+        await message.channel.send({ embeds: [embed] });
         return false;
       }
       return embed;

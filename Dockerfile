@@ -1,4 +1,4 @@
-FROM node:14.18.0-alpine3.14 AS builder
+FROM node:16-alpine AS builder
 WORKDIR /usr/app
 RUN apk --no-cache add build-base cairo-dev giflib-dev jpeg-dev libpng-dev librsvg-dev pango-dev
 
@@ -8,7 +8,7 @@ RUN npm install --production
 COPY . /usr/app/
 RUN yarn pack --filename package.tgz
 
-FROM node:14.18.0-alpine3.14
+FROM node:16-alpine
 COPY --from=builder /usr/app/package.tgz /usr/app/
 RUN apk --no-cache add rsync tar \
     && tar -xzf /usr/app/package.tgz && rsync -vua --delete-after /usr/app/package/ /usr/app/ \

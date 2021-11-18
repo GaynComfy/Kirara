@@ -21,7 +21,7 @@ module.exports = {
           `🖍️ midori: \`${ping}\``
       )
       .setColor("#e0e0e0");
-    return message.channel.send(embed);
+    return message.channel.send({ embeds: [embed] });
   },
   info,
 };

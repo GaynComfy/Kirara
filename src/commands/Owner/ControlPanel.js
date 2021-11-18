@@ -29,7 +29,7 @@ const actions = [
         "Kirara Dev Panel",
         instance.client.user.displayAvatarURL({ type: "png" })
       );
-      await embedMessage.edit(embed);
+      await embedMessage.edit({ embeds: [embed] });
 
       return true;
     },
@@ -54,7 +54,7 @@ const actions = [
         "Reloading...",
         r.client.user.displayAvatarURL({ type: "png" })
       );
-      await embedMessage.edit(embed);
+      await embedMessage.edit({ embeds: [embed] });
 
       await instance.initReload();
 
@@ -66,7 +66,7 @@ const actions = [
           "Reloaded!",
           r.client.user.displayAvatarURL({ type: "png" })
         );
-        embedMessage.edit(embed);
+        embedMessage.edit({ embeds: [embed] });
       }, 3000);
     },
   },
@@ -80,7 +80,7 @@ const actions = [
         "Rebooting in 5 Seconds",
         r.client.user.displayAvatarURL({ type: "png" })
       );
-      await embedMessage.edit(embed);
+      await embedMessage.edit({ embeds: [embed] });
 
       setTimeout(() => {
         instance.client.shard.respawnAll();
@@ -123,7 +123,7 @@ const actions = [
         "My Status",
         r.client.user.displayAvatarURL({ type: "png" })
       );
-      await embedMessage.edit(embed);
+      await embedMessage.edit({ embeds: [embed] });
     },
   },
 ];
@@ -148,19 +148,17 @@ module.exports = {
           )
           .setThumbnail("https://i.imgur.com/0Ei73vS.gif");
         let state = null;
-        const msg = await message.channel.send(helpembed);
+        const msg = await message.channel.send({ embeds: [helpembed] });
         const listeners = [];
         for (const action of actions) {
           await msg.react(action.emote);
-          const collector = msg.createReactionCollector(
-            (reaction, user) => {
-              return (
-                reaction.emoji.name === action.emote &&
-                user.id === message.author.id
-              );
-            },
-            { max: 1 }
-          );
+          const filter = (reaction, user) => {
+            return (
+              reaction.emoji.name === action.emote &&
+              user.id === message.author.id
+            );
+          };
+          const collector = msg.createReactionCollector({ filter, max: 1 });
           collector.on("collect", reaction => {
             if (state !== action.emote) {
               /* i hate my life for this but its the only working approach */

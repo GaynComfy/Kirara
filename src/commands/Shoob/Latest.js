@@ -75,8 +75,8 @@ module.exports = {
         )
         .setColor(tierSettings.color)
         .setURL(`https://animesoul.com/cards`)
-        .addField("•   **__Cards__**", cards, true)
-        .addField("•   **__Series__**", series, true)
+        .addField("•   **__Cards__**", cards.join("\n"), true)
+        .addField("•   **__Series__**", series.join("\n"), true)
         .setFooter(
           (!singlePage
             ? `Page: ${last !== -1 && page >= last ? "Last" : page + 1}`
@@ -85,7 +85,7 @@ module.exports = {
             (page !== 0 ? " | React ◀️ to go back" : "")
         );
       if (last === 0) {
-        await message.channel.send(embed);
+        await message.channel.send({ embeds: [embed] });
         return false;
       }
       return embed;

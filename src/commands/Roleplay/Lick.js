@@ -36,7 +36,7 @@ module.exports = {
         embed.setFooter(
           `${message.author.username} licked others ${send} times and got licked ${received} times`
         );
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
       }
     );
 
