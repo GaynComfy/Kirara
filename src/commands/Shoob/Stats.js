@@ -148,7 +148,7 @@ ${tiers2.join(" | ")}
       if (result.rows.length === 0) {
         embed.addField(`Recent claims:`, "``No cards claimed yet.``", true);
       } else {
-        embed.addField(`Recent claims:`, toDisplay);
+        embed.addField(`Recent claims:`, toDisplay.join("\n"));
       }
 
       message.channel.send({ embeds: [embed] });
