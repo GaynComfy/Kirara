@@ -58,11 +58,14 @@ module.exports = {
           .setTitle("xp highest for this week")
           .addField(
             "Top",
-            sorted.slice(0, 10).map((entry, index) => {
-              return `${index + 1}. <@!${
-                entry.id
-              }>: ${entry.value.toLocaleString()}`;
-            })
+            sorted
+              .slice(0, 10)
+              .map((entry, index) => {
+                return `${index + 1}. <@!${
+                  entry.id
+                }>: ${entry.value.toLocaleString()}`;
+              })
+              .join("\n")
           );
         message.channel.send({ embeds: [embed] });
         return true;
