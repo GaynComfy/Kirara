@@ -147,7 +147,7 @@ const processWithoutCard = async (instance, message, tier) => {
         item += ` | • \`V${t.item.issue}\``;
       } else {
         // items
-        item += `**${name}**`;
+        item += `\`--\` • **${name}**`;
       }
       item += ` | \`富 ${t.price}\``;
       item += ` | \`${dayjs(t.date_added * 1000).fromNow()}\``;
