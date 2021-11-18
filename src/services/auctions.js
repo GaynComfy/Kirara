@@ -136,8 +136,12 @@ module.exports = {
         for (let i = 1; i < instance.client.shard.count; i++) {
           await instance.client.shard
             .broadcastEval(
-              async client => {
-                return await client.b_handle_auction(channel, msg);
+              () => {
+                return eval(
+                  `this.b_handle_auction(${JSON.stringify(
+                    channel
+                  )}, ${JSON.stringify(msg)})`
+                );
               },
               { shard: i }
             )
