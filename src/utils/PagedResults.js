@@ -217,9 +217,13 @@ const pageThroughCollection = (
   collection,
   mapToMessage,
   perPage = 10
-) => {
-  return pageThroughList(message, collection.array(), mapToMessage, perPage);
-};
+) =>
+  pageThroughList(
+    message,
+    collection.map(m => m),
+    mapToMessage,
+    perPage
+  );
 
 module.exports = {
   createPagedResults,
