@@ -68,7 +68,7 @@ const processWithCard = async (instance, message, option, card) => {
       listing =>
         `> [• \`Issue: ${listing.item.issue}\`](https://animesoul.com/market) | ` +
         `Price: \`富 ${listing.price}\` | ` +
-        `Added: \`${dayjs(listing.date_added * 1000).fromNow()}\`\n`
+        `Added: \`${dayjs(listing.date_added * 1000).fromNow()}\``
     );
 
     const embed = new MessageEmbed()
@@ -105,7 +105,7 @@ const processWithCard = async (instance, message, option, card) => {
       `__Market Listings:__`,
       market.length === 0
         ? "- None <:SShoob:783636544720207903>"
-        : market.toString()
+        : market.join("\n")
     );
 
     return embed;
@@ -144,7 +144,7 @@ const processWithoutCard = async (instance, message, tier) => {
           15
         )}\`](https://animesoul.com/cards/info/${listing.item.id}) | ` +
         `• \`V${listing.item.issue}\` | \`富 ${listing.price}\` | ` +
-        ` \`${dayjs(listing.date_added * 1000).fromNow()}\`\n`
+        ` \`${dayjs(listing.date_added * 1000).fromNow()}\``
     );
 
     const embed = new MessageEmbed()
@@ -168,7 +168,7 @@ const processWithoutCard = async (instance, message, tier) => {
       `__Market Listings:__`,
       market.length === 0
         ? "- None <:SShoob:783636544720207903>"
-        : market.toString()
+        : market.join("\n")
     );
 
     if (last === 0) {
