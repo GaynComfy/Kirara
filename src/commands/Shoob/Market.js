@@ -103,9 +103,7 @@ const processWithCard = async (instance, message, option, card) => {
     }
     embed.addField(
       `__Market Listings:__`,
-      market.length === 0
-        ? "- None <:SShoob:783636544720207903>"
-        : market.toString()
+      market.length === 0 ? "- None <:SShoob:783636544720207903>" : market
     );
 
     return embed;
@@ -166,9 +164,7 @@ const processWithoutCard = async (instance, message, tier) => {
 
     embed.addField(
       `__Market Listings:__`,
-      market.length === 0
-        ? "- None <:SShoob:783636544720207903>"
-        : market.toString()
+      market.length === 0 ? "- None <:SShoob:783636544720207903>" : market
     );
 
     if (last === 0) {
