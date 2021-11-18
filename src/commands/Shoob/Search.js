@@ -120,8 +120,12 @@ module.exports = {
             cards.length > 2 ? `1-${cards.length}` : "1"
           }** to view a specific card.`
         )
-        .addField("•   **N.** `T ` • __**Cards**__", names, true)
-        .addField(`•   __${isEvent ? "Event" : "Source"}__`, source, true);
+        .addField("•   **N.** `T ` • __**Cards**__", names.toString(), true)
+        .addField(
+          `•   __${isEvent ? "Event" : "Source"}__`,
+          source.toString(),
+          true
+        );
     };
 
     return createMessagePagedResults(message, 1, handler);

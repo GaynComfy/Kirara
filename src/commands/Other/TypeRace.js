@@ -109,8 +109,8 @@ module.exports = {
         .then(async lastTop => {
           // do not react if we can't
           if (
-            !message.guild
-              .member(instance.client.user)
+            !message.guild.members.cache
+              .get(instance.client.user.id)
               .permissions.has(["ADD_REACTIONS", "READ_MESSAGE_HISTORY"])
           )
             return;
@@ -155,9 +155,9 @@ module.exports = {
         );
       } else {
         result
-          .addField("•   __User__", results, true)
-          .addField("•   __CPM__", resultsw, true)
-          .addField("•   __Time__", timer, true);
+          .addField("•   __User__", results.toString(), true)
+          .addField("•   __CPM__", resultsw.toString(), true)
+          .addField("•   __Time__", timer.toString(), true);
       }
       message.channel.send({ embeds: [result] });
     });

@@ -121,12 +121,14 @@ module.exports = {
       embed.addField(
         `•   __Cards__`,
         result.length > 0
-          ? result.map(
-              e =>
-                `> \`T${e.tier.toUpperCase()}\` • ` +
-                `[\`${e.name}\`](https://animesoul.com/cards/info/${e.card_id}) ` +
-                `| \`Issue: ${e.issue}\``
-            )
+          ? result
+              .map(
+                e =>
+                  `> \`T${e.tier.toUpperCase()}\` • ` +
+                  `[\`${e.name}\`](https://animesoul.com/cards/info/${e.card_id}) ` +
+                  `| \`Issue: ${e.issue}\``
+              )
+              .toString()
           : "- No cards <:SShoob:783636544720207903>"
       );
       if (last === 0) {

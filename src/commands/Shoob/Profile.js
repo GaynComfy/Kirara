@@ -125,8 +125,8 @@ module.exports = {
     if (user) {
       embed
         .addField("Premium", user.premium ? "Yes" : "No", true)
-        .addField("Votes", user.votes, true)
-        .addField("Views", user.views, true);
+        .addField("Votes", user.votes.toString(), true)
+        .addField("Views", user.views.toString(), true);
     }
 
     return message.channel.send({ embeds: [embed], files: [attachment] });

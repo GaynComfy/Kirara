@@ -145,9 +145,9 @@ module.exports = {
               (last === -1 || page < last ? " | React ▶️ for next page" : "") +
               (page !== 0 ? " | React ◀️ to go back" : "")
           )
-          .addField(`•   __User__`, users, true)
-          .addField(`•   __CPM__`, cpm, true)
-          .addField(`•   __Time__`, time, true);
+          .addField(`•   __User__`, users.toString(), true)
+          .addField(`•   __CPM__`, cpm.toString(), true)
+          .addField(`•   __Time__`, time.toString(), true);
 
         if (last === 0) {
           await message.channel.send({ embeds: [embed] });

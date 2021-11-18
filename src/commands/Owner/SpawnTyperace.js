@@ -204,9 +204,9 @@ module.exports = {
             const result = new MessageEmbed()
               .setTitle("Type race results: Shoob <:SShoob:783636544720207903>")
               .setColor(Color.white)
-              .addField("•   __User__", results, true)
-              .addField("•   __CPM__", resultsw, true)
-              .addField("•   __Time__", timer, true);
+              .addField("•   __User__", results.toString(), true)
+              .addField("•   __CPM__", resultsw.toString(), true)
+              .addField("•   __Time__", timer.toString(), true);
             message.channel.send({ embeds: [result] });
           }
         });

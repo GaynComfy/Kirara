@@ -83,7 +83,9 @@ const computeListings = async (instance, page, tier, card_id, active) => {
     .setColor(colour)
     .addField(
       `__${active ? "Active" : "Latest"} Auctions:__`,
-      cards.length === 0 ? "- None <:SShoob:783636544720207903>" : cards
+      cards.length === 0
+        ? "- None <:SShoob:783636544720207903>"
+        : cards.toString()
     )
     .setFooter(
       `Page: ${page + 1} | ` +
@@ -148,14 +150,18 @@ const computeAuction = async (instance, aid) => {
       "Added",
       dayjs(
         asAuc && !localAucResult ? asAuc.date_added * 1000 : localAuc.date_added
-      ).fromNow(),
+      )
+        .fromNow()
+        .toString(),
       true
     )
     .addField(
       (asAuc ? asAuc.date_ending * 1000 : localAuc.date_ending) > Date.now()
         ? "Ending"
         : "Ended",
-      dayjs(asAuc ? asAuc.date_ending * 1000 : localAuc.date_ending).fromNow(),
+      dayjs(asAuc ? asAuc.date_ending * 1000 : localAuc.date_ending)
+        .fromNow()
+        .toString(),
       true
     )
     .addField(
@@ -176,7 +182,7 @@ const computeAuction = async (instance, aid) => {
       );
     embed.addField(
       `${asAuc.bids} ${asAuc.bids === 1 ? "Bid" : "Bids"}`,
-      lastBids.length === 0 ? "-" : lastBids
+      lastBids.length === 0 ? "-" : lastBids.toString()
     );
   }
 

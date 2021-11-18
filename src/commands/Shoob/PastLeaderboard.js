@@ -44,8 +44,8 @@ module.exports = {
       )
       .setColor(claimers.length > 0 ? "#f49e17" : Color.red)
       .setImage(Constants.footer)
-      .addField(`•   __User__`, users, true)
-      .addField(`•   __Claims__`, claims, true);
+      .addField(`•   __User__`, users.toString(), true)
+      .addField(`•   __Claims__`, claims.toString(), true);
 
     return message.channel.send({ embeds: [embed] });
   },
