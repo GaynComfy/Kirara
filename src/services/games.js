@@ -113,7 +113,7 @@ module.exports = {
     };
     client = new Redis(`redis://${config.cache.host}:${config.cache.port}`);
     client.subscribe("games");
-    client.on("messageCreate", onMessage);
+    client.on("message", onMessage);
   },
   stop: async () => {
     if (deleteInterval) {
@@ -121,7 +121,7 @@ module.exports = {
       deleteInterval = null;
     }
     if (client !== null) {
-      client.removeAllListeners("messageCreate");
+      client.removeAllListeners("message");
       client.end(true);
       client = null;
     }

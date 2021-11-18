@@ -24,7 +24,7 @@ module.exports = {
     const { config } = instance;
     client = new Redis(`redis://${config.cache.host}:${config.cache.port}`);
     client.subscribe("claims");
-    client.on("messageCreate", async (channel, message) => {
+    client.on("message", async (channel, message) => {
       if (channel === "claims") {
         const data = JSON.parse(message);
 
@@ -180,7 +180,7 @@ module.exports = {
       deleteInterval = null;
     }
     if (client !== null) {
-      client.removeAllListeners("messageCreate");
+      client.removeAllListeners("message");
       client.end(true);
       client = null;
     }

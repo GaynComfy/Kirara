@@ -131,7 +131,7 @@ module.exports = {
     if (shard_id === 0) {
       client = new Redis(`redis://${config.cache.host}:${config.cache.port}`);
       client.subscribe("auctions");
-      client.on("messageCreate", async (channel, msg) => {
+      client.on("message", async (channel, msg) => {
         await onMessage(channel, msg).catch(err => console.error(err));
         for (let i = 1; i < instance.client.shard.count; i++) {
           await instance.client.shard
@@ -155,7 +155,7 @@ module.exports = {
       deleteInterval = null;
     }
     if (client !== null) {
-      client.removeAllListeners("messageCreate");
+      client.removeAllListeners("message");
       client.end(true);
       client = null;
     }
