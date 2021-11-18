@@ -14,7 +14,7 @@ const info = {
 };
 module.exports = {
   execute: async (instance, message) => {
-    message.channel.startTyping();
+    message.channel.sendTyping();
 
     // intent will only work on verified bot
     return message.guild.members
@@ -27,13 +27,11 @@ module.exports = {
               first.premiumSinceTimestamp - second.premiumSinceTimestamp
           );
 
-        message.channel.stopTyping();
-
         if (allBoosters.size === 0) {
           const embed = new MessageEmbed()
             .setDescription("\uD83D\uDCA2 Nobody is boosting this server!")
             .setColor("#ff1100");
-          return message.channel.send(embed);
+          return message.channel.send({ embeds: [embed] });
         }
 
         return pageThroughCollection(message, allBoosters, (boosters, page) => {
@@ -46,13 +44,15 @@ module.exports = {
             )
             .setColor(Constants.color)
             .setDescription(
-              boosters.map(
-                (member, index) =>
-                  `${offset + index + 1}. ${member} *(${humanizeDuration(
-                    Date.now() - member.premiumSinceTimestamp,
-                    { round: true, units: ["y", "mo", "w", "d", "h", "m"] }
-                  )})*`
-              )
+              boosters
+                .map(
+                  (member, index) =>
+                    `${offset + index + 1}. ${member} *(${humanizeDuration(
+                      Date.now() - member.premiumSinceTimestamp,
+                      { round: true, units: ["y", "mo", "w", "d", "h", "m"] }
+                    )})*`
+                )
+                .join("\n")
             )
             .setFooter(
               (page.total > 1
@@ -67,7 +67,6 @@ module.exports = {
       })
       .catch(err => {
         console.log(err);
-        message.channel.stopTyping();
         throw err;
       });
   },

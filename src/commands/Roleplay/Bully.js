@@ -34,7 +34,7 @@ module.exports = {
         embed.setFooter(
           `${message.author.username} bullied others ${send} times and was bullied ${received} times`
         );
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
       }
     );
 

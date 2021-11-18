@@ -25,7 +25,7 @@ module.exports = {
 
     // Embed
     const embed = new MessageEmbed()
-      .setTitle(target.tag + "'s avatar")
+      .setTitle(`${target.tag}'s avatar`)
       .setDescription(
         `[PNG](${target.displayAvatarURL({
           format: "png",
@@ -34,7 +34,7 @@ module.exports = {
       )
       .setColor("RANDOM")
       .setImage(target.displayAvatarURL({ dynamic: true, size: 4096 }));
-    message.channel.send(embed);
+    await message.channel.send({ embeds: [embed] });
   },
   info,
   help: {

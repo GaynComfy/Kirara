@@ -29,9 +29,9 @@ class EventManager {
     this.discordReady = false;
   }
   registerOnMessage() {
-    const otherHandlers = this.events["message"];
-    this.client.on("message", async message => {
-      if (message.channel.type === "dm") return; // ToDo: Reimplement
+    const otherHandlers = this.events["messageCreate"];
+    this.client.on("messageCreate", async message => {
+      if (message.channel.type === "DM") return; // ToDo: Reimplement
       const prefix =
         (this.instance.guilds[message.guild.id] || {}).prefix ||
         this.config.prefix;
@@ -135,7 +135,7 @@ class EventManager {
       ];
     if (disabled) {
       if (
-        !message.member.hasPermission("ADMINISTRATOR") &&
+        !message.member.permissions.has("ADMINISTRATOR") &&
         !owner.includes(message.author.id)
       )
         return; // command is disabled and they're not an admin/owner, nothing to do here
@@ -193,9 +193,6 @@ class EventManager {
       message.author.id,
       this.client
     );
-
-    // just in case
-    message.channel.stopTyping();
   }
   registerEventHandler(name, handlers) {
     this.client.on(name, async (...params) => {
@@ -225,7 +222,7 @@ class EventManager {
   }
   async setup(wasReady = false) {
     Object.keys(this.events).forEach(elem => {
-      if (elem === "message" || elem === "ready") return;
+      if (elem === "messageCreate" || elem === "ready") return;
       this.registerEventHandler(elem, this.events[elem]);
     });
     this.registerOnMessage();

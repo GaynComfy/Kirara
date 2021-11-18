@@ -1,7 +1,7 @@
 module.exports = {
   execute: async instance => {
     console.log("ready", instance.client.shard.ids[0]);
-    for (const server of instance.client.guilds.cache.array()) {
+    for (const server of instance.client.guilds.cache.values()) {
       const query = await instance.database.simpleQuery("SERVERS", {
         guild_id: server.id,
       });
@@ -9,7 +9,7 @@ module.exports = {
         const result = await instance.database.simpleInsert("SERVERS", {
           guild_id: server.id,
           guild_name: server.name,
-          owner_id: server.ownerID,
+          owner_id: server.ownerId,
           description: server.description,
           banner: server.banner || null,
           icon: server.icon || null,

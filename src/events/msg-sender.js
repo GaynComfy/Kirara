@@ -20,5 +20,5 @@ module.exports = {
       await author.send(data[author.id].message);
     }
   },
-  eventName: "message",
+  eventName: "messageCreate",
 };

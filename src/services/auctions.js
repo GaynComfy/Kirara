@@ -39,7 +39,7 @@ module.exports = {
 
       const tierSettings = tierInfo[tier];
       const embed = new MessageEmbed()
-        .setTitle(`> <:SShoob:783636544720207903> Enter the Auction`)
+        .setTitle(`> <:Shoob:910973650042236938> Enter the Auction`)
         .setURL(`https://animesoul.com/auction/${data.id}`)
         .setColor(tierSettings.color)
         .setThumbnail(`https://animesoul.com/api/cardr/${data.card_id}`)
@@ -56,7 +56,6 @@ module.exports = {
         );
 
       const guilds = instance.client.guilds.cache
-        .array()
         .filter(g => instance.settings[g.id]["notif_channel"])
         .sort((a, b) => {
           // give priority to network servers
@@ -68,10 +67,10 @@ module.exports = {
         });
 
       console.debug(
-        `[${instance.client.shard.ids[0]}] Broadcasting auction ${data.id} to ${guilds.length} guilds`
+        `[${instance.client.shard.ids[0]}] Broadcasting auction ${data.id} to ${guilds.size} guilds`
       );
       //      let ranSleep = false;
-      for (const guild of guilds) {
+      for (const guild of guilds.values()) {
         // if(!Constants.network.includes(guild.id) && !ranSleep) {
         //   const len = guilds.filter(g => !Constants.network.includes(g.id)).length;
         //   const shard_id = instance.client.shard.ids[0];
@@ -87,7 +86,7 @@ module.exports = {
         if (logChannel) {
           const autodel = instance.settings[guild.id]["notif_autodelete"];
           try {
-            const msg = await logChannel.send(embed);
+            const msg = await logChannel.send({ embeds: [embed] });
             if (autodel) {
               deleteMap[msg.id] = {
                 msg,
@@ -129,24 +128,23 @@ module.exports = {
     };
     const shard_id = instance.client.shard.ids[0];
     if (shard_id === 0) {
+      const callback = async (client, { channel, msg }) => {
+        return await client.b_handle_auction(channel, msg);
+      };
+
       client = new Redis(`redis://${config.cache.host}:${config.cache.port}`);
       client.subscribe("auctions");
       client.on("message", async (channel, msg) => {
         await onMessage(channel, msg).catch(err => console.error(err));
         for (let i = 1; i < instance.client.shard.count; i++) {
           await instance.client.shard
-            .broadcastEval(
-              `this.b_handle_auction(${JSON.stringify(
-                channel
-              )}, ${JSON.stringify(msg)})`,
-              i
-            )
-            .catch(err => console.log(err));
+            .broadcastEval(callback, { context: { channel, msg }, shard: i })
+            .catch(err => console.error(err));
         }
       });
     } else {
-      instance.client.b_handle_auction = async (channel, data) =>
-        await onMessage(channel, data).catch(err => console.error(err));
+      instance.client.b_handle_auction = async (channel, msg) =>
+        await onMessage(channel, msg).catch(err => console.error(err));
     }
   },
   stop: async () => {

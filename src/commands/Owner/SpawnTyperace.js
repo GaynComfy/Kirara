@@ -77,7 +77,7 @@ module.exports = {
               `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
             )
             .setColor(Color.red);
-          message.channel.send(embed);
+          message.channel.send({ embeds: [embed] });
           return null;
         }
 
@@ -116,24 +116,27 @@ module.exports = {
               `[See your card inventory on our site.](https://animesoul.com/inventory)\n` +
               `[Support us and get global rewards!](https://animesoul.com/premium)`
           )
-          .attachFiles([attachment])
           .setImage(`attachment://${filename}`)
           .setFooter(
             "Powered by AS Devs",
             "https://repo.mplauncher.pl/fun/wla/AS.webp"
           );
 
-        const m = await message.channel.send(embed);
+        const m = await message.channel.send({
+          embeds: [embed],
+          files: [attachment],
+        });
         const startTime = m.createdTimestamp;
 
         // the typerace
-        const collector = message.channel.createMessageCollector(
-          msg =>
-            channelMap[message.channel.id] === s &&
-            msg.content.toLowerCase() === `claim ${txt}` &&
-            plays.indexOf(msg.author.id) === -1,
-          { time: 15000 }
-        );
+        const filter = msg =>
+          channelMap[message.channel.id] === s &&
+          msg.content.toLowerCase() === `claim ${txt}` &&
+          plays.indexOf(msg.author.id) === -1;
+        const collector = message.channel.createMessageCollector({
+          filter,
+          time: 15000,
+        });
 
         collector.on("collect", msg => {
           const took = end(startTime, msg.createdTimestamp);
@@ -155,7 +158,7 @@ module.exports = {
                 "https://repo.mplauncher.pl/fun/wla/AS.webp"
               );
 
-            msg.channel.send(embed);
+            msg.channel.send({ embeds: [embed] });
           }
 
           msg.react(first ? "🏅" : "✅");
@@ -190,7 +193,7 @@ module.exports = {
               )
               .setColor("#FF0000");
 
-            m.edit(embed)
+            m.edit({ embeds: [embed] })
               .then(() =>
                 setTimeout(() => {
                   m.delete().catch(() => {});
@@ -201,10 +204,10 @@ module.exports = {
             const result = new MessageEmbed()
               .setTitle("Type race results: Shoob <:SShoob:783636544720207903>")
               .setColor(Color.white)
-              .addField("•   __User__", results, true)
-              .addField("•   __CPM__", resultsw, true)
-              .addField("•   __Time__", timer, true);
-            message.channel.send(result);
+              .addField("•   __User__", results.join("\n"), true)
+              .addField("•   __CPM__", resultsw.join("\n"), true)
+              .addField("•   __Time__", timer.join("\n"), true);
+            message.channel.send({ embeds: [result] });
           }
         });
       },

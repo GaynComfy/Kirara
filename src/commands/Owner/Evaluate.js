@@ -41,13 +41,11 @@ module.exports = {
                 "<:Sirona_NoCross:762606114444935168> The eval result is over 2000 characters."
               )
               .setColor(Color.red);
-            return message.channel.send(embed);
+            return message.reply({ embeds: [embed] });
           }
-          return message.channel.send(clean(evaled), { code: "xl" });
+          return message.reply(clean(evaled), { code: "xl" });
         } catch (err) {
-          return message.channel.send(
-            `\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``
-          );
+          return message.reply(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
         }
       },
       instance.config.owner

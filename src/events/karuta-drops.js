@@ -18,5 +18,5 @@ module.exports = {
     const key = `kdrop:${message.guild.id}:${spawner}`;
     await instance.cache.incrementBy(key, cards);
   },
-  eventName: "message",
+  eventName: "messageCreate",
 };

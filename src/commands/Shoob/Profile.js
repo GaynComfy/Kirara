@@ -39,7 +39,7 @@ module.exports = {
       member = message.author;
     }
 
-    message.channel.startTyping();
+    message.channel.sendTyping();
 
     const user = await Fetcher.fetchProfile(instance, member.id);
     const { rows: cards } = await instance.database.pool.query(
@@ -120,18 +120,16 @@ module.exports = {
             ? `\n<:KiraraSleepy:784849773097517086> **Card Maker!**`
             : "")
       )
-      .attachFiles([attachment])
       .setImage("attachment://profile.png");
 
     if (user) {
       embed
         .addField("Premium", user.premium ? "Yes" : "No", true)
-        .addField("Votes", user.votes, true)
-        .addField("Views", user.views, true);
+        .addField("Votes", user.votes.toString(), true)
+        .addField("Views", user.views.toString(), true);
     }
 
-    message.channel.stopTyping();
-    return message.channel.send(embed);
+    return message.reply({ embeds: [embed], files: [attachment] });
   },
   info,
   help: {

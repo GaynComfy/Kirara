@@ -32,7 +32,7 @@ module.exports = {
         embed.setFooter(
           `${message.author.username} yeeted others ${send} times and received ${received} yeets`
         );
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
       }
     );
 

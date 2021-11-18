@@ -28,7 +28,7 @@ module.exports = {
             `<a:Sirona_Tick:749202570341384202> Claim messages are turned ${toggle}.`
           )
           .setColor("RANDOM");
-        message.channel.send({ embed });
+        message.channel.send({ embeds: [embed] });
         return true;
       }
 
@@ -50,7 +50,7 @@ module.exports = {
           `<a:Sirona_Tick:749202570341384202> Claim messages have been turned ${args[0].toLowerCase()}.`
         )
         .setColor("RANDOM");
-      message.channel.send({ embed });
+      message.channel.send({ embeds: [embed] });
       return true;
     });
   },

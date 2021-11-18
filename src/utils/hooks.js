@@ -8,7 +8,8 @@ exports.withRole = async (member, handler, role) => {
   if (!member || !member.roles || !member.roles.cache)
     throw new Error("roles not present on user or user not defined");
   if (!role) return handler();
-  if (member.roles.cache.array().includes(role)) return handler();
+  if (typeof role === "object") role = role.id;
+  if (member.roles.cache.find(r => r.id === role)) return handler();
 
   member
     .send(`You are missing a required role for this command: \`${role.name}\`.`)
@@ -17,10 +18,10 @@ exports.withRole = async (member, handler, role) => {
 };
 
 exports.withRights = async (member, handler, permission = "ADMINISTRATOR") => {
-  if (!member || !member.hasPermission)
+  if (!member || !member.permissions.has)
     throw new Error("hasPermission not present on user or user not defined");
   if (!permission) return handler();
-  if (member.hasPermission(permission) || owner.includes(member.id))
+  if (member.permissions.has(permission) || owner.includes(member.id))
     return handler();
 
   member
@@ -93,9 +94,9 @@ exports.verifyPerms = async (instance, message, perms) => {
     const prefix =
       (instance.guilds[message.guild.id] || {}).prefix ||
       instance.config.prefix;
-    const isAdmin = message.member.hasPermission("ADMINISTRATOR");
+    const isAdmin = message.member.permissions.has("ADMINISTRATOR");
     const canSendMessages =
-      member.hasPermission("SEND_MESSAGES") || chanPerms.has("SEND_MESSAGES");
+      member.permissions.has("SEND_MESSAGES") || chanPerms.has("SEND_MESSAGES");
     const target = canSendMessages ? message.channel : message.author;
 
     target

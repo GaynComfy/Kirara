@@ -86,7 +86,7 @@ module.exports = {
 ${tiers1.join(" | ")}
 ${tiers2.join(" | ")}
 ━━━━━━━━━━━━━━━`);
-      await message.channel.send(hugEmbed);
+      await message.channel.send({ embeds: [hugEmbed] });
     } else {
       if (!Constants.tiers.includes(args[0].toLowerCase())) return false;
       const result = isServer
@@ -148,10 +148,10 @@ ${tiers2.join(" | ")}
       if (result.rows.length === 0) {
         embed.addField(`Recent claims:`, "``No cards claimed yet.``", true);
       } else {
-        embed.addField(`Recent claims:`, toDisplay);
+        embed.addField(`Recent claims:`, toDisplay.join("\n"));
       }
 
-      message.channel.send(embed);
+      message.channel.send({ embeds: [embed] });
     }
 
     return true;
