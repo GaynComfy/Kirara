@@ -7,7 +7,7 @@ const info = {
   name: "droplb",
   aliases: ["dlb"],
   matchCase: false,
-  category: "Other",
+  category: "UwU",
   disabled: process.env.NODE_ENV !== "development",
 };
 

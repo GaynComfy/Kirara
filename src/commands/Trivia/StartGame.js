@@ -3,7 +3,7 @@ const { withRights } = require("../../utils/hooks");
 const { MessageEmbed } = require("discord.js");
 const info = {
   name: "trivia",
-  category: "Trivia",
+  category: "UwU",
   guilds: ["378599231583289346"],
   matchCase: false,
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
