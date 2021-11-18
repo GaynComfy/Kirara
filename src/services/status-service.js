@@ -5,7 +5,7 @@ module.exports = {
     if (interval !== null) return;
 
     const setActivity = async name =>
-      await instance.user.setPresence({
+      await instance.client.user.setPresence({
         activities: [{ name, type: "WATCHING" }],
         status: "online",
       });
