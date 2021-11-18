@@ -16,6 +16,8 @@ const ALL_SYMBOLS = [
   REPEAT_SYMBOL,
 ];
 
+const collectorOpts = { idle: 45 * 1000 };
+
 const userMap = {};
 const embed = new MessageEmbed()
   .setDescription(
@@ -64,7 +66,7 @@ const createPagedResults = async (
     multiReact(sentMessage, reacts).catch(() => {});
 
     return sentMessage
-      .createReactionCollector({ filter, idle: 45 * 1000 })
+      .createReactionCollector({ filter, ...collectorOpts })
       .on("collect", async (r, user) => {
         if (running === true) return;
         let newPage = page;
@@ -140,7 +142,7 @@ const createMessagePagedResults = async (
       command(m.content); // is a valid command
 
     return sentMessage.channel
-      .createMessageCollector({ filter, idle: 45 * 1000 })
+      .createMessageCollector({ filter, ...collectorOpts })
       .on("collect", async (m, user) => {
         if (running === true) return;
         let newPage = page;

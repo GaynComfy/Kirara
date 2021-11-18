@@ -92,6 +92,9 @@ sw.*
 # Vim swap files
 *.swp
 
+# nodenv
+.node-version
+
 # Syncthing
 .stfolder/
 .stignore

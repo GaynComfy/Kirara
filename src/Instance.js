@@ -124,10 +124,10 @@ class Instance {
     for (const file of entries) {
       delete require.cache[require.resolve(`./${file}`)];
       const command = require(`./${file}`);
+      if (command.info.disabled) continue;
       if (commands[command.info.name]) {
         throw new Error(`Duplicated command ${command.info.name}`);
       }
-      if (command.info.disabled) continue;
       if (command.init) await command.init(this);
       command.file = file;
       console.log(
