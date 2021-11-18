@@ -27,7 +27,7 @@ module.exports = {
         case 2: {
           try {
             const claims = await instance.client.shard.broadcastEval(
-              "this.b_instance.asClaims + this.b_instance.kClaims"
+              client => client.b_instance.asClaims + client.b_instance.kClaims
             );
             await instance.client.user.setActivity(
               `Claims | ${claims

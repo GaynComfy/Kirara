@@ -21,14 +21,14 @@ const fetchData = async instance => {
   const { cache } = instance;
   const promises = [
     instance.client.shard.fetchClientValues("guilds.cache.size"),
-    instance.client.shard.broadcastEval(
-      "this.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)"
+    instance.client.shard.broadcastEval(client =>
+      client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)
     ),
-    instance.client.shard.broadcastEval(
-      "this.guilds.cache.map((guild) => guild.channels.cache.size)"
+    instance.client.shard.broadcastEval(client =>
+      client.guilds.cache.map(guild => guild.channels.cache.size)
     ),
-    instance.client.shard.broadcastEval("this.b_instance.asClaims"),
-    instance.client.shard.broadcastEval("this.b_instance.kClaims"),
+    instance.client.shard.fetchClientValues("b_instance.asClaims"),
+    instance.client.shard.fetchClientValues("b_instance.kClaims"),
   ];
   const results = await Promise.all(promises);
   const totalGuilds = results[0].reduce(

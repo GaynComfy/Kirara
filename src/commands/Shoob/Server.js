@@ -11,11 +11,11 @@ module.exports = {
   execute: async (instance, message) => {
     const promises = [
       instance.client.shard.fetchClientValues("guilds.cache.size"),
-      instance.client.shard.broadcastEval(
-        "this.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)"
+      instance.client.shard.broadcastEval(client =>
+        client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)
       ),
-      instance.client.shard.broadcastEval(
-        "this.guilds.cache.map((guild) => guild.channels.cache.size)"
+      instance.client.shard.broadcastEval(client =>
+        client.guilds.cache.map(guild => guild.channels.cache.size)
       ),
     ];
     const results = await Promise.all(promises);
