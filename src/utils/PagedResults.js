@@ -74,7 +74,7 @@ const createPagedResults = async (
             break;
           case BACK_SYMBOL:
             newPage = Math.max(page - 1, 0);
-            if (page === newPage && page === 0) {
+            if (page === newPage && page === 0 && maxPages !== Infinity) {
               newPage = maxPages - 1;
             }
             break;
@@ -86,7 +86,6 @@ const createPagedResults = async (
             break;
           case FAST_FORWARD_SYMBOL:
             if (maxPages !== Infinity) newPage = maxPages - 1;
-            else return;
             break;
         }
         if (newPage === page && !refresh)
