@@ -59,7 +59,7 @@ const processWithCard = async (instance, message, option, card) => {
         `<:Sirona_NoCross:762606114444935168> No active market listings for this card!`
       )
       .setColor(Color.red);
-    message.channel.send({ embeds: [embed] });
+    message.reply({ embeds: [embed] });
     return null;
   }
 
@@ -131,7 +131,7 @@ const processWithoutCard = async (instance, message, tier) => {
           `<:Sirona_NoCross:762606114444935168> No active market listings!`
         )
         .setColor(Color.red);
-      message.channel.send({ embeds: [embed] });
+      message.reply({ embeds: [embed] });
       return false;
     }
     const isLast = last !== -1 && page === last;
@@ -179,7 +179,7 @@ const processWithoutCard = async (instance, message, tier) => {
     );
 
     if (last === 0) {
-      await message.channel.send({ embeds: [embed] });
+      await message.reply({ embeds: [embed] });
       return false;
     }
     return embed;
@@ -221,7 +221,7 @@ module.exports = {
           `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
         )
         .setColor(Color.red);
-      message.channel.send({ embeds: [embed] });
+      message.reply({ embeds: [embed] });
       return null;
     }
     await processWithCard(instance, message, option, card);
