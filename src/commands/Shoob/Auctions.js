@@ -221,7 +221,7 @@ module.exports = {
             "<:Sirona_NoCross:762606114444935168> I couldn't find a card or auction with that ID."
           )
           .setColor(Color.red);
-        return message.channel.send({ embeds: [embed] });
+        return message.reply({ embeds: [embed] });
       }
 
       const check = checkId[0];

@@ -129,7 +129,7 @@ module.exports = {
         .addField("Views", user.views.toString(), true);
     }
 
-    return message.channel.send({ embeds: [embed], files: [attachment] });
+    return message.reply({ embeds: [embed], files: [attachment] });
   },
   info,
   help: {

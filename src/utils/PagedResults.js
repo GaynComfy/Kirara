@@ -54,7 +54,7 @@ const createPagedResults = async (
 
     sentMessage = botMessage
       ? await botMessage.edit({ embeds: [root] })
-      : await message.channel.send({ embeds: [root] });
+      : await message.reply({ embeds: [root] });
     if (maxPages < 2) {
       return sentMessage;
     }
@@ -134,7 +134,7 @@ const createMessagePagedResults = async (
     if (!root) return null;
     userMap[`${message.channel.id}:${message.author.id}`] = s;
 
-    sentMessage = await message.channel.send({ embeds: [root] });
+    sentMessage = await message.reply({ embeds: [root] });
 
     const filter = m =>
       m.author.id == message.author.id && // it's sent by the user who requested the list
