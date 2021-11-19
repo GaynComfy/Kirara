@@ -22,7 +22,7 @@ const maybeGrantRole = async (instance, id, value) => {
       if (!member) return;
       await member.roles.remove(ROLE_ID);
       await instance.cache.delete(`xpcount_role:${id}`);
-    } catch (err) {}
+    } catch {}
   } else if (!has && value >= THRESH_HOLD) {
     try {
       const guild = instance.client.guilds.cache.get("378599231583289346");
@@ -31,7 +31,7 @@ const maybeGrantRole = async (instance, id, value) => {
       if (!member) return;
       await member.roles.add(ROLE_ID);
       await instance.cache.set(`xpcount_role:${id}`, "1");
-    } catch (err) {}
+    } catch {}
   }
 };
 module.exports = {
