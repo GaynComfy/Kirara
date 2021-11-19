@@ -121,7 +121,7 @@ class EventManager {
           "**⚠️ WARNING:** I don't know this server. This is an error on the bot.\n" +
             "Mind helping me to report it to my dev team? (<https://discord.gg/comfy> and DM `Sirona-Kirara Support#8123`)"
         )
-        .catch(() => {});
+        .catch(() => null);
     }
     if (command.info.guilds && !command.info.guilds.includes(message.guild.id))
       return; // return if we're not supposed to be used here
@@ -140,7 +140,7 @@ class EventManager {
       )
         return; // command is disabled and they're not an admin/owner, nothing to do here
       // otherwise...
-      message.react("<:Sirona_yesh:762603569538531328>").catch(() => {}); // give an indicator they're breaking the law™️
+      message.react("<:Sirona_yesh:762603569538531328>").catch(() => null); // give an indicator they're breaking the law™️
     }
 
     // verify if we have the right permissions

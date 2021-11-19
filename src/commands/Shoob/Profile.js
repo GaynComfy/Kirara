@@ -32,14 +32,14 @@ module.exports = {
       message.mentions.users.first() ||
       (args.length >= 1 &&
         userId.test(args[0]) &&
-        (await instance.client.users.fetch(args[0]).catch(() => {})));
+        (await instance.client.users.fetch(args[0]).catch(() => null)));
     if (args.length >= 1 && (mention.test(args[0]) || userId.test(args[0])))
       args.shift();
     if (!member) {
       member = message.author;
     }
 
-    message.channel.sendTyping();
+    message.channel.sendTyping().catch(() => null);
 
     const user = await Fetcher.fetchProfile(instance, member.id);
     const { rows: cards } = await instance.database.pool.query(

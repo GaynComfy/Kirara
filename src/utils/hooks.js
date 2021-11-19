@@ -13,7 +13,7 @@ exports.withRole = async (member, handler, role) => {
 
   member
     .send(`You are missing a required role for this command: \`${role.name}\`.`)
-    .catch(() => {});
+    .catch(() => null);
   return null;
 };
 
@@ -28,7 +28,7 @@ exports.withRights = async (member, handler, permission = "ADMINISTRATOR") => {
     .send(
       `You are missing a required permission for this command: \`${permission}\``
     )
-    .catch(() => {});
+    .catch(() => null);
   return null;
 };
 
@@ -56,7 +56,7 @@ exports.withCooldown = async (
     // have we indicated the user that they are if so?
     if (!(await cache.exists(cdReactKey))) {
       // give them an indicator they need to wait
-      message.react("🕘").catch(() => {});
+      message.react("🕘").catch(() => null);
       await cache.setExpire(cdReactKey, "1", 5);
     }
     return null;
@@ -111,7 +111,7 @@ exports.verifyPerms = async (instance, message, perms) => {
             ? `To make sure I have all the permissions, please use \`${prefix}invite\` to invite me back to the server!`
             : `Please ask the server's admins for assistance, and hint them to \`${prefix}invite\`.`)
       )
-      .catch(() => {});
+      .catch(() => null);
     return false;
   }
 

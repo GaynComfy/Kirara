@@ -11,7 +11,7 @@ const info = {
 
 module.exports = {
   execute: async (instance, message) => {
-    message.channel.sendTyping();
+    message.channel.sendTyping().catch(() => null);
 
     const { rows: claimers } = await instance.database.pool.query(
       "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +

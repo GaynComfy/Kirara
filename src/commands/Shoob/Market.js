@@ -204,7 +204,7 @@ module.exports = {
     if (hasOption && args.length === 1) return false;
     const option = hasOption ? args.shift().toLowerCase() : null;
     const name = args.join(" ");
-    message.channel.sendTyping();
+    message.channel.sendTyping().catch(() => null);
     const card =
       (await Fetcher.fetchByName(instance, name, tier, isEvent)) ||
       (name.indexOf(" ") !== -1

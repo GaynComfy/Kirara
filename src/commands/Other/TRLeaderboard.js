@@ -25,7 +25,7 @@ module.exports = {
     const prefix =
       instance.guilds[message.guild.id].prefix || instance.config.prefix;
 
-    message.channel.sendTyping();
+    message.channel.sendTyping().catch(() => null);
 
     if (!di) {
       // leaderboard for all difficulties.

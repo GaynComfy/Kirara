@@ -14,7 +14,7 @@ const info = {
 };
 module.exports = {
   execute: async (instance, message) => {
-    message.channel.sendTyping();
+    message.channel.sendTyping().catch(() => null);
 
     // intent will only work on verified bot
     return message.guild.members

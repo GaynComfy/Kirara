@@ -14,7 +14,7 @@ module.exports = {
           if (Date.now() - timer.last < 3600) continue;
           const embed = await getTimer(timer.time);
           if (!embed) {
-            if (timer.msg) timer.msg.delete().catch(() => {});
+            if (timer.msg) timer.msg.delete().catch(() => null);
             const i = chn.indexOf(timer);
             if (i !== -1) chn.splice(i, 1);
             continue;

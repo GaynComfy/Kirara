@@ -28,7 +28,7 @@ module.exports = {
       (args.length >= 1 &&
         (((args[0] === "1" || args[0] === "fused") && fusedUser) || // if first argument is 1 or fused
           (userId.test(args[0]) && // if it's a user ID
-            (await instance.client.users.fetch(args[0]).catch(() => {}))))); // and we can fetch it
+            (await instance.client.users.fetch(args[0]).catch(() => null))))); // and we can fetch it
     if (
       args.length >= 1 &&
       (args[0] === "1" ||

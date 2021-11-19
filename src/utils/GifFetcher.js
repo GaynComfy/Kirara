@@ -40,7 +40,7 @@ class GifFetcher {
     const { sfw } = endpoints.data;
     const result = await Promise.all(
       sfw.map(type =>
-        axios.get(`https://api.waifu.pics/sfw/${type}`).catch(() => {})
+        axios.get(`https://api.waifu.pics/sfw/${type}`).catch(() => null)
       )
     );
     sfw.forEach((type, i) => {

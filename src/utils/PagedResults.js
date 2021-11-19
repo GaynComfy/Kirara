@@ -63,7 +63,7 @@ const createPagedResults = async (
       ALL_SYMBOLS.includes(r.emoji.name) && user.id === message.author.id;
     const reacts = [BACK_SYMBOL, FORWARD_SYMBOL];
     if (refresh) reacts.push(REPEAT_SYMBOL);
-    multiReact(sentMessage, reacts).catch(() => {});
+    multiReact(sentMessage, reacts).catch(() => null);
 
     return sentMessage
       .createReactionCollector({ filter, ...collectorOpts })
@@ -91,7 +91,7 @@ const createPagedResults = async (
             break;
         }
         if (newPage === page && !refresh)
-          return r.users.remove(user).catch(() => {});
+          return r.users.remove(user).catch(() => null);
 
         let res;
         running = true;
@@ -103,10 +103,10 @@ const createPagedResults = async (
           sentMessage.edit({ embeds: [embed] });
         }
         running = false;
-        r.users.remove(user).catch(() => {});
+        r.users.remove(user).catch(() => null);
         if (res) page = newPage;
       })
-      .on("end", () => sentMessage.reactions.removeAll().catch(() => {}));
+      .on("end", () => sentMessage.reactions.removeAll().catch(() => null));
   } catch (err) {
     console.error(err);
     if (sentMessage) sentMessage.edit({ embeds: [embed] });
@@ -191,7 +191,7 @@ const createMessagePagedResults = async (
           console.error(err);
         }
         running = false;
-        m.delete().catch(() => {});
+        m.delete().catch(() => null);
       })
       .on("end", () => {
         if (s === userMap[`${message.channel.id}:${message.author.id}`])

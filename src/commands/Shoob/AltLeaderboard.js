@@ -20,7 +20,7 @@ module.exports = {
         args[0].toLowerCase() === "a");
     if (isTotal) args.shift();
 
-    message.channel.sendTyping();
+    message.channel.sendTyping().catch(() => null);
 
     let last = -1;
 

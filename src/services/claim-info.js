@@ -16,7 +16,7 @@ module.exports = {
       Object.keys(deleteMap).forEach(k => {
         const e = deleteMap[k];
         if (e.time > now) return;
-        e.msg.delete().catch(() => {});
+        e.msg.delete().catch(() => null);
         delete deleteMap[k];
       });
     }, 1000);
@@ -58,7 +58,7 @@ module.exports = {
                   p.name === data.card_name)
             );
             if (s) {
-              s.msg.delete().catch(() => {});
+              s.msg.delete().catch(() => null);
               const i = timers.indexOf(s);
               if (i !== -1) timers.splice(i, 1);
             }

@@ -32,7 +32,7 @@ const info = {
 module.exports = {
   execute: async (instance, message, args, queue) => {
     if (channelMap[message.channel.id])
-      return queue.addItem(() => message.react("🕘").catch(() => {}));
+      return queue.addItem(() => message.react("🕘").catch(() => null));
 
     let di = args.length > 0 ? args.shift().toLowerCase() : false;
     const tier =
@@ -131,7 +131,7 @@ module.exports = {
 
           console.error(err);
           // error saving score?
-          queue.addItem(() => msg.react("❌").catch(() => {}));
+          queue.addItem(() => msg.react("❌").catch(() => null));
         });
     });
 

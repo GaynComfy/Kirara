@@ -27,7 +27,7 @@ module.exports = {
       s = JSON.parse(e);
     } else {
       // ToDo: GET RID OF THIS ASAP
-      message.channel.sendTyping();
+      message.channel.sendTyping().catch(() => null);
       const { rows: claimed } = await instance.database.pool.query(
         "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE claimed=true " +
           "AND server_id=$1 AND season=$2 GROUP BY tier",

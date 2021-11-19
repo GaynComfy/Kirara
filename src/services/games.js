@@ -18,7 +18,7 @@ module.exports = {
       Object.keys(deleteMap).forEach(k => {
         const e = deleteMap[k];
         if (e.time > now) return;
-        e.msg.delete().catch(() => {});
+        e.msg.delete().catch(() => null);
         delete deleteMap[k];
       });
     }, 1000);

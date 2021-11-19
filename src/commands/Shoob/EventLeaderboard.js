@@ -24,7 +24,7 @@ module.exports = {
       return true;
     }
 
-    message.channel.sendTyping();
+    message.channel.sendTyping().catch(() => null);
     let last = -1;
 
     return createPagedResults(message, Infinity, async page => {

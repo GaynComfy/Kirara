@@ -21,6 +21,7 @@ module.exports = (token = process.env.TOKEN) => {
       status: "idle",
       activities: [{ name: "starting up...", type: 3 }],
     },
+    failIfNotExists: false,
   });
   return {
     client,

@@ -30,11 +30,11 @@ module.exports = {
     withRights(
       message.member,
       async () => {
-        message.delete().catch(() => {});
+        message.delete().catch(() => null);
 
         const existing = instance.trivia[message.guild.id];
         if (startQueue[message.guild.id] || (existing && existing.running)) {
-          return message.author.send(alreadyRunning).catch(() => {});
+          return message.author.send(alreadyRunning).catch(() => null);
         }
 
         const opts = {

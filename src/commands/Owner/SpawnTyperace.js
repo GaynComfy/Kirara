@@ -196,7 +196,7 @@ module.exports = {
             m.edit({ embeds: [embed] })
               .then(() =>
                 setTimeout(() => {
-                  m.delete().catch(() => {});
+                  m.delete().catch(() => null);
                 }, 15000)
               )
               .catch(console.error);
