@@ -59,7 +59,7 @@ const computeListings = async (instance, page, tier, card, active) => {
             card ? " for this card" : ""
           }!` +
           (card
-            ? `\n\n> [**T${card.tier}** ${card.name}](https://animesoul.com/cards/info/${card.id})\n\u200b`
+            ? `\n> [**T${card.tier}** ${card.name}](https://animesoul.com/cards/info/${card.id})\n\u200b`
             : "")
       )
       .setColor(Color.red);
