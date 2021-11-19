@@ -14,7 +14,7 @@ module.exports = (token = process.env.TOKEN) => {
   const client = new Client({
     allowedMentions: {
       parse: ["users"],
-      repliedUser: true,
+      repliedUser: false,
     },
     intents,
     presence: {
