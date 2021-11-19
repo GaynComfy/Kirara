@@ -54,11 +54,12 @@ const computeListings = async (instance, page, tier, card, active) => {
   if (recent.length === 0 && page === 0) {
     const embed = new MessageEmbed()
       .setDescription(
-        `<:Sirona_NoCross:762606114444935168> No active auctions${
-          card ? " for this card" : ""
-        }!` +
+        (card ? "\u200b\n" : "") +
+          `<:Sirona_NoCross:762606114444935168> No active auctions${
+            card ? " for this card" : ""
+          }!` +
           (card
-            ? `\n> [**T${card.tier}** ${card.name}](https://animesoul.com/cards/info/${card.id})`
+            ? `\n\n> [**T${card.tier}** ${card.name}](https://animesoul.com/cards/info/${card.id})\n\u200b`
             : "")
       )
       .setColor(Color.red);
