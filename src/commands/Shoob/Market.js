@@ -55,8 +55,10 @@ const processWithCard = async (instance, message, option, card) => {
   const sorted = sortListings(listings, option);
   if (sorted.length === 0) {
     const embed = new MessageEmbed()
+      .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
       .setDescription(
-        `<:Sirona_NoCross:762606114444935168> No active market listings for this card!`
+        "<:Sirona_NoCross:762606114444935168> No active market listings for this card!" +
+          `\n> [**T${card.tier}** ${card.name}](https://animesoul.com/cards/info/${card.id})`
       )
       .setColor(Color.red);
     message.reply({ embeds: [embed] });

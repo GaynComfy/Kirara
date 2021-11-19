@@ -21,15 +21,15 @@ const info = {
 };
 
 // why is this on a different function? who knows
-const getListings = async (instance, page, tier, card_id, active) => {
+const getListings = async (instance, page, tier, card, active) => {
   let query;
 
-  if (card_id)
+  if (card)
     query = await instance.database.pool.query(
       `SELECT * FROM AUCTIONS WHERE ${
         active ? "active=true AND " : ""
       }card_id=$1 ORDER BY id DESC LIMIT 8 OFFSET $2`,
-      [card_id, page * 8]
+      [card.id, page * 8]
     );
   else if (tier)
     query = await instance.database.pool.query(
@@ -49,22 +49,27 @@ const getListings = async (instance, page, tier, card_id, active) => {
   return query.rows;
 };
 
-const computeListings = async (instance, page, tier, card_id, active) => {
-  const recent = await getListings(instance, page, tier, card_id, active);
+const computeListings = async (instance, page, tier, card, active) => {
+  const recent = await getListings(instance, page, tier, card, active);
   if (recent.length === 0 && page === 0) {
     const embed = new MessageEmbed()
       .setDescription(
         `<:Sirona_NoCross:762606114444935168> No active auctions${
-          card_id ? " for this card" : ""
-        }!`
+          card ? " for this card" : ""
+        }!` +
+          (card
+            ? `\n> [**T${card.tier}** ${card.name}](https://animesoul.com/cards/info/${card.id})`
+            : "")
       )
       .setColor(Color.red);
+    if (card)
+      embed.setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"));
     return { embed, recent: [] };
   }
   if (recent.length === 0) return { embed: null, recent: [] };
 
   const title =
-    tier && !card_id
+    tier && !card
       ? `${tierInfo[`T${tier}`].emoji} Auctions: Most recent ` +
         `T${tier} entries`
       : "<:Flame:783439293506519101> Auctions: Most recent entries";
@@ -100,7 +105,8 @@ const computeListings = async (instance, page, tier, card_id, active) => {
       }** to view a specific auction.`
     );
   }
-  if (card_id) embed.setThumbnail(`https://animesoul.com/api/cardr/${card_id}`);
+  if (card)
+    embed.setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"));
 
   return { embed, recent };
 };
@@ -241,9 +247,10 @@ module.exports = {
       }
     }
 
+    let card;
     if (!caId && args.length >= 1) {
       const name = args.join(" ");
-      const card =
+      card =
         (await Fetcher.fetchByName(instance, name, tier ? tier : "all")) ||
         (name.indexOf(" ") !== -1
           ? await Fetcher.fetchByName(
@@ -285,7 +292,7 @@ module.exports = {
       }
       page = p;
 
-      const query = await computeListings(instance, p, tier, card_id, !hasAll);
+      const query = await computeListings(instance, p, tier, card, !hasAll);
       if (query.recent.length !== 0) recent = query.recent;
       if (query.recent.length === 0 && page === 0) {
         await message.channel.send({ embeds: [query.embed] });
