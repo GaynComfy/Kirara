@@ -6,10 +6,9 @@ module.exports = (token = process.env.TOKEN) => {
     Intents.FLAGS.GUILD_MESSAGES,
     Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
     Intents.FLAGS.GUILD_WEBHOOKS,
+    Intents.FLAGS.GUILD_MEMBERS,
+    Intents.FLAGS.GUILD_INTEGRATIONS,
   ];
-  if (process.env.NODE_ENV === "development") {
-    intents.push(Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_INTEGRATIONS);
-  }
 
   const client = new Client({
     allowedMentions: {
