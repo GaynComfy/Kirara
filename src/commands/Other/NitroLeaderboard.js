@@ -10,7 +10,6 @@ const info = {
   category: "UwU",
   cooldown: 2,
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
-  disabled: process.env.NODE_ENV !== "development",
 };
 module.exports = {
   execute: async (instance, message) => {
