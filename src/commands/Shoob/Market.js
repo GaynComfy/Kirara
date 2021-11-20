@@ -27,8 +27,6 @@ const allowedSortings = [
   "oldest",
 ];
 
-const badItems = ["Key Shard"];
-
 const sortListings = (arr, opt) => {
   if (opt === "r" || opt === "recent")
     return arr.sort((a, b) => b.date_added - a.date_added);
@@ -142,7 +140,7 @@ const processWithoutCard = async (instance, message, tier) => {
     const market = result.map((t, i) => {
       let item = `> **${i + 1}.** `;
       const name = t.item_name.substr(0, 15);
-      if (!badItems.includes(t.item_name)) {
+      if (t.item.tier !== null) {
         // cards
         item += `\`T${t.item.tier}\``;
         item += `• [\`${name}\`](https://animesoul.com/cards/info/${t.item.id})`;
