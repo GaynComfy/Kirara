@@ -125,7 +125,12 @@ module.exports = {
         "> <:Sirona_NoCross:762606114444935168> No cards have spawned yet this season."
       );
     }
-    return message.channel.send({ embeds: [embed] });
+    const msg = await message.channel.send({ embeds: [embed] });
+    instance.shared["deleteMap"][msg.id] = {
+      msg,
+      time: Date.now() + 15 * 1000,
+    };
+    return msg;
   },
   info,
   help: {

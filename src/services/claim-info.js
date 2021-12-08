@@ -11,6 +11,9 @@ module.exports = {
     if (deleteInterval !== null || client !== null) return;
     if (!instance.shared["recent"]) instance.shared["recent"] = {};
 
+    // temp workaround, todo pls remove later
+    instance.shared["deleteMap"] = deleteMap;
+
     deleteInterval = setInterval(async () => {
       const now = Date.now();
       Object.keys(deleteMap).forEach(k => {
