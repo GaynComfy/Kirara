@@ -96,7 +96,7 @@ module.exports = {
           `> **${i + 1}.** \`T${item.tier}\` • [\`${item.name.substr(
             0,
             18
-          )}\`]` + `(https://animesoul.com/cards/info/${item.id})`
+          )}\`]` + `(https://shoob.gg/cards/info/${item.id})`
         );
 
         const series = (item.series || []).filter(
@@ -113,7 +113,7 @@ module.exports = {
             tierSettings ? tierSettings.emoji : "<:Flame:783439293506519101>"
           } Card Search`
         )
-        .setURL("https://animesoul.com/cards")
+        .setURL("https://shoob.gg/cards")
         .setColor(tierSettings ? tierSettings.color : Color.default)
         .setDescription(
           `✏️ Send **${

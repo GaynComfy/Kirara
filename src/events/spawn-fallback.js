@@ -35,7 +35,7 @@ const processSpawn = async (instance, message, embed) => {
     channel_id: message.channel.id,
     message_id: message.id,
     tier,
-    image_url: `https://animesoul.com/api/cardr/${card_id}`,
+    image_url: `https://shoob.gg/api/cardr/${card_id}`,
     time: new Date(),
     kirara: true,
     despawn: false,

@@ -110,7 +110,7 @@ module.exports = {
         return (
           `> ${ti} [\`${item.card_name.substr(0, 15)}` +
           `${parseInt(item.issue) > 0 ? ` V${item.issue}` : ""}\`]` +
-          `(https://animesoul.com/cards/info/${item.card_id})`
+          `(https://shoob.gg/cards/info/${item.card_id})`
         );
       });
       embed.addField("•   `T ` • __**Cards**__", cards.join("\n"), true);

@@ -40,12 +40,12 @@ module.exports = {
       const tierSettings = tierInfo[tier];
       const embed = new MessageEmbed()
         .setTitle(`> <:Shoob:910973650042236938> Enter the Minigame`)
-        .setURL(`https://animesoul.com/mini-game/${data.id}`)
+        .setURL(`https://shoob.gg/mini-game/${data.id}`)
         .setColor(tierSettings.color)
-        .setThumbnail(`https://animesoul.com/api/cardr/${data.card_id}`)
+        .setThumbnail(`https://shoob.gg/api/cardr/${data.card_id}`)
         .setDescription(
           `${tierSettings.emoji} [\`${data.card_name}\` • \`T${data.tier}\`]` +
-            `(https://animesoul.com/cards/info/${data.card_id}) • \`V${data.version}\` is on a minigame!`
+            `(https://shoob.gg/cards/info/${data.card_id}) • \`V${data.version}\` is on a minigame!`
         );
 
       const guilds = instance.client.guilds.cache

@@ -106,12 +106,12 @@ module.exports = {
         message.guild.iconURL({ dynamic: true })
       )
       .setColor(color)
-      .setURL(`https://animesoul.com/user/${member.id}`)
+      .setURL(`https://shoob.gg/user/${member.id}`)
       .setDescription(
-        `<:Flame:783439293506519101> [Anime Soul Profile](https://animesoul.com/user/${member.id})` +
+        `<:Flame:783439293506519101> [Anime Soul Profile](https://shoob.gg/user/${member.id})` +
           (viewer && viewer.discord_id !== ""
             ? `\n<:KiraraPeek:784849772272025600> ` +
-              `Last viewed by [**__${viewer.username}__**](https://animesoul.com/user/${viewer.discord_id})`
+              `Last viewed by [**__${viewer.username}__**](https://shoob.gg/user/${viewer.discord_id})`
             : "") +
           (owner.includes(member.id)
             ? `\n<:KiraraHugHeart:798460293491326986> **Kirara Developer <3**`

@@ -110,10 +110,10 @@ module.exports = {
         const embed = new MessageEmbed()
           .setColor(color)
           .setTitle(card.name)
-          .setURL(`https://animesoul.com/cards/info/${card.id}`)
+          .setURL(`https://shoob.gg/cards/info/${card.id}`)
           .setDescription(
             `To claim, use \`claim [captcha code]\`\n` +
-              `[See your card inventory on our site.](https://animesoul.com/inventory)\n` +
+              `[See your card inventory on our site.](https://shoob.gg/inventory)\n` +
               `[Support us and get global rewards!](https://animesoul.com/premium)`
           )
           .setImage(`attachment://${filename}`)

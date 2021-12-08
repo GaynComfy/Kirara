@@ -49,9 +49,7 @@ module.exports = {
 
       result.map(e => {
         cards.push(
-          `> [\`${e.name.substr(0, 26)}\`](https://animesoul.com/cards/info/${
-            e.id
-          })`
+          `> [\`${e.name.substr(0, 26)}\`](https://shoob.gg/cards/info/${e.id})`
         );
         series.push(
           `> \`${
@@ -70,7 +68,7 @@ module.exports = {
           }T${tier}`
         )
         .setColor(tierSettings.color)
-        .setURL(`https://animesoul.com/cards`)
+        .setURL(`https://shoob.gg/cards`)
         .addField("•   **__Cards__**", cards.join("\n"), true)
         .addField("•   **__Series__**", series.join("\n"), true)
         .setFooter(

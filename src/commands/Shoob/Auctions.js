@@ -59,7 +59,7 @@ const computeListings = async (instance, page, tier, card, active) => {
             card ? " for this card" : ""
           }!` +
           (card
-            ? `\n\n> [**T${card.tier}** ${card.name}](https://animesoul.com/cards/info/${card.id})`
+            ? `\n\n> [**T${card.tier}** ${card.name}](https://shoob.gg/cards/info/${card.id})`
             : "")
       )
       .setColor(Color.red);
@@ -79,13 +79,13 @@ const computeListings = async (instance, page, tier, card, active) => {
     (item, i) =>
       `> **${i + 1}.** \`T${item.tier || " "}\` •` +
       ` [\`${item.card_name.substr(0, 15)}` +
-      ` V${item.version}\`](https://animesoul.com/auction/${item.auction_id})` +
+      ` V${item.version}\`](https://shoob.gg/auction/${item.auction_id})` +
       ` | Started \`${dayjs(item.date_added).fromNow()}\``
   );
 
   const embed = new MessageEmbed()
     .setTitle(title)
-    .setURL("https://animesoul.com/auction")
+    .setURL("https://shoob.gg/auction")
     .setColor(colour)
     .addField(
       `__${active ? "Active" : "Latest"} Auctions:__`,
@@ -146,8 +146,8 @@ const computeAuction = async (instance, aid) => {
         `  •  Auction: ${tier ? `T${tier} ` : ""}${localAuc.card_name}` +
         `  •  V${localAuc.version}`
     )
-    .setURL(`https://animesoul.com/auction/${aid}`)
-    .setThumbnail(`https://animesoul.com/api/cardr/${localAuc.card_id}`)
+    .setURL(`https://shoob.gg/auction/${aid}`)
+    .setThumbnail(`https://shoob.gg/api/cardr/${localAuc.card_id}`)
     .setColor(tier ? tierInfo[`T${tier}`].color : Color.default)
     .setDescription(!asAuc ? "⏱️ **This auction is no longer active.**\n" : "")
     .addField("Starting Bid", `\`富 ${Math.round(localAuc.bn / 5)}\``, true)
@@ -169,7 +169,7 @@ const computeAuction = async (instance, aid) => {
     )
     .addField(
       "Owner",
-      `[${localAuc.username}](https://animesoul.com/user/${localAuc.discord_id})`,
+      `[${localAuc.username}](https://shoob.gg/user/${localAuc.discord_id})`,
       true
     );
 
@@ -180,7 +180,7 @@ const computeAuction = async (instance, aid) => {
       .map(
         bid =>
           `> • \`富 ${bid.bid_amount}\` | ` +
-          `[${bid.username}](https://animesoul.com/user/${bid.discord_id}) | ` +
+          `[${bid.username}](https://shoob.gg/user/${bid.discord_id}) | ` +
           `\`${dayjs(bid.date_added * 1000).fromNow()}\``
       );
     embed.addField(
@@ -314,8 +314,8 @@ module.exports = {
       "auc t6",
       "auc all t5 Konata Izumi",
       "auc 5db4e4ff8ed9e66176623239",
-      "auc https://animesoul.com/auction/5fd41e3f8030b66973438e3a",
-      "auc a https://animesoul.com/cards/info/5fdbd604b3395a516de95394",
+      "auc https://shoob.gg/auction/5fd41e3f8030b66973438e3a",
+      "auc a https://shoob.gg/cards/info/5fdbd604b3395a516de95394",
     ],
     description: "Watch active auctions and their information live!",
   },

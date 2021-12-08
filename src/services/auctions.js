@@ -40,18 +40,18 @@ module.exports = {
       const tierSettings = tierInfo[tier];
       const embed = new MessageEmbed()
         .setTitle(`> <:Shoob:910973650042236938> Enter the Auction`)
-        .setURL(`https://animesoul.com/auction/${data.id}`)
+        .setURL(`https://shoob.gg/auction/${data.id}`)
         .setColor(tierSettings.color)
-        .setThumbnail(`https://animesoul.com/api/cardr/${data.card_id}`)
+        .setThumbnail(`https://shoob.gg/api/cardr/${data.card_id}`)
         .setDescription(
           `${tierSettings.emoji} [\`${data.card_name}\` • \`T${data.tier}\`]` +
-            `(https://animesoul.com/cards/info/${data.card_id}) • \`V${data.version}\` is being auctioned!`
+            `(https://shoob.gg/cards/info/${data.card_id}) • \`V${data.version}\` is being auctioned!`
         )
         .addField("Starting Bid", `\`富 ${Math.round(data.bn / 5)}\``, true)
         .addField("Buy Now", `\`富 ${data.bn}\``, true)
         .addField(
           "Owner",
-          `[${data.username}](https://animesoul.com/user/${data.discord_id})`,
+          `[${data.username}](https://shoob.gg/user/${data.discord_id})`,
           true
         );
 

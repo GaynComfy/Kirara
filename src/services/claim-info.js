@@ -97,7 +97,7 @@ module.exports = {
               if (data.claimed) {
                 log.setDescription(
                   `${settings.emoji} <@${data.discord_id}> has claimed [${data.card_name} Tier: ${data.tier}]` +
-                    `(https://animesoul.com/cards/info/${data.card_id})\n` +
+                    `(https://shoob.gg/cards/info/${data.card_id})\n` +
                     `<a:Sirona_loading2:748849251597025311> Issue: \`${data.issue}\`\n` +
                     (data.from_clyde
                       ? `<a:Sirona_loading:748854549703426118> Sent from Clyde!`
@@ -105,7 +105,7 @@ module.exports = {
                 );
               } else {
                 log.setDescription(
-                  `${settings.emoji} [${data.card_name} Tier: ${data.tier}](https://animesoul.com/cards/info/${data.card_id}) despawned`
+                  `${settings.emoji} [${data.card_name} Tier: ${data.tier}](https://shoob.gg/cards/info/${data.card_id}) despawned`
                 );
               }
               try {
@@ -150,7 +150,7 @@ module.exports = {
           if (messageChannel) {
             const oweeet = new MessageEmbed()
               .setDescription(
-                `<a:Sirona_loading:748854549703426118> [\`${data.card_name}\`](https://animesoul.com/cards/info/${data.card_id}) ` +
+                `<a:Sirona_loading:748854549703426118> [\`${data.card_name}\`](https://shoob.gg/cards/info/${data.card_id}) ` +
                   `Issue #: \`${data.issue}\` has been claimed!\n\n${settings.emoji} Added to <@${data.discord_id}>'s database.`
               )
               .setColor(settings.color);

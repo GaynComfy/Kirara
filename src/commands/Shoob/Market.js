@@ -56,7 +56,7 @@ const processWithCard = async (instance, message, option, card) => {
       .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
       .setDescription(
         "<:Sirona_NoCross:762606114444935168> No active market listings for this card!" +
-          `\n\n> [**T${card.tier}** ${card.name}](https://animesoul.com/cards/info/${card.id})`
+          `\n\n> [**T${card.tier}** ${card.name}](https://shoob.gg/cards/info/${card.id})`
       )
       .setColor(Color.red);
     message.reply({ embeds: [embed] });
@@ -68,7 +68,7 @@ const processWithCard = async (instance, message, option, card) => {
     const entries = sorted.slice(page * 10, page * 10 + 10);
     const market = entries.map(
       listing =>
-        `> [• \`Issue: ${listing.item.issue}\`](https://animesoul.com/market) | ` +
+        `> [• \`Issue: ${listing.item.issue}\`](https://shoob.gg/market) | ` +
         `Price: \`富 ${listing.price}\` | ` +
         `Added: \`${dayjs(listing.date_added * 1000).fromNow()}\``
     );
@@ -84,7 +84,7 @@ const processWithCard = async (instance, message, option, card) => {
                 .join("")
         }`
       )
-      .setURL(`https://animesoul.com/cards/info/${card.id}`)
+      .setURL(`https://shoob.gg/cards/info/${card.id}`)
       .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
       .setColor(selectedColor.color);
 
@@ -143,7 +143,7 @@ const processWithoutCard = async (instance, message, tier) => {
       if (t.item.tier !== null) {
         // cards
         item += `\`T${t.item.tier}\``;
-        item += `• [\`${name}\`](https://animesoul.com/cards/info/${t.item.id})`;
+        item += `• [\`${name}\`](https://shoob.gg/cards/info/${t.item.id})`;
         item += ` | • \`V${t.item.issue}\``;
       } else {
         // items
@@ -160,7 +160,7 @@ const processWithoutCard = async (instance, message, tier) => {
           ? `${tierSettings.emoji} Market: Most recent T${tier} entries`
           : "<:Flame:783439293506519101> Market: Most recent entries"
       )
-      .setURL(`https://animesoul.com/market`)
+      .setURL(`https://shoob.gg/market`)
       .setColor(tierSettings ? tierSettings.color : Color.default);
 
     if (last !== 0) {

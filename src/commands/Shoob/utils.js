@@ -59,7 +59,7 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
             card.tier === "S" ? "S" : "★".repeat(card.tier)
           }`
         )
-        .setURL(`https://animesoul.com/cards/info/${card.id}`)
+        .setURL(`https://shoob.gg/cards/info/${card.id}`)
         .setColor(tierSettings.color);
 
       switch (page) {
@@ -82,11 +82,11 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
               `> • \`${user.count}x ${
                 user.count > 1 ? "issues" : "issue"
               }\` | ` +
-              `[__**${user.username}**__](https://animesoul.com/user/${user.discord_id})`
+              `[__**${user.username}**__](https://shoob.gg/user/${user.discord_id})`
           );
           const market = listings.map(
             listing =>
-              `> [• \`Issue: ${listing.item.issue}\`](https://animesoul.com/market) | ` +
+              `> [• \`Issue: ${listing.item.issue}\`](https://shoob.gg/market) | ` +
               `Price: \`富 ${listing.price}\` | ` +
               `Added: \`${dayjs(listing.date_added * 1000).fromNow()}\``
           );
@@ -154,7 +154,7 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
           const owners = issues.map(
             claim =>
               `> • \`Issue: ${claim.issue}\` | ` +
-              `[__**${claim.username}**__](https://animesoul.com/user/${claim.discord_id})`
+              `[__**${claim.username}**__](https://shoob.gg/user/${claim.discord_id})`
           );
 
           embed

@@ -108,7 +108,7 @@ module.exports = {
           user.displayAvatarURL({ dynamic: true })
         )
         .setColor(tier !== "all" ? tierSettings.color : Color.default)
-        .setURL(`https://animesoul.com/user/${user.id}`)
+        .setURL(`https://shoob.gg/user/${user.id}`)
         .setFooter(
           (!singlePage
             ? `Page: ${last !== -1 && page >= last ? "Last" : page + 1}`
@@ -125,7 +125,7 @@ module.exports = {
               .map(
                 e =>
                   `> \`T${e.tier.toUpperCase()}\` • ` +
-                  `[\`${e.name}\`](https://animesoul.com/cards/info/${e.card_id}) ` +
+                  `[\`${e.name}\`](https://shoob.gg/cards/info/${e.card_id}) ` +
                   `| \`Issue: ${e.issue}\``
               )
               .join("\n")
