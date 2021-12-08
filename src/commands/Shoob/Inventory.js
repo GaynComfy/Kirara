@@ -50,7 +50,7 @@ module.exports = {
     const hasCardId = args.length >= 1 && cardId.test(args[0]);
     if (isEvent && hasTier && args.length === 1) return false;
     let tier = hasTier ? args.shift()[1].toUpperCase() : "all";
-    const card_id = hasCardId ? cardId.exec(args.shift())[2] : null;
+    const card_id = hasCardId ? cardId.exec(args.shift())[3] : null;
     let card = null;
     if (card_id) {
       card =

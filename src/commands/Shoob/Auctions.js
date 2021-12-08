@@ -207,8 +207,8 @@ module.exports = {
     const hasAucId = args.length >= 1 ? aucId.test(args[0]) : false;
     const caId = hasCardId || hasAucId ? args.shift() : null;
     const tier = hasTier ? args.shift()[1].toUpperCase() : null;
-    let card_id = hasCardId ? cardId.exec(caId)[2] : null;
-    let auc_id = hasAucId ? aucId.exec(caId)[2] : null;
+    let card_id = hasCardId ? cardId.exec(caId)[3] : null;
+    let auc_id = hasAucId ? aucId.exec(caId)[3] : null;
     if (auc_id && card_id) {
       // we were given an ID, but we don't know what is it for. let's check by querying all of it!
       // ToDo: maybe we should NOT use a lot of promises, but it's the best bet we have right now

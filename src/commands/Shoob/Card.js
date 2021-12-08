@@ -31,7 +31,7 @@ module.exports = {
     const hasCardId = cardId.test(args[0]);
     if (hasTier && args.length === 1) return false;
     const tier = hasTier ? args.shift()[1].toUpperCase() : "all";
-    const card_id = hasCardId ? cardId.exec(args.shift())[2] : null;
+    const card_id = hasCardId ? cardId.exec(args.shift())[3] : null;
     let card = null;
     if (card_id) {
       card =

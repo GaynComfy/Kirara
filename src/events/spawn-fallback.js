@@ -13,7 +13,7 @@ const processSpawn = async (instance, message, embed) => {
     instance.shared["spawn"][message.channel.id] = [];
 
   const name = embed.title.split(" Tier: ")[0];
-  const card_id = cardId.exec(embed.url)[2];
+  const card_id = cardId.exec(embed.url)[3];
   const tieri = tiers.find(t => t.color === embed.hexColor);
   let tier = "";
   if (tieri) tier = tieri.num.toString();
