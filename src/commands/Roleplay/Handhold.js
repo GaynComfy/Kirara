@@ -10,12 +10,14 @@ const info = {
 };
 module.exports = {
   execute: async (instance, message) => {
-    if (
-      message.mentions.users.size === 0 ||
-      (message.mentions.users.first().id === "445192864654295050" &&
-        message.author.id !== "175408504427905025")
-    ) {
+    if (message.mentions.users.size === 0) {
       return false;
+    }
+    if (
+      message.mentions.users.first().id === "445192864654295050" &&
+      message.author.id !== "175408504427905025"
+    ) {
+      return message.reply("You are commiting war crimes. Please stop.");
     }
     const { url } = await Fetcher.request("handhold");
     const embed = generateRolePlayEmbed(
