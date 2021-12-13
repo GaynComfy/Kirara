@@ -3,7 +3,8 @@ let interval = null;
 const send = async (instance, server_id, channel_id) => {
     const server = await instance.client.guilds.fetch(server_id);
     const channel = await server.channels.fetch(channel_id);
-    const message = {channel};
+    // fk me
+    const message = {channel, guild: server};
     message.channel.sendTyping().catch(() => null);
     let last = -1;
 
