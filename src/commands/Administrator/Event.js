@@ -42,7 +42,7 @@ module.exports = {
         ...update,
       };
       if(arg === "start-timed")
-        instance.timedEvents[message.guild.id] = Date.now() + (time * 1000);
+        instance.timedEvents[message.guild.id] = {val: Date.now() + (time * 1000), channel: message.channel.id};
       const embed = new MessageEmbed()
         .setDescription(
           newState
