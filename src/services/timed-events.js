@@ -1,5 +1,5 @@
-const Color = require("../../utils/Colors.json");
-const Constants = require("../../utils/Constants.json");
+const Color = require("../utils/Colors.json");
+const Constants = require("../utils/Constants.json");
 const { MessageEmbed } = require("discord.js");
 const {createPagedResults} = require("../utils/PagedResults");
 let interval = null;
