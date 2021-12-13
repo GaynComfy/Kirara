@@ -66,6 +66,7 @@ class Instance {
     this.shared = {};
     this.trivia = {};
     this.queues = {};
+    this.timedEvents = {};
     this.asClaims = 0;
     this.kClaims = 0;
     this.bootstrapped = false;

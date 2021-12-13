@@ -6,7 +6,7 @@ const info = {
   matchCase: false,
   category: "Administration",
 };
-const allowed = ["start", "on", "end", "off"];
+const allowed = ["start", "on", "end", "off", "start-timed"];
 module.exports = {
   execute: async (instance, message, args) => {
     return withRights(message.member, async () => {
@@ -14,11 +14,22 @@ module.exports = {
         return false;
       }
       const arg = args[0].toLowerCase();
-      const newState = arg === "on" || arg === "start";
+      let time;
+      if(arg === "start-timed") {
+        if(args.length === 1)
+          return false
+        time = Number.parseInt(args[1]);
+        if(Number.isNaN(time))
+          return false;
+      }
+      const newState = arg === "on" || arg === "start" || arg === "start-timed";
       const update = {
         event: newState,
       };
-      if (newState) update.event_time = new Date();
+      if (newState)
+        update.event_time = new Date();
+      else
+        delete instance.timedEvents[message.guild.id];
       await instance.database.simpleUpdate(
         "SERVERS",
         {
@@ -30,6 +41,8 @@ module.exports = {
         ...instance.guilds[message.guild.id],
         ...update,
       };
+      if(arg === "start-timed")
+        instance.timedEvents[message.guild.id] = Date.now() + (time * 1000);
       const embed = new MessageEmbed()
         .setDescription(
           newState
@@ -42,8 +55,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "event <start|on|off|end>",
+    usage: "event <start|on|off|end|start-timed> [seconds]",
     examples: ["event"],
-    description: "Set a Shoob claiming event counter on your server!",
+    description: "Set a Shoob claiming event counter on your server!\nWhen using start-timed, provide the amount of seconds the event is supposed to last, it will end after that.",
   },
 };
