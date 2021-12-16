@@ -15,21 +15,17 @@ module.exports = {
       }
       const arg = args[0].toLowerCase();
       let time;
-      if(arg === "start-timed") {
-        if(args.length === 1)
-          return false
+      if (arg === "start-timed") {
+        if (args.length === 1) return false;
         time = Number.parseInt(args[1]);
-        if(Number.isNaN(time))
-          return false;
+        if (Number.isNaN(time)) return false;
       }
       const newState = arg === "on" || arg === "start" || arg === "start-timed";
       const update = {
         event: newState,
       };
-      if (newState)
-        update.event_time = new Date();
-      else
-        delete instance.timedEvents[message.guild.id];
+      if (newState) update.event_time = new Date();
+      else delete instance.timedEvents[message.guild.id];
       await instance.database.simpleUpdate(
         "SERVERS",
         {
@@ -41,8 +37,11 @@ module.exports = {
         ...instance.guilds[message.guild.id],
         ...update,
       };
-      if(arg === "start-timed")
-        instance.timedEvents[message.guild.id] = {val: Date.now() + (time * 1000), channel: message.channel.id};
+      if (arg === "start-timed")
+        instance.timedEvents[message.guild.id] = {
+          val: Date.now() + time * 1000,
+          channel: message.channel.id,
+        };
       const embed = new MessageEmbed()
         .setDescription(
           newState
@@ -57,6 +56,7 @@ module.exports = {
   help: {
     usage: "event <start|on|off|end|start-timed> [seconds]",
     examples: ["event"],
-    description: "Set a Shoob claiming event counter on your server!\nWhen using start-timed, provide the amount of seconds the event is supposed to last, it will end after that.",
+    description:
+      "Set a Shoob claiming event counter on your server!\nWhen using start-timed, provide the amount of seconds the event is supposed to last, it will end after that.",
   },
 };
