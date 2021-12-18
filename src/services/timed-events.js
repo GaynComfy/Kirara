@@ -10,7 +10,7 @@ const send = async (instance, server_id, channel_id) => {
   const message = {
     channel,
     guild: server,
-    reply: (...args) => channel.send("Event has finished!", ...args),
+    reply: (...args) => channel.send(...args),
   };
   message.channel.sendTyping().catch(() => null);
   let last = -1;
