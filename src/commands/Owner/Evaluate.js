@@ -20,7 +20,7 @@ const info = {
   category: "Owner",
   ownerOnly: true,
   cooldown: 60,
-  disabled: process.env.NODE_ENV !== "development",
+  disabled: true,
 };
 module.exports = {
   execute: async (instance, message, args) => {
