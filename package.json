@@ -33,7 +33,7 @@
     "dayjs": "^1.10.7",
     "discord.js": "^13.3.1",
     "humanize-duration": "^3.27.0",
-    "ioredis": "^4.28.0",
+    "ioredis": "^4.28.3",
     "pg": "^8.7.1",
     "statcord.js": "^3.3.0",
     "trek-captcha": "^0.4.0"
