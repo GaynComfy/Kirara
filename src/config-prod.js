@@ -26,5 +26,5 @@ module.exports = {
     "445192864654295050", // RaiYito#3718
   ],
   shardCount: 8,
-  season: 14,
+  season: 15,
 };
