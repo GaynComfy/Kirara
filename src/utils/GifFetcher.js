@@ -14,18 +14,28 @@ class GifFetcher {
   }
   request(type, cid) {
     return new Promise((resolve, reject) => {
-      const canResolve = this.map[type] && this.last.get(type) !== cid;
-      if (canResolve) resolve(this.map[type]);
+      const k = `${cid}:${type}`;
+      const data = this.map[type];
+      const canResolve = data && this.last.get(k) !== data;
+      if (canResolve) {
+        this.last.set(k, data);
+        resolve(data);
+      }
 
-      this.get(type, cid)
-        .then(data => resolve(data))
+      this.get(type)
+        .then(data => {
+          if (!canResolve) {
+            this.last.set(k, this.map[type]);
+            resolve(data);
+          }
+        })
         .catch(err => {
           console.error(err);
           if (!canResolve) reject(err);
         });
     });
   }
-  async get(type, cid = null) {
+  async get(type) {
     const { data } = await this.instance.get(`/${type}`);
     if (!data || !data.url) {
       throw new Error(
@@ -34,7 +44,6 @@ class GifFetcher {
     }
 
     this.map[type] = data;
-    this.last.set(type, cid);
     return data;
   }
   async cache() {
