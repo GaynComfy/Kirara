@@ -3,6 +3,8 @@ const { getLilliePing } = require("./utils");
 const { version } = require("../../../package.json");
 const Constants = require("../../utils/Constants.json");
 
+const name = `Kirara v${version}`;
+
 const info = {
   name: "bot",
   matchCase: false,
@@ -70,7 +72,7 @@ module.exports = {
       );
       const channelSize = instance.client.channels.cache.size;
       const embed = new MessageEmbed()
-        .setAuthor(`Kirara v${version}`)
+        .setAuthor({ name })
         .setColor(Constants.color)
         .setDescription(
           `<:KiraraBoop:784849773291110460> [Invite me]` +

@@ -56,10 +56,10 @@ const send = async (instance, server_id, channel_id) => {
     }
 
     const embed = new MessageEmbed()
-      .setAuthor(
-        `${message.guild.name}'s Event Leaderboard`,
-        message.guild.iconURL({ dynamic: true })
-      )
+      .setAuthor({
+        name: `${message.guild.name}'s Event Leaderboard`,
+        iconURL: message.guild.iconURL({ dynamic: true }),
+      })
       .setColor(claimers.length > 0 ? "#f49e17" : Color.red)
       .setImage(Constants.footer)
       .setFooter(

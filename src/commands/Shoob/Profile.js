@@ -101,10 +101,10 @@ module.exports = {
 
     const attachment = new MessageAttachment(canvas.toBuffer(), "profile.png");
     const embed = new MessageEmbed()
-      .setAuthor(
-        `${member.username}'s profile`,
-        message.guild.iconURL({ dynamic: true })
-      )
+      .setAuthor({
+        name: `${member.username}'s profile`,
+        iconURL: message.guild.iconURL({ dynamic: true }),
+      })
       .setColor(color)
       .setURL(`https://shoob.gg/user/${member.id}`)
       .setDescription(

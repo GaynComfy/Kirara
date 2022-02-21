@@ -119,10 +119,10 @@ module.exports = {
     );
     const embed = new MessageEmbed()
       .setColor("#d5417c")
-      .setAuthor(
-        `${message.guild.name}'s ${isTotal ? "Total " : ""}Leaderboard`,
-        message.guild.iconURL({ dynamic: true })
-      )
+      .setAuthor({
+        name: `${message.guild.name}'s ${isTotal ? "Total " : ""}Leaderboard`,
+        iconURL: message.guild.iconURL({ dynamic: true }),
+      })
       .setImage("attachment://leaderboard.png");
 
     message.channel.send({ embeds: [embed], files: [attachment] });

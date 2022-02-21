@@ -131,10 +131,10 @@ module.exports = {
       async () => {
         const ping = new Date().getTime() - message.createdTimestamp;
         const helpembed = new MessageEmbed()
-          .setAuthor(
-            "❯\u2000Control Panel",
-            message.author.displayAvatarURL({ type: "png" })
-          )
+          .setAuthor({
+            name: "❯\u2000Control Panel",
+            iconURL: message.author.displayAvatarURL({ type: "png" }),
+          })
           .setDescription(
             `**${message.author.username}-sama Welcome to My Control Panel/Status \n\n 🏠 Control Panel Page \n 🔁 Reboot \n 💻 Status \n 🔀 Reload \n ❌ Close Panel **`
           )

@@ -85,10 +85,11 @@ module.exports = {
             );
             if (logChannel) {
               const log = new MessageEmbed()
-                .setAuthor(
-                  "Shoob",
-                  "https://cdn.animesoul.com/images/content/shoob/shoob-no-empty-space.png"
-                )
+                .setAuthor({
+                  name: "Shoob",
+                  iconURL:
+                    "https://cdn.animesoul.com/images/content/shoob/shoob-no-empty-space.png",
+                })
                 .setColor(settings.color)
                 .setFooter(data.server_name)
                 .setTimestamp();

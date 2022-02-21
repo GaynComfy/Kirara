@@ -2,7 +2,10 @@ const { MessageEmbed } = require("discord.js");
 const Constants = require("../../utils/Constants.json");
 
 const embed = new MessageEmbed()
-  .setAuthor(Constants.name, Constants.avatar)
+  .setAuthor({
+    name: Constants.name,
+    iconURL: Constants.avatar,
+  })
   .setColor(Constants.color)
   .setDescription(
     "Having any issues or want to report bugs?\n" +

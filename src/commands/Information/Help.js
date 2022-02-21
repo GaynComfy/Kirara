@@ -28,12 +28,12 @@ module.exports = {
       });
 
       embed
-        .setAuthor(
-          `Help Menu${message.guild ? ` | ${message.guild.name}` : ""}`,
-          message.guild
+        .setAuthor({
+          name: `Help Menu${message.guild ? ` | ${message.guild.name}` : ""}`,
+          iconURL: message.guild
             ? message.guild.iconURL({ dynamic: true })
-            : message.author.displayAvatarURL({ dynamic: true })
-        )
+            : message.author.displayAvatarURL({ dynamic: true }),
+        })
         .setDescription(
           `Use \`${prefix}help [command]\` to get more help! \nExample: \`${prefix}help stats\` \nNote that certain commands might display usernames in lists retrieved by the bot, see comand details.\n\u200b`
         )

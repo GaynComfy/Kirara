@@ -38,10 +38,10 @@ module.exports = {
     }
 
     const embed = new MessageEmbed()
-      .setAuthor(
-        `${message.guild.name}'s Past Season Leaderboard`,
-        message.guild.iconURL({ dynamic: true })
-      )
+      .setAuthor({
+        name: `${message.guild.name}'s Past Season Leaderboard`,
+        iconURL: message.guild.iconURL({ dynamic: true }),
+      })
       .setColor(claimers.length > 0 ? "#f49e17" : Color.red)
       .setImage(Constants.footer)
       .addField(`•   __User__`, users.join("\n"), true)

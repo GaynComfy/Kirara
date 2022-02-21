@@ -9,7 +9,10 @@ const info = {
 module.exports = {
   execute: async (instance, message) => {
     const embed = new MessageEmbed()
-      .setAuthor(Constants.name, Constants.avatar)
+      .setAuthor({
+        name: Constants.name,
+        iconURL: Constants.avatar,
+      })
       .setColor(Constants.color)
       .setDescription(
         "<:Flame:783439293506519101> You can donate through Tomi to help us keep working on the bot\n> Use `as!send 77256980288253952 <amount> Sirona-Kirara Donation`" +

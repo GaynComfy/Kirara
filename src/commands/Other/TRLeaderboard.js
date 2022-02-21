@@ -128,10 +128,10 @@ module.exports = {
         }
 
         const embed = new MessageEmbed()
-          .setAuthor(
-            `${dName} Typerace Leaderboard`,
-            message.guild.iconURL({ dynamic: true })
-          )
+          .setAuthor({
+            name: `${dName} Typerace Leaderboard`,
+            iconURL: message.guild.iconURL({ dynamic: true }),
+          })
           .setColor(stats.length > 0 ? Color.default : Color.red)
           .setDescription(
             "⚠️ **NOTE: LEADERBOARD WILL BE RESET EACH SEASON!**\n" +

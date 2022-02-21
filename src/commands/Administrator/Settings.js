@@ -45,7 +45,10 @@ module.exports = {
       if (logChn) logs = `<#${logChn}>`;
 
       const embed = new MessageEmbed()
-        .setAuthor(Constants.name, Constants.avatar)
+        .setAuthor({
+          name: Constants.name,
+          iconURL: Constants.avatar,
+        })
         .setColor(Color.white)
         .setDescription(
           `These are the current settings for \`${message.guild.name}\``

@@ -11,7 +11,7 @@ module.exports = {
     const msgPing = Date.now() - message.createdTimestamp;
     const { ping } = await getLilliePing();
     const embed = new MessageEmbed()
-      .setAuthor("Latency for Kirara")
+      .setAuthor({ name: "Latency for Kirara" })
       .setDescription(
         `🏓 Command: \`${msgPing}ms\`\n` +
           `💓 Gateway: \`${instance.client.ws.ping}ms\`\n` +

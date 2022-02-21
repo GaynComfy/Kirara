@@ -70,7 +70,10 @@ module.exports = {
       }
 
       const embed = new MessageEmbed()
-        .setAuthor("Global Leaderboard", Constants.avatar)
+        .setAuthor({
+          name: "Global Leaderboard",
+          iconURL: Constants.avatar,
+        })
         .setColor(claimers.length > 0 ? "#f49e17" : Color.red)
         .setImage(Constants.footer)
         .setFooter(

@@ -37,10 +37,10 @@ module.exports = {
           const offset = page.index * page.perPage;
 
           return new MessageEmbed()
-            .setAuthor(
-              `Server Boost Leaderboard in ${message.guild.name}`,
-              message.guild.iconURL({ dynamic: true })
-            )
+            .setAuthor({
+              name: `Server Boost Leaderboard in ${message.guild.name}`,
+              iconURL: message.guild.iconURL({ dynamic: true }),
+            })
             .setColor(Constants.color)
             .setDescription(
               boosters
