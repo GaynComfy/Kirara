@@ -6,7 +6,7 @@ const embed = new MessageEmbed()
   .setColor(Constants.color)
   .setDescription(
     "<:Flame:783439293506519101> Want to invite the bot to your server? " +
-      "**[Click me!](https://discord.com/oauth2/authorize?client_id=748100524246564894&permissions=519232&scope=bot)**"
+      "**[Click me!](https://discord.com/oauth2/authorize?client_id=748100524246564894&permissions=415001603136&scope=bot)**"
   );
 
 const info = {
