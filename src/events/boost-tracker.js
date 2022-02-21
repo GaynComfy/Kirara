@@ -1,7 +1,7 @@
 module.exports = {
   execute: async (instance, oldMember, newMember) => {
     if (!newMember.guild || newMember.guild.id !== "378599231583289346") return;
-    const channel = newMember.guild.channels.cache.get("704084460336971906");
+    const channel = newMember.guild.channels.cache.get("937207685290541087");
     if (!channel) {
       console.error("bot config channel not found for member stop boost");
       return;
