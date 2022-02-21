@@ -12,7 +12,7 @@ module.exports = {
     if (message.mentions.users.size === 0) {
       return false;
     }
-    const { url } = await Fetcher.request("pat");
+    const { url } = await Fetcher.request("pat", message.channel.id);
     const embed = generateRolePlayEmbed(
       "pats",
       message.author.id,

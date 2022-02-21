@@ -12,7 +12,7 @@ module.exports = {
     if (message.mentions.users.size === 0) {
       return false;
     }
-    const { url } = await Fetcher.request("highfive");
+    const { url } = await Fetcher.request("highfive", message.channel.id);
     const embed = generateRolePlayEmbed(
       "highfives",
       message.author.id,

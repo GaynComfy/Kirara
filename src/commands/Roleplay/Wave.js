@@ -9,7 +9,7 @@ const info = {
 };
 module.exports = {
   execute: async (instance, message) => {
-    const { url } = await Fetcher.request("wave");
+    const { url } = await Fetcher.request("wave", message.channel.id);
     const mention = message.mentions.users.first();
     const embed = new MessageEmbed()
       .setDescription(

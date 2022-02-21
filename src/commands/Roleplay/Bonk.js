@@ -15,7 +15,7 @@ module.exports = {
     ) {
       return false;
     }
-    const { url } = await Fetcher.request("bonk");
+    const { url } = await Fetcher.request("bonk", message.channel.id);
     const embed = generateRolePlayEmbed(
       "bonks",
       message.author.id,

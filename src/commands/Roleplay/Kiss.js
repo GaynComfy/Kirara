@@ -28,7 +28,7 @@ module.exports = {
         "someone will not get their egg today <:rEkomda:889128655408734269>"
       );
     }
-    const { url } = await Fetcher.request("kiss");
+    const { url } = await Fetcher.request("kiss", message.channel.id);
     const embed = generateRolePlayEmbed(
       "kisses",
       message.author.id,

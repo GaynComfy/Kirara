@@ -9,7 +9,7 @@ const info = {
 };
 module.exports = {
   execute: async (instance, message) => {
-    const { url } = await Fetcher.request("neko");
+    const { url } = await Fetcher.request("neko", message.channel.id);
     const embed = new MessageEmbed()
       .setDescription("Nyaa~")
       .setColor(Color.white);
