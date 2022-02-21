@@ -14,9 +14,19 @@ module.exports = {
     }
     if (
       message.mentions.users.first().id === "445192864654295050" &&
-      message.author.id !== "175408504427905025"
+      message.author.id !== "175408504427905025" &&
+      message.author.id !== "445192864654295050"
     ) {
       return message.reply("You are commiting war crimes. Please stop.");
+    }
+    if (
+      message.mentions.users.first().id === "175408504427905025" &&
+      message.author.id !== "445192864654295050" &&
+      message.author.id !== "175408504427905025"
+    ) {
+      return message.reply(
+        "someone will not get their egg today <:rEkomda:889128655408734269>"
+      );
     }
     const { url } = await Fetcher.request("kiss");
     const embed = generateRolePlayEmbed(
