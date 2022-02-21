@@ -93,11 +93,12 @@ const computeListings = async (instance, page, tier, card, active) => {
         ? "- None <:Shoob:910973650042236938>"
         : cards.join("\n")
     )
-    .setFooter(
-      `Page: ${page + 1} | ` +
+    .setFooter({
+      text:
+        `Page: ${page + 1} | ` +
         `Send "next" for next page` +
-        (page !== 0 ? ` | "back" to go back` : "")
-    );
+        (page !== 0 ? ` | "back" to go back` : ""),
+    });
 
   if (cards.length !== 0) {
     embed.setDescription(
@@ -286,9 +287,9 @@ module.exports = {
         const aucInfo = recent[index] ? recent[index].auction_id : false;
         if (!aucInfo) return null;
         const auc = await computeAuction(instance, aucInfo);
-        auc.setFooter(
-          `Send "exit" to go back to listings | "refresh" to refresh auction`
-        );
+        auc.setFooter({
+          text: `Send "exit" to go back to listings | "refresh" to refresh auction`,
+        });
         return auc;
       }
       page = p;

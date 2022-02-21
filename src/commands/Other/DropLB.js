@@ -70,13 +70,14 @@ module.exports = {
         })
         .setColor(spawners.length > 0 ? "#da7357" : Color.red)
         .setImage(Constants.footer)
-        .setFooter(
-          (!singlePage
-            ? `Page: ${last !== -1 && page >= last ? "Last" : page + 1}`
-            : "") +
+        .setFooter({
+          text:
+            (!singlePage
+              ? `Page: ${last !== -1 && page >= last ? "Last" : page + 1}`
+              : "") +
             (last === -1 || page < last ? " | React ▶️ for next page" : "") +
-            (page !== 0 ? " | React ◀️ to go back" : "")
-        )
+            (page !== 0 ? " | React ◀️ to go back" : ""),
+        })
         .addField(`•   __User__`, users.join("\n"), true)
         .addField(`•   __Drops__`, spawns.join("\n"), true);
 

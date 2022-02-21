@@ -53,15 +53,16 @@ module.exports = {
                 )
                 .join("\n")
             )
-            .setFooter(
-              (page.total > 1
-                ? `Page: ${page.index + 1}/${page.total} | `
-                : "") +
+            .setFooter({
+              text:
+                (page.total > 1
+                  ? `Page: ${page.index + 1}/${page.total} | `
+                  : "") +
                 (page.index + 1 < page.total
                   ? "React ▶️ for next page | "
                   : "") +
-                (page.total > 1 ? "React ◀️ to go back" : "")
-            );
+                (page.total > 1 ? "React ◀️ to go back" : ""),
+            });
         });
       })
       .catch(err => {

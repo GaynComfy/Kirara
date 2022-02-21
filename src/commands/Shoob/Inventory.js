@@ -109,13 +109,14 @@ module.exports = {
         })
         .setColor(tier !== "all" ? tierSettings.color : Color.default)
         .setURL(`https://shoob.gg/user/${user.id}`)
-        .setFooter(
-          (!singlePage
-            ? `Page: ${last !== -1 && page >= last ? "Last" : page + 1}`
-            : "") +
+        .setFooter({
+          text:
+            (!singlePage
+              ? `Page: ${last !== -1 && page >= last ? "Last" : page + 1}`
+              : "") +
             (last === -1 || page < last ? " | React ▶️ for next page" : "") +
-            (page !== 0 ? " | React ◀️ to go back" : "")
-        );
+            (page !== 0 ? " | React ◀️ to go back" : ""),
+        });
       if (card)
         embed.setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"));
       embed.addField(

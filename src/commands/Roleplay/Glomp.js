@@ -29,9 +29,9 @@ module.exports = {
       message.author.id,
       message.mentions.users.first().id,
       ({ send, received }) => {
-        embed.setFooter(
-          `${message.author.username} glomped others ${send} times and received ${received} glomps`
-        );
+        embed.setFooter({
+          text: `${message.author.username} glomped others ${send} times and received ${received} glomps`,
+        });
         message.channel.send({ embeds: [embed] });
       }
     );

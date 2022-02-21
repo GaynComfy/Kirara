@@ -30,9 +30,9 @@ module.exports = {
       message.author.id,
       message.mentions.users.first().id,
       ({ send, received }) => {
-        embed.setFooter(
-          `${message.author.username} gave others ${send} pats and received ${received} pats`
-        );
+        embed.setFooter({
+          text: `${message.author.username} gave others ${send} pats and received ${received} pats`,
+        });
         message.channel.send({ embeds: [embed] });
       }
     );

@@ -62,13 +62,14 @@ const send = async (instance, server_id, channel_id) => {
       })
       .setColor(claimers.length > 0 ? "#f49e17" : Color.red)
       .setImage(Constants.footer)
-      .setFooter(
-        (!singlePage
-          ? `Page: ${last !== -1 && page >= last ? "Last" : page + 1}`
-          : "") +
+      .setFooter({
+        text:
+          (!singlePage
+            ? `Page: ${last !== -1 && page >= last ? "Last" : page + 1}`
+            : "") +
           (last === -1 || page < last ? " | React ▶️ for next page" : "") +
-          (page !== 0 ? " | React ◀️ to go back" : "")
-      )
+          (page !== 0 ? " | React ◀️ to go back" : ""),
+      })
       .addField(`•   __User__`, users.join("\n"), true)
       .addField(`•   __Claims__`, claims.join("\n"), true);
 

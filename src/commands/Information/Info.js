@@ -18,7 +18,7 @@ const embed = new MessageEmbed()
     "`JeDaYoshi#7942`, `Liz3#0001`, `⋆˚🌺⃤ Jorgy₊ ˚#2024`, `Nota#1576`, " +
       "`offbeatwitch#8860`, `Riku#1111`"
   )
-  .setFooter("Roleplay images provided by https://waifu.pics");
+  .setFooter({ text: "Roleplay images provided by https://waifu.pics" });
 
 const info = {
   name: "info",

@@ -77,9 +77,11 @@ module.exports = {
           .setColor("#ddaaaa")
           .setTitle("A new quiz is starting!")
           .setDescription("React ✅ to join!")
-          .setFooter(
-            `Be fast! You can join within ${opts.jointime / 1000} seconds`
-          );
+          .setFooter({
+            text: `Be fast! You can join within ${
+              opts.jointime / 1000
+            } seconds`,
+          });
 
         const collectorMessage = await message.channel.send({
           embeds: [embed],

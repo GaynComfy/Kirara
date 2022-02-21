@@ -65,7 +65,9 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
       switch (page) {
         case 0: {
           // card image display
-          embed.setImage(cardImage).setFooter("React ▶️ for more info");
+          embed
+            .setImage(cardImage)
+            .setFooter({ text: "React ▶️ for more info" });
           break;
         }
         case 1: {
@@ -95,7 +97,7 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
             .setThumbnail(cardImage)
             .setDescription(description)
             .setImage(card.ability ? card.ability_gif : Constants.footer)
-            .setFooter("React ▶️ for card owners");
+            .setFooter({ text: "React ▶️ for card owners" });
 
           if (card.ability) {
             embed.addField(
@@ -167,11 +169,12 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
                 : owners.join("\n")
             )
             .setImage(Constants.footer)
-            .setFooter(
-              (pages > 1 ? `Page: ${pnum + 1}/${pages} | ` : "") +
+            .setFooter({
+              text:
+                (pages > 1 ? `Page: ${pnum + 1}/${pages} | ` : "") +
                 (pnum + 1 < pages ? "React ▶️ for next page | " : "") +
-                "React ◀️ to go back"
-            );
+                "React ◀️ to go back",
+            });
         }
       }
 

@@ -89,11 +89,12 @@ const processWithCard = async (instance, message, option, card) => {
       .setColor(selectedColor.color);
 
     if (pages > 1) {
-      embed.setFooter(
-        (pages > 1 ? `Page: ${page + 1}/${pages}` : "") +
+      embed.setFooter({
+        text:
+          (pages > 1 ? `Page: ${page + 1}/${pages}` : "") +
           (page + 1 < pages ? " | React ▶️ for next page" : "") +
-          (page !== 0 ? " | React ◀️ to go back" : "")
-      );
+          (page !== 0 ? " | React ◀️ to go back" : ""),
+      });
     }
 
     if (page === 0) {
@@ -164,11 +165,12 @@ const processWithoutCard = async (instance, message, tier) => {
       .setColor(tierSettings ? tierSettings.color : Color.default);
 
     if (last !== 0) {
-      embed.setFooter(
-        `Page: ${isLast ? "Last" : page + 1}` +
+      embed.setFooter({
+        text:
+          `Page: ${isLast ? "Last" : page + 1}` +
           (!isLast ? ` | React ▶️ for next page` : "") +
-          (page > 0 ? " | React ◀️ to go back" : "")
-      );
+          (page > 0 ? " | React ◀️ to go back" : ""),
+      });
     }
 
     embed.addField(

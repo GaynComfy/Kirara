@@ -22,10 +22,10 @@ const actions = [
       embed.setDescription(
         `**${originalMessage.author.username}-sama Welcome to My Control Panel/Status \n\n 🏠 Control Panel Page \n 🔁 Reboot \n 💻 Status \n 🔀 Reload \n ❌ Close Panel **`
       );
-      embed.setFooter(
-        "Kirara Dev Panel",
-        instance.client.user.displayAvatarURL({ type: "png" })
-      );
+      embed.setFooter({
+        text: "Kirara Dev Panel",
+        iconURL: instance.client.user.displayAvatarURL({ type: "png" }),
+      });
       await embedMessage.edit({ embeds: [embed] });
 
       return true;
@@ -47,10 +47,10 @@ const actions = [
       embed.setDescription(
         `**${originalMessage.author.username}-sama Welcome to My Control Panel/Status**\n\n📁 **Reloading: \n❌ Commands\n❌ Handlers\n❌ Inhibitors**`
       );
-      embed.setFooter(
-        "Reloading...",
-        r.client.user.displayAvatarURL({ type: "png" })
-      );
+      embed.setFooter({
+        text: "Reloading...",
+        iconURL: r.client.user.displayAvatarURL({ type: "png" }),
+      });
       await embedMessage.edit({ embeds: [embed] });
 
       await instance.initReload();
@@ -59,10 +59,10 @@ const actions = [
         embed.setDescription(
           `**${originalMessage.author.username}-sama Welcome to My Control Panel/Status**\n\n🕊️ **Reloaded: \n✔️ Commands\n✔️ Handlers\n✔️ Inhibitors**`
         );
-        embed.setFooter(
-          "Reloaded!",
-          r.client.user.displayAvatarURL({ type: "png" })
-        );
+        embed.setFooter({
+          text: "Reloaded!",
+          iconURL: r.client.user.displayAvatarURL({ type: "png" }),
+        });
         embedMessage.edit({ embeds: [embed] });
       }, 3000);
     },
@@ -73,10 +73,10 @@ const actions = [
       embed.setDescription(
         `**${originalMessage.author.username}-sama Welcome to My Control Panel/Status \n\nRebooting :red_circle: :yellow_circle: :green_circle:**`
       );
-      embed.setFooter(
-        "Rebooting in 5 Seconds",
-        r.client.user.displayAvatarURL({ type: "png" })
-      );
+      embed.setFooter({
+        text: "Rebooting in 5 Seconds",
+        iconURL: r.client.user.displayAvatarURL({ type: "png" }),
+      });
       await embedMessage.edit({ embeds: [embed] });
 
       setTimeout(() => {
@@ -116,10 +116,10 @@ const actions = [
 > Discord.js    :: v12.5.0\`\`\``,
       ];
       embed.setDescription(stats);
-      embed.setFooter(
-        "My Status",
-        r.client.user.displayAvatarURL({ type: "png" })
-      );
+      embed.setFooter({
+        text: "My Status",
+        iconURL: r.client.user.displayAvatarURL({ type: "png" }),
+      });
       await embedMessage.edit({ embeds: [embed] });
     },
   },
@@ -139,10 +139,10 @@ module.exports = {
             `**${message.author.username}-sama Welcome to My Control Panel/Status \n\n 🏠 Control Panel Page \n 🔁 Reboot \n 💻 Status \n 🔀 Reload \n ❌ Close Panel **`
           )
           .setColor(color.white)
-          .setFooter(
-            "Kirara Dev Panel",
-            instance.client.user.displayAvatarURL({ type: "png" })
-          )
+          .setFooter({
+            text: "Kirara Dev Panel",
+            iconURL: instance.client.user.displayAvatarURL({ type: "png" }),
+          })
           .setThumbnail("https://i.imgur.com/0Ei73vS.gif");
         let state = null;
         const msg = await message.channel.send({ embeds: [helpembed] });

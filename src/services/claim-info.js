@@ -91,7 +91,7 @@ module.exports = {
                     "https://cdn.animesoul.com/images/content/shoob/shoob-no-empty-space.png",
                 })
                 .setColor(settings.color)
-                .setFooter(data.server_name)
+                .setFooter({ text: data.server_name })
                 .setTimestamp();
               if (data.image_url) {
                 log.setThumbnail(

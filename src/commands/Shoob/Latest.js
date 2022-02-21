@@ -71,13 +71,14 @@ module.exports = {
         .setURL(`https://shoob.gg/cards`)
         .addField("•   **__Cards__**", cards.join("\n"), true)
         .addField("•   **__Series__**", series.join("\n"), true)
-        .setFooter(
-          (!singlePage
-            ? `Page: ${last !== -1 && page >= last ? "Last" : page + 1}`
-            : "") +
+        .setFooter({
+          text:
+            (!singlePage
+              ? `Page: ${last !== -1 && page >= last ? "Last" : page + 1}`
+              : "") +
             (last === -1 || page < last ? " | React ▶️ for next page" : "") +
-            (page !== 0 ? " | React ◀️ to go back" : "")
-        );
+            (page !== 0 ? " | React ◀️ to go back" : ""),
+        });
       if (last === 0) {
         await message.channel.send({ embeds: [embed] });
         return false;

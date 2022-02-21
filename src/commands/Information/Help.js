@@ -37,10 +37,10 @@ module.exports = {
         .setDescription(
           `Use \`${prefix}help [command]\` to get more help! \nExample: \`${prefix}help stats\` \nNote that certain commands might display usernames in lists retrieved by the bot, see comand details.\n\u200b`
         )
-        .setFooter(
-          `by G&C Dev Team | ${prefix}help [cmd] | discord.gg/comfy`,
-          Constants.avatar
-        );
+        .setFooter({
+          text: `by G&C Dev Team | ${prefix}help [cmd] | discord.gg/comfy`,
+          iconURL: Constants.avatar,
+        });
       categories.forEach(category => {
         const dirSize = all.filter(cmd => {
           if (cmd.info.guilds && !cmd.info.guilds.includes(message.guild.id))
@@ -95,7 +95,10 @@ module.exports = {
     cmd.help.examples.join("\n+ ") || cmd.aliases[0]
   }\`\`\``
         )
-        .setFooter("Syntax: <required> | [optional]", Constants.avatar);
+        .setFooter({
+          text: "Syntax: <required> | [optional]",
+          iconURL: Constants.avatar,
+        });
     } else {
       embed
         .setColor("#ff1100")

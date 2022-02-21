@@ -116,7 +116,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
       .setColor("RANDOM")
       .setTitle(`Question #${index}`)
       .setDescription(question.description)
-      .setFooter(`You have ${left} seconds to answer using /quiz`);
+      .setFooter({ text: `You have ${left} seconds to answer using /quiz` });
     question.answers.forEach(elem =>
       embed.addField(`Answer ${elem.key}`, elem.description)
     );
@@ -157,7 +157,9 @@ const runGame = async (instance, channel, guild, participants, options) => {
         .setTitle(`${question.name} results`)
         .setDescription(question.description)
         .addField(`${answer.key}: ${answer.description}`, winners.join("\n"))
-        .setFooter(`${correct.length} of ${all} participants got it right!`);
+        .setFooter({
+          text: `${correct.length} of ${all} participants got it right!`,
+        });
       await msg.edit({ embeds: [results] });
     } else {
       const results = new MessageEmbed()
@@ -166,7 +168,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
         .setDescription(
           `${question.description}\n\n**Nobody got it right!** The answer was:\n> ${answer.key}: ${answer.description}`
         )
-        .setFooter(`${all} participants tried!`);
+        .setFooter({ text: `${all} participants tried!` });
       await msg.edit({ embeds: [results] });
     }
 
@@ -256,7 +258,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
     .addField("Confused Players", noCorrect.length, true)
     .addField("Loyal Players", participated.length, true)
     .addField("Leaderboard", friends)
-    .setFooter("Thank you for participating into this quiz with us!");
+    .setFooter({ text: "Thank you for participating into this quiz with us!" });
 
   return channel.send({ embeds: [finalEmbed] });
 };
