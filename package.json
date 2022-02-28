@@ -35,7 +35,7 @@
     "humanize-duration": "^3.27.1",
     "ioredis": "^4.28.5",
     "pg": "^8.7.3",
-    "quick-lru": "^5.1.1",
+    "quick-lru": "^6.1.0",
     "statcord.js": "^3.4.1",
     "trek-captcha": "^0.4.0"
   },
