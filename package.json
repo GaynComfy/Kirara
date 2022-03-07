@@ -30,7 +30,7 @@
     "axios-retry": "^3.2.4",
     "canvas": "^2.9.0",
     "captcha-canvas": "^3.1.0",
-    "dayjs": "^1.10.7",
+    "dayjs": "^1.10.8",
     "discord.js": "^13.6.0",
     "humanize-duration": "^3.27.1",
     "ioredis": "^4.28.5",
