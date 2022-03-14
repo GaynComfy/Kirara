@@ -52,7 +52,7 @@
   "optionalDependencies": {
     "bufferutil": "^4.0.6",
     "erlpack": "github:JeDaYoshi/erlpack#74a4525",
-    "utf-8-validate": "^5.0.8",
+    "utf-8-validate": "^5.0.9",
     "zlib-sync": "^0.1.7"
   }
 }
