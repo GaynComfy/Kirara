@@ -31,7 +31,7 @@ jobs:
           registry-url: "https://registry.npmjs.org/"
 
       - name: Cache node_modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         continue-on-error: true
         with:
           path: |
