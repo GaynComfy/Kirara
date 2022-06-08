@@ -31,7 +31,8 @@ class GifFetcher {
         })
         .catch(err => {
           console.error(err);
-          if (!canResolve) reject(err);
+          if (this.map[type]) resolve(this.map[type]);
+          else if (!canResolve) reject(err);
         });
     });
   }
