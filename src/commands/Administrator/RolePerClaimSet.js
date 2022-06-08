@@ -79,6 +79,6 @@ module.exports = {
   help: {
     usage: "roleperclaimset <number> <@role/off>",
     examples: ["roleperclaimset 5000 @egg", "roleperclaimset 50 @nog"],
-    description: "Set the role for x amount claims",
+    description: "Set the role for claiming a certain amount of cards",
   },
 };

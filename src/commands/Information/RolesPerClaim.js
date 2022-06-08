@@ -38,6 +38,6 @@ module.exports = {
   help: {
     usage: "rolesperclaim",
     examples: ["rolesperclaim"],
-    description: "Show many roles lolzers",
+    description: "Show all of the server's roles for claims",
   },
 };
