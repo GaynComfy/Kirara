@@ -33,6 +33,7 @@ module.exports = {
 
         if (instance.client.guilds.cache.has(data.server_id)) {
           const guild = instance.client.guilds.cache.get(data.server_id);
+          const member = await guild.members.fetch(data.discord_id);
           const messageChannel = guild.channels.cache.get(data.channel_id);
           const settings = tierInfo[`T${data.tier.toUpperCase()}`];
 
@@ -78,6 +79,27 @@ module.exports = {
 
           delete instance.shared["recent"][`${data.server_id}:all`];
           delete instance.shared["recent"][`${data.server_id}:${data.tier}`];
+
+          const { rows: roles } = await instance.database.pool.query(
+            "SELECT * FROM claim_roles WHERE server_id = $1",
+            [instance.serverIds[guild.id]]
+          );
+
+          if (roles.length) {
+            const { rows: claims } = await instance.database.pool.query(
+              "SELECT * FROM card_claims WHERE server_id = $1 AND discord_id = $2 AND claimed = true",
+              [instance.serverIds[guild.id], member.id]
+            );
+
+            roles.forEach(r => {
+              if (
+                claims.length >= r.claims &&
+                !member.roles.cache.has(r.role_id)
+              ) {
+                member.roles.add(r.role_id, "Shoob claim count");
+              }
+            });
+          }
 
           if (instance.guilds[data.server_id].log_channel) {
             const logChannel = guild.channels.cache.get(
