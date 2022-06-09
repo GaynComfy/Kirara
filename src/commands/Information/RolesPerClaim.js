@@ -23,10 +23,12 @@ module.exports = {
         "\n\nThere are no claim roles setup in this server."
       );
     } else {
-      for (let i = 1; i <= roles.length; i++) {
+      for (const role of roles) {
+        const roleIndex = roles.indexOf(role);
+
         embed.addField(
-          `#${i} - ${roles[i - 1].claims} Cards`,
-          `<@&${roles[i - 1].role_id}>`,
+          `#${roleIndex + 1} - ${role.claims} Cards`,
+          `<@&${role.role_id}>`,
           true
         );
       }

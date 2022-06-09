@@ -80,15 +80,20 @@ module.exports = {
           delete instance.shared["recent"][`${data.server_id}:all`];
           delete instance.shared["recent"][`${data.server_id}:${data.tier}`];
 
-          const { rows: roles } = await instance.database.pool.query(
-            "SELECT * FROM claim_roles WHERE server_id = $1",
-            [instance.serverIds[guild.id]]
+          const { rows: roles } = await instance.database.simpleQuery(
+            "CLAIM_ROLES",
+            {
+              server_id: instance.serverIds[guild.id],
+            }
           );
 
           if (roles.length) {
-            const { rows: claims } = await instance.database.pool.query(
-              "SELECT * FROM card_claims WHERE server_id = $1 AND discord_id = $2 AND claimed = true",
-              [instance.serverIds[guild.id], member.id]
+            const { rows: claims } = await instance.database.simpleQuery(
+              "CARD_CLAIMS",
+              {
+                server_id: instance.serverIds[guild.id],
+                discord_id: member.id,
+              }
             );
 
             roles.forEach(r => {
