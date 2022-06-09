@@ -99,8 +99,8 @@ module.exports = {
 
     const viewer = user ? user.last_viewer : null;
 
-    let description =
-      `<:Flame:783439293506519101> [Shoob.gg Profile](https://shoob.gg/user/${member.id})` +
+    const description =
+      `<:Shoob:910973650042236938> [Shoob.gg Profile](https://shoob.gg/user/${member.id})` +
       (viewer && viewer.discord_id !== ""
         ? `\n<:KiraraPeek:784849772272025600> ` +
           `Last viewed by [**__${viewer.username}__**](https://shoob.gg/user/${viewer.discord_id})`
@@ -123,7 +123,7 @@ module.exports = {
       .setDescription(description)
       .setImage("attachment://profile.png");
 
-    if (user !== null) {
+    if (user) {
       embed
         .addField("Premium", user.premium ? "Yes" : "No", true)
         .addField("Votes", user.votes.toString(), true)
