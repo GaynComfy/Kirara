@@ -99,6 +99,19 @@ module.exports = {
 
     const viewer = user ? user.last_viewer : null;
 
+    const description =
+      `<:Shoob:910973650042236938> [Shoob.gg Profile](https://shoob.gg/user/${member.id})` +
+      (viewer && viewer.discord_id !== ""
+        ? `\n<:KiraraPeek:784849772272025600> ` +
+          `Last viewed by [**__${viewer.username}__**](https://shoob.gg/user/${viewer.discord_id})`
+        : "") +
+      (owner.includes(member.id)
+        ? `\n<:KiraraHugHeart:798460293491326986> **Kirara Developer <3**`
+        : "") +
+      (user && user.trusted
+        ? `\n<:KiraraSleepy:784849773097517086> **Card Maker!**`
+        : "");
+
     const attachment = new MessageAttachment(canvas.toBuffer(), "profile.png");
     const embed = new MessageEmbed()
       .setAuthor({
@@ -107,19 +120,7 @@ module.exports = {
       })
       .setColor(color)
       .setURL(`https://shoob.gg/user/${member.id}`)
-      .setDescription(
-        `<:Flame:783439293506519101> [Anime Soul Profile](https://shoob.gg/user/${member.id})` +
-          (viewer && viewer.discord_id !== ""
-            ? `\n<:KiraraPeek:784849772272025600> ` +
-              `Last viewed by [**__${viewer.username}__**](https://shoob.gg/user/${viewer.discord_id})`
-            : "") +
-          (owner.includes(member.id)
-            ? `\n<:KiraraHugHeart:798460293491326986> **Kirara Developer <3**`
-            : "") +
-          (user.trusted
-            ? `\n<:KiraraSleepy:784849773097517086> **Card Maker!**`
-            : "")
-      )
+      .setDescription(description)
       .setImage("attachment://profile.png");
 
     if (user) {
