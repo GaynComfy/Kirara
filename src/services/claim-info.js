@@ -79,6 +79,38 @@ module.exports = {
           delete instance.shared["recent"][`${data.server_id}:all`];
           delete instance.shared["recent"][`${data.server_id}:${data.tier}`];
 
+          if (data.claimed) {
+            const member = await guild.members.fetch(data.discord_id);
+
+            const { rows: roles } = await instance.database.simpleQuery(
+              "CLAIM_ROLES",
+              {
+                server_id: instance.serverIds[guild.id],
+              }
+            );
+
+            if (roles.length) {
+              const { rows: claims } = await instance.database.simpleQuery(
+                "CARD_CLAIMS",
+                {
+                  server_id: instance.serverIds[guild.id],
+                  discord_id: member.id,
+                }
+              );
+
+              roles.forEach(r => {
+                if (
+                  claims.length >= r.claims &&
+                  !member.roles.cache.has(r.role_id)
+                ) {
+                  member.roles
+                    .add(r.role_id, "Shoob claim count")
+                    .catch(console.error);
+                }
+              });
+            }
+          }
+
           if (instance.guilds[data.server_id].log_channel) {
             const logChannel = guild.channels.cache.get(
               instance.guilds[data.server_id].log_channel
