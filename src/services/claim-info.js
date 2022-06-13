@@ -103,7 +103,9 @@ module.exports = {
                   claims.length >= r.claims &&
                   !member.roles.cache.has(r.role_id)
                 ) {
-                  member.roles.add(r.role_id, "Shoob claim count");
+                  member.roles
+                    .add(r.role_id, "Shoob claim count")
+                    .catch(console.error);
                 }
               });
             }
