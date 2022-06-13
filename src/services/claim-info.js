@@ -33,7 +33,6 @@ module.exports = {
 
         if (instance.client.guilds.cache.has(data.server_id)) {
           const guild = instance.client.guilds.cache.get(data.server_id);
-          const member = await guild.members.fetch(data.discord_id);
           const messageChannel = guild.channels.cache.get(data.channel_id);
           const settings = tierInfo[`T${data.tier.toUpperCase()}`];
 
@@ -80,30 +79,34 @@ module.exports = {
           delete instance.shared["recent"][`${data.server_id}:all`];
           delete instance.shared["recent"][`${data.server_id}:${data.tier}`];
 
-          const { rows: roles } = await instance.database.simpleQuery(
-            "CLAIM_ROLES",
-            {
-              server_id: instance.serverIds[guild.id],
-            }
-          );
+          if (data.claimed) {
+            const member = await guild.members.fetch(data.discord_id);
 
-          if (roles.length) {
-            const { rows: claims } = await instance.database.simpleQuery(
-              "CARD_CLAIMS",
+            const { rows: roles } = await instance.database.simpleQuery(
+              "CLAIM_ROLES",
               {
                 server_id: instance.serverIds[guild.id],
-                discord_id: member.id,
               }
             );
 
-            roles.forEach(r => {
-              if (
-                claims.length >= r.claims &&
-                !member.roles.cache.has(r.role_id)
-              ) {
-                member.roles.add(r.role_id, "Shoob claim count");
-              }
-            });
+            if (roles.length) {
+              const { rows: claims } = await instance.database.simpleQuery(
+                "CARD_CLAIMS",
+                {
+                  server_id: instance.serverIds[guild.id],
+                  discord_id: member.id,
+                }
+              );
+
+              roles.forEach(r => {
+                if (
+                  claims.length >= r.claims &&
+                  !member.roles.cache.has(r.role_id)
+                ) {
+                  member.roles.add(r.role_id, "Shoob claim count");
+                }
+              });
+            }
           }
 
           if (instance.guilds[data.server_id].log_channel) {

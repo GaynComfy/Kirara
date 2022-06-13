@@ -3,7 +3,7 @@ const { MessageEmbed } = require("discord.js");
 
 const info = {
   name: "roleperclaimset",
-  aliases: ["per-claim", "set", "rpcs"],
+  aliases: ["per-claim", "rpcs"],
   matchCase: false,
   category: "Administration",
 };
