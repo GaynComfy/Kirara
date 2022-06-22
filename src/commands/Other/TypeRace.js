@@ -32,7 +32,10 @@ const info = {
 };
 module.exports = {
   execute: async (instance, message, args, queue) => {
-    if (cd.has(message.guild.id)) {
+    if (
+      cd.has(message.guild.id) &&
+      Date.now() - cd.get(message.guild.id) < 6000
+    ) {
       return queue.addItem(() => message.react("🕘").catch(() => null));
     }
     if (channelMap[message.channel.id])
@@ -164,10 +167,9 @@ module.exports = {
           .addField("•   __Time__", timer.join("\n"), true);
       }
       message.channel.send({ embeds: [result] });
-      cd.set(message.guild.id, message.createdTimestamp + 7000);
-      setTimeout(() => cd.delete(message.guild.id), 7000);
+      const typeRaceTime = difficulty[diff] >= 12 ? 15000 : 10000;
+      cd.set(message.guild.id, typeRaceTime + Date.now());
     });
-
     return collector;
   },
   info,
