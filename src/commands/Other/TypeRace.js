@@ -33,8 +33,8 @@ const info = {
 module.exports = {
   execute: async (instance, message, args, queue) => {
     if (
-      cd.has(message.guild.id) &&
-      Date.now() - cd.get(message.guild.id) < 8000
+      cd.has(message.channel.id) &&
+      Date.now() - cd.get(message.channel.id) < 8000
     ) {
       return queue.addItem(() => message.react("🕘").catch(() => null));
     }
@@ -167,7 +167,7 @@ module.exports = {
           .addField("•   __Time__", timer.join("\n"), true);
       }
       message.channel.send({ embeds: [result] });
-      cd.set(message.guild.id, Date.now());
+      cd.set(message.channel.id, Date.now());
     });
     return collector;
   },
