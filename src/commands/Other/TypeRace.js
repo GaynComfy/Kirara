@@ -1,5 +1,6 @@
 const { MessageAttachment, MessageEmbed } = require("discord.js");
 const Color = require("../../utils/Colors.json");
+const cd = new Map();
 const {
   diffs,
   difficulty,
@@ -31,6 +32,12 @@ const info = {
 };
 module.exports = {
   execute: async (instance, message, args, queue) => {
+    if (
+      cd.has(message.guild.id) &&
+      Date.now() - cd.get(message.guild.id) < 8000
+    ) {
+      return queue.addItem(() => message.react("🕘").catch(() => null));
+    }
     if (channelMap[message.channel.id])
       return queue.addItem(() => message.react("🕘").catch(() => null));
 
@@ -160,8 +167,8 @@ module.exports = {
           .addField("•   __Time__", timer.join("\n"), true);
       }
       message.channel.send({ embeds: [result] });
+      cd.set(message.guild.id, Date.now());
     });
-
     return collector;
   },
   info,

@@ -15,7 +15,7 @@ const embed = new MessageEmbed()
   .addField("Lead Dev:", "[`JeDaYoshi#7942`](https://jeda.im)")
   .addField(
     "Team and Collaborators:",
-    "`JeDaYoshi#7942`, `Liz3#0001`, `⋆˚🌺⃤ Jorgy₊ ˚#5611`, `Nota#8888`, `bappy#3311`, " +
+    "`JeDaYoshi#7942`, `Liz3#0001`, `⋆˚🌺⃤ Jorgy₊ ˚#5611`, `Nota#8888`, `bappy#3311`, `ٴٴ1234#cassٴٴ`, " +
       "`offbeatwitch#8860`, `Riku#1111`"
   )
   .setFooter({ text: "Roleplay images provided by https://waifu.pics" });
