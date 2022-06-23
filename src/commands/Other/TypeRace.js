@@ -34,7 +34,7 @@ module.exports = {
   execute: async (instance, message, args, queue) => {
     if (
       cd.has(message.guild.id) &&
-      Date.now() - cd.get(message.guild.id) < 6000
+      Date.now() - cd.get(message.guild.id) < 1000
     ) {
       return queue.addItem(() => message.react("🕘").catch(() => null));
     }
@@ -167,8 +167,7 @@ module.exports = {
           .addField("•   __Time__", timer.join("\n"), true);
       }
       message.channel.send({ embeds: [result] });
-      const typeRaceTime = difficulty[diff] >= 12 ? 15000 : 10000;
-      cd.set(message.guild.id, typeRaceTime + Date.now());
+      cd.set(message.guild.id, 8000 + Date.now());
     });
     return collector;
   },
