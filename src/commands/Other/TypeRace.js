@@ -34,7 +34,7 @@ module.exports = {
   execute: async (instance, message, args, queue) => {
     if (
       cd.has(message.guild.id) &&
-      Date.now() - cd.get(message.guild.id) < 1000
+      Date.now() - cd.get(message.guild.id) < 8000
     ) {
       return queue.addItem(() => message.react("🕘").catch(() => null));
     }
@@ -167,7 +167,7 @@ module.exports = {
           .addField("•   __Time__", timer.join("\n"), true);
       }
       message.channel.send({ embeds: [result] });
-      cd.set(message.guild.id, 8000 + Date.now());
+      cd.set(message.guild.id, Date.now());
     });
     return collector;
   },
