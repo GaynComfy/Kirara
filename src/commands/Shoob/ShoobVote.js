@@ -2,16 +2,13 @@ const { MessageEmbed } = require("discord.js");
 const Color = require("../../utils/Colors.json");
 const info = {
   name: "shoobvote",
-  aliases: ["sv"],
+  aliases: ["sv", "svote", "shoobv"],
   matchCase: false,
   category: "Shoob",
-  perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
 };
 // This is a manual workaround until we find a way to get vote timers
 module.exports = {
   execute: async (instance, message) => {
-    if (!instance.shared["shoobv"]) instance.shared["shoobv"] = [];
-
     instance.shared["shoobv"].push({
       user: message.author.id,
       last: Date.now(),
