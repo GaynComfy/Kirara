@@ -7,18 +7,18 @@ const info = {
   category: "Shoob",
 };
 // This is a manual workaround until we find a way to get vote timers
+const embed = new MessageEmbed()
+  .setColor(Color.pink)
+  .setDescription(
+    "**Link to vote for Shoob:**\n**https://top.gg/bot/673362753489993749/vote**\n\nYou will be reminded in 12 hours. If you would not like to be notified, use **as!vote** instead!"
+  );
+
 module.exports = {
   execute: async (instance, message) => {
     instance.shared["shoobv"].push({
       user: message.author.id,
       last: Date.now(),
     });
-
-    const embed = new MessageEmbed()
-      .setColor(Color.pink)
-      .setDescription(
-        `**Link to vote for Shoob:**\n**https://top.gg/bot/673362753489993749/vote**\n\nYou will be reminded in 12 hours. If you would not like to be notified, use **as!vote** instead!`
-      );
     await message.channel.send({ embeds: [embed] });
   },
   info,
