@@ -92,9 +92,9 @@ module.exports = {
           const user = await instance.client.users.fetch(entry.discord_id);
           const mention = user ? `\`${user.tag}\`` : `<@!${entry.discord_id}>`;
           users.push(
-            `> \`${
+            `> ${
               i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.** `
-            }.\` ${mention} — ${entry.c} claims`
+            }. ${mention} — ${entry.c} claims`
           );
         }
         value = users.join("\n");
@@ -102,7 +102,7 @@ module.exports = {
 
       fields.push({
         name: `${
-          i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.** `
+          i === 0 ? "<a:Sirona_star:748985391360507924>" : `឵ **${i + 1}.** `
         } ${clan} - ${camt}/${samt} claims`,
         value,
       });
