@@ -56,7 +56,11 @@ module.exports = {
     const background1 = await loadImage("./src/assets/profile.png");
     const avatarB = await getCachedURL(
       instance,
-      member.displayAvatarURL({ format: "png", size: 512, forceStatic: true })
+      member.displayAvatarURL({
+        extension: "png",
+        size: 512,
+        forceStatic: true,
+      })
     );
     const avatar = await loadImage(avatarB);
 

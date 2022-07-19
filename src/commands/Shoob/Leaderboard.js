@@ -56,7 +56,7 @@ module.exports = {
     }
 
     const background = await loadImage("./src/assets/leaderboard2.png");
-    const iconURL = message.guild.iconURL({ format: "png", size: 64 });
+    const iconURL = message.guild.iconURL({ extension: "png", size: 64 });
     const canvas = createCanvas(800, 600);
     canvas.async = true;
     const ctx = canvas.getContext("2d");
@@ -88,8 +88,8 @@ module.exports = {
           (await getCachedURL(
             instance,
             user.displayAvatarURL({
-              format: "png",
-              size: 512,
+              extension: "png",
+              size: 256,
               forceStatic: true,
             })
           ));

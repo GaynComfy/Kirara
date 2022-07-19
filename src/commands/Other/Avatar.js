@@ -28,12 +28,24 @@ module.exports = {
       .setTitle(`${target.tag}'s avatar`)
       .setDescription(
         `[PNG](${target.displayAvatarURL({
-          format: "png",
+          extension: "png",
           size: 4096,
-        })}) | [JPG](${target.displayAvatarURL({ format: "jpg", size: 4096 })})`
+        })}) | [JPG](${target.displayAvatarURL({
+          extension: "jpg",
+          size: 4096,
+        })}) | [WEBP](${target.displayAvatarURL({
+          extension: "webp",
+          size: 4096,
+        })})` +
+          (target.avatar.startsWith("a_")
+            ? ` | [GIF](${target.displayAvatarURL({
+                extension: "gif",
+                size: 4096,
+              })})`
+            : "")
       )
       .setColor("Random")
-      .setImage(target.displayAvatarURL({ dynamic: true, size: 4096 }));
+      .setImage(target.displayAvatarURL({ size: 4096 }));
     await message.channel.send({ embeds: [embed] });
   },
   info,
