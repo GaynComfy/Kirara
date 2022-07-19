@@ -59,6 +59,16 @@ module.exports = {
       return createPagedResults(message, pages, async page => {
         const offset = (page > pages - 1 ? pages - 1 : page) * 3;
 
+        const fields = [];
+        Object.keys(tops)
+          .slice(offset, offset + 3)
+          .forEach(t =>
+            fields.push({
+              name: t + (t === "shoob" ? ` <:SShoob:783636544720207903>` : ""),
+              value: tops[t],
+            })
+          );
+
         const embed = new EmbedBuilder()
           .setAuthor({
             name: `Typerace Leaderboard`,
@@ -69,24 +79,15 @@ module.exports = {
             "⚠️ **NOTE: LEADERBOARD WILL BE RESET EACH SEASON!**\n" +
               `If you want to hide your stats, use the \`${prefix}lb-optout\` command`
           )
+          .addFields(fields)
           .setImage(Constants.footer)
-          .setFooter(
-            pages > 1
-              ? (page !== pages - 1 ? "React ▶️ for next page | " : "") +
+          .setFooter({
+            text:
+              pages > 1
+                ? (page !== pages - 1 ? "React ▶️ for next page | " : "") +
                   "React ◀️ to go back"
-              : ""
-          );
-
-        const fields = [];
-        Object.keys(tops)
-          .slice(offset, offset + 3)
-          .forEach(t =>
-            fields.push({
-              name: t + (t === "shoob" ? ` <:SShoob:783636544720207903>` : ""),
-              value: tops[t],
-            })
-          );
-        embed.addFields(fields);
+                : "",
+          });
 
         return embed;
       });
