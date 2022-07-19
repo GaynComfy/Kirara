@@ -180,7 +180,7 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
             .setImage(Constants.footer)
             .setFooter({
               text:
-                (pages > 1 ? `Page: ${pnum + 1}/${pages} | ` : "") +
+                (pages > 1 ? `Page: ${pnum + 1}/${pages} | ` : "឵") +
                 (pnum + 1 < pages ? "React ▶️ for next page | " : "") +
                 "React ◀️ to go back",
             });

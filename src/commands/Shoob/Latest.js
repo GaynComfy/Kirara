@@ -79,7 +79,7 @@ module.exports = {
           text:
             (!singlePage
               ? `Page: ${last !== -1 && page >= last ? "Last" : page + 1}`
-              : "") +
+              : "឵") +
             (last === -1 || page < last ? " | React ▶️ for next page" : "") +
             (page !== 0 ? " | React ◀️ to go back" : ""),
         });

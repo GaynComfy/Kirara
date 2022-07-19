@@ -57,7 +57,7 @@ module.exports = {
               text:
                 (page.total > 1
                   ? `Page: ${page.index + 1}/${page.total} | `
-                  : "") +
+                  : "឵") +
                 (page.index + 1 < page.total
                   ? "React ▶️ for next page | "
                   : "") +
