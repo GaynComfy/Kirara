@@ -108,7 +108,7 @@ module.exports = {
         }
 
         return (
-          `> ${ti} [\`${item.card_name.substr(0, 15)}` +
+          `> ${ti} [\`${item.card_name.substring(0, 16)}` +
           `${parseInt(item.issue) > 0 ? ` V${item.issue}` : ""}\`]` +
           `(https://shoob.gg/cards/info/${item.card_id})`
         );

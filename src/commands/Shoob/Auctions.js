@@ -78,7 +78,7 @@ const computeListings = async (instance, page, tier, card, active) => {
   const cards = recent.map(
     (item, i) =>
       `> **${i + 1}.** \`T${item.tier || " "}\` •` +
-      ` [\`${item.card_name.substr(0, 15)}` +
+      ` [\`${item.card_name.substring(0, 15)}` +
       ` V${item.version}\`](https://shoob.gg/auction/${item.auction_id})` +
       ` | Started \`${dayjs(item.date_added).fromNow()}\``
   );

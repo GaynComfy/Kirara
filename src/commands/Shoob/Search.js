@@ -93,9 +93,9 @@ module.exports = {
 
       for (const [i, item] of cards.entries()) {
         names.push(
-          `> **${i + 1}.** \`T${item.tier}\` • [\`${item.name.substr(
+          `> **${i + 1}.** \`T${item.tier}\` • [\`${item.name.substring(
             0,
-            18
+            24
           )}\`]` + `(https://shoob.gg/cards/info/${item.id})`
         );
 
@@ -104,7 +104,7 @@ module.exports = {
         );
         let src = item.series[0];
         if (isEvent) src = series[series.length - 1];
-        source.push(`> \`${src.substr(0, 24) || "-"}\``);
+        source.push(`> \`${src.substring(0, 24) || "-"}\``);
       }
 
       return new EmbedBuilder()

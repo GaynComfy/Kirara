@@ -1,5 +1,6 @@
 const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
+const sanitizer = require("@aero/sanitizer");
 const { getCachedURL } = require("../../utils/cacheUtils");
 const { EmbedBuilder } = require("discord.js");
 const { createCanvas, loadImage } = require("canvas");
@@ -75,7 +76,7 @@ module.exports = {
     ctx.fillStyle = "#ffffff";
     ctx.fillText(`#${member.discriminator}`, 1060, 75);
 
-    const name = member.username.substr(0, 12);
+    const name = sanitizer(member.username.trim()).substring(0, 12);
     const total = (cards || []).reduce(
       (prev, curr) => parseInt(prev) + parseInt(curr.c),
       0

@@ -143,7 +143,7 @@ const processWithoutCard = async (instance, message, tier) => {
 
     const market = result.map((t, i) => {
       let item = `> **${i + 1}.** `;
-      const name = t.item_name.substr(0, 15);
+      const name = t.item_name.substring(0, 16);
       if (t.item.tier !== null) {
         // cards
         item += `\`T${t.item.tier}\``;

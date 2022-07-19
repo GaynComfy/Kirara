@@ -49,7 +49,9 @@ module.exports = {
 
       result.map(e => {
         cards.push(
-          `> [\`${e.name.substr(0, 26)}\`](https://shoob.gg/cards/info/${e.id})`
+          `> [\`${e.name.substring(0, 26)}\`](https://shoob.gg/cards/info/${
+            e.id
+          })`
         );
         series.push(
           `> \`${

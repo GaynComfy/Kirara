@@ -1,4 +1,5 @@
 const Color = require("../../utils/Colors.json");
+const sanitizer = require("@aero/sanitizer");
 const { getCachedURL } = require("../../utils/cacheUtils");
 const { createCanvas, loadImage, registerFont } = require("canvas");
 const { EmbedBuilder } = require("discord.js");
@@ -73,10 +74,7 @@ module.exports = {
       const user = await instance.client.users.fetch(entry.discord_id);
       const discriminator = user ? user.discriminator : "#0000";
       const name = user
-        ? user.username
-            .replace(/[\u0080-\uF8FF]/g, "")
-            .trim()
-            .substr(0, 14)
+        ? sanitizer(user.username.trim()).substring(0, 14)
         : first
         ? "User Left"
         : "Some user";
