@@ -7,7 +7,7 @@ const info = {
   aliases: ["tierping", "set"],
   matchCase: false,
   category: "Administration",
-  perms: ["MENTION_EVERYONE"],
+  perms: ["MentionEveryone"],
   disabled: true, // now against Anime Soul rules
 };
 module.exports = {

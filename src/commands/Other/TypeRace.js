@@ -27,7 +27,7 @@ const info = {
   aliases: ["tr"],
   matchCase: false,
   category: "UwU",
-  perms: ["ATTACH_FILES"],
+  perms: ["AttachFiles"],
   needsQueue: true,
 };
 module.exports = {

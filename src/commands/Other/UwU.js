@@ -4,7 +4,7 @@ const info = {
   name: "uwu",
   matchCase: false,
   category: "UwU",
-  perms: ["MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
+  perms: ["ManageMessages", "ReadMessageHistory"],
   disabled: process.env.NODE_ENV !== "development",
 };
 module.exports = {

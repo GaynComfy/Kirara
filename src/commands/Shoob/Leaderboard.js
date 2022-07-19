@@ -11,7 +11,8 @@ const info = {
   aliases: ["lb"],
   matchCase: false,
   category: "Shoob",
-  perms: ["ATTACH_FILES"],
+  cooldown: 2,
+  perms: ["AttachFiles"],
 };
 
 const applyText = (canvas, text) => {

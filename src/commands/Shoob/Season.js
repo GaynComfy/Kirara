@@ -6,7 +6,7 @@ const info = {
   name: "season",
   matchCase: false,
   category: "Shoob",
-  cooldown: 15,
+  cooldown: 5,
 };
 
 module.exports = {

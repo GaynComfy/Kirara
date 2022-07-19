@@ -15,7 +15,8 @@ const info = {
   aliases: ["rank", "p"],
   matchCase: false,
   category: "Shoob",
-  perms: ["ATTACH_FILES"],
+  cooldown: 2,
+  perms: ["AttachFiles"],
 };
 
 const tierPositions = [

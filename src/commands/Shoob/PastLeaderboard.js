@@ -7,6 +7,7 @@ const info = {
   aliases: ["plb"],
   matchCase: false,
   category: "Shoob",
+  cooldown: 2,
 };
 
 module.exports = {
