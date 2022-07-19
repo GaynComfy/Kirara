@@ -83,6 +83,7 @@ const send = async (instance, server_id, channel_id) => {
   });
 };
 module.exports = {
+  disabled: true,
   start(instance) {
     interval = setInterval(async () => {
       for (const key in instance.timedEvents) {

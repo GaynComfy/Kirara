@@ -56,7 +56,7 @@ module.exports = {
   help: {
     usage: "event <start|on|off|end> [seconds]",
     examples: ["event"],
-    description:
-      "Set a Shoob claiming event counter on your server!\nWhen using start-timed, provide the amount of seconds the event is supposed to last, it will end after that.",
+    description: "Set a Shoob claiming event counter on your server!",
+    // "When using start-timed, provide the amount of seconds the event is supposed to last, it will end after that."
   },
 };
