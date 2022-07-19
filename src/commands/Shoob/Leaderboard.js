@@ -63,8 +63,6 @@ module.exports = {
     }
     const canvas = createCanvas(800, 600);
     const ctx = canvas.getContext("2d");
-    ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-    ctx.textAlign = "center";
 
     for (const [i, entry] of claimers.entries()) {
       const first = i === 0;
@@ -112,6 +110,8 @@ module.exports = {
           const icon = await loadImage(guildIcon);
           ctx.drawImage(icon, 366, 56, 53, 53);
         }
+        ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+        ctx.textAlign = "center";
         const avatar = await loadImage(userAvatar);
         ctx.save();
         ctx.arc(179.5, 245.5, 79, 0, Math.PI * 2, true);
