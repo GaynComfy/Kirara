@@ -6,6 +6,8 @@ module.exports = (token = process.env.TOKEN) => {
     IntentsBitField.Flags.GuildMessages,
     IntentsBitField.Flags.GuildMessageReactions,
     IntentsBitField.Flags.GuildMembers,
+    IntentsBitField.Flags.MessageContent,
+    // IntentsBitField.Flags.DirectMessages,
     // ToDo: Readd this once we migrate spammy events
     // (auctions, minigames, etc.) to webhooks
     // GatewayIntentBits.GuildWebhooks,

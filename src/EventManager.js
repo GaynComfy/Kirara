@@ -1,4 +1,4 @@
-const { ChannelType } = require("discord.js");
+// const { ChannelType } = require("discord.js");
 const { ShardingClient } = require("statcord.js");
 const { withCooldown, verifyPerms } = require("./utils/hooks");
 const sendError = require("./utils/SendError");
@@ -33,7 +33,7 @@ class EventManager {
   registerOnMessage() {
     const otherHandlers = this.events["messageCreate"];
     this.client.on("messageCreate", async message => {
-      if (message.channel.type === ChannelType.DM) return; // ToDo: Reimplement
+      // if (message.channel.type === ChannelType.DM) return; // ToDo: Reimplement
       const prefix =
         (this.instance.guilds[message.guild.id] || {}).prefix ||
         this.config.prefix;
