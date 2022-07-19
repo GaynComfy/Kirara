@@ -13,6 +13,7 @@ const info = {
   matchCase: false,
   category: "Shoob",
   perms: ["ADD_REACTIONS", "MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
+  cooldown: 15,
 };
 
 module.exports = {
