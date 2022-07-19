@@ -65,7 +65,7 @@ module.exports = {
         instance.database.pool
           .query(
             "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
-              "AND server_id=$1 AND time >= $2 AND time <= $3 GROUP BY discord_id ORDER BY c DESC LIMIT 3",
+              "AND server_id=$1 AND time >= $2 AND time <= $3 GROUP BY discord_id ORDER BY c DESC LIMIT 1",
             [serverIds[clan] || 0, eventStart, eventStop]
           )
           .then(r => r.rows)
@@ -93,8 +93,8 @@ module.exports = {
           const mention = user ? `\`${user.tag}\`` : `<@!${entry.discord_id}>`;
           users.push(
             `> ${
-              i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.** `
-            }. ${mention} — ${entry.c} claims`
+              i === 0 ? "<a:Sirona_star:748985391360507924>" : ` **${i + 1}.** `
+            } ${mention} — **${entry.c} claims**`
           );
         }
         value = users.join("\n");
