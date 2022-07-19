@@ -82,7 +82,7 @@ exports.verifyPerms = async (instance, message, perms) => {
   const userPerms = new PermissionsBitField(
     member.roles.cache.map(role => role.permissions)
   );
-  if (userPerms.has(PermissionsBitField.Flags.Adminsitrator)) return true;
+  if (userPerms.has(PermissionsBitField.Flags.Administrator)) return true;
   // nice workaround
   const chanPerms = message.channel.permissionsFor(instance.client.user) || {
     has: () => false,
