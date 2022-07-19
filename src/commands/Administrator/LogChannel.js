@@ -11,7 +11,7 @@ const info = {
 module.exports = {
   execute: async (instance, message, args) => {
     return withRights(message.member, async () => {
-      const embed = new EmbedBuilder().setColor("RANDOM");
+      const embed = new EmbedBuilder().setColor("Random");
 
       if (args.length === 0) {
         const logChn = instance.guilds[message.guild.id].log_channel;

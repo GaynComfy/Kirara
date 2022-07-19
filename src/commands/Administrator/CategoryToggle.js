@@ -40,7 +40,7 @@ module.exports = {
           .setDescription(
             `<a:Sirona_Tick:749202570341384202> \`${categories[category]}\` is ${toggle}.`
           )
-          .setColor("RANDOM");
+          .setColor("Random");
         message.channel.send({ embeds: [embed] });
         return true;
       }
@@ -68,7 +68,7 @@ module.exports = {
             categories[category]
           }\` has been turned ${args[1].toLowerCase()}.`
         )
-        .setColor("RANDOM");
+        .setColor("Random");
       message.channel.send({ embeds: [embed] });
       return true;
     });

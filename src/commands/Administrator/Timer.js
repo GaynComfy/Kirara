@@ -16,7 +16,7 @@ module.exports = {
         args.length > 1
       )
         return false;
-      const embed = new EmbedBuilder().setColor("RANDOM");
+      const embed = new EmbedBuilder().setColor("Random");
 
       if (args.length === 0) {
         const toggle = instance.guilds[message.guild.id].timer ? "on" : "off";

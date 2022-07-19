@@ -19,7 +19,7 @@ exports.getTimer = (since, now = Date.now()) => {
 
   if (passed > 15000) {
     text = "<a:Sirona_loading:748854549703426118> Please wait...";
-    color = "RANDOM";
+    color = "Random";
   }
 
   return new EmbedBuilder().setColor(color).setDescription(text);

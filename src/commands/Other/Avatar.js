@@ -32,7 +32,7 @@ module.exports = {
           size: 4096,
         })}) | [JPG](${target.displayAvatarURL({ format: "jpg", size: 4096 })})`
       )
-      .setColor("RANDOM")
+      .setColor("Random")
       .setImage(target.displayAvatarURL({ dynamic: true, size: 4096 }));
     await message.channel.send({ embeds: [embed] });
   },

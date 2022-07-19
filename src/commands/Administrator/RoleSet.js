@@ -18,7 +18,7 @@ module.exports = {
       if (!Constants.tiers.includes(tier)) return false;
       const tierUpper = args[0].toUpperCase();
 
-      const embed = new EmbedBuilder().setColor("RANDOM");
+      const embed = new EmbedBuilder().setColor("Random");
 
       const { rows: roleQuery } = await instance.database.simpleQuery(
         "CARD_ROLES",

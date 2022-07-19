@@ -15,7 +15,7 @@ module.exports = {
       const claimCount = parseInt(args[0].toLowerCase());
       if (isNaN(claimCount)) return false;
 
-      const embed = new EmbedBuilder().setColor("RANDOM");
+      const embed = new EmbedBuilder().setColor("Random");
 
       const { rows: roleQuery } = await instance.database.pool.query(
         "SELECT * FROM claim_roles WHERE server_id = $1 AND claims = $2",

@@ -48,7 +48,7 @@ module.exports = {
             ? "<:Flame:783439293506519101> A new event for this server has just started!"
             : "<:Flame:783439293506519101> The event of this server just ended!"
         )
-        .setColor("RANDOM");
+        .setColor("Random");
       return await message.channel.send({ embeds: [embed] });
     });
   },

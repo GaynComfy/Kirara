@@ -13,7 +13,7 @@ const info = {
 };
 
 const exec = async (instance, message, args, type) => {
-  const embed = new EmbedBuilder().setColor("RANDOM");
+  const embed = new EmbedBuilder().setColor("Random");
 
   const {
     rows: [result],

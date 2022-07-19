@@ -10,7 +10,7 @@ const info = {
 module.exports = {
   execute: async (instance, message) => {
     message.delete().catch(() => null);
-    const embed = new EmbedBuilder().setDescription("UwU").setColor("RANDOM");
+    const embed = new EmbedBuilder().setDescription("UwU").setColor("Random");
     return message.channel.send({ embeds: [embed] });
   },
   info,

@@ -49,7 +49,7 @@ module.exports = {
         .setDescription(
           `<a:Sirona_Tick:749202570341384202> <@!${discord_id}> is now \`${status}\` for leaderboards.`
         )
-        .setColor("RANDOM");
+        .setColor("Random");
     } else return false;
 
     return message.reply({ embeds: [embed] });

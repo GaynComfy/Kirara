@@ -117,7 +117,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
       fields.push({ name: `Answer ${elem.key}`, value: elem.description })
     );
     const embed = new EmbedBuilder()
-      .setColor("RANDOM")
+      .setColor("Random")
       .setTitle(`Question #${index}`)
       .setDescription(question.description)
       .setFooter({ text: `You have ${left} seconds to answer using /quiz` })
