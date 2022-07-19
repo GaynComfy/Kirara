@@ -42,7 +42,7 @@ module.exports = {
       rows.forEach(srv => (serverIds[srv.guild_id] = srv.id));
       knowsServers = true;
 
-      const missing = clanIds.filter(gid => serverIds[gid] !== undefined);
+      const missing = clanIds.filter(gid => serverIds[gid] === undefined);
       if (missing.length !== 0) {
         console.error(`! WE ARE MISSING CLAN GUILDS: ${missing.join(" ")}`);
       }
@@ -90,15 +90,19 @@ module.exports = {
         const users = [];
         for (const [i, entry] of u.entries()) {
           const user = await instance.client.users.fetch(entry.discord_id);
-          const mention = user ? `${user.tag}` : `<@!${entry.discord_id}>`;
-          users.push(`> \`${i + 1}.\` (\`${entry.c}\`) ${mention}`);
+          const mention = user ? `\`${user.tag}\`` : `<@!${entry.discord_id}>`;
+          users.push(
+            `> \`${
+              i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.** `
+            }.\` ${mention} — ${entry.c} claims`
+          );
         }
         value = users.join("\n");
       }
 
       fields.push({
         name: `${
-          i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.**`
+          i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.** `
         } ${clan} - ${camt}/${samt} claims`,
         value,
       });

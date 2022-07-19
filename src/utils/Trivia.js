@@ -250,7 +250,7 @@ const runGame = async (instance, channel, guild, participants, options) => {
     .map(
       (entry, i) =>
         `> ` +
-        (i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.**`) +
+        (i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.** `) +
         ` <@!${entry.id}> • ${entry.correct.length}/${
           entry.correct.length + entry.wrong.length
         }`

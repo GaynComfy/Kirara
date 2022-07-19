@@ -71,7 +71,7 @@ module.exports = {
     const top3 = s.claimers.top.map(
       (entry, i) =>
         `> ` +
-        (i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.**`) +
+        (i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.** `) +
         ` <@!${entry.discord_id}> - \`${entry.c} ${
           entry.c === "1" ? "claim" : "claims"
         }\``
