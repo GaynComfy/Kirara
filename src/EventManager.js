@@ -137,7 +137,7 @@ class EventManager {
       ];
     if (disabled) {
       if (
-        !message.member.permissions.has("ADMINISTRATOR") &&
+        !message.member.permissions.has("Administrator") &&
         !owner.includes(message.author.id)
       )
         return; // command is disabled and they're not an admin/owner, nothing to do here

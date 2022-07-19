@@ -125,7 +125,7 @@ module.exports = {
           if (
             !message.guild.members.cache
               .get(instance.client.user.id)
-              .permissions.has(["ADD_REACTIONS", "READ_MESSAGE_HISTORY"])
+              .permissions.has(["AddReactions", "ReadMessageHistory"])
           )
             return;
 
