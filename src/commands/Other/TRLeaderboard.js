@@ -65,7 +65,7 @@ module.exports = {
           .forEach(t =>
             fields.push({
               name: t + (t === "shoob" ? ` <:SShoob:783636544720207903>` : ""),
-              value: tops[t],
+              value: tops[t].join("\n"),
             })
           );
 
