@@ -14,6 +14,7 @@ const info = {
   cooldown: 2,
   perms: ["AttachFiles"],
 };
+let background;
 
 const applyText = (canvas, text) => {
   const ctx = canvas.getContext("2d");
@@ -57,43 +58,61 @@ module.exports = {
       return message.channel.send({ embeds: [embed] });
     }
 
-    const background = await loadImage("./src/assets/leaderboard2.png");
-    const iconURL = message.guild.iconURL({ extension: "png", size: 64 });
+    if (!background) {
+      background = await loadImage("./src/assets/leaderboard2.png");
+    }
     const canvas = createCanvas(800, 600);
     const ctx = canvas.getContext("2d");
-    if (iconURL) {
-      const iconB = await getCachedURL(instance, iconURL);
-      const icon = await loadImage(iconB);
-      ctx.drawImage(icon, 366, 56, 53, 53);
-    }
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
     ctx.textAlign = "center";
 
     for (const [i, entry] of claimers.entries()) {
       const first = i === 0;
+      let name = "Some user";
+      let discriminator = "#0000";
       const user = await instance.client.users.fetch(entry.discord_id);
-      const discriminator = user ? user.discriminator : "#0000";
-      const name = user
-        ? sanitizer(user.username.trim()).substring(0, 14)
-        : first
-        ? "User Left"
-        : "Some user";
+      if (user) {
+        name = sanitizer(user.username.trim()).substring(0, 14);
+        discriminator = user.discriminator;
+      }
       if (first) {
-        const aid = parseInt((user && user.discriminator) || "0000") % 5;
-        const avatarB =
-          user &&
-          user.avatar &&
-          (await getCachedURL(
-            instance,
-            user.displayAvatarURL({
-              extension: "png",
-              size: 256,
-              forceStatic: true,
-            })
-          ));
-        const avatar = await loadImage(
-          avatarB ? avatarB : `./src/assets/default/${aid}.png`
-        );
+        const promises = [];
+        if (message.guild.icon) {
+          promises.push(
+            getCachedURL(
+              instance,
+              message.guild.iconURL({
+                extension: "png",
+                size: 64,
+                forceStatic: true,
+              })
+            )
+          );
+        } else {
+          promises.push(false);
+        }
+        if (user && user.avatar) {
+          promises.push(
+            getCachedURL(
+              instance,
+              user.displayAvatarURL({
+                extension: "png",
+                size: 256,
+                forceStatic: true,
+              })
+            )
+          );
+        } else {
+          const aid = (parseInt(user.discriminator.replace("#", "")) || 0) % 5;
+          promises.push(`./src/assets/default/${aid}.png`);
+        }
+
+        const [guildIcon, userAvatar] = await Promise.all(promises);
+        if (guildIcon) {
+          const icon = await loadImage(guildIcon);
+          ctx.drawImage(icon, 366, 56, 53, 53);
+        }
+        const avatar = await loadImage(userAvatar);
         ctx.save();
         ctx.arc(179.5, 245.5, 79, 0, Math.PI * 2, true);
         ctx.closePath();

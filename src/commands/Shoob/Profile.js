@@ -27,6 +27,7 @@ const tierPositions = [
   { t: "5", x: 735, y: 360 },
   { t: "6", x: 935, y: 360 },
 ];
+let background1;
 
 module.exports = {
   execute: async (instance, message, args) => {
@@ -43,8 +44,16 @@ module.exports = {
 
     message.channel.sendTyping().catch(() => null);
 
-    const user = await Fetcher.fetchProfile(instance, member.id);
-    const [cards, position] = await Promise.all([
+    const [user, avatarB, cards, position] = await Promise.all([
+      Fetcher.fetchProfile(instance, member.id),
+      getCachedURL(
+        instance,
+        member.displayAvatarURL({
+          extension: "png",
+          size: 512,
+          forceStatic: true,
+        })
+      ),
       instance.database.pool
         .query(
           "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE discord_id=$1 AND server_id=$2 AND SEASON=$3 GROUP BY tier",
@@ -67,15 +76,9 @@ module.exports = {
         .then(r => r.rows),
     ]);
 
-    const background1 = await loadImage("./src/assets/profile.png");
-    const avatarB = await getCachedURL(
-      instance,
-      member.displayAvatarURL({
-        extension: "png",
-        size: 512,
-        forceStatic: true,
-      })
-    );
+    if (!background1) {
+      background1 = await loadImage("./src/assets/profile.png");
+    }
     const avatar = await loadImage(avatarB);
 
     const canvas = createCanvas(1100, 400);
