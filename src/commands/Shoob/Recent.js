@@ -31,11 +31,11 @@ module.exports = {
     const tier = hasTier ? args.shift()[1].toUpperCase() : null;
     const tierSettings = hasTier ? tierInfo[`T${tier}`] : {};
 
-    const k = `${message.guild.id}:${hasTier ? tier : "all"}`;
+    const k = `recent:${message.guild.id}:${hasTier ? tier : "all"}`;
 
     let recentCards;
-    if (!isGlobal && instance.shared["recent"][k]) {
-      recentCards = instance.shared["recent"][k].cards;
+    if (!isGlobal && instance.temp.has(k)) {
+      recentCards = instance.temp.get(k);
     } else {
       const { rows: cards } = isGlobal // only if global
         ? hasTier
@@ -58,10 +58,7 @@ module.exports = {
           );
 
       if (!isGlobal) {
-        instance.shared["recent"][k] = {
-          cards,
-          lastUpdated: Date.now(),
-        };
+        instance.temp.set(k, cards);
       }
       recentCards = cards;
     }

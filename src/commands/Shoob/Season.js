@@ -11,20 +11,11 @@ const info = {
 
 module.exports = {
   execute: async (instance, message) => {
-    let s = {
-      claimed: [],
-      despawns: 0,
-      claimers: {
-        c: 0,
-        top: [],
-      },
-    };
+    let s;
     const k = `season:${message.guild.id}`;
-
-    const exists = await instance.cache.exists(k);
+    const exists = await instance.temp.has(k);
     if (exists) {
-      const e = await instance.cache.get(k);
-      s = JSON.parse(e);
+      s = instance.temp.get(k);
     } else {
       message.channel.sendTyping().catch(() => null);
       // ToDo: This is better, but could be improved!
@@ -58,7 +49,7 @@ module.exports = {
           top: claimers.slice(0, 3),
         },
       };
-      instance.cache.setExpire(k, JSON.stringify(s), 60 * 15);
+      instance.temp.set(k, s);
     }
 
     const tiers = [];

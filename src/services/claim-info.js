@@ -76,9 +76,9 @@ module.exports = {
             }
           }
 
-          delete instance.shared["recent"][`${data.server_id}:all`];
-          delete instance.shared["recent"][`${data.server_id}:${data.tier}`];
-          instance.cache.delete(`season:${data.server_id}`);
+          instance.temp.delete(`recent:${data.server_id}:all`);
+          instance.temp.delete(`recent:${data.server_id}:${data.tier}`);
+          instance.temp.delete(`season:${data.server_id}`);
 
           if (data.claimed) {
             const member = await guild.members.fetch(data.discord_id);

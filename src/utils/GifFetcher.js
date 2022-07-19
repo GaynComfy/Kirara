@@ -4,7 +4,7 @@ const QuickLRU = require("quick-lru");
 class GifFetcher {
   constructor() {
     this.map = {};
-    this.last = new QuickLRU({ maxSize: 15, maxAge: 15000 });
+    this.last = new QuickLRU({ maxSize: 50, maxAge: 15000 });
     this.instance = axios.create({
       baseURL: "https://api.waifu.pics/sfw",
       timeout: 1000,
