@@ -114,7 +114,7 @@ module.exports = {
         await collectorMessage.react("✅").catch(err => console.error(err));
         return collector;
       },
-      "MANAGE_MESSAGES"
+      "ManageMessages"
     ),
   info,
   help: {

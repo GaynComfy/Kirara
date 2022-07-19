@@ -17,7 +17,7 @@ exports.withRole = async (member, handler, role) => {
   return null;
 };
 
-exports.withRights = async (member, handler, permission = "ADMINISTRATOR") => {
+exports.withRights = async (member, handler, permission = "Administrator") => {
   if (!member || !member.permissions.has)
     throw new Error("hasPermission not present on user or user not defined");
   if (!permission) return handler();
