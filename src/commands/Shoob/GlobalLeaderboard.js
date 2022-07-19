@@ -17,6 +17,7 @@ const info = {
 
 module.exports = {
   execute: async (instance, message) => {
+    message.channel.sendTyping().catch(() => null);
     let last = -1;
 
     return createPagedResults(message, Infinity, async page => {
