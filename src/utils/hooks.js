@@ -1,5 +1,5 @@
 const isDev = process.env.NODE_ENV === "development";
-const { Permissions } = require("discord.js");
+const { PermissionsBitField } = require("discord.js");
 const { owner } = isDev
   ? require("../config-dev.js")
   : require("../config-prod.js");
@@ -79,10 +79,10 @@ exports.verifyPerms = async (instance, message, perms) => {
   const member = message.guild.members.cache.get(instance.client.user.id);
   if (!member) return false; // ???
 
-  const userPerms = new Permissions(
+  const userPerms = new PermissionsBitField(
     member.roles.cache.map(role => role.permissions)
-  ).freeze();
-  if (userPerms.has(Permissions.FLAGS.ADMINISTRATOR)) return true;
+  );
+  if (userPerms.has(PermissionsBitField.Flags.ADMINISTRATOR)) return true;
   // nice workaround
   const chanPerms = message.channel.permissionsFor(instance.client.user) || {
     has: () => false,
@@ -94,9 +94,12 @@ exports.verifyPerms = async (instance, message, perms) => {
     const prefix =
       (instance.guilds[message.guild.id] || {}).prefix ||
       instance.config.prefix;
-    const isAdmin = message.member.permissions.has("ADMINISTRATOR");
+    const isAdmin = message.member.permissions.has(
+      PermissionsBitField.Flags.ADMINISTRATOR
+    );
     const canSendMessages =
-      member.permissions.has("SEND_MESSAGES") || chanPerms.has("SEND_MESSAGES");
+      member.permissions.has(PermissionsBitField.Flags.SendMessages) ||
+      chanPerms.has(PermissionsBitField.Flags.SendMessages);
     const target = canSendMessages ? message.channel : message.author;
 
     target
