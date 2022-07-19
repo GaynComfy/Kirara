@@ -129,11 +129,11 @@ module.exports = {
       })
       .setColor("#d5417c")
       .setDescription(
-        time >= eventStart && time < eventStop
+        (time >= eventStart && time < eventStop
           ? `<:Shoob:910973650042236938> **A WAR IS CURRENTLY ACTIVE!** <:Shoob:910973650042236938>\n`
-          : "" +
-              `> <t:${eventStart / 1000}:f> — <t:${eventStop / 1000}:f>` +
-              ` (<t:${eventStop / 1000}:R>)`
+          : "") +
+          `> <t:${eventStart / 1000}:f> — <t:${eventStop / 1000}:f>` +
+          ` (<t:${eventStop / 1000}:R>)`
       )
       .addFields(fields)
       .setImage(Constants.footer);
