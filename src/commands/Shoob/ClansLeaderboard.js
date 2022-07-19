@@ -116,6 +116,10 @@ module.exports = {
         value,
       });
     }
+    fields.push({
+      name: "឵ **X.**  Oasis - not shown by clan's request",
+      value: "> ---",
+    });
 
     const time = Date.now();
     const embed = new EmbedBuilder()
