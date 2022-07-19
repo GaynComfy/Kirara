@@ -4,7 +4,7 @@ module.exports = {
       console.error(`[${instance.client.shard.ids[0]}] ! GLOBAL RATELIMIT HIT`);
     }
     console.error(
-      `[${instance.client.shard.ids[0]}] ! Hit ratelimit on '${params.method} ${params.route}' => timeout ${params.timeout}`
+      `[${instance.client.shard.ids[0]}] ! Hit ratelimit on '${params.method} ${params.route}' => timeout ${params.timeToReset}`
     );
   },
   eventName: "rateLimited",
