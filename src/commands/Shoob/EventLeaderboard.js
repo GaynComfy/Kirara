@@ -30,7 +30,7 @@ module.exports = {
       const offset = (page > last && last !== -1 ? last : page) * 8;
       const { rows: claimers } = await instance.database.pool.query(
         "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
-          "AND server_id=$1 AND time > $2 GROUP BY discord_id " +
+          "AND server_id=$1 AND time >= $2 GROUP BY discord_id " +
           "ORDER BY c DESC LIMIT 8 OFFSET $3",
         [
           instance.serverIds[message.guild.id],

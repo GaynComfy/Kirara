@@ -26,26 +26,34 @@ module.exports = {
       const e = await instance.cache.get(k);
       s = JSON.parse(e);
     } else {
-      // ToDo: GET RID OF THIS ASAP
       message.channel.sendTyping().catch(() => null);
-      const { rows: claimed } = await instance.database.pool.query(
-        "SELECT COUNT(id) c, tier FROM CARD_CLAIMS WHERE claimed=true " +
-          "AND server_id=$1 AND season=$2 GROUP BY tier",
-        [instance.serverIds[message.guild.id], instance.config.season]
-      );
-      const { rows: despawn } = await instance.database.pool.query(
-        "SELECT COUNT(id) c FROM CARD_CLAIMS WHERE claimed=false " +
-          "AND server_id=$1 AND season=$2",
-        [instance.serverIds[message.guild.id], instance.config.season]
-      );
-      const { rows: claimers } = await instance.database.pool.query(
-        "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
-          "AND server_id=$1 AND season=$2 GROUP BY discord_id ORDER BY c DESC",
-        [instance.serverIds[message.guild.id], instance.config.season]
-      );
+      // ToDo: This is better, but could be improved!
+      const [claims, claimers] = await Promise.all([
+        instance.database.pool
+          .query(
+            "SELECT COUNT(id) c, tier, claimed FROM CARD_CLAIMS WHERE " +
+              "server_id=$1 AND season=$2 GROUP BY tier, claimed",
+            [instance.serverIds[message.guild.id], instance.config.season]
+          )
+          .then(r => r.rows),
+        instance.database.pool
+          .query(
+            "SELECT COUNT(id) c, discord_id FROM CARD_CLAIMS WHERE claimed=true " +
+              "AND server_id=$1 AND season=$2 GROUP BY discord_id ORDER BY c DESC",
+            [instance.serverIds[message.guild.id], instance.config.season]
+          )
+          .then(r => r.rows),
+      ]);
+      const claimed = claims
+        .filter(f => f.claimed === true)
+        .forEach(f => Object.assign(f, { c: parseInt(f.c) }));
+      const despawns = claims
+        .filter(f => f.claimed === false)
+        .map(f => parseInt(f.c));
+
       s = {
         claimed,
-        despawns: (despawn[0] || {}).c || 0,
+        despawns: despawns.length === 0 ? 0 : despawns.reduce((a, b) => a + b),
         claimers: {
           c: claimers.length,
           top: claimers.slice(0, 3),
@@ -61,21 +69,21 @@ module.exports = {
       if (t === "TS") continue;
       const tier = tierInfo[t];
       const entry = s.claimed.find(e => e.tier === t[1]);
-      const count = entry ? entry.c : "0";
+      const count = entry ? entry.c : 0;
 
       const text = `${tier.emoji} x ${count}`;
       tiers.push(text);
-      claims = claims + parseInt(count);
-      total = total + parseInt(count);
+      claims = claims + count;
+      total = total + count;
     }
-    total = total + parseInt(s.despawns);
+    total = total + s.despawns;
 
     const top3 = s.claimers.top.map(
       (entry, i) =>
         `> ` +
         (i === 0 ? "<a:Sirona_star:748985391360507924>" : `**${i + 1}.**`) +
         ` <@!${entry.discord_id}> - \`${entry.c} ${
-          entry.c === 1 ? "claim" : "claims"
+          entry.c === "1" ? "claim" : "claims"
         }\``
     );
 

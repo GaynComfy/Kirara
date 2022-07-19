@@ -53,7 +53,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "plb [total]",
+    usage: "plb",
     examples: ["plb"],
     description: "See the past season's server leaderboard!",
   },
