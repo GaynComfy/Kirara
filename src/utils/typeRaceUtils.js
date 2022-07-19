@@ -44,6 +44,7 @@ const difficulty = {
   shoob: 5,
   spawn: 6,
 };
+const diffFull = Object.values(diffs);
 
 const defs = {
   top: 0,
@@ -68,20 +69,21 @@ const getTopPlayers = async (instance, limit) => {
     return JSON.parse(e);
   }
 
-  const diffPlayers = [];
-  for (const diff of Object.values(diffs)) {
-    const { rows } = await instance.database.pool.query(
-      "SELECT * FROM TYPERACE_STATS WHERE DIFFICULTY = $1 AND " +
-        optout +
-        " ORDER BY top ASC LIMIT $2",
-      [diff, limit]
-    );
-
-    diffPlayers.push({
-      difficulty: diff,
-      users: rows,
-    });
-  }
+  const diffPlayers = await Promise.all(
+    diffFull.map(diff =>
+      instance.database.pool
+        .query(
+          "SELECT * FROM TYPERACE_STATS WHERE DIFFICULTY = $1 AND " +
+            optout +
+            " ORDER BY top ASC LIMIT $2",
+          [diff, limit]
+        )
+        .then(r => ({
+          difficulty: diff,
+          users: r.rows,
+        }))
+    )
+  );
 
   instance.cache.setExpire(k, JSON.stringify(diffPlayers), 60 * 14);
   return diffPlayers;
@@ -110,8 +112,7 @@ const userAllInfo = async (instance, userId) => {
     diffs: [],
     played: rows.length === 0,
   };
-  const diff = Object.values(diffs);
-  diff.forEach(d => {
+  diffFull.forEach(d => {
     const st = rows.find(di => di.difficulty === d) || {};
     user.diffs.push({
       difficulty: d,
