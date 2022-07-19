@@ -67,7 +67,7 @@ module.exports = {
     for (const [i, entry] of claimers.entries()) {
       const first = i === 0;
       let name = "Some user";
-      let discriminator = "#0000";
+      let discriminator = "0000";
       const user = await instance.client.users.fetch(entry.discord_id);
       if (user) {
         name = sanitizer(user.username.trim()).substring(0, 14);
@@ -101,7 +101,7 @@ module.exports = {
             )
           );
         } else {
-          const aid = (parseInt(user.discriminator.replace("#", "")) || 0) % 5;
+          const aid = (parseInt(user.discriminator) || 0) % 5;
           promises.push(`./src/assets/default/${aid}.png`);
         }
 
