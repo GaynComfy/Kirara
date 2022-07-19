@@ -38,7 +38,7 @@ module.exports = {
         if (i !== 0) query += " OR";
         query += ` guild_id='${clan}'`;
       });
-      const rows = await instance.database.pool.query(query);
+      const { rows } = await instance.database.pool.query(query);
       rows.forEach(srv => (serverIds[srv.guild_id] = srv.id));
       knowsServers = true;
 
