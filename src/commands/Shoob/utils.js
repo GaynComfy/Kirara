@@ -4,7 +4,7 @@ const dayjs = require("dayjs");
 const Fetcher = require("../../utils/CardFetcher");
 const DbFetcher = require("../../utils/DbFetcher");
 const Constants = require("../../utils/Constants.json");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { createPagedResults } = require("../../utils/PagedResults");
 const { tierInfo } = require("../../utils/cardUtils");
 
@@ -53,7 +53,7 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
     message,
     2 + (pages > 0 ? pages : 1),
     async page => {
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setTitle(
           `${tierSettings.emoji}  •  ${card.name}  •  ${
             card.tier === "S" ? "S" : "★".repeat(card.tier)
@@ -99,25 +99,31 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
             .setImage(card.ability ? card.ability_gif : Constants.footer)
             .setFooter({ text: "React ▶️ for card owners" });
 
+          const fields = [];
+
           if (card.ability) {
-            embed.addField(
-              `**${card.ability_name}**`,
-              card.ability_description
-            );
+            fields.push({
+              name: `**${card.ability_name}**`,
+              value: card.ability_description,
+            });
           }
-          embed
-            .addField(
-              "__Top Owners:__",
-              topOwners.length === 0
-                ? "- No one <:Shoob:910973650042236938>"
-                : topOwners.join("\n")
-            )
-            .addField(
-              "__Market Listings:__",
-              market.length === 0
-                ? "- None <:Shoob:910973650042236938>"
-                : market.join("\n")
-            );
+          embed.addFields([
+            ...fields,
+            {
+              name: "__Top Owners:__",
+              value:
+                topOwners.length === 0
+                  ? "- No one <:Shoob:910973650042236938>"
+                  : topOwners.join("\n"),
+            },
+            {
+              name: "__Market Listings:__",
+              value:
+                market.length === 0
+                  ? "- None <:Shoob:910973650042236938>"
+                  : market.join("\n"),
+            },
+          ]);
           break;
         }
         default: {
@@ -162,12 +168,15 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
           embed
             .setThumbnail(cardImage)
             .setDescription(description)
-            .addField(
-              `__${tracked ? "Stored Card Claims" : "Card Owners"}:__`,
-              owners.length === 0
-                ? "- No one <:Shoob:910973650042236938>"
-                : owners.join("\n")
-            )
+            .addFields([
+              {
+                name: `__${tracked ? "Stored Card Claims" : "Card Owners"}:__`,
+                value:
+                  owners.length === 0
+                    ? "- No one <:Shoob:910973650042236938>"
+                    : owners.join("\n"),
+              },
+            ])
             .setImage(Constants.footer)
             .setFooter({
               text:

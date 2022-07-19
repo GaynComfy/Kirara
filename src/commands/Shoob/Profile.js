@@ -1,7 +1,7 @@
 const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
 const { getCachedURL } = require("../../utils/cacheUtils");
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const { EmbedBuilder, MessageAttachment } = require("discord.js");
 const { createCanvas, loadImage } = require("canvas");
 const { mention, userId } = require("../../utils/regexUtils");
 const isDev = process.env.NODE_ENV === "development";
@@ -113,7 +113,7 @@ module.exports = {
         : "");
 
     const attachment = new MessageAttachment(canvas.toBuffer(), "profile.png");
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setAuthor({
         name: `${member.username}'s profile`,
         iconURL: message.guild.iconURL({ dynamic: true }),
@@ -124,10 +124,11 @@ module.exports = {
       .setImage("attachment://profile.png");
 
     if (user) {
-      embed
-        .addField("Premium", user.premium ? "Yes" : "No", true)
-        .addField("Votes", user.votes.toString(), true)
-        .addField("Views", user.views.toString(), true);
+      embed.addFields([
+        { name: "Premium", value: user.premium ? "Yes" : "No", inline: true },
+        { name: "Votes", value: user.votes.toString(), inline: true },
+        { name: "Views", value: user.views.toString(), inline: true },
+      ]);
     }
 
     return message.reply({ embeds: [embed], files: [attachment] });

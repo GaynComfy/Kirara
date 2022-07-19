@@ -1,7 +1,7 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const Constants = require("../../utils/Constants.json");
 
-const embed = new MessageEmbed()
+const embed = new EmbedBuilder()
   .setAuthor({
     name: Constants.name,
     iconURL: Constants.avatar,

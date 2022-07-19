@@ -1,5 +1,5 @@
 const Redis = require("ioredis");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const Constants = require("../utils/Constants.json");
 const { tierInfo } = require("../utils/cardUtils");
 
@@ -38,7 +38,7 @@ module.exports = {
         return;
 
       const tierSettings = tierInfo[tier];
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setTitle(`> <:Shoob:910973650042236938> Enter the Auction`)
         .setURL(`https://shoob.gg/auction/${data.id}`)
         .setColor(tierSettings.color)
@@ -47,13 +47,19 @@ module.exports = {
           `${tierSettings.emoji} [\`${data.card_name}\` • \`T${data.tier}\`]` +
             `(https://shoob.gg/cards/info/${data.card_id}) • \`V${data.version}\` is being auctioned!`
         )
-        .addField("Starting Bid", `\`富 ${Math.round(data.bn / 5)}\``, true)
-        .addField("Buy Now", `\`富 ${data.bn}\``, true)
-        .addField(
-          "Owner",
-          `[${data.username}](https://shoob.gg/user/${data.discord_id})`,
-          true
-        );
+        .addFields([
+          {
+            name: "Starting Bid",
+            value: `\`富 ${Math.round(data.bn / 5)}\``,
+            inline: true,
+          },
+          { name: "Buy Now", value: `\`富 ${data.bn}\``, inline: true },
+          {
+            name: "Owner",
+            value: `[${data.username}](https://shoob.gg/user/${data.discord_id})`,
+            inline: true,
+          },
+        ]);
 
       const guilds = instance.client.guilds.cache
         .filter(g => instance.settings[g.id]["notif_channel"])

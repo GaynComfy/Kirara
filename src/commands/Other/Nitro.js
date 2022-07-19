@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const humanizeDuration = require("humanize-duration");
 
 const info = {
@@ -25,7 +25,7 @@ module.exports = {
     }
     const mem = account.user;
 
-    const embed = new MessageEmbed();
+    const embed = new EmbedBuilder();
     if (!account.premiumSinceTimestamp) {
       embed
         .setDescription(

@@ -1,6 +1,6 @@
 const Color = require("../../utils/Colors.json");
 const Constants = require("../../utils/Constants.json");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { createPagedResults } = require("../../utils/PagedResults");
 
 const info = {
@@ -28,7 +28,7 @@ module.exports = {
       )
     );
     if (values.length === 0) {
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setDescription(
           `<:Sirona_NoCross:762606114444935168> This server has no dropped cards this month.`
         )
@@ -63,7 +63,7 @@ module.exports = {
         );
       }
 
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setAuthor({
           name: `Karuta drop Leaderboard!`,
           iconURL: message.guild.iconURL({ dynamic: true }),
@@ -78,8 +78,10 @@ module.exports = {
             (last === -1 || page < last ? " | React ▶️ for next page" : "") +
             (page !== 0 ? " | React ◀️ to go back" : ""),
         })
-        .addField(`•   __User__`, users.join("\n"), true)
-        .addField(`•   __Drops__`, spawns.join("\n"), true);
+        .addFields([
+          { name: `•   __User__`, value: users.join("\n"), inline: true },
+          { name: `•   __Drops__`, value: spawns.join("\n"), inline: true },
+        ]);
 
       if (last === 0) {
         await message.channel.send({ embeds: [embed] });

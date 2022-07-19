@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 const info = {
   name: "rolesperclaim",
@@ -9,7 +9,7 @@ const info = {
 
 module.exports = {
   execute: async (instance, message) => {
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor("#e0e0e0")
       .setTitle("Shoob Roles");
 
@@ -23,13 +23,15 @@ module.exports = {
         "\n\nThere are no claim roles setup in this server."
       );
     } else {
-      for (const [i, role] of roles.entries()) {
-        embed.addField(
-          `#${i + 1} - ${role.claims} Cards`,
-          `<@&${role.role_id}>`,
-          true
-        );
-      }
+      const fields = [];
+      roles.forEach((role, i) => {
+        fields.push({
+          name: `#${i + 1} - ${role.claims} Cards`,
+          value: `<@&${role.role_id}>`,
+          inline: true,
+        });
+      });
+      embed.addFields(fields);
     }
 
     return message.channel.send({ embeds: [embed] });

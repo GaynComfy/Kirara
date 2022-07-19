@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { withOwner } = require("../../utils/hooks");
 const { getInfo } = require("./utils");
 const color = require("../../utils/Colors.json");
@@ -130,7 +130,7 @@ module.exports = {
       message.author.id,
       async () => {
         const ping = new Date().getTime() - message.createdTimestamp;
-        const helpembed = new MessageEmbed()
+        const helpembed = new EmbedBuilder()
           .setAuthor({
             name: "❯\u2000Control Panel",
             iconURL: message.author.displayAvatarURL({ type: "png" }),

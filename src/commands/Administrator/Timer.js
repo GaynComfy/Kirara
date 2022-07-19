@@ -1,5 +1,5 @@
 const { withRights } = require("../../utils/hooks");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 const info = {
   name: "timer",
@@ -16,7 +16,7 @@ module.exports = {
         args.length > 1
       )
         return false;
-      const embed = new MessageEmbed().setColor("RANDOM");
+      const embed = new EmbedBuilder().setColor("RANDOM");
 
       if (args.length === 0) {
         const toggle = instance.guilds[message.guild.id].timer ? "on" : "off";

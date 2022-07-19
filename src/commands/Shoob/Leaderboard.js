@@ -1,7 +1,7 @@
 const Color = require("../../utils/Colors.json");
 const { getCachedURL } = require("../../utils/cacheUtils");
 const { createCanvas, loadImage, registerFont } = require("canvas");
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const { EmbedBuilder, MessageAttachment } = require("discord.js");
 registerFont("./src/assets/CenturyGothic.ttf", { family: "Century Gothic" });
 registerFont("./src/assets/AppleColorEmoji.ttf", { family: "Apple" });
 
@@ -45,7 +45,7 @@ module.exports = {
         );
 
     if (claimers.length === 0) {
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setDescription(
           `<:Sirona_NoCross:762606114444935168> This server has no claimed cards${
             isTotal ? "" : " this season"
@@ -117,7 +117,7 @@ module.exports = {
       canvas.toBuffer(),
       "leaderboard.png"
     );
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor("#d5417c")
       .setAuthor({
         name: `${message.guild.name}'s ${isTotal ? "Total " : ""}Leaderboard`,

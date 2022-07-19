@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const Color = require("../../utils/Colors.json");
 const {
   diffs,
@@ -33,7 +33,7 @@ module.exports = {
     }
 
     // build cute embed
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setThumbnail(member.displayAvatarURL({ size: 2048, dynamic: true }))
       .setColor(Color.default);
 
@@ -45,6 +45,7 @@ module.exports = {
       let total = 0;
       let won = 0;
 
+      const fields = [];
       stats.diffs
         .filter(d => d.played)
         .reverse()
@@ -53,20 +54,22 @@ module.exports = {
           const lastCpm = getCpm(d.difficulty, d.last);
           const dName =
             d.difficulty.charAt(0).toUpperCase() + d.difficulty.substring(1);
-          embed.addField(
-            dName,
-            `**Top**: \`${d.top}s\` (\`${topCpm} CPM\`) | **Last**: \`${d.last}s\` (\`${lastCpm} CPM\`)\n` +
+          fields.push({
+            name: dName,
+            value:
+              `**Top**: \`${d.top}s\` (\`${topCpm} CPM\`) | **Last**: \`${d.last}s\` (\`${lastCpm} CPM\`)\n` +
               `**${d.total} ${
                 d.total === 1 ? "game" : "games"
               }**, winning a total of **${d.first} ${
                 d.first === 1 ? "game" : "games"
-              }**! <:KiraraHugHeart:798460293491326986>`
-          );
+              }**! <:KiraraHugHeart:798460293491326986>`,
+          });
           cpm.push(topCpm);
           total += d.total;
           won += d.first;
         });
       cpm.forEach(d => (allCpm += d));
+      embed.addFields(fields);
 
       embed.setDescription(
         `<:Sirona_yesh:762603569538531328> **${member.username}'s Typerace stats**\n\n` +

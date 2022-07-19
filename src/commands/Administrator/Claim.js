@@ -1,5 +1,5 @@
 const { withRights } = require("../../utils/hooks");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 const info = {
   name: "claim",
@@ -23,7 +23,7 @@ module.exports = {
 
       if (args.length === 0) {
         const toggle = result.rows.length === 0 ? "off" : "on";
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setDescription(
             `<a:Sirona_Tick:749202570341384202> Claim messages are turned ${toggle}.`
           )
@@ -45,7 +45,7 @@ module.exports = {
         delete instance.settings[message.guild.id]["claim:enabled"];
       }
 
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setDescription(
           `<a:Sirona_Tick:749202570341384202> Claim messages have been turned ${args[0].toLowerCase()}.`
         )

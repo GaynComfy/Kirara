@@ -1,4 +1,4 @@
-const { MessageAttachment, MessageEmbed } = require("discord.js");
+const { MessageAttachment, EmbedBuilder } = require("discord.js");
 const Color = require("../../utils/Colors.json");
 const cd = new Map();
 const {
@@ -65,7 +65,7 @@ module.exports = {
     const { buffer, txt } = await genCaptcha(diff, tier);
 
     const attachment = new MessageAttachment(buffer, "captcha.png");
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setColor(Color.default)
       .setImage("attachment://captcha.png");
     if (diff === "shoob" || diff === "spawn")
@@ -145,7 +145,7 @@ module.exports = {
     collector.on("end", () => {
       delete channelMap[message.channel.id];
 
-      const result = new MessageEmbed()
+      const result = new EmbedBuilder()
         .setTitle(
           `Type race results: ${
             diff.charAt(0).toUpperCase() + diff.substring(1)
@@ -161,10 +161,11 @@ module.exports = {
           "> <:Sirona_NoCross:762606114444935168> No participants!"
         );
       } else {
-        result
-          .addField("•   __User__", results.join("\n"), true)
-          .addField("•   __CPM__", resultsw.join("\n"), true)
-          .addField("•   __Time__", timer.join("\n"), true);
+        result.addFields([
+          { name: `•   __User__`, value: results.join("\n"), inline: true },
+          { name: `•   __CPM__`, value: resultsw.join("\n"), inline: true },
+          { name: `•   __Time__`, value: timer.join("\n"), inline: true },
+        ]);
       }
       message.channel.send({ embeds: [result] });
       cd.set(message.channel.id, Date.now());

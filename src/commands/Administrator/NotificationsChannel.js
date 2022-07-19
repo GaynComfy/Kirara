@@ -1,6 +1,6 @@
 const { checkPerms, withRights } = require("../../utils/hooks");
 const Color = require("../../utils/Colors.json");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 const auc = ["auctions", "auc"];
 const games = ["games", "minigames", "mg"];
@@ -13,7 +13,7 @@ const info = {
 };
 
 const exec = async (instance, message, args, type) => {
-  const embed = new MessageEmbed().setColor("RANDOM");
+  const embed = new EmbedBuilder().setColor("RANDOM");
 
   const {
     rows: [result],

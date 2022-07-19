@@ -1,5 +1,5 @@
 const { withRights } = require("../../utils/hooks");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const THRESH_HOLD = 1200;
 const ROLE_ID = "902758184794595380";
 
@@ -54,19 +54,21 @@ module.exports = {
           )
         );
         const sorted = values.sort((a, b) => b.value - a.value);
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setTitle("xp highest for this week")
-          .addField(
-            "Top",
-            sorted
-              .slice(0, 10)
-              .map((entry, index) => {
-                return `${index + 1}. <@!${
-                  entry.id
-                }>: ${entry.value.toLocaleString()}`;
-              })
-              .join("\n")
-          );
+          .addFields([
+            {
+              name: "Top",
+              value: sorted
+                .slice(0, 10)
+                .map((entry, index) => {
+                  return `${index + 1}. <@!${
+                    entry.id
+                  }>: ${entry.value.toLocaleString()}`;
+                })
+                .join("\n"),
+            },
+          ]);
         message.channel.send({ embeds: [embed] });
         return true;
       }

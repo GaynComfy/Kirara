@@ -1,6 +1,6 @@
 const Color = require("../../utils/Colors.json");
 const Constants = require("../../utils/Constants.json");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 const info = {
   name: "pastleaderboard",
@@ -19,7 +19,7 @@ module.exports = {
       [instance.serverIds[message.guild.id], instance.config.season - 1]
     );
     if (claimers.length === 0) {
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setDescription(
           `<:Sirona_NoCross:762606114444935168> This server has no claimed cards for the past season.`
         )
@@ -37,15 +37,17 @@ module.exports = {
       claims.push(`> \`${entry.c} ${entry.c === "1" ? "claim" : "claims"}\``);
     }
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setAuthor({
         name: `${message.guild.name}'s Past Season Leaderboard`,
         iconURL: message.guild.iconURL({ dynamic: true }),
       })
       .setColor(claimers.length > 0 ? "#f49e17" : Color.red)
       .setImage(Constants.footer)
-      .addField(`•   __User__`, users.join("\n"), true)
-      .addField(`•   __Claims__`, claims.join("\n"), true);
+      .addFields([
+        { name: `•   __User__`, value: users.join("\n"), inline: true },
+        { name: `•   __Claims__`, value: claims.join("\n"), inline: true },
+      ]);
 
     return message.channel.send({ embeds: [embed] });
   },

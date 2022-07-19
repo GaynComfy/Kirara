@@ -1,5 +1,5 @@
 // I am an arsehole for making this -JeDaYoshi
-const { MessageAttachment, MessageEmbed } = require("discord.js");
+const { MessageAttachment, EmbedBuilder } = require("discord.js");
 const { createCanvas, loadImage } = require("canvas");
 const Color = require("../../utils/Colors.json");
 const Fetcher = require("../../utils/CardFetcher");
@@ -72,7 +72,7 @@ module.exports = {
               : null);
         }
         if (card === null) {
-          const embed = new MessageEmbed()
+          const embed = new EmbedBuilder()
             .setDescription(
               `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
             )
@@ -107,7 +107,7 @@ module.exports = {
         // the fake spawn
         const filename = `Anime_Soul-${message.guild.id}-${message.channel.id}-claim-drop.png`;
         const attachment = new MessageAttachment(canvas.toBuffer(), filename);
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setColor(color)
           .setTitle(card.name)
           .setURL(`https://shoob.gg/cards/info/${card.id}`)
@@ -148,7 +148,7 @@ module.exports = {
           timer.push(`> \`${took}s\``);
 
           if (first) {
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
               .setColor("#466fe9")
               .setDescription(
                 `<@!${msg.author.id}> got the \`${card.name}\` Issue #: \`0\`. See Who Sent The Message.`
@@ -201,12 +201,22 @@ module.exports = {
               )
               .catch(console.error);
           } else {
-            const result = new MessageEmbed()
+            const result = new EmbedBuilder()
               .setTitle("Type race results: Shoob <:SShoob:783636544720207903>")
               .setColor(Color.white)
-              .addField("•   __User__", results.join("\n"), true)
-              .addField("•   __CPM__", resultsw.join("\n"), true)
-              .addField("•   __Time__", timer.join("\n"), true);
+              .addFields([
+                {
+                  name: `•   __User__`,
+                  value: results.join("\n"),
+                  inline: true,
+                },
+                {
+                  name: `•   __CPM__`,
+                  value: resultsw.join("\n"),
+                  inline: true,
+                },
+                { name: `•   __Time__`, value: timer.join("\n"), inline: true },
+              ]);
             message.channel.send({ embeds: [result] });
           }
         });

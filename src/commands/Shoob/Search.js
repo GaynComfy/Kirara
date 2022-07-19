@@ -1,7 +1,7 @@
 const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
 const Constants = require("../../utils/Constants.json");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { tierInfo } = require("../../utils/cardUtils");
 const { getCard } = require("./utils");
 const { createMessagePagedResults } = require("../../utils/PagedResults");
@@ -56,7 +56,7 @@ module.exports = {
           : []);
     }
     if (cards.length === 0 && card === null) {
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setDescription(
           `<:Sirona_NoCross:762606114444935168> No cards found for that criteria.`
         )
@@ -107,7 +107,7 @@ module.exports = {
         source.push(`> \`${src.substr(0, 24) || "-"}\``);
       }
 
-      return new MessageEmbed()
+      return new EmbedBuilder()
         .setTitle(
           `${
             tierSettings ? tierSettings.emoji : "<:Flame:783439293506519101>"
@@ -120,12 +120,18 @@ module.exports = {
             cards.length > 2 ? `1-${cards.length}` : "1"
           }** to view a specific card.`
         )
-        .addField("•   **N.** `T ` • __**Cards**__", names.join("\n"), true)
-        .addField(
-          `•   __${isEvent ? "Event" : "Source"}__`,
-          source.join("\n"),
-          true
-        );
+        .addFields([
+          {
+            name: "•   **N.** `T ` • __**Cards**__",
+            value: names.join("\n"),
+            inline: true,
+          },
+          {
+            name: `•   __${isEvent ? "Event" : "Source"}__`,
+            value: source.join("\n"),
+            inline: true,
+          },
+        ]);
     };
 
     return createMessagePagedResults(message, 1, handler);

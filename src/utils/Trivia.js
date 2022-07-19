@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const { EmbedBuilder, MessageAttachment } = require("discord.js");
 
 const sleep = time => new Promise(r => setTimeout(r, time));
 
@@ -112,14 +112,16 @@ const runGame = async (instance, channel, guild, participants, options) => {
 
     // question embed
     const left = options.interval / 1000;
-    const embed = new MessageEmbed()
+    const fields = [];
+    question.answers.forEach(elem =>
+      fields.push({ name: `Answer ${elem.key}`, value: elem.description })
+    );
+    const embed = new EmbedBuilder()
       .setColor("RANDOM")
       .setTitle(`Question #${index}`)
       .setDescription(question.description)
-      .setFooter({ text: `You have ${left} seconds to answer using /quiz` });
-    question.answers.forEach(elem =>
-      embed.addField(`Answer ${elem.key}`, elem.description)
-    );
+      .setFooter({ text: `You have ${left} seconds to answer using /quiz` })
+      .addFields(fields);
     if (question.image) embed.setImage(question.image);
     const msg = await channel.send({ embeds: [embed] });
     current = {
@@ -152,17 +154,22 @@ const runGame = async (instance, channel, guild, participants, options) => {
             ` <@!${entry.id}>`
         );
 
-      const results = new MessageEmbed()
+      const results = new EmbedBuilder()
         .setColor("#aaddaa")
         .setTitle(`${question.name} results`)
         .setDescription(question.description)
-        .addField(`${answer.key}: ${answer.description}`, winners.join("\n"))
+        .addFields([
+          {
+            name: `${answer.key}: ${answer.description}`,
+            value: winners.join("\n"),
+          },
+        ])
         .setFooter({
           text: `${correct.length} of ${all} participants got it right!`,
         });
       await msg.edit({ embeds: [results] });
     } else {
-      const results = new MessageEmbed()
+      const results = new EmbedBuilder()
         .setColor("#dd3333")
         .setTitle(`${question.name} results`)
         .setDescription(
@@ -248,16 +255,22 @@ const runGame = async (instance, channel, guild, participants, options) => {
         }`
     );
 
-  const finalEmbed = new MessageEmbed()
+  const finalEmbed = new EmbedBuilder()
     .setColor("#bbffbb")
     .setTitle("Quiz results!")
-    .addField("Participants", Object.keys(participants).length, true)
-    .addField("Players", sorted.length, true)
-    .addField("Questions", questions.length, true)
-    .addField("Perfect Players", allCorrect.length, true)
-    .addField("Confused Players", noCorrect.length, true)
-    .addField("Loyal Players", participated.length, true)
-    .addField("Leaderboard", friends)
+    .addFields([
+      {
+        name: "Participants",
+        value: Object.keys(participants).length,
+        inline: true,
+      },
+      { name: "Players", value: sorted.length, inline: true },
+      { name: "Questions", value: questions.length, inline: true },
+      { name: "Perfect Players", value: allCorrect.length, inline: true },
+      { name: "Confused Players", value: noCorrect.length, inline: true },
+      { name: "Loyal Players", value: participated.length, inline: true },
+      { name: "Leaderboard", value: friends.join("\n") },
+    ])
     .setFooter({ text: "Thank you for participating into this quiz with us!" });
 
   return channel.send({ embeds: [finalEmbed] });

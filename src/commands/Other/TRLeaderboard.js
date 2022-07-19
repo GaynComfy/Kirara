@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const Color = require("../../utils/Colors.json");
 const Constants = require("../../utils/Constants.json");
 const { createPagedResults } = require("../../utils/PagedResults");
@@ -59,7 +59,7 @@ module.exports = {
       return createPagedResults(message, pages, async page => {
         const offset = (page > pages - 1 ? pages - 1 : page) * 3;
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setAuthor(
             `Typerace Leaderboard`,
             message.guild.iconURL({ dynamic: true })
@@ -77,14 +77,16 @@ module.exports = {
               : ""
           );
 
+        const fields = [];
         Object.keys(tops)
           .slice(offset, offset + 3)
           .forEach(t =>
-            embed.addField(
-              t + (t === "shoob" ? ` <:SShoob:783636544720207903>` : ""),
-              tops[t]
-            )
+            fields.push({
+              name: t + (t === "shoob" ? ` <:SShoob:783636544720207903>` : ""),
+              value: tops[t],
+            })
           );
+        embed.addFields(fields);
 
         return embed;
       });
@@ -98,7 +100,7 @@ module.exports = {
         const offset = (page > last && last !== -1 ? last : page) * 8;
         const stats = await getTopPlayersByDiff(instance, diff, 8, offset);
         if (stats.length === 0 && page === 0) {
-          const embed = new MessageEmbed()
+          const embed = new EmbedBuilder()
             .setDescription(
               `<:Sirona_NoCross:762606114444935168> No players have played this difficulty!`
             )
@@ -127,7 +129,7 @@ module.exports = {
           time.push(`> \`${entry.top}s\``);
         }
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setAuthor({
             name: `${dName} Typerace Leaderboard`,
             iconURL: message.guild.iconURL({ dynamic: true }),
@@ -146,9 +148,11 @@ module.exports = {
               (last === -1 || page < last ? " | React ▶️ for next page" : "") +
               (page !== 0 ? " | React ◀️ to go back" : ""),
           })
-          .addField(`•   __User__`, users.join("\n"), true)
-          .addField(`•   __CPM__`, cpm.join("\n"), true)
-          .addField(`•   __Time__`, time.join("\n"), true);
+          .addFields([
+            { name: `•   __User__`, value: users.join("\n"), inline: true },
+            { name: `•   __CPM__`, value: cpm.join("\n"), inline: true },
+            { name: `•   __Time__`, value: time.join("\n"), inline: true },
+          ]);
 
         if (last === 0) {
           await message.channel.send({ embeds: [embed] });

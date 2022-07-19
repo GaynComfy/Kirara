@@ -1,6 +1,6 @@
 const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { createPagedResults } = require("../../utils/PagedResults");
 const { cardId, mention, userId } = require("../../utils/regexUtils");
 const { tierInfo } = require("../../utils/cardUtils");
@@ -72,7 +72,7 @@ module.exports = {
           : null);
     }
     if (card === null && (card_id || args.length >= 1)) {
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setDescription(
           `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
         )
@@ -102,7 +102,7 @@ module.exports = {
       if (last !== -1 && page > last) return null;
       const singlePage = last === page && page === 0;
       const tierSettings = tier !== "all" ? tierInfo[`T${tier}`] : null;
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setAuthor({
           name: `${user.username}'s Inventory`,
           iconURL: user.displayAvatarURL({ dynamic: true }),
@@ -119,19 +119,22 @@ module.exports = {
         });
       if (card)
         embed.setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"));
-      embed.addField(
-        `•   __Cards__`,
-        result.length > 0
-          ? result
-              .map(
-                e =>
-                  `> \`T${e.tier.toUpperCase()}\` • ` +
-                  `[\`${e.name}\`](https://shoob.gg/cards/info/${e.card_id}) ` +
-                  `| \`Issue: ${e.issue}\``
-              )
-              .join("\n")
-          : "- No cards <:Shoob:910973650042236938>"
-      );
+      embed.addFields([
+        {
+          name: `•   __Cards__`,
+          value:
+            result.length > 0
+              ? result
+                  .map(
+                    e =>
+                      `> \`T${e.tier.toUpperCase()}\` • ` +
+                      `[\`${e.name}\`](https://shoob.gg/cards/info/${e.card_id}) ` +
+                      `| \`Issue: ${e.issue}\``
+                  )
+                  .join("\n")
+              : "- No cards <:Shoob:910973650042236938>",
+        },
+      ]);
       if (last === 0) {
         await message.channel.send({ embeds: [embed] });
         return false;

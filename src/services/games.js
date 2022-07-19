@@ -1,5 +1,5 @@
 const Redis = require("ioredis");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const Constants = require("../utils/Constants.json");
 const { tierInfo } = require("../utils/cardUtils");
 
@@ -38,7 +38,7 @@ module.exports = {
         return;
 
       const tierSettings = tierInfo[tier];
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setTitle(`> <:Shoob:910973650042236938> Enter the Minigame`)
         .setURL(`https://shoob.gg/mini-game/${data.id}`)
         .setColor(tierSettings.color)

@@ -1,5 +1,5 @@
 const { withRights } = require("../../utils/hooks");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const Constants = require("../../utils/Constants.json");
 
 const info = {
@@ -18,7 +18,7 @@ module.exports = {
       if (!Constants.tiers.includes(tier)) return false;
       const tierUpper = args[0].toUpperCase();
 
-      const embed = new MessageEmbed().setColor("RANDOM");
+      const embed = new EmbedBuilder().setColor("RANDOM");
 
       const { rows: roleQuery } = await instance.database.simpleQuery(
         "CARD_ROLES",

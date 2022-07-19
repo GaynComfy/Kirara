@@ -1,7 +1,7 @@
 const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
 const Constants = require("../../utils/Constants.json");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { getCard } = require("./utils");
 const { cardId } = require("../../utils/regexUtils");
 
@@ -53,7 +53,7 @@ module.exports = {
           : null);
     }
     if (card === null) {
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setDescription(
           `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
         )

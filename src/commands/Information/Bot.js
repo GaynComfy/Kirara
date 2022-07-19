@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { getLilliePing } = require("./utils");
 const { version } = require("../../../package.json");
 const Constants = require("../../utils/Constants.json");
@@ -71,7 +71,7 @@ module.exports = {
         0
       );
       const channelSize = instance.client.channels.cache.size;
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setAuthor({ name })
         .setColor(Constants.color)
         .setDescription(
@@ -84,24 +84,28 @@ module.exports = {
             `🖍️ midori: \`${lillie.ping}\`` +
             (lillie.version ? `, v${lillie.version}` : "")
         )
-        .addField(
-          "**🖥️ Bot Details**",
-          `${numberWithCommas(totalGuilds)} Servers\n` +
-            `${numberWithCommas(totalMembers)} Users\n` +
-            `${numberWithCommas(channels)} Channels\n\n` +
-            `${numberWithCommas(asClaims)} AS claims\n` +
-            `${numberWithCommas(kClaims)} Kirara claims`,
-          true
-        )
-        .addField(
-          `**🟢 Shard ${shardid}**`,
-          `${numberWithCommas(guildSize)} Servers\n` +
-            `${numberWithCommas(userSize)} Users\n` +
-            `${numberWithCommas(channelSize)} Channels\n\n` +
-            `${numberWithCommas(instance.asClaims)} AS claims\n` +
-            `${numberWithCommas(instance.kClaims)} Kirara claims`,
-          true
-        );
+        .addFields([
+          {
+            name: "**🖥️ Bot Details**",
+            value:
+              `${numberWithCommas(totalGuilds)} Servers\n` +
+              `${numberWithCommas(totalMembers)} Users\n` +
+              `${numberWithCommas(channels)} Channels\n\n` +
+              `${numberWithCommas(asClaims)} AS claims\n` +
+              `${numberWithCommas(kClaims)} Kirara claims`,
+            inline: true,
+          },
+          {
+            name: `**🟢 Shard ${shardid}**`,
+            value:
+              `${numberWithCommas(guildSize)} Servers\n` +
+              `${numberWithCommas(userSize)} Users\n` +
+              `${numberWithCommas(channelSize)} Channels\n\n` +
+              `${numberWithCommas(instance.asClaims)} AS claims\n` +
+              `${numberWithCommas(instance.kClaims)} Kirara claims`,
+            inline: true,
+          },
+        ]);
 
       return message.channel.send({ embeds: [embed] });
     } catch (err) {

@@ -1,5 +1,5 @@
 const Redis = require("ioredis");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { tierInfo } = require("../utils/cardUtils");
 
 let client = null;
@@ -116,7 +116,7 @@ module.exports = {
               instance.guilds[data.server_id].log_channel
             );
             if (logChannel) {
-              const log = new MessageEmbed()
+              const log = new EmbedBuilder()
                 .setAuthor({
                   name: "Shoob",
                   iconURL:
@@ -184,7 +184,7 @@ module.exports = {
             return;
 
           if (messageChannel) {
-            const oweeet = new MessageEmbed()
+            const oweeet = new EmbedBuilder()
               .setDescription(
                 `<a:Sirona_loading:748854549703426118> [\`${data.card_name}\`](https://shoob.gg/cards/info/${data.card_id}) ` +
                   `Issue #: \`${data.issue}\` has been claimed!\n\n${settings.emoji} Added to <@${data.discord_id}>'s database.`

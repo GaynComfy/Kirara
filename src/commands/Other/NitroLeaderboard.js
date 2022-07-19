@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const humanizeDuration = require("humanize-duration");
 const { pageThroughCollection } = require("../../utils/PagedResults");
 const Constants = require("../../utils/Constants.json");
@@ -27,7 +27,7 @@ module.exports = {
           );
 
         if (allBoosters.size === 0) {
-          const embed = new MessageEmbed()
+          const embed = new EmbedBuilder()
             .setDescription("\uD83D\uDCA2 Nobody is boosting this server!")
             .setColor("#ff1100");
           return message.channel.send({ embeds: [embed] });
@@ -36,7 +36,7 @@ module.exports = {
         return pageThroughCollection(message, allBoosters, (boosters, page) => {
           const offset = page.index * page.perPage;
 
-          return new MessageEmbed()
+          return new EmbedBuilder()
             .setAuthor({
               name: `Server Boost Leaderboard in ${message.guild.name}`,
               iconURL: message.guild.iconURL({ dynamic: true }),

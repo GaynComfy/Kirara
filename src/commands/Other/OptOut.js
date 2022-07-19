@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const Color = require("../../utils/Colors.json");
 const info = {
   name: "lb-optout",
@@ -9,7 +9,7 @@ const info = {
 
 module.exports = {
   execute: async (instance, message, args) => {
-    const embed = new MessageEmbed().setColor(Color.default);
+    const embed = new EmbedBuilder().setColor(Color.default);
     const prefix =
       instance.guilds[message.guild.id].prefix || instance.config.prefix;
     const { id: discord_id } = message.author;

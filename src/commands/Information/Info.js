@@ -1,7 +1,7 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const Constants = require("../../utils/Constants.json");
 
-const embed = new MessageEmbed()
+const embed = new EmbedBuilder()
   .setAuthor({
     name: Constants.name,
     iconURL: Constants.avatar,
@@ -11,12 +11,20 @@ const embed = new MessageEmbed()
     "Multi-purpose bot for Shoob activities with extras! Completely free with no restrictions. " +
       "Part of [__**Gay & Comfy**__](https://discord.gg/comfy)!"
   )
-  .addField("Owners:", "`Nota#8888`, `⋆˚🌺⃤ Jorgy₊ ˚#5611`, `Alycans#1693`")
-  .addField("Lead Dev:", "[`JeDaYoshi#7942`](https://jeda.im)")
-  .addField(
-    "Team and Collaborators:",
-    "`Liz3#0001`, `⋆˚🌺⃤ Jorgy₊ ˚#5611`, `Nota#8888`, `bappy#3311`"
-  )
+  .addFields([
+    {
+      name: "Owners:",
+      value: "`Nota#8888`, `⋆˚🌺⃤ Jorgy₊ ˚#5611`, `Alycans#1693`",
+    },
+    {
+      name: "Lead Dev:",
+      value: "[`JeDaYoshi#7942`](https://jeda.im)",
+    },
+    {
+      name: "Team and Collaborators:",
+      value: "`Liz3#0001`, `⋆˚🌺⃤ Jorgy₊ ˚#5611`, `Nota#8888`, `bappy#3311`",
+    },
+  ])
   .setFooter({ text: "Roleplay images provided by https://waifu.pics" });
 
 const info = {

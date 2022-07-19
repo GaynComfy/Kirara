@@ -1,5 +1,5 @@
 const { withRights } = require("../../utils/hooks");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 const info = {
   name: "categorytoggle",
@@ -36,7 +36,7 @@ module.exports = {
 
       if (args.length === 1) {
         const toggle = result.rows.length === 0 ? "enabled" : "disabled";
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setDescription(
             `<a:Sirona_Tick:749202570341384202> \`${categories[category]}\` is ${toggle}.`
           )
@@ -62,7 +62,7 @@ module.exports = {
         ] = true;
       }
 
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setDescription(
           `<a:Sirona_Tick:749202570341384202> \`${
             categories[category]

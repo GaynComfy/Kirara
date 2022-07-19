@@ -1,5 +1,5 @@
 const { withRights } = require("../../utils/hooks");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const Color = require("../../utils/Colors.json");
 const Constants = require("../../utils/Constants.json");
 
@@ -44,7 +44,7 @@ module.exports = {
       let logs = "off";
       if (logChn) logs = `<#${logChn}>`;
 
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setAuthor({
           name: Constants.name,
           iconURL: Constants.avatar,
@@ -53,9 +53,11 @@ module.exports = {
         .setDescription(
           `These are the current settings for \`${message.guild.name}\``
         )
-        .addField("Event", event, true)
-        .addField("Claim messages", toggle, true)
-        .addField("Spawn logs", logs, true);
+        .addFields([
+          { name: "Event", value: event, inline: true },
+          { name: "Claim message", value: toggle, inline: true },
+          { name: "Spawn logs", value: logs, inline: true },
+        ]);
       /*.addField(
           "Spawn roles",
           roleQuery.length === 0 ? "No roles set" : roleArray,

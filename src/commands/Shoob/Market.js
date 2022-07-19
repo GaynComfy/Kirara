@@ -1,7 +1,7 @@
 const dayjs = require("dayjs");
 const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { createPagedResults } = require("../../utils/PagedResults");
 const { tierInfo } = require("../../utils/cardUtils");
 const Constants = require("../../utils/Constants.json");
@@ -52,7 +52,7 @@ const processWithCard = async (instance, message, option, card) => {
   );
   const sorted = sortListings(listings, option);
   if (sorted.length === 0) {
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
       .setDescription(
         "<:Sirona_NoCross:762606114444935168> No active market listings for this card!" +
@@ -73,7 +73,7 @@ const processWithCard = async (instance, message, option, card) => {
         `Added: \`${dayjs(listing.date_added * 1000).fromNow()}\``
     );
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle(
         `${selectedColor.emoji}  •  Market: ${card.name}  •  ${
           card.tier === "S"
@@ -86,7 +86,16 @@ const processWithCard = async (instance, message, option, card) => {
       )
       .setURL(`https://shoob.gg/cards/info/${card.id}`)
       .setThumbnail(encodeURI(card.image_url).replace(".webp", ".gif"))
-      .setColor(selectedColor.color);
+      .setColor(selectedColor.color)
+      .addFields([
+        {
+          name: `__Market Listings:__`,
+          value:
+            market.length === 0
+              ? "- None <:Shoob:910973650042236938>"
+              : market.join("\n"),
+        },
+      ]);
 
     if (pages > 1) {
       embed.setFooter({
@@ -104,12 +113,6 @@ const processWithCard = async (instance, message, option, card) => {
         }\`\n\`Source: ${card.series[0] || "-"}\``
       );
     }
-    embed.addField(
-      `__Market Listings:__`,
-      market.length === 0
-        ? "- None <:Shoob:910973650042236938>"
-        : market.join("\n")
-    );
 
     return embed;
   });
@@ -127,7 +130,7 @@ const processWithoutCard = async (instance, message, tier) => {
       if (last === -1) last = 0;
     } else if (result.length < 6 && last === -1) last = page;
     if (result.length === 0 && page === 0) {
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setDescription(
           `<:Sirona_NoCross:762606114444935168> No active market listings!`
         )
@@ -155,14 +158,23 @@ const processWithoutCard = async (instance, message, tier) => {
       return item;
     });
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle(
         tierSettings
           ? `${tierSettings.emoji} Market: Most recent T${tier} entries`
           : "<:Flame:783439293506519101> Market: Most recent entries"
       )
       .setURL(`https://shoob.gg/market`)
-      .setColor(tierSettings ? tierSettings.color : Color.default);
+      .setColor(tierSettings ? tierSettings.color : Color.default)
+      .addFields([
+        {
+          name: `__Market Listings:__`,
+          value:
+            market.length === 0
+              ? "- None <:Shoob:910973650042236938>"
+              : market.join("\n"),
+        },
+      ]);
 
     if (last !== 0) {
       embed.setFooter({
@@ -172,13 +184,6 @@ const processWithoutCard = async (instance, message, tier) => {
           (page > 0 ? " | React ◀️ to go back" : ""),
       });
     }
-
-    embed.addField(
-      `__Market Listings:__`,
-      market.length === 0
-        ? "- None <:Shoob:910973650042236938>"
-        : market.join("\n")
-    );
 
     if (last === 0) {
       await message.reply({ embeds: [embed] });
@@ -218,7 +223,7 @@ module.exports = {
           )
         : null);
     if (card === null) {
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setDescription(
           `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
         )

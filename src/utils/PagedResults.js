@@ -1,6 +1,6 @@
 const sendError = require("./SendError");
 const Color = require("./Colors.json");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { multiReact } = require("./miscUtils");
 
 const FAST_REVERSE_SYMBOL = "\u23ea";
@@ -19,7 +19,7 @@ const ALL_SYMBOLS = [
 const collectorOpts = { idle: 45 * 1000 };
 
 const userMap = {};
-const embed = new MessageEmbed()
+const embed = new EmbedBuilder()
   .setDescription(
     "<:Sirona_NoCross:762606114444935168> An unexpected error has occurred on command execution."
   )

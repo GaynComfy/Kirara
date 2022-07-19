@@ -1,6 +1,6 @@
 const Color = require("../../utils/Colors.json");
 const Constants = require("../../utils/Constants.json");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { createPagedResults } = require("../../utils/PagedResults");
 
 const optout = require("../../utils/cacheUtils").getOptOutStmt(
@@ -40,7 +40,7 @@ module.exports = {
         claimers = claims;
       }
       if (claimers.length === 0 && page === 0) {
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setDescription(
             `<:Sirona_NoCross:762606114444935168> The bot hasn't tracked any claims this season.`
           )
@@ -69,7 +69,7 @@ module.exports = {
         claims.push(`> \`${entry.c} ${entry.c === 1 ? "claim" : "claims"}\``);
       }
 
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setAuthor({
           name: "Global Leaderboard",
           iconURL: Constants.avatar,
@@ -84,8 +84,10 @@ module.exports = {
             (last === -1 || page < last ? " | React ▶️ for next page" : "") +
             (page !== 0 ? " | React ◀️ to go back" : ""),
         })
-        .addField(`•   __User__`, users.join("\n"), true)
-        .addField(`•   __Claims__`, claims.join("\n"), true);
+        .addFields([
+          { name: `•   __User__`, value: users.join("\n"), inline: true },
+          { name: `•   __Claims__`, value: claims.join("\n"), inline: true },
+        ]);
 
       if (last === 0) {
         await message.channel.send({ embeds: [embed] });

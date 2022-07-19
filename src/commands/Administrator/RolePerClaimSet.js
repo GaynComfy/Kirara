@@ -1,5 +1,5 @@
 const { withRights } = require("../../utils/hooks");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 const info = {
   name: "roleperclaimset",
@@ -15,7 +15,7 @@ module.exports = {
       const claimCount = parseInt(args[0].toLowerCase());
       if (isNaN(claimCount)) return false;
 
-      const embed = new MessageEmbed().setColor("RANDOM");
+      const embed = new EmbedBuilder().setColor("RANDOM");
 
       const { rows: roleQuery } = await instance.database.pool.query(
         "SELECT * FROM claim_roles WHERE server_id = $1 AND claims = $2",

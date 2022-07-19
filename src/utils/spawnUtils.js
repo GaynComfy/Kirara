@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 exports.getTimer = (since, now = Date.now()) => {
   // not even going to waste time looking
@@ -22,5 +22,5 @@ exports.getTimer = (since, now = Date.now()) => {
     color = "RANDOM";
   }
 
-  return new MessageEmbed().setColor(color).setDescription(text);
+  return new EmbedBuilder().setColor(color).setDescription(text);
 };

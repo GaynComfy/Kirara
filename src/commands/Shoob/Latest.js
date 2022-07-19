@@ -1,5 +1,5 @@
 const Fetcher = require("../../utils/CardFetcher");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { createPagedResults } = require("../../utils/PagedResults");
 const { tierInfo } = require("../../utils/cardUtils");
 
@@ -61,7 +61,7 @@ module.exports = {
       });
 
       const tierSettings = tierInfo[`T${tier}`];
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setTitle(
           `${tierSettings.emoji} Latest added ${
             isEvent ? "Event " : ""
@@ -69,8 +69,10 @@ module.exports = {
         )
         .setColor(tierSettings.color)
         .setURL(`https://shoob.gg/cards`)
-        .addField("•   **__Cards__**", cards.join("\n"), true)
-        .addField("•   **__Series__**", series.join("\n"), true)
+        .addFields([
+          { name: `•   __Cards__`, value: cards.join("\n"), inline: true },
+          { name: `•   __Series__`, value: series.join("\n"), inline: true },
+        ])
         .setFooter({
           text:
             (!singlePage

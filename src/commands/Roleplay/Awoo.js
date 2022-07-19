@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const Fetcher = require("../../utils/GifFetcher");
 const Color = require("../../utils/Colors.json");
 const info = {
@@ -10,7 +10,7 @@ const info = {
 module.exports = {
   execute: async (instance, message) => {
     const { url } = await Fetcher.request("awoo", message.channel.id);
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setDescription("Awoo~")
       .setColor(Color.white);
     if (

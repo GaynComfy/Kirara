@@ -1,6 +1,6 @@
 const { runGame } = require("../../utils/Trivia");
 const { withRights } = require("../../utils/hooks");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const info = {
   name: "trivia",
   category: "UwU",
@@ -10,12 +10,12 @@ const info = {
   disabled: process.env.NODE_ENV !== "development",
 };
 
-const noUsersEmbed = new MessageEmbed()
+const noUsersEmbed = new EmbedBuilder()
   .setColor("#dd3333")
   .setDescription(
     "<:Sirona_NoCross:762606114444935168> Not enough participants - cancelling quiz!"
   );
-const alreadyRunning = new MessageEmbed()
+const alreadyRunning = new EmbedBuilder()
   .setColor("#dd3333")
   .setDescription(
     "<:Sirona_NoCross:762606114444935168> There is an already running quiz on this server."
@@ -73,7 +73,7 @@ module.exports = {
         startQueue[message.guild.id] = true;
         const participants = {};
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setColor("#ddaaaa")
           .setTitle("A new quiz is starting!")
           .setDescription("React ✅ to join!")

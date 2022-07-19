@@ -1,6 +1,6 @@
 const { checkPerms, withRights } = require("../../utils/hooks");
 const Color = require("../../utils/Colors.json");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 const info = {
   name: "logs",
@@ -11,7 +11,7 @@ const info = {
 module.exports = {
   execute: async (instance, message, args) => {
     return withRights(message.member, async () => {
-      const embed = new MessageEmbed().setColor("RANDOM");
+      const embed = new EmbedBuilder().setColor("RANDOM");
 
       if (args.length === 0) {
         const logChn = instance.guilds[message.guild.id].log_channel;

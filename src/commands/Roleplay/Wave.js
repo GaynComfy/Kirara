@@ -1,6 +1,6 @@
 const Fetcher = require("../../utils/GifFetcher");
 const Color = require("../../utils/Colors.json");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const info = {
   name: "wave",
   matchCase: false,
@@ -11,7 +11,7 @@ module.exports = {
   execute: async (instance, message) => {
     const { url } = await Fetcher.request("wave", message.channel.id);
     const mention = message.mentions.users.first();
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setDescription(
         mention
           ? `**<@!${message.author.id}>** waves to **<@!${mention.id}>**!`

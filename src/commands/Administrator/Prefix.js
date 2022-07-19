@@ -1,5 +1,5 @@
 const { withRights } = require("../../utils/hooks");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 const info = {
   name: "prefix",
@@ -9,7 +9,7 @@ const info = {
 module.exports = {
   execute: async (instance, message, args) => {
     return withRights(message.member, async () => {
-      const embed = new MessageEmbed().setColor("RANDOM");
+      const embed = new EmbedBuilder().setColor("RANDOM");
 
       if (args.length === 0) {
         const prefix =

@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 const info = {
   name: "avatar",
@@ -24,7 +24,7 @@ module.exports = {
     }
 
     // Embed
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle(`${target.tag}'s avatar`)
       .setDescription(
         `[PNG](${target.displayAvatarURL({

@@ -3,7 +3,7 @@
 const dayjs = require("dayjs");
 const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { tierInfo } = require("../../utils/cardUtils");
 const { createMessagePagedResults } = require("../../utils/PagedResults");
 const { aucId, cardId } = require("../../utils/regexUtils");
@@ -52,7 +52,7 @@ const getListings = async (instance, page, tier, card, active) => {
 const computeListings = async (instance, page, tier, card, active) => {
   const recent = await getListings(instance, page, tier, card, active);
   if (recent.length === 0 && page === 0) {
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setDescription(
         (card ? "" : "") +
           `<:Sirona_NoCross:762606114444935168> No active auctions${
@@ -83,16 +83,19 @@ const computeListings = async (instance, page, tier, card, active) => {
       ` | Started \`${dayjs(item.date_added).fromNow()}\``
   );
 
-  const embed = new MessageEmbed()
+  const embed = new EmbedBuilder()
     .setTitle(title)
     .setURL("https://shoob.gg/auction")
     .setColor(colour)
-    .addField(
-      `__${active ? "Active" : "Latest"} Auctions:__`,
-      cards.length === 0
-        ? "- None <:Shoob:910973650042236938>"
-        : cards.join("\n")
-    )
+    .addFields([
+      {
+        name: `__${active ? "Active" : "Latest"} Auctions:__`,
+        value:
+          cards.length === 0
+            ? "- None <:Shoob:910973650042236938>"
+            : cards.join("\n"),
+      },
+    ])
     .setFooter({
       text:
         `Page: ${page + 1} | ` +
@@ -129,7 +132,7 @@ const computeAuction = async (instance, aid) => {
   const localAucResult = query.rows.length > 0 ? query.rows[0] : null;
   const localAuc = localAucResult || asAuc || null;
   if (!localAuc)
-    return new MessageEmbed()
+    return new EmbedBuilder()
       .setDescription(
         `<:Sirona_NoCross:762606114444935168> This auction wasn't found.`
       )
@@ -140,8 +143,7 @@ const computeAuction = async (instance, aid) => {
     bidders = new Set(...asAuc.bidders.map(bid => bid.discord_id)).size;
   }
 
-  // holy mess
-  const embed = new MessageEmbed()
+  const embed = new EmbedBuilder()
     .setTitle(
       `${tier ? tierInfo[`T${tier}`].emoji : "<:Flame:783439293506519101>"}` +
         `  •  Auction: ${tier ? `T${tier} ` : ""}${localAuc.card_name}` +
@@ -149,30 +151,39 @@ const computeAuction = async (instance, aid) => {
     )
     .setURL(`https://shoob.gg/auction/${aid}`)
     .setThumbnail(`https://shoob.gg/api/cardr/${localAuc.card_id}`)
-    .setColor(tier ? tierInfo[`T${tier}`].color : Color.default)
-    .setDescription(!asAuc ? "⏱️ **This auction is no longer active.**\n" : "")
-    .addField("Starting Bid", `\`富 ${Math.round(localAuc.bn / 5)}\``, true)
-    .addField("Buy Now", `\`富 ${localAuc.bn}\``, true)
-    .addField("Bidders", `\`${bidders}\``, true)
-    .addField(
-      "Added",
-      dayjs(
+    .setColor(tier ? tierInfo[`T${tier}`].color : Color.default);
+
+  const fields = [
+    {
+      name: "Starting Bid",
+      value: `\`富 ${Math.round(localAuc.bn / 5)}\``,
+      inline: true,
+    },
+    { name: "Buy Now", value: `\`富 ${localAuc.bn}\``, inline: true },
+    { name: "Bidders", value: `\`${bidders}\``, inline: true },
+    {
+      name: "Added",
+      value: dayjs(
         asAuc && !localAucResult ? asAuc.date_added * 1000 : localAuc.date_added
       ).fromNow(),
-      true
-    )
-    .addField(
-      (asAuc ? asAuc.date_ending * 1000 : localAuc.date_ending) > Date.now()
-        ? "Ending"
-        : "Ended",
-      dayjs(asAuc ? asAuc.date_ending * 1000 : localAuc.date_ending).fromNow(),
-      true
-    )
-    .addField(
-      "Owner",
-      `[${localAuc.username}](https://shoob.gg/user/${localAuc.discord_id})`,
-      true
-    );
+      inline: true,
+    },
+    {
+      name:
+        (asAuc ? asAuc.date_ending * 1000 : localAuc.date_ending) > Date.now()
+          ? "Ending"
+          : "Ended",
+      value: dayjs(
+        asAuc ? asAuc.date_ending * 1000 : localAuc.date_ending
+      ).fromNow(),
+      inline: true,
+    },
+    {
+      name: "Owner",
+      value: `[${localAuc.username}](https://shoob.gg/user/${localAuc.discord_id})`,
+      inline: true,
+    },
+  ];
 
   if (asAuc) {
     const lastBids = asAuc.bidders
@@ -184,11 +195,15 @@ const computeAuction = async (instance, aid) => {
           `[${bid.username}](https://shoob.gg/user/${bid.discord_id}) | ` +
           `\`${dayjs(bid.date_added * 1000).fromNow()}\``
       );
-    embed.addField(
-      `${asAuc.bids} ${asAuc.bids === 1 ? "Bid" : "Bids"}`,
-      lastBids.length === 0 ? "-" : lastBids.join("\n")
-    );
+    fields.push({
+      name: `${asAuc.bids} ${asAuc.bids === 1 ? "Bid" : "Bids"}`,
+      value: lastBids.length === 0 ? "-" : lastBids.join("\n"),
+    });
+  } else {
+    embed.setDescription("⏱️ **This auction is no longer active.**\n");
   }
+
+  embed.addFields(fields);
 
   return embed;
 };
@@ -224,7 +239,7 @@ module.exports = {
       ).filter(c => c !== null);
 
       if (checkId.length !== 1) {
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setDescription(
             "<:Sirona_NoCross:762606114444935168> I couldn't find a card or auction with that ID."
           )
@@ -262,7 +277,7 @@ module.exports = {
             )
           : null);
       if (!card) {
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setDescription(
             `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
           )

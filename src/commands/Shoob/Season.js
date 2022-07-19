@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { tierInfo } = require("../../utils/cardUtils");
 const Color = require("../../utils/Colors.json");
 
@@ -82,7 +82,7 @@ module.exports = {
     const tiers1 = tiers.slice(0, 3);
     const tiers2 = tiers.slice(3, 6);
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setAuthor({
         name: `${message.guild.name}'s Season stats`,
         iconURL: message.guild.iconURL({ dynamic: true }),

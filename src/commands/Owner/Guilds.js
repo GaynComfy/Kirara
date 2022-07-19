@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { withOwner } = require("../../utils/hooks");
 const { pageThroughList } = require("../../utils/PagedResults");
 const Constants = require("../../utils/Constants.json");
@@ -29,7 +29,7 @@ module.exports = {
         return pageThroughList(message, guilds, (chunk, page) => {
           const formatted = chunk.map(g => `${g.name} => ${g.count}`);
 
-          return new MessageEmbed()
+          return new EmbedBuilder()
             .setTitle(
               `**${instance.client.user.tag} | Guilds page ${page.index + 1}/${
                 page.total

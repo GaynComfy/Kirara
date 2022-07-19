@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { withOwner } = require("../../utils/hooks");
 const util = require("util");
 const Color = require("../../utils/Colors.json");
@@ -36,7 +36,7 @@ module.exports = {
             evaled = util.inspect(evaled);
           }
           if (evaled.length > 2000) {
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
               .setDescription(
                 "<:Sirona_NoCross:762606114444935168> The eval result is over 2000 characters."
               )

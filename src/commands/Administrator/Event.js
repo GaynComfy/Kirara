@@ -1,12 +1,12 @@
 const { withRights } = require("../../utils/hooks");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 const info = {
   name: "event",
   matchCase: false,
   category: "Administration",
 };
-const allowed = ["start", "on", "end", "off", "start-timed"];
+const allowed = ["start", "on", "end", "off"];
 module.exports = {
   execute: async (instance, message, args) => {
     return withRights(message.member, async () => {
@@ -42,7 +42,7 @@ module.exports = {
           val: Date.now() + time * 1000,
           channel: message.channel.id,
         };
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setDescription(
           newState
             ? "<:Flame:783439293506519101> A new event for this server has just started!"
@@ -54,7 +54,7 @@ module.exports = {
   },
   info,
   help: {
-    usage: "event <start|on|off|end|start-timed> [seconds]",
+    usage: "event <start|on|off|end> [seconds]",
     examples: ["event"],
     description:
       "Set a Shoob claiming event counter on your server!\nWhen using start-timed, provide the amount of seconds the event is supposed to last, it will end after that.",

@@ -1,5 +1,5 @@
 const { withRights } = require("../../utils/hooks");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 const info = {
   name: "cmdtoggle",
@@ -62,7 +62,7 @@ module.exports = {
         ]
           ? "enabled"
           : "disabled";
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setDescription(
             `<a:Sirona_Tick:749202570341384202> \`${cmd}\` is ${toggle}.\n` +
               `<a:Sirona_star:748985391360507924> The category \`${category}\` is ${ctoggle}.`
@@ -85,7 +85,7 @@ module.exports = {
         instance.settings[message.guild.id][`cmd:${cmd}:disabled`] = true;
       }
 
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setDescription(
           `<a:Sirona_Tick:749202570341384202> \`${cmd}\` has been turned ${args[1].toLowerCase()}.`
         )

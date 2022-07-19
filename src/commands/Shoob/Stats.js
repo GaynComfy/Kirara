@@ -1,6 +1,6 @@
 const { tierInfo } = require("../../utils/cardUtils");
 const { mention, userId } = require("../../utils/regexUtils");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const Color = require("../../utils/Colors.json");
 const Constants = require("../../utils/Constants.json");
 
@@ -37,7 +37,7 @@ module.exports = {
 
     if (args.length === 0) {
       let tiers = [];
-      const hugEmbed = new MessageEmbed()
+      const hugEmbed = new EmbedBuilder()
         .setThumbnail(member.displayAvatarURL({ size: 2048, dynamic: true }))
         .setColor(Color.default);
 
@@ -129,7 +129,7 @@ ${tiers2.join(" | ")}
             `> \`Issue: ${e.issue}\` • ` +
             `[\`${e.card_name}\`](https://shoob.gg/cards/info/${e.card_id})`
         );
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setTitle(
           `<:ID:782165519146156062> **${member.username}'s ` +
             `${isTotal ? "total " : ""}${isServer ? "server " : ""}claims**`
@@ -146,9 +146,17 @@ ${tiers2.join(" | ")}
         .setColor(tier.color);
 
       if (result.rows.length === 0) {
-        embed.addField(`Recent claims:`, "``No cards claimed yet.``", true);
+        embed.addFields([
+          {
+            name: `Recent claims:`,
+            value: "``No cards claimed yet.``",
+            inline: true,
+          },
+        ]);
       } else {
-        embed.addField(`Recent claims:`, toDisplay.join("\n"));
+        embed.addFields([
+          { name: `Recent claims:`, value: toDisplay.join("\n") },
+        ]);
       }
 
       message.channel.send({ embeds: [embed] });

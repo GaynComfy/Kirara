@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const Constants = require("../../utils/Constants.json");
 
 const info = {
@@ -18,7 +18,7 @@ module.exports = {
     const prefix =
       instance.guilds[message.guild.id].prefix || instance.config.prefix;
     const all = Object.values(instance.eventManager.commands);
-    const embed = new MessageEmbed().setColor("#e0e0e0");
+    const embed = new EmbedBuilder().setColor("#e0e0e0");
 
     if (args.length === 0) {
       const categories = [];
@@ -41,6 +41,8 @@ module.exports = {
           text: `by G&C Dev Team | ${prefix}help [cmd] | discord.gg/comfy`,
           iconURL: Constants.avatar,
         });
+
+      const fields = [];
       categories.forEach(category => {
         const dirSize = all.filter(cmd => {
           if (cmd.info.guilds && !cmd.info.guilds.includes(message.guild.id))
@@ -56,11 +58,12 @@ module.exports = {
           return;
         }
 
-        embed.addField(
-          `${dirSize.length} | ${emotes[category]} **${category} Commands**`,
-          mappedOut
-        );
+        fields.push({
+          name: `${dirSize.length} | ${emotes[category]} **${category} Commands**`,
+          value: mappedOut,
+        });
       });
+      embed.addFields(fields);
 
       return message.channel.send({ embeds: [embed] });
     }

@@ -1,6 +1,6 @@
 const { tierInfo } = require("../../utils/cardUtils");
 const humanizeDuration = require("humanize-duration");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const Color = require("../../utils/Colors.json");
 
 const optout = require("../../utils/cacheUtils").getOptOutStmt(
@@ -73,7 +73,7 @@ module.exports = {
       : "<:Flame:783439293506519101> __Recent cards__";
     const selectedColor = hasTier ? tierSettings.color : Color.default;
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle(selectedTitle)
       .setColor(selectedColor)
       .setDescription(
@@ -113,8 +113,18 @@ module.exports = {
           `(https://shoob.gg/cards/info/${item.card_id})`
         );
       });
-      embed.addField("•   `T ` • __**Cards**__", cards.join("\n"), true);
-      embed.addField("•   __**Claimed by**__", claimers.join("\n"), true);
+      embed.addFields([
+        {
+          name: "•   `T ` • __**Cards**__",
+          value: cards.join("\n"),
+          inline: true,
+        },
+        {
+          name: "•   __**Claimed by**__",
+          value: claimers.join("\n"),
+          inline: true,
+        },
+      ]);
       const since = humanizeDuration(
         Date.now() - recentCards[reverse ? 0 : recentCards.length - 1].time,
         { round: true, units: ["d", "h", "m", "s"] }
