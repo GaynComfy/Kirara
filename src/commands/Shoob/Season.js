@@ -44,12 +44,11 @@ module.exports = {
           )
           .then(r => r.rows),
       ]);
-      const claimed = claims
-        .filter(f => f.claimed === true)
-        .forEach(f => Object.assign(f, { c: parseInt(f.c) }));
+      const claimed = claims.filter(f => f.claimed === true);
       const despawns = claims
         .filter(f => f.claimed === false)
         .map(f => parseInt(f.c));
+      claimed.forEach(f => Object.assign(f, { c: parseInt(f.c) }));
 
       s = {
         claimed,
