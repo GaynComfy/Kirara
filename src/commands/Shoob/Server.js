@@ -9,7 +9,7 @@ const info = {
 
 module.exports = {
   execute: async (instance, message) => {
-    const promises = [
+    const results = await Promise.all([
       instance.client.shard.fetchClientValues("guilds.cache.size"),
       instance.client.shard.broadcastEval(client =>
         client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)
@@ -17,8 +17,17 @@ module.exports = {
       instance.client.shard.broadcastEval(client =>
         client.guilds.cache.map(guild => guild.channels.cache.size)
       ),
-    ];
-    const results = await Promise.all(promises);
+      instance.database.pool
+        .query("SELECT claims, spawns FROM SERVERS WHERE id=$1", [
+          instance.serverIds[message.guild.id],
+        ])
+        .then(r => r.rows),
+      instance.database.pool
+        .query(
+          "SELECT claims, guild_name FROM SERVERS ORDER BY claims DESC LIMIT 5"
+        )
+        .then(r => r.rows),
+    ]);
     const totalGuilds = results[0].reduce(
       (acc, guildCount) => acc + guildCount,
       0
@@ -27,15 +36,10 @@ module.exports = {
       (acc, memberCount) => acc + memberCount,
       0
     );
-    var channels = results[2].flat();
-    const { rows: recentCards } = await instance.database.pool.query(
-      "SELECT claims, spawns FROM SERVERS WHERE id=$1",
-      [instance.serverIds[message.guild.id]]
-    );
+    const channels = results[2].flat();
+    const recentCards = results[3];
     // const {rows: topServers} = await instance.database.pool.query("SELECT COUNT(CARD_CLAIMS.id) as amount, SERVERS.guild_name as name, CARD_CLAIMS.server_id as sid FROM CARD_CLAIMS LEFT JOIN SERVERS ON CARD_CLAIMS.server_id=SERVERS.id GROUP BY name, sid ORDER BY amount DESC LIMIT 5")
-    const { rows: topServers } = await instance.database.pool.query(
-      "SELECT claims, guild_name FROM SERVERS ORDER BY claims DESC LIMIT 5"
-    );
+    const topServers = results[4];
     const topped = topServers.map(
       e =>
         `• ${e.guild_name} :: ${Number.parseInt(e.claims).toLocaleString(
