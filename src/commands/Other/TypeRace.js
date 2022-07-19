@@ -1,4 +1,4 @@
-const { MessageAttachment, EmbedBuilder } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const Color = require("../../utils/Colors.json");
 const cd = new Map();
 const {
@@ -64,7 +64,6 @@ module.exports = {
 
     const { buffer, txt } = await genCaptcha(diff, tier);
 
-    const attachment = new MessageAttachment(buffer, "captcha.png");
     const embed = new EmbedBuilder()
       .setColor(Color.default)
       .setImage("attachment://captcha.png");
@@ -75,7 +74,15 @@ module.exports = {
 
     let m;
     try {
-      m = await message.channel.send({ embeds: [embed], files: [attachment] });
+      m = await message.channel.send({
+        embeds: [embed],
+        files: [
+          {
+            attachment: buffer,
+            name: "captcha.png",
+          },
+        ],
+      });
     } catch (err) {
       delete channelMap[message.channel.id];
       throw err;

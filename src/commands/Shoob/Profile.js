@@ -1,7 +1,7 @@
 const Fetcher = require("../../utils/CardFetcher");
 const Color = require("../../utils/Colors.json");
 const { getCachedURL } = require("../../utils/cacheUtils");
-const { EmbedBuilder, MessageAttachment } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { createCanvas, loadImage } = require("canvas");
 const { mention, userId } = require("../../utils/regexUtils");
 const isDev = process.env.NODE_ENV === "development";
@@ -61,6 +61,7 @@ module.exports = {
     const avatar = await loadImage(avatarB);
 
     const canvas = createCanvas(1100, 400);
+    canvas.async = true;
     const ctx = canvas.getContext("2d");
     ctx.drawImage(avatar, 26, 6, 390, 390);
     ctx.drawImage(background1, 0, 0, canvas.width, canvas.height);
@@ -112,7 +113,6 @@ module.exports = {
         ? `\n<:KiraraSleepy:784849773097517086> **Card Maker!**`
         : "");
 
-    const attachment = new MessageAttachment(canvas.toBuffer(), "profile.png");
     const embed = new EmbedBuilder()
       .setAuthor({
         name: `${member.username}'s profile`,
@@ -131,7 +131,15 @@ module.exports = {
       ]);
     }
 
-    return message.reply({ embeds: [embed], files: [attachment] });
+    return message.reply({
+      embeds: [embed],
+      files: [
+        {
+          attachment: await canvas.toBuffer(),
+          name: "profile.png",
+        },
+      ],
+    });
   },
   info,
   help: {

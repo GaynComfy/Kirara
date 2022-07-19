@@ -1,5 +1,5 @@
 // I am an arsehole for making this -JeDaYoshi
-const { MessageAttachment, EmbedBuilder } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { createCanvas, loadImage } = require("canvas");
 const Color = require("../../utils/Colors.json");
 const Fetcher = require("../../utils/CardFetcher");
@@ -90,6 +90,7 @@ module.exports = {
 
         // image canvas
         const canvas = createCanvas(300, 430);
+        canvas.async = true;
         const ctx = canvas.getContext("2d");
         const cardImg = await loadImage(
           encodeURI(card.image_url).replace(".webp", ".gif")
@@ -106,7 +107,6 @@ module.exports = {
 
         // the fake spawn
         const filename = `Anime_Soul-${message.guild.id}-${message.channel.id}-claim-drop.png`;
-        const attachment = new MessageAttachment(canvas.toBuffer(), filename);
         const embed = new EmbedBuilder()
           .setColor(color)
           .setTitle(card.name)
@@ -124,7 +124,12 @@ module.exports = {
 
         const m = await message.channel.send({
           embeds: [embed],
-          files: [attachment],
+          files: [
+            {
+              attachment: await canvas.toBuffer(),
+              name: filename,
+            },
+          ],
         });
         const startTime = m.createdTimestamp;
 

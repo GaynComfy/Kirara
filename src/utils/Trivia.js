@@ -1,4 +1,4 @@
-const { EmbedBuilder, MessageAttachment } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 const sleep = time => new Promise(r => setTimeout(r, time));
 
@@ -235,13 +235,14 @@ const runGame = async (instance, channel, guild, participants, options) => {
     )
     .join("\n");
   options.source.author.createDM().then(dmChannel => {
-    const attachment = new MessageAttachment(
-      Buffer.from(infoStr, "utf-8"),
-      "users.txt"
-    );
     dmChannel.send({
       content: "Participants for last quiz",
-      files: [attachment],
+      files: [
+        {
+          attachment: Buffer.from(infoStr, "utf-8"),
+          name: "users.txt",
+        },
+      ],
     });
   });
   const friends = sorted

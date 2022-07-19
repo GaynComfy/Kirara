@@ -1,7 +1,7 @@
 const Color = require("../../utils/Colors.json");
 const { getCachedURL } = require("../../utils/cacheUtils");
 const { createCanvas, loadImage, registerFont } = require("canvas");
-const { EmbedBuilder, MessageAttachment } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 registerFont("./src/assets/CenturyGothic.ttf", { family: "Century Gothic" });
 registerFont("./src/assets/AppleColorEmoji.ttf", { family: "Apple" });
 
@@ -58,6 +58,7 @@ module.exports = {
     const background = await loadImage("./src/assets/leaderboard2.png");
     const iconURL = message.guild.iconURL({ format: "png", size: 64 });
     const canvas = createCanvas(800, 600);
+    canvas.async = true;
     const ctx = canvas.getContext("2d");
     if (iconURL) {
       const iconB = await getCachedURL(instance, iconURL);
@@ -117,10 +118,6 @@ module.exports = {
       ctx.textAlign = "center";
       ctx.fillText(entry.c, 710, 176 + 53 * i);
     }
-    const attachment = new MessageAttachment(
-      canvas.toBuffer(),
-      "leaderboard.png"
-    );
     const embed = new EmbedBuilder()
       .setColor("#d5417c")
       .setAuthor({
@@ -129,7 +126,15 @@ module.exports = {
       })
       .setImage("attachment://leaderboard.png");
 
-    message.channel.send({ embeds: [embed], files: [attachment] });
+    message.channel.send({
+      embeds: [embed],
+      files: [
+        {
+          attachment: await canvas.toBuffer(),
+          name: "leaderboard.png",
+        },
+      ],
+    });
     return true;
   },
   info,
