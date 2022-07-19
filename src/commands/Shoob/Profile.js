@@ -79,7 +79,6 @@ module.exports = {
     const avatar = await loadImage(avatarB);
 
     const canvas = createCanvas(1100, 400);
-    canvas.async = true;
     const ctx = canvas.getContext("2d");
     ctx.drawImage(avatar, 26, 6, 390, 390);
     ctx.drawImage(background1, 0, 0, canvas.width, canvas.height);
@@ -153,7 +152,7 @@ module.exports = {
       embeds: [embed],
       files: [
         {
-          attachment: await canvas.toBuffer(),
+          attachment: canvas.toBuffer(),
           name: "profile.png",
         },
       ],

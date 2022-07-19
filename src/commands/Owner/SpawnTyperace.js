@@ -90,7 +90,6 @@ module.exports = {
 
         // image canvas
         const canvas = createCanvas(300, 430);
-        canvas.async = true;
         const ctx = canvas.getContext("2d");
         const cardImg = await loadImage(
           encodeURI(card.image_url).replace(".webp", ".gif")
@@ -126,7 +125,7 @@ module.exports = {
           embeds: [embed],
           files: [
             {
-              attachment: await canvas.toBuffer(),
+              attachment: canvas.toBuffer(),
               name: filename,
             },
           ],

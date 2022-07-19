@@ -190,7 +190,6 @@ const genShoobCaptcha = async () => {
 
 const genCollectCaptcha = async tier => {
   const captcha = createCanvas(300, 32);
-  captcha.async = true;
   const ctx = captcha.getContext("2d");
   const chars = randomStr(8);
 
@@ -216,7 +215,7 @@ const genCollectCaptcha = async tier => {
   );
 
   return {
-    buffer: await captcha.toBuffer(),
+    buffer: captcha.toBuffer(),
     txt: chars.toLowerCase(),
   };
 };
