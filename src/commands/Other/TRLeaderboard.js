@@ -60,10 +60,10 @@ module.exports = {
         const offset = (page > pages - 1 ? pages - 1 : page) * 3;
 
         const embed = new EmbedBuilder()
-          .setAuthor(
-            `Typerace Leaderboard`,
-            message.guild.iconURL({ dynamic: true })
-          )
+          .setAuthor({
+            name: `Typerace Leaderboard`,
+            iconURL: message.guild.iconURL({ dynamic: true }),
+          })
           .setColor(stats.length > 0 ? Color.default : Color.red)
           .setDescription(
             "⚠️ **NOTE: LEADERBOARD WILL BE RESET EACH SEASON!**\n" +
