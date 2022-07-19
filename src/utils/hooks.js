@@ -82,7 +82,7 @@ exports.verifyPerms = async (instance, message, perms) => {
   const userPerms = new PermissionsBitField(
     member.roles.cache.map(role => role.permissions)
   );
-  if (userPerms.has(PermissionsBitField.Flags.ADMINISTRATOR)) return true;
+  if (userPerms.has(PermissionsBitField.Flags.Adminsitrator)) return true;
   // nice workaround
   const chanPerms = message.channel.permissionsFor(instance.client.user) || {
     has: () => false,
@@ -95,7 +95,7 @@ exports.verifyPerms = async (instance, message, perms) => {
       (instance.guilds[message.guild.id] || {}).prefix ||
       instance.config.prefix;
     const isAdmin = message.member.permissions.has(
-      PermissionsBitField.Flags.ADMINISTRATOR
+      PermissionsBitField.Flags.Administrator
     );
     const canSendMessages =
       member.permissions.has(PermissionsBitField.Flags.SendMessages) ||
