@@ -73,14 +73,14 @@ module.exports = {
     );
     if (cmd) {
       embed
-        .setAuthor(
-          `Help: ${cmd.info.name}${
+        .setAuthor({
+          name: `Help: ${cmd.info.name}${
             message.guild ? ` | ${message.guild.name}` : ""
           }`,
-          message.guild
+          iconURL: message.guild
             ? message.guild.iconURL({ dynamic: true })
-            : message.author.displayAvatarURL({ dynamic: true })
-        )
+            : message.author.displayAvatarURL({ dynamic: true }),
+        })
         .setDescription(
           `**Name**: \`${cmd.info.name}\`
   **Aliases**: ${
