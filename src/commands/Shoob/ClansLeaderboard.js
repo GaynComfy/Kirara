@@ -11,11 +11,9 @@ const info = {
 
 const clans = {
   "Stygian Rogues": "789481061389434900",
-  // ToDo remove when confirmed it works
-  "Gay & Comfy": "378599231583289346",
-  /* Oasis: "813217659772076043",
+  Oasis: "813217659772076043",
   "Forsaken Clan": "813251025867243551",
-  Frost: "855985381115953163", */
+  Frost: "855985381115953163",
 };
 const eventStart = new Date(1657990800000);
 const eventStop = new Date(1661274000000);
@@ -76,19 +74,30 @@ module.exports = {
       Promise.all(claimersQueries),
     ]);
 
+    // Get the information from clans, and sort it from most claims
+    const clans = clanNames
+      .map((clan, i) => {
+        const c = claims[i];
+        const claimd = c.find(f => f.claimed === true);
+        const despawnd = c.find(f => f.claimed === false);
+        const camt = claimd ? parseInt(claimd.c) : 0;
+        const samt = camt + (despawnd ? parseInt(despawnd.c) : 0);
+
+        return { name: clan, camt, samt, claimers: claimers[i] };
+      })
+      .sort((a, b) => {
+        if (a.camt > b.camt) return -1;
+        if (a.camt < b.camt) return 1;
+        return 0;
+      });
+
     const fields = [];
-    for (const [i, clan] of clanNames.entries()) {
-      const c = claims[i];
-      const u = claimers[i];
-      const claimd = c.find(f => f.claimed === true);
-      const despawnd = c.find(f => f.claimed === false);
-      const camt = claimd ? parseInt(claimd.c) : 0;
-      const samt = camt + (despawnd ? parseInt(despawnd.c) : 0);
+    for (const [i, clan] of clans.entries()) {
       let value = "> - Nothing yet! <:Shoob:910973650042236938>";
 
-      if (u.length !== 0) {
+      if (clan.claimers.length !== 0) {
         const users = [];
-        for (const [i, entry] of u.entries()) {
+        for (const [i, entry] of clan.claimers.entries()) {
           const user = await instance.client.users.fetch(entry.discord_id);
           const mention = user ? `\`${user.tag}\`` : `<@!${entry.discord_id}>`;
           users.push(
@@ -103,28 +112,27 @@ module.exports = {
       fields.push({
         name: `${
           i === 0 ? "<a:Sirona_star:748985391360507924>" : `឵ **${i + 1}.** `
-        } ${clan} - ${camt}/${samt} claims`,
+        } ${clan.name} - ${clan.camt}/${clan.samt} claims`,
         value,
       });
     }
 
+    const time = Date.now();
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: "Clans Leaderboard",
+        name: "Clan Wars Leaderboard",
         iconURL: message.guild.iconURL({ dynamic: true }),
       })
-      .setColor("#f49e17")
-      .setImage(Constants.footer)
-      .addFields(fields);
-
-    const time = Date.now();
-    if (time >= eventStart && time < eventStop) {
-      embed.setDescription(
-        `<:Shoob:910973650042236938> **A WAR IS CURRENTLY ACTIVE!** <:Shoob:910973650042236938>\n` +
-          `> <t:${eventStart / 1000}:f> — <t:${eventStop / 1000}:f>` +
-          ` (<t:${eventStop / 1000}:R>)`
-      );
-    }
+      .setColor("#d5417c")
+      .setDescription(
+        time >= eventStart && time < eventStop
+          ? `<:Shoob:910973650042236938> **A WAR IS CURRENTLY ACTIVE!** <:Shoob:910973650042236938>\n`
+          : "" +
+              `> <t:${eventStart / 1000}:f> — <t:${eventStop / 1000}:f>` +
+              ` (<t:${eventStop / 1000}:R>)`
+      )
+      .addFields(fields)
+      .setImage(Constants.footer);
 
     return message.channel.send({ embeds: [embed] });
   },
