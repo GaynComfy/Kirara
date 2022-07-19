@@ -1,4 +1,5 @@
 let running = false;
+// I think this will be broken with the Discord.js v14 update.
 module.exports = {
   start: async instance => {
     if (running !== false) return;

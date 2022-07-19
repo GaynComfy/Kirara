@@ -1,13 +1,15 @@
-const { Client, Intents } = require("discord.js");
+const { Client, GatewayIntentBits } = require("discord.js");
 
 module.exports = (token = process.env.TOKEN) => {
   const intents = [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-    Intents.FLAGS.GUILD_WEBHOOKS,
-    Intents.FLAGS.GUILD_MEMBERS,
-    Intents.FLAGS.GUILD_INTEGRATIONS,
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildMembers,
+    // ToDo: Readd this once we migrate spammy events
+    // (auctions, minigames, etc.) to webhooks
+    // GatewayIntentBits.GuildWebhooks,
+    // GatewayIntentBits.GuildIntegrations,
   ];
 
   const client = new Client({

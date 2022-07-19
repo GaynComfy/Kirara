@@ -1,3 +1,4 @@
+const { ChannelType } = require("discord.js");
 const { ShardingClient } = require("statcord.js");
 const { withCooldown, verifyPerms } = require("./utils/hooks");
 const sendError = require("./utils/SendError");
@@ -17,11 +18,12 @@ class EventManager {
    * @param {object[]} commands
    * @param {object[]} services
    */
-  constructor(instance, events, commands, services) {
+  constructor(instance, events, restEvents, commands, services) {
     this.instance = instance;
     this.client = instance.client;
     this.config = instance.config;
     this.events = events;
+    this.restEvents = restEvents;
     this.commands = commands;
     this.services = services;
     this.mentionRegex = new RegExp(`^<@!?748100524246564894> ?`);
@@ -31,7 +33,7 @@ class EventManager {
   registerOnMessage() {
     const otherHandlers = this.events["messageCreate"];
     this.client.on("messageCreate", async message => {
-      if (message.channel.type === "DM") return; // ToDo: Reimplement
+      if (message.channel.type === ChannelType.DM) return; // ToDo: Reimplement
       const prefix =
         (this.instance.guilds[message.guild.id] || {}).prefix ||
         this.config.prefix;
@@ -209,14 +211,32 @@ class EventManager {
       }
     });
   }
+  registerRestEventHandler(name, handlers) {
+    this.client.rest.on(name, async (...params) => {
+      for (const handler of handlers) {
+        try {
+          await handler.execute(this.instance, ...params);
+        } catch (err) {
+          console.error(
+            `handling failed for ${name}, file: ${handler.file}`,
+            err
+          );
+        }
+      }
+    });
+  }
   cleanup() {
     Object.keys(this.events)
       .filter((value, index, self) => self.indexOf(value) === index)
       .forEach(key => this.client.removeAllListeners(key));
+    Object.keys(this.restEvents)
+      .filter((value, index, self) => self.indexOf(value) === index)
+      .forEach(key => this.client.rest.removeAllListeners(key));
     for (const service of this.services) {
       service.stop(this.instance);
     }
     this.events = {};
+    this.restEvents = {};
     this.commands = {};
     this.services = [];
   }
@@ -225,6 +245,9 @@ class EventManager {
       if (elem === "messageCreate" || elem === "ready") return;
       this.registerEventHandler(elem, this.events[elem]);
     });
+    Object.keys(this.restEvents).forEach(elem =>
+      this.registerRestEventHandler(elem, this.restEvents[elem])
+    );
     this.registerOnMessage();
     this.registerOnReady();
     if (wasReady) {

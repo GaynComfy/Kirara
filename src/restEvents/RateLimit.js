@@ -7,5 +7,5 @@ module.exports = {
       `[${instance.client.shard.ids[0]}] ! Hit ratelimit on '${params.method} ${params.route}' => timeout ${params.timeout}`
     );
   },
-  eventName: "rateLimit",
+  eventName: "rateLimited",
 };

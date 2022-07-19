@@ -14,6 +14,7 @@ module.exports = {
   structure: {
     commands: "commands",
     events: "events",
+    restEvents: "restEvents",
     services: "services",
   },
   owner: [

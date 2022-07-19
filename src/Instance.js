@@ -96,6 +96,33 @@ class Instance {
     }
     return events;
   }
+  async prepareRestEvents() {
+    const restEvents = {};
+    const entries = readDirectoryRecursiveWithFilter(
+      this.config.structure.restEvents,
+      "src/",
+      name => name.endsWith(".js")
+    );
+    for (const file of entries) {
+      delete require.cache[require.resolve(`./${file}`)];
+      const event = require(`./${file}`);
+      if (event.disabled) continue;
+      if (!event.eventName) {
+        throw new Error(`no REST event name specified! ${file}`);
+      }
+      if (event.init) await event.init(this);
+      if (!restEvents[event.eventName]) restEvents[event.eventName] = [];
+      event.file = file;
+      console.log(
+        "adding REST event",
+        file,
+        event.eventName,
+        this.client.shard.ids[0]
+      );
+      restEvents[event.eventName].push(event);
+    }
+    return restEvents;
+  }
   async prepareServices() {
     const services = [];
     const entries = readDirectoryRecursiveWithFilter(
@@ -167,8 +194,15 @@ class Instance {
 
     const commands = await this.prepareCommands();
     const events = await this.prepareEvents();
+    const restEvents = await this.prepareRestEvents();
     const services = await this.prepareServices();
-    this.eventManager = new EventManager(this, events, commands, services);
+    this.eventManager = new EventManager(
+      this,
+      events,
+      restEvents,
+      commands,
+      services
+    );
     await this.eventManager.setup(wasReady);
     this.bootstrapped = true;
     if (!reload) this.onReady();
