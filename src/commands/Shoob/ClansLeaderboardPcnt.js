@@ -120,15 +120,15 @@ module.exports = {
     let stats = "";
     for (const [i, clan] of clans.entries()) {
       let name = `\n> ${
-        i === 0 ? "<a:Sirona_star:748985391360507924>" : `឵ **${i + 1}.** `
-      } ${clan.name} - ${clan.percent}% cards claimed`;
+        i === 0 ? "<a:Sirona_star:748985391360507924>" : `឵ **${i + 1}.**  `
+      } **${clan.name} - ${clan.percent}% cards claimed**`;
       if (clan.camt !== clan.tamt) {
-        name += ` [-${clan.penalty}, from ${clan.tpercent}%`;
+        name += ` [-${clan.penalty}, from ${clan.tpercent}%]`;
       }
       stats += name;
 
       if (showUsers) {
-        let value = "> - Nothing yet! <:Shoob:910973650042236938>";
+        let value = "> **-** Nothing yet! <:Shoob:910973650042236938>";
         if (clan.claimers.length !== 0) {
           const users = [];
           for (const [i, entry] of clan.claimers.entries()) {
@@ -137,7 +137,7 @@ module.exports = {
               ? `\`${user.tag}\``
               : `<@!${entry.discord_id}>`;
             users.push(
-              `> - ${
+              `> **-** ${
                 i === 0
                   ? "<a:Sirona_star:748985391360507924>"
                   : ` **${i + 1}.** `
