@@ -41,7 +41,7 @@ module.exports = {
       } else if (message.mentions.channels.size === 1) {
         const chn = message.mentions.channels.first();
         if (
-          (await checkPerms(instance, chn, ["SEND_MESSAGES", "EMBED_LINKS"]))
+          (await checkPerms(instance, chn, ["SendMessages", "EmbedLinks"]))
             .length > 0
         ) {
           embed

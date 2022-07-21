@@ -66,8 +66,8 @@ const exec = async (instance, message, args, type) => {
   if (message.mentions.channels.size === 1) {
     const chn = message.mentions.channels.first();
     if (
-      (await checkPerms(instance, chn, ["SEND_MESSAGES", "EMBED_LINKS"]))
-        .length > 0
+      (await checkPerms(instance, chn, ["SendMessages", "EmbedLinks"])).length >
+      0
     ) {
       embed
         .setColor(Color.red)
