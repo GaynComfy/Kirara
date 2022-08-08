@@ -37,7 +37,7 @@
     "ioredis": "^5.2.1",
     "pg": "^8.7.3",
     "quick-lru": "^5.1.1",
-    "statcord.js": "^3.4.2",
+    "statcord.js": "^3.4.3",
     "trek-captcha": "^0.4.0"
   },
   "devDependencies": {
