@@ -34,7 +34,7 @@
     "dayjs": "^1.11.5",
     "discord.js": "^14.2.0",
     "humanize-duration": "^3.27.2",
-    "ioredis": "^5.2.2",
+    "ioredis": "^5.2.3",
     "pg": "^8.7.3",
     "quick-lru": "^5.1.1",
     "statcord.js": "^3.4.3",
