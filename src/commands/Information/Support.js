@@ -8,9 +8,9 @@ const embed = new EmbedBuilder()
   })
   .setColor(Constants.color)
   .setDescription(
-    "Having any issues or want to report bugs?\n" +
-      "> Join [__**Gay & Comfy**__](https://discord.gg/comfy) for support!\n" +
-      "> DM `Sirona-Kirara Support#8123` explaining the situation!"
+    "Having any issues, need help, or want to report bugs?\n" +
+      "> ❕ Join [__**Gay & Comfy**__](https://discord.gg/comfy) for support!\n" +
+      "> ❕ Then, DM `DreiMail#4085` explaining the situation!"
   );
 
 const info = {
