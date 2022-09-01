@@ -8,20 +8,20 @@ const embed = new EmbedBuilder()
   })
   .setColor(Constants.color)
   .setDescription(
-    "Multi-purpose bot for Shoob activities with extras! Completely free with no restrictions. " +
+    "Multi-purpose helper bot for game bots with extras! Completely free with no restrictions. \n" +
       "Part of [__**Gay & Comfy**__](https://discord.gg/comfy)!"
   )
   .addFields([
     {
-      name: "Owners:",
+      name: "Owners",
       value: "`Nota#8888`, `⋆˚🌺⃤ Jorgy₊ ˚#5611`, `Alycans#1693`",
     },
     {
-      name: "Lead Dev:",
+      name: "Lead Dev",
       value: "[`JeDaYoshi#7942`](https://jeda.im)",
     },
     {
-      name: "Team and Collaborators:",
+      name: "Team and Collaborators",
       value: "`Liz3#0001`, `⋆˚🌺⃤ Jorgy₊ ˚#5611`, `Nota#8888`, `bappy#3311`",
     },
   ])
