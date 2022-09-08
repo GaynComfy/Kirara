@@ -33,7 +33,7 @@ module.exports = {
       message.mentions.users.first().id,
       () => {
         embed.setFooter({
-          text: "Now give me your fucking PayPal",
+          text: "Now give me your fucking PayPal. I love you. \nNow give me your fucking PayPal. I love you. \nNow give me your fucking PayPal. I love you. \nNow give me your fucking PayPal. I love you. \nNow give me your fucking PayPal. I love you.",
         });
         message.channel.send({ embeds: [embed] });
       }
