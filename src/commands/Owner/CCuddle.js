@@ -10,7 +10,10 @@ const info = {
 module.exports = {
   execute: async (instance, message) => {
     if (message.author.id !== "189978735816998913") {
-      return message.reply("Nah you ain’t Cass homie");
+      if (message.guild.id === "378599231583289346") {
+        message.reply("Nah you ain’t Cass homie");
+      }
+      return;
     }
     if (message.mentions.users.size === 0) {
       return false;
