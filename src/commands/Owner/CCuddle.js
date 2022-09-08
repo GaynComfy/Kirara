@@ -1,5 +1,5 @@
 const Fetcher = require("../../utils/GifFetcher");
-const { generateRolePlayEmbed } = require("./utils");
+const { generateRolePlayEmbed } = require("../Roleplay/utils");
 const { withCount } = require("../../utils/rolePlayHooks.js");
 const info = {
   name: "ccuddle",
