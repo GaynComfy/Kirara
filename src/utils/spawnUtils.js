@@ -3,7 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 exports.getTimer = (since, now = Date.now()) => {
   // not even going to waste time looking
   const passed = now - since;
-  if (passed >= 20000) return false;
+  if (passed >= 25000) return false;
   const secs = Math.max(Math.round(15 - passed / 1000), 0);
 
   let emote = "🟢";
@@ -17,8 +17,12 @@ exports.getTimer = (since, now = Date.now()) => {
   }
   let text = `${emote} | **Time remaining for spawn** \`${secs}\``;
 
-  if (passed > 15000) {
+  if (passed >= 15000) {
     text = "<a:Sirona_loading:748854549703426118> Please wait...";
+    color = "Random";
+  } else if (passed >= 20000) {
+    text =
+      "<a:Sirona_loading:748854549703426118> Probably nothing at this point...";
     color = "Random";
   }
 
