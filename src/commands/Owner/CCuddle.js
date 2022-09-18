@@ -48,6 +48,6 @@ module.exports = {
   help: {
     usage: "ccuddle <@user>",
     examples: ["ccuddle @Alycans"],
-    description: "Cuddles a user",
+    description: "Cass cuddles a user. (Unique to cass)",
   },
 };
