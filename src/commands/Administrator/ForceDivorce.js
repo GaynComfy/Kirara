@@ -20,7 +20,10 @@ module.exports = {
     console.log(mentionedUser);
     //const isMarried = instance.cache.exists(`married:${id}`);
     if (message.mentions.users.size === 0) return;
-    if (mentionedUser === id) return;
+    if (mentionedUser === id){
+      await message.channel.send("Use the divorce command yourself, clown.");
+      return;
+    }
     //if (!mentionedUser.isMarried) {
     //  await message.channel.send(`<@${mentionedUser}> is not married!`);
     //  return;
