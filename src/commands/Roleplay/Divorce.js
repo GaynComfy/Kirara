@@ -8,7 +8,7 @@ const info = {
 };
 module.exports = {
   execute: async (instance, message) => {
-    if (message.mentions.users.size === 0) return;
+    if (message.mentions.users.size === 1) return false;
     const id = message.author.id;
     //if (!isMarried) {
     //  await message.channel.send(`<@${id}>, you are not married! What a lonely person!`);
