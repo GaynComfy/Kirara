@@ -14,12 +14,12 @@ const info = {
 };
 module.exports = {
   execute: async (instance, message) => {
+    if (message.mentions.users.size === 0) return;
     const id = message.author.id;
     if(!authorized.includes(id)) return;
     const mentionedUser = message.mentions.members.first().id;
     console.log(mentionedUser);
     //const isMarried = instance.cache.exists(`married:${id}`);
-    if (message.mentions.users.size === 0) return;
     if (mentionedUser === id){
       await message.channel.send("Use the divorce command yourself, clown.");
       return;
