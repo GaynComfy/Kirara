@@ -14,6 +14,7 @@ const info = {
 };
 module.exports = {
   execute: async (instance, message) => {
+    if (message.mentions.users.size === 0) return;
     const id = message.author.id;
     if(!authorized.includes(id)) return;
     const mentionedUserOne = message.mentions.members.first().id;
@@ -21,7 +22,6 @@ module.exports = {
     const mentionedUserTwo = message.mentions.members.last().id
     console.log(mentionedUserTwo);
     //const isMarried = instance.cache.exists(`married:${id}`);
-    if (message.mentions.users.size === 0) return;
     if (mentionedUserOne === undefined) return;
     if (mentionedUserTwo === undefined) return;
     //if (mentionedUserOne.isMarried) {
