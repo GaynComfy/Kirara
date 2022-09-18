@@ -12,7 +12,6 @@ module.exports = {
     const id = message.author.id;
     const mentionedUser = message.mentions.users.first().id;
     //const isMarried = instance.cache.exists(`married:${id}`);
-    if (message.mentions.users.size === 0) return;
     if (id === mentionedUser) {
       await message.channel.send("Hah, you're lonely... But no.");
       return;
