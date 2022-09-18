@@ -22,7 +22,7 @@ module.exports = {
     console.log(mentionedUserTwo);
     //const isMarried = instance.cache.exists(`married:${id}`);
     if (message.mentions.users.size === 0) return;
-    if (mentionedUserTwo === id) return;
+    if (mentionedUserOne === undefined) return;
     if (mentionedUserTwo === undefined) return;
     //if (mentionedUserOne.isMarried) {
     //  await message.channel.send(`<@${mentionedUserOne}> is already married!`);
