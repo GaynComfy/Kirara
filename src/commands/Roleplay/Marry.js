@@ -8,6 +8,7 @@ const info = {
 };
 module.exports = {
   execute: async (instance, message) => {
+    if (message.mentions.users.size === 0) return;
     const id = message.author.id;
     const mentionedUser = message.mentions.users.first().id;
     //const isMarried = instance.cache.exists(`married:${id}`);
