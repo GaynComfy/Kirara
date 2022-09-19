@@ -29,6 +29,24 @@ module.exports = {
         "someone will not get their egg today <:rEkomda:889128655408734269>"
       );
     }
+    if (
+      message.mentions.users.first().id === "933549055538249728" &&
+      message.author.id !== "510713365404975114" &&
+      message.author.id !== "933549055538249728"
+    ) {
+      return message.reply("
+        'I told Bappy I would implement this for him' ~cass"
+      );
+    }
+    if (
+      message.mentions.users.first().id === "510713365404975114" &&
+      message.author.id !== "933549055538249728" &&
+      message.author.id !== "510713365404975114"
+    ) {
+      return message.reply("
+        'I told Bappy I would implement this for him' ~cass"
+      );
+    }
     const { url } = await Fetcher.request("handhold", message.channel.id);
     const embed = generateRolePlayEmbed(
       "holds hands with",
