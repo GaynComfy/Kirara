@@ -1,9 +1,10 @@
 const { MessageCollector } = require("discord.js");
 
 const authorized = ["189978735816998913", "175408504427905025"];
+
 const info = {
-  name: "forcemarry",
-  aliases: ["fmarry"],
+  name: "forcedivorce",
+  aliases: ["fdivorce"],
   matchCase: false,
   category: "Administration",
   cooldown: 600,
@@ -13,23 +14,19 @@ module.exports = {
     if (message.mentions.users.size === 0) return;
     const id = message.author.id;
     if (!authorized.includes(id)) return;
-    const mentionedUserOne = message.mentions.members.first().id;
-    console.log(mentionedUserOne);
-    const mentionedUserTwo = message.mentions.members.last().id;
-    console.log(mentionedUserTwo);
+    const mentionedUser = message.mentions.members.first().id;
+    console.log(mentionedUser);
     //const isMarried = instance.cache.exists(`married:${id}`);
-    if (mentionedUserOne === undefined) return;
-    if (mentionedUserTwo === undefined) return;
-    //if (mentionedUserOne.isMarried) {
-    //  await message.channel.send(`<@${mentionedUserOne}> is already married!`);
-    //  return;
-    //}
-    //else if (mentionedUserTwo.isMarried) {
-    //  await message.channel.send(`<@${mentionedUserTwo}> is already married!`);
+    if (mentionedUser === id) {
+      await message.channel.send("Use the divorce command yourself, clown.");
+      return;
+    }
+    //if (!mentionedUser.isMarried) {
+    //  await message.channel.send(`<@${mentionedUser}> is not married!`);
     //  return;
     //} else {
     await message.channel.send(
-      `<@${id}> Are you sure you want to force marry <@${mentionedUserOne}> and <@${mentionedUserTwo}>?\nType "yes" to accept or "no" to decline!\n\n*You have one minute to reply!*`
+      `<@${id}> Are you sure you want to force divorce <@${mentionedUser}>?\nType "yes" to divorce or "no" to stay married!\n\n*You have one minute to reply!*`
     );
     const filter = async m => m.author.id === id;
     const collector = new MessageCollector(message.channel, {
@@ -39,13 +36,13 @@ module.exports = {
     collector.on("collect", async m => {
       if (m.content.toLowerCase() === "yes") {
         await message.channel.send(
-          `<@${mentionedUserOne}> and <@${mentionedUserTwo}> are now married because <@${id}> said so!`
+          `<@${mentionedUser}> is now single because <@${id}> said so!`
         );
         collector.stop("final");
         return;
       } else if (m.content.toLowerCase() === "no") {
         await message.channel.send(
-          `<@${id}> decided not to force marriage upon <@${mentionedUserOne}> and <@${mentionedUserTwo}>!`
+          `<@${id}> decided not to force divorce <@${mentionedUser}> away from their lover!`
         );
         collector.stop("final");
         return;
@@ -54,7 +51,7 @@ module.exports = {
     collector.on("end", async () => {
       if (collector.endReason !== "final") {
         await message.channel.send(
-          `<@${id}> ignored my message! <@${mentionedUserOne}> and <@${mentionedUserTwo}> are not being forced to marry!`
+          `<@${id}> ignored my message! <@${mentionedUser}> is not becoming single! ...*for now*.`
         );
       }
     });
@@ -62,8 +59,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "forcemarry <@user> <@user>",
-    examples: ["forcemarry @cass @cass"],
-    description: "Forces a user to marry another user",
+    usage: "forcedivorce <@user>",
+    examples: ["forcemarry @cass"],
+    description: "Forces a user to divorce",
   },
 };
