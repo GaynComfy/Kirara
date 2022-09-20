@@ -1,10 +1,6 @@
 const { MessageCollector } = require("discord.js");
 
-const authorized = [
-  "189978735816998913",
-  "175408504427905025"
-]
-
+const authorized = ["189978735816998913", "175408504427905025"];
 const info = {
   name: "forcemarry",
   aliases: ["fmarry"],
@@ -16,10 +12,10 @@ module.exports = {
   execute: async (instance, message) => {
     if (message.mentions.users.size === 0) return;
     const id = message.author.id;
-    if(!authorized.includes(id)) return;
+    if (!authorized.includes(id)) return;
     const mentionedUserOne = message.mentions.members.first().id;
     console.log(mentionedUserOne);
-    const mentionedUserTwo = message.mentions.members.last().id
+    const mentionedUserTwo = message.mentions.members.last().id;
     console.log(mentionedUserTwo);
     //const isMarried = instance.cache.exists(`married:${id}`);
     if (mentionedUserOne === undefined) return;
