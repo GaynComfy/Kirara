@@ -34,8 +34,8 @@ module.exports = {
       message.author.id !== "510713365404975114" &&
       message.author.id !== "933549055538249728"
     ) {
-      return message.reply("
-        'I told Bappy I would implement this for him' ~cass"
+      return message.reply(
+        "'I told Bappy I would implement this for him' ~cass"
       );
     }
     if (
@@ -43,8 +43,8 @@ module.exports = {
       message.author.id !== "933549055538249728" &&
       message.author.id !== "510713365404975114"
     ) {
-      return message.reply("
-        'I told Bappy I would implement this for him' ~cass"
+      return message.reply(
+        "'I told Bappy I would implement this for him' ~cass"
       );
     }
     const { url } = await Fetcher.request("handhold", message.channel.id);
