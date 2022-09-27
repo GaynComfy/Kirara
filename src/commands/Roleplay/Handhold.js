@@ -3,7 +3,7 @@ const { generateRolePlayEmbed } = require("./utils");
 const { withCount } = require("../../utils/rolePlayHooks.js");
 const info = {
   name: "handhold",
-  aliases: ["sex", "<:SexHands:856140992758808576>"],
+  aliases: ["<:SexHands:856140992758808576>"],
   matchCase: false,
   category: "Roleplay",
   cooldown: 15,

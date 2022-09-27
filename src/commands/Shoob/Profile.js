@@ -86,12 +86,12 @@ module.exports = {
     ctx.drawImage(avatar, 26, 6, 390, 390);
     ctx.drawImage(background1, 0, 0, canvas.width, canvas.height);
 
-    ctx.font = "60px Century Gothic";
+    ctx.font = "58px Century Gothic";
     ctx.textAlign = "right";
     ctx.fillStyle = "#ffffff";
     ctx.fillText(`#${member.discriminator}`, 1060, 75);
 
-    const name = sanitizer(member.username.trim()).substring(0, 12);
+    const name = sanitizer(member.username.trim()).substring(0, 13);
     const total = (cards || []).reduce(
       (prev, curr) => parseInt(prev) + parseInt(curr.c),
       0
