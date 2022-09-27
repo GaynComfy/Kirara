@@ -11,7 +11,7 @@ module.exports = {
   execute: async (instance, message) => {
     if (message.author.id !== "189978735816998913") {
       if (message.guild.id === "378599231583289346") {
-        message.reply("Permission Denied: You aren't cass!");
+        message.reply("Heyo, you aren't cass!");
       }
       return;
     }
@@ -48,6 +48,6 @@ module.exports = {
   help: {
     usage: "ccuddle <@user>",
     examples: ["ccuddle @Alycans"],
-    description: "Cass cuddles a user. (Unique to cass)",
+    description: "cass cuddles a user. (Unique to cass)",
   },
 };
