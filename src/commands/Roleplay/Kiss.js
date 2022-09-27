@@ -28,6 +28,9 @@ module.exports = {
         "someone will not get their egg today <:rEkomda:889128655408734269>"
       );
     }
+    if (message.mentions.users.first().id === "189978735816998913") {
+      return message.reply("~~cass doesn't approve~~");
+    }
     const { url } = await Fetcher.request("kiss", message.channel.id);
     const embed = generateRolePlayEmbed(
       "kisses",

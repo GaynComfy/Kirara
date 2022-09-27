@@ -11,7 +11,7 @@ module.exports = {
   execute: async (instance, message) => {
     if (message.author.id !== "189978735816998913") {
       if (message.guild.id === "378599231583289346") {
-        message.reply("Nah you ain’t Cass homie");
+        message.reply("Heyo, you aren't cass!");
       }
       return;
     }
@@ -34,9 +34,9 @@ module.exports = {
       "cuddle",
       message.author.id,
       message.mentions.users.first().id,
-      () => {
+      ({ send }) => {
         embed.setFooter({
-          text: "Now give me your fucking PayPal. I love you. \nNow give me your fucking PayPal. I love you. \nNow give me your fucking PayPal. I love you. \nNow give me your fucking PayPal. I love you. \nNow give me your fucking PayPal. I love you.",
+          text: `I love you so much! Have a cass cuddle!\ncass used cuddle on others ${send} times, but yours is unique!`,
         });
         message.channel.send({ embeds: [embed] });
       }
@@ -48,6 +48,6 @@ module.exports = {
   help: {
     usage: "ccuddle <@user>",
     examples: ["ccuddle @Alycans"],
-    description: "Cuddles a user",
+    description: "cass cuddles a user. (Unique to cass)",
   },
 };
