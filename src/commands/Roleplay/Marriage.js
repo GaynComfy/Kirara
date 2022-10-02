@@ -12,7 +12,7 @@ const info = {
 module.exports = {
   execute: async (instance, message) => {
     const asker =
-      message.meentions.user.size === 0
+      message.mentions.user.size === 0
         ? message.author
         : message.mentions.users.first();
 
