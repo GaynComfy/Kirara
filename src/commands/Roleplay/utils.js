@@ -65,7 +65,7 @@ const withCount = async (instance, type, userId, targetId, handler) => {
 
 const getMarriage = async (instance, userId, limit = false) => {
   const { rows: marriages } = await instance.database.pool.query(
-    "SELECT * FROM MARRIAGE WHERE asker=$1 OR married=$1" +
+    "SELECT * FROM MARRIAGE WHERE asker=$1 OR married=$1 ORDER BY id ASC" +
       (limit ? " LIMIT 1" : ""),
     [userId]
   );
