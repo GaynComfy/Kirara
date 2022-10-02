@@ -10,6 +10,9 @@ const { owner } =
 
 const spaces = / +/g;
 
+const marriage = ["marriage", "marry", "divorce"];
+const disallowedTabi = ["850218927136571392", "873835108069679124"];
+
 class EventManager {
   /**
    *
@@ -127,6 +130,12 @@ class EventManager {
     }
     if (command.info.guilds && !command.info.guilds.includes(message.guild.id))
       return; // return if we're not supposed to be used here
+    if (
+      command.info.category === "Roleplay" &&
+      !marriage.includes(command.info.name) &&
+      disallowedTabi.includes(message.author.id)
+    )
+      return message.react("<a:DuckyNo:697121081999360087>").catch(() => null);
 
     const disabled =
       this.instance.settings[message.guild.id][
