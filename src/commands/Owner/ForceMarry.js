@@ -1,4 +1,5 @@
 const { withOwner } = require("../../utils/hooks");
+const { mention } = require("../../utils/regexUtils");
 const { MessageCollector } = require("discord.js");
 const { getMarriage } = require("../Roleplay/utils");
 
@@ -12,12 +13,17 @@ const info = {
 };
 
 module.exports = {
-  execute: async (instance, message) =>
+  execute: async (instance, message, args) =>
     withOwner(
       message.author.id,
       async () => {
         if (!authorized.includes(message.author.id)) return;
-        if (message.mentions.users.size < 2) return false;
+        if (
+          message.mentions.users.size < 2 &&
+          !mention.test(args[0] || "") &&
+          !mention.test(args[1] || "")
+        )
+          return false;
         const asker = message.mentions.members.first();
         const asking = message.mentions.members.last();
 
