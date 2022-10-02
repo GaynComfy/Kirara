@@ -17,7 +17,7 @@ module.exports = {
       await message.reply(
         "You are not married! What a lonely person; you can't divorce loneliness!"
       );
-      return false;
+      return;
     }
     const marriage = marry[0];
 
