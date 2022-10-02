@@ -43,7 +43,7 @@ module.exports = {
         }
         return `<@!${m.user}>`;
       })
-      .join(",");
+      .join(", ");
 
     embed.setDescription(
       `<a:Sirona_star:748985391360507924> <@!${member.id}> is married to ${married}`
