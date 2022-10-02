@@ -17,7 +17,7 @@ module.exports = {
       message.author.id,
       async () => {
         if (!authorized.includes(message.author.id)) return;
-        if (message.mentions.users.size < 2) return;
+        if (message.mentions.users.size < 2) return false;
         const asker = message.mentions.members.first();
         const asking = message.mentions.members.last();
 
