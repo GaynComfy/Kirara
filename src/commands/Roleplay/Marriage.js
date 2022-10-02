@@ -38,7 +38,7 @@ module.exports = {
 
     const married = marry
       .map((m, i) => {
-        if (i === marry.length - 1) {
+        if (marry.length > 1 && i === marry.length - 1) {
           return `and <@!${m.user}>`;
         }
         return `<@!${m.user}>`;
