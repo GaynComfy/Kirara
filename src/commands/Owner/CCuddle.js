@@ -1,6 +1,5 @@
 const Fetcher = require("../../utils/GifFetcher");
-const { generateRolePlayEmbed } = require("../Roleplay/utils");
-const { withCount } = require("../../utils/rolePlayHooks.js");
+const { generateRolePlayEmbed, withCount } = require("../Roleplay/utils");
 const info = {
   name: "ccuddle",
   matchCase: false,
