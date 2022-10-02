@@ -28,7 +28,10 @@ module.exports = {
       return false;
     }
 
-    const marry = await getMarriage(instance, asker.id);
+    const [marry, toMarry] = await Promise.all([
+      getMarriage(instance, asker.id),
+      getMarriage(instance, asking.id),
+    ]);
     if (marry.find(m => m.user === asking.id)) {
       await message.reply(
         "You are already married to them! I don't think you need to renew your marriage..."
@@ -39,6 +42,12 @@ module.exports = {
     if (marry.length !== 0 && asker.id !== "175408504427905025") {
       await message.reply(
         "You are already married to someone else! Bad bad. I'm not into poly yet."
+      );
+      return false;
+    }
+    if (toMarry.length !== 0) {
+      await message.reply(
+        "Sorry, but someone has beat you already; they are already married! Think faster next time.."
       );
       return false;
     }

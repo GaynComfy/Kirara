@@ -72,7 +72,7 @@ const getMarriage = async (instance, userId, limit = false) => {
   const married = [];
   marriages.forEach(m => {
     const asker = m.asker === userId;
-    const user = asker ? m.married : m.asked;
+    const user = asker ? m.married : m.asker;
     married.push({
       id: m.id,
       user,
