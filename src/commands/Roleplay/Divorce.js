@@ -33,14 +33,14 @@ module.exports = {
     });
     collector.on("collect", async m => {
       if (m.content.toLowerCase() === "yes") {
+        collector.stop("final");
         await instance.database.simpleDelete("MARRIAGE", {
           id: marriage.id,
         });
         await m.reply(`Yay! You are now ~~lonely~~ single!`);
-        return collector.stop("final");
       } else if (m.content.toLowerCase() === "no") {
+        collector.stop("final");
         await m.reply(`Nice! You shall still be ~~trapped~~ married!`);
-        return collector.stop("final");
       }
     });
     collector.on("end", async () => {
