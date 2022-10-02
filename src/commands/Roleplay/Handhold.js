@@ -1,6 +1,5 @@
 const Fetcher = require("../../utils/GifFetcher");
-const { generateRolePlayEmbed } = require("./utils");
-const { withCount } = require("../../utils/rolePlayHooks.js");
+const { generateRolePlayEmbed, withCount } = require("./utils");
 const info = {
   name: "handhold",
   aliases: ["<:SexHands:856140992758808576>"],
