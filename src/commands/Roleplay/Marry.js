@@ -5,7 +5,7 @@ const info = {
   name: "marry",
   matchCase: false,
   category: "Roleplay",
-  cooldown: 600,
+  cooldown: 60,
 };
 const sentientBots = ["736067018628792322", "85614143951892480"];
 
@@ -19,37 +19,41 @@ module.exports = {
       await message.reply(
         "Hah, you're lonely... But no, I can't let you do that."
       );
-      return false;
+      return;
     }
     if (asking.bot && !sentientBots.includes(asking.id)) {
       await message.reply(
         "I know you're desperate, but I don't think a bot's gonna marry you. :("
       );
-      return false;
+      return;
     }
 
+    const cdKey = `marrycooldown:${asker.id}`;
     const [marry, toMarry] = await Promise.all([
       getMarriage(instance, asker.id),
       getMarriage(instance, asking.id),
     ]);
+    if (marry.length !== 0 && (await instance.cache.exists(cdKey))) {
+      return message.react("🕘").catch(() => null);
+    }
     if (marry.find(m => m.user === asking.id)) {
       await message.reply(
         "You are already married to them! I don't think you need to renew your marriage..."
       );
-      return false;
+      return;
     }
     // lol
     if (marry.length !== 0 && asker.id !== "175408504427905025") {
       await message.reply(
         "You are already married to someone else! Bad bad. I'm not into poly yet."
       );
-      return false;
+      return;
     }
     if (toMarry.length !== 0) {
       await message.reply(
-        "Sorry, but someone has beat you already; they are already married! Think faster next time.."
+        "Sorry, but someone has beat you already; they are already married! Stay lonely, loser!"
       );
-      return false;
+      return;
     }
 
     const msg = await message.reply(
@@ -64,6 +68,7 @@ module.exports = {
     });
     collector.on("collect", async m => {
       if (m.content.toLowerCase() === "yes") {
+        collector.stop("final");
         await instance.database.simpleInsert("MARRIAGE", {
           asker: asker.id,
           married: asking.id,
@@ -72,12 +77,12 @@ module.exports = {
         await m.reply(
           `**<@!${asker.id}> and <@!${asking.id}> are now married!** *(good luck...)*`
         );
-        return collector.stop("final");
+        await instance.cache.setExpire(cdKey, "1", 600);
       } else if (m.content.toLowerCase() === "no") {
+        collector.stop("final");
         await m.reply(
           `*<@!${asker.id}> was rejected by <@!${asking.id}>!* Hah, loser.`
         );
-        return collector.stop("final");
       }
     });
     collector.on("end", async () => {
