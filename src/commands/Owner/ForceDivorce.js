@@ -1,5 +1,6 @@
 const { withOwner } = require("../../utils/hooks");
 const { MessageCollector } = require("discord.js");
+const { getMarriage } = require("../Roleplay/utils");
 
 const authorized = ["189978735816998913", "175408504427905025"];
 
@@ -17,21 +18,24 @@ module.exports = {
       async () => {
         if (!authorized.includes(message.author.id)) return;
         if (message.mentions.users.size === 0) return;
-        const mentionedUser = message.mentions.members.first().id;
-        console.log(mentionedUser);
-        //const isMarried = instance.cache.exists(`married:${id}`);
-        if (mentionedUser === message.author.id) {
-          await message.channel.send(
-            "Use the divorce command yourself, clown."
+        const asker = message.mentions.members.first();
+        if (asker.id === message.author.id) {
+          await message.reply("Use the divorce command yourself, clown.");
+          return;
+        }
+        const marry = await getMarriage(instance, asker.id, true);
+        if (marry.length === 0) {
+          await message.reply(
+            "They are not married! Get your notes straight, god."
           );
           return;
         }
-        //if (!mentionedUser.isMarried) {
-        //  await message.channel.send(`<@${mentionedUser}> is not married!`);
-        //  return;
-        //} else {
-        await message.channel.send(
-          `Are you sure you want to force divorce <@${mentionedUser}>?\nType "yes" to divorce or "no" to stay married!\n\n*You have one minute to reply!*`
+        const marriage = marry[0];
+
+        const msg = await message.channel.send(
+          `Are you sure you want to force divorce <@!${asker.id}> with <@!${marriage.user}>?\n` +
+            "Type `yes` to divorce, or `no` to let them stay married!\n\n" +
+            "> *You have one minute to reply!*"
         );
         const filter = async m => m.author.id === message.author.id;
         const collector = new MessageCollector(message.channel, {
@@ -40,23 +44,24 @@ module.exports = {
         });
         collector.on("collect", async m => {
           if (m.content.toLowerCase() === "yes") {
-            await message.channel.send(
-              `<@${mentionedUser}> is now single because the evil gods have said so!`
-            );
             collector.stop("final");
-            return;
+            await instance.database.simpleDelete("MARRIAGE", {
+              id: marriage.id,
+            });
+            await m.reply(
+              `<@!${asker.id}> is now single because the evil gods have said so!`
+            );
           } else if (m.content.toLowerCase() === "no") {
-            await message.channel.send(
-              `The gods have had mercy and decided not to force divorce <@${mentionedUser}> away from their lover!`
-            );
             collector.stop("final");
-            return;
+            await m.reply(
+              `The gods have had mercy and decided not to force divorce <@${asker.id}> away from their lover!`
+            );
           }
         });
         collector.on("end", async () => {
           if (collector.endReason !== "final") {
-            await message.channel.send(
-              `My message seems to have been ignored! <@${mentionedUser}> is not becoming single! *...for now.*`
+            await msg.reply(
+              `My message seems to have been ignored! <@${asker.id}> is not becoming single! *...for now.*`
             );
           }
         });
