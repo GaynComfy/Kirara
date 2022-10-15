@@ -11,11 +11,7 @@ const { owner } =
 const spaces = / +/g;
 
 const marriage = ["marriage", "marry", "divorce"];
-const rpBlacklist = [
-  "850218927136571392",
-  "873835108069679124",
-  "890639731472355338",
-];
+const rpBlacklist = ["850218927136571392", "873835108069679124"];
 
 class EventManager {
   /**
