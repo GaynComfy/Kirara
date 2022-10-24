@@ -41,7 +41,7 @@
     "trek-captcha": "^0.4.0"
   },
   "devDependencies": {
-    "eslint": "^8.23.0",
+    "eslint": "^8.26.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.1",
