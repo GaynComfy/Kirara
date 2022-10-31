@@ -29,7 +29,7 @@
     "@aero/sanitizer": "^1.2.0",
     "axios": "^0.27.2",
     "axios-retry": "^3.3.1",
-    "canvas": "^2.9.3",
+    "canvas": "^2.10.2",
     "captcha-canvas": "^2.3.0",
     "dayjs": "^1.11.5",
     "discord.js": "^14.3.0",
