@@ -28,12 +28,16 @@ module.exports = {
       return;
     }
 
-    const cdKey = `marrycooldown:${asker.id}`;
+    const scdKey = `marrycooldown:${asker.id}`;
+    const rcdKey = `marryingcooldown:${asking.id}`;
     const [marry, toMarry] = await Promise.all([
       getMarriage(instance, asker.id),
       getMarriage(instance, asking.id),
     ]);
-    if (marry.length !== 0 && (await instance.cache.exists(cdKey))) {
+    if (
+      (marry.length !== 0 && (await instance.cache.exists(scdKey))) ||
+      (await instance.cache.exists(rcdKey))
+    ) {
       return message.react("🕘").catch(() => null);
     }
     if (marry.find(m => m.user === asking.id)) {
@@ -56,6 +60,7 @@ module.exports = {
       return;
     }
 
+    await instance.cache.setExpire(rcdKey, "1", 60);
     const msg = await message.reply(
       `<@!${asking.id}>, <@!${asker.id}> has proposed to you!\n` +
         "Type `yes` to accept, or `no` to decline!\n\n" +
@@ -77,7 +82,7 @@ module.exports = {
         await m.reply(
           `**<@!${asker.id}> and <@!${asking.id}> are now married!** *(good luck...)*`
         );
-        await instance.cache.setExpire(cdKey, "1", 600);
+        await instance.cache.setExpire(scdKey, "1", 600);
       } else if (m.content.toLowerCase() === "no") {
         collector.stop("final");
         await m.reply(
