@@ -72,6 +72,7 @@ module.exports = {
       time: 60000,
     });
     collector.on("collect", async m => {
+      await instance.cache.delete(rcdKey);
       if (m.content.toLowerCase() === "yes") {
         collector.stop("final");
         await instance.database.simpleInsert("MARRIAGE", {
