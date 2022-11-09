@@ -26,7 +26,7 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
     const e = series.filter(s => s.match(eventRegex) !== null);
     if (e.length !== 0) {
       event = e[0];
-      card.series.splice(card.series.indexOf(e[0]), 1);
+      series.splice(card.series.indexOf(e[0]), 1);
     } else {
       event = series[series.length - 1];
     }
