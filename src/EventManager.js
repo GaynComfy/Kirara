@@ -47,9 +47,10 @@ class EventManager {
       if (hasPrefix || mentionMatch) {
         if (message.author.bot && message.author.id !== "736067018628792322")
           return;
-        const plen = mentionMatch
-          ? message.content.match(this.mentionRegex)[0].length
-          : prefix.length;
+        const match = mentionMatch
+          ? message.content.match(this.mentionRegex)
+          : false;
+        const plen = match ? match.index + match[0].length : prefix.length;
         const args = message.content.substring(plen).trim().split(spaces);
         const commandName = args.shift();
         const command = this.commands[commandName];

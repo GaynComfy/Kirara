@@ -10,6 +10,8 @@ const { tierInfo } = require("../../utils/cardUtils");
 
 dayjs.extend(require("dayjs/plugin/relativeTime"));
 
+const eventRegex = /(Chinese New Year|Summer|Halloween|Christmas)/;
+
 exports.getCard = async (instance, message, card, tracked, botMessage) => {
   if (card === null) return false;
   const tierSettings = tierInfo[`T${card.tier}`];
@@ -19,6 +21,16 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
   const series = (card.series || []).filter(
     s => s.toLowerCase() !== card.name.toLowerCase()
   );
+  let event = null;
+  if (card.event) {
+    const e = series.filter(s => s.match(eventRegex) !== null);
+    if (e.length !== 0) {
+      event = e[0];
+      card.series.splice(card.series.indexOf(e[0]), 1);
+    } else {
+      event = series[series.length - 1];
+    }
+  }
   const batch = series.find(
     c => c.startsWith("Batch ") && c.trim() !== "Batch Release"
   );
@@ -30,13 +42,12 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
     .filter(c => c.type === "artist")
     .map(artist => `[__**${artist.name}**__](${artist.link})`);
   const cardImage = encodeURI(card.image_url).replace(".webp", ".gif");
-  const event = card.event ? series[series.length - 1] : null;
   const description =
     `\`Tier: ${card.tier}\`\n` +
     `\`Highest Issue: ${card.claim_count}\`\n` +
     `\`Source: ${series[0] || "-"}\`` +
-    (event ? `\n\`Event: ${event}\`` : "") +
-    (batch ? `\n\`${batch}\`` : "") +
+    (event ? `\n\`Event: ${event.trim()}\`` : "") +
+    (batch ? `\n\`${batch.trim()}\`` : "") +
     (makers.length !== 0
       ? `\nCard ${makers.length === 1 ? "Maker" : "Makers"}: ${makers.join(
           ", "
