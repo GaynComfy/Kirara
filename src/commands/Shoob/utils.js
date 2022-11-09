@@ -22,13 +22,23 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
     s => s.toLowerCase() !== card.name.toLowerCase()
   );
   let event = null;
+  let source = "-";
   if (card.event) {
     const e = series.filter(s => s.match(eventRegex) !== null);
+    let eventIndex = -1;
     if (e.length !== 0) {
+      eventIndex = series.indexOf(e[0]);
       event = e[0];
-      series.splice(card.series.indexOf(e[0]), 1);
     } else {
       event = series[series.length - 1];
+    }
+
+    if (eventIndex === 0) {
+      // Those for some reason have the source on the last tag
+      source = series[series.length - 1];
+    } else {
+      // And these on the first one
+      source = series[0];
     }
   }
   const batch = series.find(
@@ -45,7 +55,7 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
   const description =
     `\`Tier: ${card.tier}\`\n` +
     `\`Highest Issue: ${card.claim_count}\`\n` +
-    `\`Source: ${series[0] || "-"}\`` +
+    `\`Source: ${source || "-"}\`` +
     (event ? `\n\`Event: ${event.trim()}\`` : "") +
     (batch ? `\n\`${batch.trim()}\`` : "") +
     (makers.length !== 0
