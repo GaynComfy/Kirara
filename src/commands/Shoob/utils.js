@@ -26,7 +26,7 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
   if (card.event) {
     const e = series.filter(s => s.match(eventRegex) !== null);
     let eventIndex = -1;
-    if (e.length !== 0) {
+    if (e.length === 1) {
       eventIndex = series.indexOf(e[0]);
       event = e[0];
     } else {
@@ -37,7 +37,7 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
       // Those for some reason have the source on the last tag
       source = series[series.length - 1];
     } else {
-      // And these on the first one
+      // And those on the first one
       source = series[0];
     }
   }
