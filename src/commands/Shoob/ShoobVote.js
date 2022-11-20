@@ -11,7 +11,7 @@ const info = {
 const embed = new EmbedBuilder()
   .setColor(Color.pink)
   .setDescription(
-    "**Link to vote for Shoob:**\n**https://top.gg/bot/673362753489993749/vote**\n\nYou will be reminded in 12 hours. If you would not like to be notified, use **as!vote** instead!"
+    "**[Click here to vote for Shoob!](https://top.gg/bot/673362753489993749/vote)**\n\nYou will be reminded in 12 hours. If you would not like to be notified, use **as!vote** instead!"
   );
 
 module.exports = {

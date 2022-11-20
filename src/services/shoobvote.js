@@ -11,7 +11,9 @@ module.exports = {
         if (Date.now() - time.last < 43200000) continue;
         const userH = await instance.client.users.fetch(time.user);
         if (userH) {
-          await userH.send("You can now vote for Shoob again!");
+          await userH.send(
+            "You can now vote for Shoob again!\n\nhttps://top.gg/bot/673362753489993749/vote"
+          );
         }
         const i = instance.shared["shoobv"].indexOf(time);
         if (i !== -1) instance.shared["shoobv"].splice(i, 1);
