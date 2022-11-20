@@ -23,23 +23,22 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
   );
   let event = null;
   let source = "-";
+  let eventIndex = -1;
   if (card.event) {
     const e = series.filter(s => s.match(eventRegex) !== null);
-    let eventIndex = -1;
     if (e.length === 1) {
       eventIndex = series.indexOf(e[0]);
       event = e[0];
     } else {
       event = series[series.length - 1];
     }
-
-    if (eventIndex === 0) {
-      // Those for some reason have the source on the last tag
-      source = series[series.length - 1];
-    } else {
-      // And those on the first one
-      source = series[0];
-    }
+  }
+  if (eventIndex === 0) {
+    // Those for some reason have the source on the last tag
+    source = series[series.length - 1];
+  } else {
+    // And those on the first one
+    source = series[0];
   }
   const batch = series.find(
     c => c.startsWith("Batch ") && c.trim() !== "Batch Release"
