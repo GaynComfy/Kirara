@@ -46,6 +46,9 @@ module.exports = {
         "'I told Bappy I would implement this for him' ~cass"
       );
     }
+    if (message.mentions.users.first().id === "189978735816998913") {
+      return message.reply("~~cass doesn't approve~~");
+    }
     const { url } = await Fetcher.request("handhold", message.channel.id);
     const embed = generateRolePlayEmbed(
       "holds hands with",
