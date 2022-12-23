@@ -29,6 +29,6 @@ module.exports = {
     "933549055538249728", // bappy#3311
     "189978735816998913", // cass#9999
   ],
-  shardCount: 2,
+  shardCount: 1,
   season: 25,
 };

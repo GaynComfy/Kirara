@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
-const { getLilliePing } = require("./utils");
+const { getMidoriPing } = require("./utils");
 const { version } = require("../../../package.json");
 const Constants = require("../../utils/Constants.json");
 
@@ -61,7 +61,7 @@ module.exports = {
   execute: async (instance, message) => {
     try {
       const ping = Date.now() - message.createdTimestamp;
-      const lillie = await getLilliePing();
+      const midori = await getMidoriPing();
       const { totalGuilds, totalMembers, channels, asClaims, kClaims } =
         await fetchData(instance);
       const shardid = instance.client.shard.ids[0] + 1;
@@ -81,8 +81,8 @@ module.exports = {
             `(https://donatebot.io/checkout/378599231583289346?buyer=${message.author.id})\n\n` +
             `🏓 Command: \`${ping}ms\`\n` +
             `💓 Gateway: \`${instance.client.ws.ping}ms\`\n` +
-            `🖍️ midori: \`${lillie.ping}\`` +
-            (lillie.version ? `, v${lillie.version}` : "")
+            `🖍️ midori: \`${midori.ping}\`` +
+            (midori.version ? `, v${midori.version}` : "")
         )
         .addFields([
           {

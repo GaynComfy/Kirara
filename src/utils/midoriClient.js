@@ -1,10 +1,12 @@
 const axios = require("axios").default;
+const http = require("http");
 
-class lillieClient {
+class midoriClient {
   constructor(baseURL, token) {
     this.instance = axios.create({
       baseURL,
       headers: { "x-kirara-verify": token },
+      httpAgent: new http.Agent({ keepAlive: true }),
       timeout: 500,
     });
   }
@@ -14,7 +16,7 @@ class lillieClient {
   }
 }
 
-module.exports = new lillieClient(
-  process.env.LILLIE_URL,
-  process.env.LILLIE_TOKEN
+module.exports = new midoriClient(
+  process.env.MIDORI_URL || process.env.LILLIE_URL,
+  process.env.MIDORI_TOKEN || process.env.LILLIE_TOKEN
 );

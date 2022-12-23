@@ -1,12 +1,12 @@
-const lillieClient = require("../../utils/lillieClient");
+const midoriClient = require("../../utils/midoriClient");
 
-exports.getLilliePing = async () => {
+exports.getMidoriPing = async () => {
   try {
     const then = Date.now();
-    const data = await lillieClient.request("ping");
+    const data = await midoriClient.request("ping");
     const now = Date.now() - then;
     return {
-      ping: `${now}ms`,
+      ping: `${Math.round(now)}ms`,
       message: data.message,
       version: data.version,
     };

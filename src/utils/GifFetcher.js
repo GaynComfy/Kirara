@@ -1,4 +1,5 @@
 const axios = require("axios").default;
+const https = require("https");
 const QuickLRU = require("quick-lru");
 
 class GifFetcher {
@@ -7,6 +8,7 @@ class GifFetcher {
     this.last = new QuickLRU({ maxSize: 50, maxAge: 15000 });
     this.instance = axios.create({
       baseURL: "https://api.waifu.pics/sfw",
+      httpsAgent: new https.Agent({ keepAlive: true }),
       timeout: 1000,
     });
     // pre-cache map

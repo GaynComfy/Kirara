@@ -1,7 +1,7 @@
 const isDev = process.env.NODE_ENV === "development";
 const config = isDev ? require("./config-dev") : require("./config-prod");
 const { ShardingManager } = require("discord.js");
-const { ShardingClient } = require("statcord.js");
+//const { ShardingClient } = require("statcord.js");
 
 const shardManager = new ShardingManager("./src/index.js", {
   totalShards: config.shardCount || 2,
@@ -9,7 +9,7 @@ const shardManager = new ShardingManager("./src/index.js", {
   respawn: true,
 });
 
-let statcord;
+/*let statcord;
 if (process.env.STATCORD_TOKEN) {
   statcord = new ShardingClient({
     key: process.env.STATCORD_TOKEN,
@@ -22,7 +22,7 @@ if (process.env.STATCORD_TOKEN) {
   });
 } else {
   console.debug("! opted out from statcord reporting");
-}
+}*/
 
 let count = 0;
 shardManager.on("shardCreate", shard => {

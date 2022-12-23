@@ -1,5 +1,6 @@
 const axios = require("axios").default;
 const axiosRetry = require("axios-retry");
+const https = require("https");
 
 const tN = tier => (tier.toLowerCase() === "s" ? 8 : parseInt(tier));
 const sortTopOwners = arr => {
@@ -23,6 +24,7 @@ class CardFetcher {
       headers: {
         Authorization: token,
       },
+      httpsAgent: new https.Agent({ keepAlive: true }),
       timeout: 5000,
       validateStatus: s => s < 500,
     });

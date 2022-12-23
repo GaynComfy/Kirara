@@ -52,21 +52,21 @@ const saveSpawn = async (instance, data) => {
 
   await client.publish("claims", JSON.stringify(data));
 
-  if (process.env.NODE_ENV !== "production") {
-    if (data.claimed) {
-      console.debug(
-        `[${instance.client.shard.ids[0]}] <@!${data.discord_id}> claimed T${data.tier} ${data.card_name} V${data.issue} on <#${data.channel_id}>`
-      );
-    } else if (data.despawn) {
-      console.debug(
-        `[${instance.client.shard.ids[0]}] T${data.tier} ${data.card_name} despawned on <#${data.channel_id}>`
-      );
-    } else {
-      console.error(
-        `[${instance.client.shard.ids[0]}] T${data.tier} ${data.card_name} [${data.message_id}] got lost in time on <#${data.channel_id}>... (despawned)`
-      );
-    }
+  //if (process.env.NODE_ENV !== "production") {
+  if (data.claimed) {
+    console.debug(
+      `[${instance.client.shard.ids[0]}] <@!${data.discord_id}> claimed T${data.tier} ${data.card_name} V${data.issue} on <#${data.channel_id}>`
+    );
+  } else if (data.despawn) {
+    console.debug(
+      `[${instance.client.shard.ids[0]}] T${data.tier} ${data.card_name} despawned on <#${data.channel_id}>`
+    );
+  } else {
+    console.error(
+      `[${instance.client.shard.ids[0]}] T${data.tier} ${data.card_name} [${data.message_id}] got lost in time on <#${data.channel_id}>... (despawned)`
+    );
   }
+  //}
 
   instance.kClaims++;
 };
@@ -90,8 +90,8 @@ module.exports = {
         for (const spawn of chn) {
           if (
             ((spawn.claimed === true || spawn.despawn === true) &&
-              Date.now() - spawn.time >= 5000) ||
-            Date.now() - spawn.time >= 30000
+              Date.now() - spawn.time >= 11000) ||
+            Date.now() - spawn.time >= 32000
           ) {
             // a card was claimed/despawned, and we've not received an event from Anime Soul - so save it.
             await saveSpawn(instance, spawn)

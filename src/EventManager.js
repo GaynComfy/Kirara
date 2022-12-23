@@ -1,5 +1,5 @@
 // const { ChannelType } = require("discord.js");
-const { ShardingClient } = require("statcord.js");
+//const { ShardingClient } = require("statcord.js");
 const { withCooldown, verifyPerms } = require("./utils/hooks");
 const sendError = require("./utils/SendError");
 const sendUsage = require("./utils/SendUsage");
@@ -198,11 +198,11 @@ class EventManager {
     );
 
     // statcord reports
-    ShardingClient.postCommand(
+    /*ShardingClient.postCommand(
       command.info.name,
       message.author.id,
       this.client
-    );
+    );*/
   }
   registerEventHandler(name, handlers) {
     this.client.on(name, async (...params) => {

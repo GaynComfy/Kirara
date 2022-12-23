@@ -1,4 +1,7 @@
 const axios = require("axios").default;
+const https = require("https");
+
+const agent = new https.Agent({ keepAlive: true });
 
 const getCachedURL = async (instance, url) => {
   const k = `url:${Buffer.from(url).toString("base64")}`;
@@ -12,7 +15,7 @@ const getCachedURL = async (instance, url) => {
   let r;
 
   try {
-    r = await axios.get(url, { responseType: "arraybuffer" });
+    r = await axios.get(url, { agent, responseType: "arraybuffer" });
   } catch (err) {
     console.error(err);
     return "./src/assets/default/0.png";

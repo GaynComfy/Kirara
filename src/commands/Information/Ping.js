@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
-const { getLilliePing } = require("./utils");
+const { getMidoriPing } = require("./utils");
 
 const info = {
   name: "ping",
@@ -9,7 +9,7 @@ const info = {
 module.exports = {
   execute: async (instance, message) => {
     const msgPing = Date.now() - message.createdTimestamp;
-    const { ping } = await getLilliePing();
+    const { ping } = await getMidoriPing();
     const embed = new EmbedBuilder()
       .setAuthor({ name: "Latency for Kirara" })
       .setDescription(
