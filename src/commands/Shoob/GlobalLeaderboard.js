@@ -68,7 +68,7 @@ module.exports = {
           instance.client.users.fetch(entry.discord_id),
           Fetcher.fetchProfile(instance, entry.discord_id),
         ]);
-        if (profile.banned) return;
+        if (profile.banned) continue;
         const tag = user
           ? `${user.username}#${user.discriminator}`
           : "Unknown user";
