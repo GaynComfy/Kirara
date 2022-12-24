@@ -1,5 +1,6 @@
 const Color = require("../../utils/Colors.json");
 const Constants = require("../../utils/Constants.json");
+const Fetcher = require("../../utils/CardFetcher");
 const { EmbedBuilder } = require("discord.js");
 const { createPagedResults } = require("../../utils/PagedResults");
 
@@ -63,7 +64,11 @@ module.exports = {
       const claims = [];
 
       for (const [i, entry] of claimers.entries()) {
-        const user = await instance.client.users.fetch(entry.discord_id);
+        const [user, profile] = await Promise.all([
+          instance.client.users.fetch(entry.discord_id),
+          Fetcher.fetchProfile(instance, entry.discord_id),
+        ]);
+        if (profile.banned) return;
         const tag = user
           ? `${user.username}#${user.discriminator}`
           : "Unknown user";
