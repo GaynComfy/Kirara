@@ -63,7 +63,8 @@ module.exports = {
       const users = [];
       const claims = [];
 
-      for (const [i, entry] of claimers.entries()) {
+      let increase = 1;
+      for (const entry of claimers) {
         const [user, profile] = await Promise.all([
           instance.client.users.fetch(entry.discord_id),
           Fetcher.fetchProfile(instance, entry.discord_id),
@@ -72,7 +73,7 @@ module.exports = {
         const tag = user
           ? `${user.username}#${user.discriminator}`
           : "Unknown user";
-        users.push(`\`${i + 1 + page * 8}.\` \`${tag}\``);
+        users.push(`\`${increase++}.\` \`${tag}\``);
         claims.push(`> \`${entry.c} ${entry.c === 1 ? "claim" : "claims"}\``);
       }
 
