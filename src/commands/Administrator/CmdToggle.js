@@ -1,3 +1,4 @@
+const Color = require("../../utils/Colors.json");
 const { withRights } = require("../../utils/hooks");
 const { EmbedBuilder } = require("discord.js");
 
@@ -46,6 +47,14 @@ module.exports = {
       }
 
       if (!cmd) return false;
+      if (cmd === "cmdtoggle") {
+        const embed = new EmbedBuilder()
+          .setDescription(
+            `<:Sirona_NoCross:762606114444935168> You cannot toggle the command toggle.`
+          )
+          .setColor(Color.red);
+        return message.channel.send({ embeds: [embed] });
+      }
 
       const query = {
         key: `cmd:${cmd}:disabled`,

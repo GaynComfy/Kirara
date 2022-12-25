@@ -1,6 +1,7 @@
 // const { ChannelType } = require("discord.js");
 //const { ShardingClient } = require("statcord.js");
 const { withCooldown, verifyPerms } = require("./utils/hooks");
+const Constants = require("./utils/Constants.json");
 const sendError = require("./utils/SendError");
 const sendUsage = require("./utils/SendUsage");
 
@@ -132,12 +133,16 @@ class EventManager {
       this.instance.settings[message.guild.id][
         `cmd:${command.info.name}:disabled`
       ];
-    if (
-      isSoftDisabled &&
-      !message.member.permissions.has("Administrator") &&
-      !this.config.owner.includes(message.author.id)
-    ) {
-      return;
+    if (isSoftDisabled) {
+      if (
+        !message.member.permissions.has("Administrator") &&
+        !this.config.owner.includes(message.author.id)
+      ) {
+        // no perms at all, go away
+        return;
+      }
+      // otherwise, give them an indicator they're using a disabled command
+      message.react(Constants.disabledCmdReact).catch(() => null);
     }
 
     // verify if we have the right permissions
