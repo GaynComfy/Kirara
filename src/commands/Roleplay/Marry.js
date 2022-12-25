@@ -46,13 +46,6 @@ module.exports = {
       );
       return;
     }
-    // lol
-    if (marry.length !== 0 && asker.id !== "175408504427905025") {
-      await message.reply(
-        "You are already married to someone else! Bad bad. I'm not into poly yet."
-      );
-      return;
-    }
     if (toMarry.length !== 0) {
       await message.reply(
         "Sorry, but someone has beat you already; they are already married! Stay lonely, loser!"

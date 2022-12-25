@@ -12,43 +12,6 @@ module.exports = {
     if (message.mentions.users.size === 0) {
       return false;
     }
-    if (
-      message.mentions.users.first().id === "445192864654295050" &&
-      message.author.id !== "175408504427905025" &&
-      message.author.id !== "445192864654295050"
-    ) {
-      return message.reply("You are commiting war crimes. Please stop.");
-    }
-    if (
-      message.mentions.users.first().id === "175408504427905025" &&
-      message.author.id !== "445192864654295050" &&
-      message.author.id !== "175408504427905025"
-    ) {
-      return message.reply(
-        "someone will not get their egg today <:rEkomda:889128655408734269>"
-      );
-    }
-    if (
-      message.mentions.users.first().id === "933549055538249728" &&
-      message.author.id !== "510713365404975114" &&
-      message.author.id !== "933549055538249728"
-    ) {
-      return message.reply(
-        "'I told Bappy I would implement this for him' ~cass"
-      );
-    }
-    if (
-      message.mentions.users.first().id === "510713365404975114" &&
-      message.author.id !== "933549055538249728" &&
-      message.author.id !== "510713365404975114"
-    ) {
-      return message.reply(
-        "'I told Bappy I would implement this for him' ~cass"
-      );
-    }
-    if (message.mentions.users.first().id === "189978735816998913") {
-      return message.reply("~~cass doesn't approve~~");
-    }
     const { url } = await Fetcher.request("handhold", message.channel.id);
     const embed = generateRolePlayEmbed(
       "holds hands with",
