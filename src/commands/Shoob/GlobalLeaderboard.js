@@ -39,8 +39,15 @@ module.exports = {
             " GROUP BY discord_id ORDER BY c DESC LIMIT 8 OFFSET $2",
           [instance.config.season, offset]
         );
-        instance.cache.setExpire(k, JSON.stringify(claims), 60 * 5);
-        claimers = claims;
+        const mappedEntries = await Promise.all(
+          claims.map(entry => async () => {
+            const profile = Fetcher.fetchProfile(instance, entry.discord_id);
+            return profile.banned ? null : entry;
+          })
+        );
+        const filtered = mappedEntries.filter(e => e !== null);
+        instance.cache.setExpire(k, JSON.stringify(filtered), 60 * 5);
+        claimers = filtered;
       }
       if (claimers.length === 0 && page === 0) {
         const embed = new EmbedBuilder()
@@ -63,17 +70,12 @@ module.exports = {
       const users = [];
       const claims = [];
 
-      let increase = 1;
-      for (const entry of claimers) {
-        const [user, profile] = await Promise.all([
-          instance.client.users.fetch(entry.discord_id),
-          Fetcher.fetchProfile(instance, entry.discord_id),
-        ]);
-        if (profile.banned) continue;
+      for (const [i, entry] of claimers.entries()) {
+        const user = instance.client.users.fetch(entry.discord_id);
         const tag = user
           ? `${user.username}#${user.discriminator}`
           : "Unknown user";
-        users.push(`\`${increase++}.\` \`${tag}\``);
+        users.push(`\`${i + 1 + page * 8}.\` \`${tag}\``);
         claims.push(`> \`${entry.c} ${entry.c === 1 ? "claim" : "claims"}\``);
       }
 
