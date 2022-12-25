@@ -1,5 +1,4 @@
 // const { ChannelType } = require("discord.js");
-//const { ShardingClient } = require("statcord.js");
 const { withCooldown, verifyPerms } = require("./utils/hooks");
 const Constants = require("./utils/Constants.json");
 const sendError = require("./utils/SendError");

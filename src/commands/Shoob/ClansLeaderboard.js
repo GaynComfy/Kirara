@@ -1,9 +1,5 @@
 const Constants = require("../../utils/Constants.json");
 const { EmbedBuilder } = require("discord.js");
-const isDev = process.env.NODE_ENV === "development";
-const { owner } = isDev
-  ? require("../../config-dev.js")
-  : require("../../config-prod.js");
 
 const info = {
   name: "clansleaderboard",
@@ -37,7 +33,7 @@ module.exports = {
   execute: async (instance, message, args) => {
     const time = Date.now();
     const areWeUnfair =
-      args[0] === "unfair" && owner.includes(message.author.id);
+      args[0] === "unfair" && instance.config.owner.includes(message.author.id);
     const running = time >= eventStart && time < eventStop;
     const showAll = areWeUnfair || !running;
 

@@ -1,9 +1,5 @@
 const Constants = require("../../utils/Constants.json");
 const { EmbedBuilder } = require("discord.js");
-const isDev = process.env.NODE_ENV === "development";
-const { owner } = isDev
-  ? require("../../config-dev.js")
-  : require("../../config-prod.js");
 
 const info = {
   name: "clansleaderboardpcnt",
@@ -36,7 +32,7 @@ module.exports = {
   execute: async (instance, message) => {
     const time = Date.now();
     const showUsers =
-      owner.includes(message.author.id) ||
+      instance.config.owner.includes(message.author.id) ||
       dearUsers.includes(message.author.id);
     const running = time >= eventStart && time < eventStop;
 

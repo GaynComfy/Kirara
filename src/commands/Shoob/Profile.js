@@ -5,10 +5,6 @@ const { getCachedURL } = require("../../utils/cacheUtils");
 const { EmbedBuilder } = require("discord.js");
 const { createCanvas, loadImage } = require("canvas");
 const { mention, userId } = require("../../utils/regexUtils");
-const isDev = process.env.NODE_ENV === "development";
-const { owner } = isDev
-  ? require("../../config-dev.js")
-  : require("../../config-prod.js");
 
 const info = {
   name: "profile",
@@ -113,7 +109,7 @@ module.exports = {
 
     const color =
       (user &&
-        ((owner.includes(member.id) && Color.trusted) ||
+        ((instance.config.owner.includes(member.id) && Color.trusted) ||
           (user.trusted && Color.cardmaker) ||
           (user.premium && Color.premium))) ||
       Color.default;
@@ -126,7 +122,7 @@ module.exports = {
         ? `\n<:KiraraPeek:784849772272025600> ` +
           `Last viewed by [**__${viewer.username}__**](https://shoob.gg/user/${viewer.discord_id})`
         : "") +
-      (owner.includes(member.id)
+      (instance.config.owner.includes(member.id)
         ? `\n<:KiraraHugHeart:798460293491326986> **Kirara Developer <3**`
         : "") +
       (user && user.trusted
