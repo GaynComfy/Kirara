@@ -41,7 +41,10 @@ module.exports = {
         );
         const mappedEntries = await Promise.all(
           claims.map(entry => async () => {
-            const profile = Fetcher.fetchProfile(instance, entry.discord_id);
+            const profile = await Fetcher.fetchProfile(
+              instance,
+              entry.discord_id
+            );
             return profile.banned ? null : entry;
           })
         );
@@ -71,7 +74,7 @@ module.exports = {
       const claims = [];
 
       for (const [i, entry] of claimers.entries()) {
-        const user = instance.client.users.fetch(entry.discord_id);
+        const user = await instance.client.users.fetch(entry.discord_id);
         const tag = user
           ? `${user.username}#${user.discriminator}`
           : "Unknown user";
