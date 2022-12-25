@@ -3,15 +3,8 @@
 const { withCooldown, verifyPerms } = require("./utils/hooks");
 const sendError = require("./utils/SendError");
 const sendUsage = require("./utils/SendUsage");
-const { owner } =
-  process.env.NODE_ENV === "development"
-    ? require("./config-dev.js")
-    : require("./config-prod.js");
 
 const spaces = / +/g;
-
-/* const marriage = ["marriage", "marry", "divorce"];
-const rpBlacklist = ["850218927136571392", "873835108069679124"]; */
 
 class EventManager {
   /**
@@ -125,18 +118,12 @@ class EventManager {
       return message.channel
         .send(
           "**⚠️ WARNING:** I don't know this server. This is an error on the bot.\n" +
-            "Mind helping me to report it to my dev team? (<https://discord.gg/comfy> and DM `Sirona-Kirara Support#8123`)"
+            "Mind helping me to report it to my dev team? (<https://discord.gg/comfy> or DM `Sirona-Kirara Support#8123`)"
         )
         .catch(() => null);
     }
     if (command.info.guilds && !command.info.guilds.includes(message.guild.id))
       return; // return if we're not supposed to be used here
-    /* if (
-      command.info.category === "Roleplay" &&
-      !marriage.includes(command.info.name) &&
-      rpBlacklist.includes(message.author.id)
-    )
-      return message.react("<a:DuckyNo:697121081999360087>").catch(() => null); */
 
     const disabled =
       this.instance.settings[message.guild.id][
@@ -146,13 +133,7 @@ class EventManager {
         `cmd:${command.info.name}:disabled`
       ];
     if (disabled) {
-      if (
-        !message.member.permissions.has("Administrator") &&
-        !owner.includes(message.author.id)
-      )
-        return; // command is disabled and they're not an admin/owner, nothing to do here
-      // otherwise...
-      message.react("<:Sirona_yesh:762603569538531328>").catch(() => null); // give an indicator they're breaking the law™️
+      return;
     }
 
     // verify if we have the right permissions
@@ -196,13 +177,6 @@ class EventManager {
         `(${endMs - startMs}ms/${endMs - message.createdTimestamp}ms` +
         `/${startMs - message.createdTimestamp}ms)`
     );
-
-    // statcord reports
-    /*ShardingClient.postCommand(
-      command.info.name,
-      message.author.id,
-      this.client
-    );*/
   }
   registerEventHandler(name, handlers) {
     this.client.on(name, async (...params) => {

@@ -8,8 +8,7 @@ const info = {
 };
 module.exports = {
   execute: async (instance, message) => {
-    if (
-      message.mentions.users.size === 0) {
+    if (message.mentions.users.size === 0) {
       return false;
     }
     const { url } = await Fetcher.request("bonk", message.channel.id);
