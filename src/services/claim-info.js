@@ -76,9 +76,12 @@ module.exports = {
             }
           }
 
-          instance.temp.delete(`recent:${data.server_id}:all`);
-          instance.temp.delete(`recent:${data.server_id}:${data.tier}`);
-          instance.temp.delete(`season:${data.server_id}`);
+          for (const key of [
+            `recent:${data.server_id}:all`,
+            `recent:${data.server_id}:${data.tier}`,
+            `season:${data.server_id}`,
+          ])
+            instance.lruCache.delete(key);
 
           if (data.claimed) {
             const member = await guild.members.fetch(data.discord_id);

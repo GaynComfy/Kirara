@@ -68,7 +68,7 @@ class Instance {
     this.trivia = {};
     this.queues = {};
     this.timedEvents = {};
-    this.temp = new QuickLRU({ maxSize: 1000, maxAge: 900000 });
+    this.lruCache = new QuickLRU({ maxSize: 1000, maxAge: 900000 });
     this.asClaims = 0;
     this.kClaims = 0;
     this.bootstrapped = false;

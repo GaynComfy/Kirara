@@ -34,8 +34,8 @@ module.exports = {
     const k = `recent:${message.guild.id}:${hasTier ? tier : "all"}`;
 
     let recentCards;
-    if (!isGlobal && instance.temp.has(k)) {
-      recentCards = instance.temp.get(k);
+    if (!isGlobal && instance.lruCache.has(k)) {
+      recentCards = instance.lruCache.get(k);
     } else {
       const { rows: cards } = isGlobal // only if global
         ? hasTier
@@ -58,7 +58,7 @@ module.exports = {
           );
 
       if (!isGlobal) {
-        instance.temp.set(k, cards);
+        instance.lruCache.set(k, cards);
       }
       recentCards = cards;
     }

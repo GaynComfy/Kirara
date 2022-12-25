@@ -13,9 +13,9 @@ module.exports = {
   execute: async (instance, message) => {
     let s;
     const k = `season:${message.guild.id}`;
-    const exists = await instance.temp.has(k);
+    const exists = await instance.lruCache.has(k);
     if (exists) {
-      s = instance.temp.get(k);
+      s = instance.lruCache.get(k);
     } else {
       message.channel.sendTyping().catch(() => null);
       // ToDo: This is better, but could be improved!
@@ -49,7 +49,7 @@ module.exports = {
           top: claimers.slice(0, 3),
         },
       };
-      instance.temp.set(k, s);
+      instance.lruCache.set(k, s);
     }
 
     const tiers = [];

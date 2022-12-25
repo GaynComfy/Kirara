@@ -125,14 +125,18 @@ class EventManager {
     if (command.info.guilds && !command.info.guilds.includes(message.guild.id))
       return; // return if we're not supposed to be used here
 
-    const disabled =
+    const isSoftDisabled =
       this.instance.settings[message.guild.id][
         `category:${command.info.category.toLowerCase()}:disabled`
       ] ||
       this.instance.settings[message.guild.id][
         `cmd:${command.info.name}:disabled`
       ];
-    if (disabled) {
+    if (
+      isSoftDisabled &&
+      !message.member.permissions.has("Administrator") &&
+      !this.config.owner.includes(message.author.id)
+    ) {
       return;
     }
 
