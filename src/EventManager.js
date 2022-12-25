@@ -118,7 +118,9 @@ class EventManager {
       return message.channel
         .send(
           "**⚠️ WARNING:** I don't know this server. This is an error on the bot.\n" +
-            "Mind helping me to report it to my dev team? (<https://discord.gg/comfy> or DM `Sirona-Kirara Support#8123`)"
+            "Mind helping me by reporting this to my dev team?\n\n" +
+            "> Join Gay & Comfy: <https://discord.gg/comfy>\n" +
+            "> Then, DM `DreiMail#4085` (<@!433253290898096139>) explaining the situation. Thank you!"
         )
         .catch(() => null);
     }
