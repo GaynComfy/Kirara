@@ -13,7 +13,7 @@ module.exports = {
   execute: async (instance, message) => {
     let s;
     const k = `season:${message.guild.id}`;
-    const exists = await instance.lruCache.has(k);
+    const exists = instance.lruCache.has(k);
     if (exists) {
       s = instance.lruCache.get(k);
     } else {
