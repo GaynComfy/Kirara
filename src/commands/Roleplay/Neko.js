@@ -25,6 +25,6 @@ module.exports = {
   help: {
     usage: "neko",
     examples: ["neko"],
-    description: "Posts a cuke neko",
+    description: "Posts a cute neko",
   },
 };
