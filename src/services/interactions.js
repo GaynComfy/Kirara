@@ -1,8 +1,7 @@
-let running = false;
-// I think this will be broken with the Discord.js v14 update.
+let running = -1;
 module.exports = {
   start: async instance => {
-    if (running !== false) return;
+    if (running !== -1) return;
     const date = Date.now();
     running = date;
 
@@ -15,7 +14,8 @@ module.exports = {
       }
     });
   },
-  stop: async () => {
-    running = false;
+  stop: async instance => {
+    instance.client.ws.removeAllListeners("INTERACTION_CREATE");
+    running = -1;
   },
 };

@@ -30,5 +30,5 @@ module.exports = {
     "189978735816998913", // cass#9999
   ],
   shardCount: 1,
-  season: 25,
+  season: 26,
 };
