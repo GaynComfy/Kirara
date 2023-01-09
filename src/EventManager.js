@@ -243,12 +243,6 @@ class EventManager {
     this.registerOnMessage();
     this.registerOnReady();
     if (wasReady) {
-      const otherHandlers = this.events["ready"];
-      if (otherHandlers) {
-        for (const handler of otherHandlers) {
-          await handler.execute(this.instance);
-        }
-      }
       this.services.forEach(element => element.start(this.instance));
     }
     this.discordReady = wasReady;
