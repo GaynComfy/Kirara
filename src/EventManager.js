@@ -243,7 +243,9 @@ class EventManager {
     this.registerOnMessage();
     this.registerOnReady();
     if (wasReady) {
-      this.services.forEach(element => element.start(this.instance));
+      this.services
+        .filter(element => element.onlyOnDiscordStart !== true)
+        .forEach(element => element.start(this.instance));
     }
     this.discordReady = wasReady;
   }
