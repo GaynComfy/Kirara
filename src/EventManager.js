@@ -95,7 +95,10 @@ class EventManager {
       }
       if (this.discordReady) return;
       // start services after this
-      this.services.forEach(element => element.start(this.instance));
+      for (const service of this.services) {
+        if (service.onlyOnDiscordStart) await service.start(this.instance);
+        else service.start(this.instance);
+      }
       this.discordReady = true;
       // process queued commands
       for (const elem of this.commandQueue) {
