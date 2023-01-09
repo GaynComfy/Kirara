@@ -49,4 +49,5 @@ module.exports = {
     }
   },
   onlyOnDiscordStart: true,
+  prio: 0,
 };

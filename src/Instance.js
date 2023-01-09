@@ -142,7 +142,17 @@ class Instance {
       console.log("adding service", file, this.client.shard.ids[0]);
       services.push(event);
     }
-    return services;
+    return services.sort((a, b) => {
+      if (typeof a.prio === "number" && typeof b.prio === "number") {
+        return a.prio - b.prio;
+      }
+      if (typeof a.prio === "number") {
+        return -1;
+      } else if (typeof b.prio === "number") {
+        return 1;
+      }
+      return 0;
+    });
   }
   async prepareCommands() {
     const commands = {};
