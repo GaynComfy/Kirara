@@ -40,13 +40,14 @@ module.exports = {
           [instance.config.season, offset]
         );
         const mappedEntries = await Promise.all(
-          claims.map(entry => async () => {
-            const profile = await Fetcher.fetchProfile(
-              instance,
-              entry.discord_id
-            );
-            return profile.banned ? null : entry;
-          })
+          claims.map(
+            entry =>
+              new Promise(resolve => {
+                Fetcher.fetchProfile(instance, entry.discord_id).then(profile =>
+                  resolve(profile.banned ? null : entry)
+                );
+              })
+          )
         );
         const filtered = mappedEntries.filter(e => e !== null);
         instance.cache.setExpire(k, JSON.stringify(filtered), 60 * 5);
