@@ -1,3 +1,10 @@
+const dayjs = require("dayjs");
+dayjs.extend(require("dayjs/plugin/utc"));
+dayjs.extend(require("dayjs/plugin/timezone"));
+
+const tz = "America/New_York";
+const birth = dayjs.tz("2020-11-08 00:00:00", tz);
+
 module.exports = {
   prefix: "k!",
   database: {
@@ -30,5 +37,7 @@ module.exports = {
     "189978735816998913", // cass#9999
   ],
   shardCount: 1,
-  season: 26,
+  get season() {
+    return dayjs.tz(Date.now(), tz).diff(birth, "month");
+  },
 };
