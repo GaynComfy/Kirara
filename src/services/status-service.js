@@ -4,6 +4,7 @@ module.exports = {
   start: async instance => {
     if (interval !== null) return;
 
+    let season = instance.config.season;
     const setActivity = async name =>
       await instance.client.user.setPresence({
         activities: [{ name, type: 3 }],
@@ -11,6 +12,11 @@ module.exports = {
       });
 
     interval = setInterval(async () => {
+      if (season !== instance.config.season) {
+        season = instance.config.season;
+        return await setActivity("⭐ SEASON RESET ⭐");
+      }
+
       const pickedActivity = Math.floor(Math.random() * 5);
       switch (pickedActivity) {
         case 0: {
