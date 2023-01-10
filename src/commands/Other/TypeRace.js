@@ -20,7 +20,7 @@ const end = (startTime, endTime) => {
 
   return timeDiff;
 };
-const channelMap = [];
+const channelMap = {};
 
 const info = {
   name: "typerace",

@@ -8,8 +8,6 @@ module.exports = (config, isProd) => {
       host: config.database.host,
       database: config.database.database,
       port: config.database.port,
-      max: 3,
-      idleTimeoutMillis: 300000,
     };
     if (isProd || config.database.password || process.env.PG_PASSWORD) {
       connectionProps.password =

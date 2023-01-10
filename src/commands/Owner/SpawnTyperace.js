@@ -24,7 +24,7 @@ const info = {
   disabled: process.env.NODE_ENV !== "development",
 };
 
-const channelMap = [];
+const channelMap = {};
 const end = (startTime, time) => {
   const endTime = time;
   let timeDiff = endTime - startTime; // in ms
