@@ -12,7 +12,7 @@ const info = {
 
 const getTargets = async (instance, message, args) => {
   const target =
-    message.mentions.users[0] ||
+    message.mentions.users.first() ||
     (args.length ? await instance.client.users.fetch(args[0]) : message.author);
   if (message.guild) {
     const guildMember = await message.guild.members.fetch(target.id);
