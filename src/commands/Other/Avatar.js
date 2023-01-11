@@ -28,7 +28,7 @@ module.exports = {
     // Embed
     const embeds = targets.map(target =>
       new EmbedBuilder()
-        .setTitle(`${target.tag}'s avatar`)
+        .setTitle(`${target.tag ? target.tag : target.user.tag}'s avatar`)
         .setDescription(
           `[PNG](${target.displayAvatarURL({
             extension: "png",
