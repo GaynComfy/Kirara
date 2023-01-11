@@ -10,7 +10,7 @@ const info = {
 //const mention = /<@!?(\d{17,19})>/;
 //const userId = /\d{17,19}/;
 
-const getTarget = async (instance, message, args) => {
+const getTargets = async (instance, message, args) => {
   const target =
     message.mentions.users[0] ||
     (args.length ? await instance.client.users.fetch(args[0]) : message.author);
@@ -24,7 +24,7 @@ const getTarget = async (instance, message, args) => {
 };
 module.exports = {
   execute: async (instance, message, args) => {
-    const targets = await getTarget(instance, message, args);
+    const targets = await getTargets(instance, message, args);
     // Embed
     const embeds = targets.map(target =>
       new EmbedBuilder()
