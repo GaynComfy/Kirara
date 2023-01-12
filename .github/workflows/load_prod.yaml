@@ -1,0 +1,25 @@
+name: Load to Kirara Prod
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST_PROD }}
+          username: kirara
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          script: |
+            cd
+            cd Kirara
+            git fetch
+            git add .
+            git reset --hard origin/master
+            npm i --omit=dev
