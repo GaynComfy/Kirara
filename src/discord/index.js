@@ -1,5 +1,4 @@
 const { Client, GatewayIntentBits, Options } = require("discord.js");
-const { DefaultRestOptions } = require("@discordjs/rest");
 
 const emoteGuilds = ["689738297890701338", "378599231583289346"];
 
@@ -40,18 +39,18 @@ module.exports = (token = process.env.TOKEN) => {
       },
       GuildInviteManager: 0,
       GuildMemberManager: {
-        maxSize: 100,
+        maxSize: 500000,
         keepOverLimit: u => u.id === client.user.id,
       },
       GuildScheduledEventManager: 0,
       GuildStickerManager: 0,
       MessageManager: {
-        maxSize: 100,
+        maxSize: 2000000,
         keepOverLimit: m => m.author.id === client.user.id,
       },
       PresenceManager: 0,
       ReactionManager: {
-        maxSize: 0,
+        maxSize: 4000000,
         keepOverLimit: r => r.message.author.id === client.user.id,
       },
       StageInstanceManager: 0,
@@ -60,25 +59,6 @@ module.exports = (token = process.env.TOKEN) => {
     presence: {
       status: "idle",
       activities: [{ name: "starting up...", type: 3 }],
-    },
-    rest: {
-      ...DefaultRestOptions,
-
-      api: process.env.DISCORD_API_URL || DefaultRestOptions.api,
-    },
-    sweepers: {
-      ...Options.DefaultSweeperSettings,
-
-      guildMembers: {
-        interval: 600,
-
-        filter: () => m =>
-          m.id !== client.user.id && !m.permissions.has("Administrator"),
-      },
-      messages: {
-        interval: 120,
-        lifetime: 600,
-      },
     },
   });
   return {
