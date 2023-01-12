@@ -4,11 +4,13 @@ on:
   push:
     branches:
       - master
+      - dev
     paths-ignore:
       - "*.md"
       - "LICENSE"
   pull_request:
     branches:
+      - dev
       - master
     paths-ignore:
       - "*.md"
