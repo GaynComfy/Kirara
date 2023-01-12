@@ -22,7 +22,7 @@ class EventManager {
     this.restEvents = restEvents;
     this.commands = commands;
     this.services = services;
-    this.mentionRegex = new RegExp(`^<@!?748100524246564894> ?`);
+    this.mentionRegex = null;
     this.commandQueue = [];
     this.discordReady = false;
   }
@@ -35,7 +35,9 @@ class EventManager {
         this.config.prefix;
       const hasPrefix = message.content.toLowerCase().indexOf(prefix) === 0;
       const mentionMatch =
-        !hasPrefix && this.mentionRegex.test(message.content);
+        !hasPrefix &&
+        this.mentionRegex &&
+        this.mentionRegex.test(message.content);
 
       if (hasPrefix || mentionMatch) {
         if (message.author.bot && message.author.id !== "736067018628792322")
@@ -127,9 +129,6 @@ class EventManager {
         )
         .catch(() => null);
     }
-    if (command.info.guilds && !command.info.guilds.includes(message.guild.id))
-      return; // return if we're not supposed to be used here
-
     const isSoftDisabled =
       this.instance.settings[message.guild.id][
         `category:${command.info.category.toLowerCase()}:disabled`
@@ -170,6 +169,12 @@ class EventManager {
             args,
             needsQueue ? this.instance.queues[message.channel.id] : undefined
           );
+          if (typeof result !== "boolean")
+            console.error(
+              "Command did not return bool resultt",
+              command.info.name,
+              args
+            );
           if (result === false) sendUsage(message.channel, command.help);
           return result;
         } catch (err) {
