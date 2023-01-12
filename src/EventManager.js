@@ -129,6 +129,8 @@ class EventManager {
         )
         .catch(() => null);
     }
+    if (command.info.guilds && !command.info.guilds.includes(message.guild.id))
+      return; // return if we're not supposed to be used here
     const isSoftDisabled =
       this.instance.settings[message.guild.id][
         `category:${command.info.category.toLowerCase()}:disabled`
