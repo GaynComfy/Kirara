@@ -15,7 +15,7 @@ module.exports = {
       .setDescription(
         `🏓 Command: \`${msgPing}ms\`\n` +
           `💓 Gateway: \`${instance.client.ws.ping}ms\`\n` +
-          `🖍️ midori: \`${ping}\``
+          `🖍️ midori: \`${ping}\`\nTest here`
       )
       .setColor("#e0e0e0");
     return message.channel.send({ embeds: [embed] });
