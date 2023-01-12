@@ -24,41 +24,37 @@ module.exports = (token = process.env.TOKEN) => {
     ],
     makeCache: Options.cacheWithLimits({
       ...Options.DefaultMakeCacheSettings,
-
       ApplicationCommandManager: 0,
       AutoModerationRuleManager: 0,
-      BaseGuildEmojiManager: {
-        maxSize: 0,
-        keepOverLimit: e => emoteGuilds.includes(e.guild.id),
-      },
       GuildApplicationCommandManager: 0,
       GuildBanManager: 0,
-      GuildEmojiManager: {
-        maxSize: 0,
-        keepOverLimit: e => emoteGuilds.includes(e.guild.id),
-      },
       GuildInviteManager: 0,
+      GuildScheduledEventManager: 0,
+      StageInstanceManager: 0,
+      VoiceStateManager: 0,
       GuildMemberManager: {
         maxSize: 500000,
         keepOverLimit: u => u.id === client.user.id,
       },
-      GuildScheduledEventManager: 0,
-      GuildStickerManager: 0,
-      MessageManager: {
-        maxSize: 2000000,
-        keepOverLimit: m => m.author.id === client.user.id,
-      },
-      PresenceManager: 0,
       ReactionManager: {
         maxSize: 4000000,
         keepOverLimit: r => r.message.author.id === client.user.id,
       },
-      StageInstanceManager: 0,
-      VoiceStateManager: 0,
+      BaseGuildEmojiManager: {
+        maxSize: 0,
+        keepOverLimit: e => emoteGuilds.includes(e.guild.id),
+      },
     }),
     presence: {
       status: "idle",
       activities: [{ name: "starting up...", type: 3 }],
+    },
+    sweepers: {
+      ...Options.DefaultSweeperSettings,
+      messages: {
+        interval: 600, // every 10 minutes
+        lifetime: 3600, // 1 hr or older
+      },
     },
   });
   return {
