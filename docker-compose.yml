@@ -1,6 +1,23 @@
 version: "3"
 
 services:
+  midori:
+    build: ./context/midori
+    container_name: midori
+    links:
+      - redis
+      - database
+    depends_on:
+      - redis
+      - database
+    environment:
+      HOST: 0.0.0.0
+      NODE_ENV: development
+      PG_PASSWORD: kirara
+    ports:
+      - "7865:5171"
+    env_file:
+      - .env.dev
   app:
     build: ./
     restart: always
@@ -8,11 +25,20 @@ services:
     links:
       - redis
       - database
+      - midori
     depends_on:
       - database
       - redis
+      - midori
+    environment:
+      PG_PASSWORD: kirara
+      NODE_ENV: development
+    env_file:
+      - .env.dev
   database:
     image: postgres
+    ports:
+      - "7866:5432"
     environment:
       POSTGRES_PASSWORD: kirara
       POSTGRES_USER: kirara
