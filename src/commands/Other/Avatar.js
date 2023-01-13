@@ -25,7 +25,7 @@ const getTargets = async (instance, message, args) => {
 module.exports = {
   execute: async (instance, message, args) => {
     const targets = await getTargets(instance, message, args);
-    message.channel.send(`${targets.length}`);
+    message.channel.send(`${targets.length} ${targets[0].displayAvatarURL()}`);
     // Embed
     const embeds = targets.map(target =>
       new EmbedBuilder()
