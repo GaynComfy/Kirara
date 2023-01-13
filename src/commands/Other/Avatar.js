@@ -14,13 +14,18 @@ const getTargets = async (instance, message, args) => {
   const target =
     message.mentions.users.first() ||
     (args.length ? await instance.client.users.fetch(args[0]) : message.author);
+  const targets = [target];
   if (message.guild) {
     const guildMember = await message.guild.members.fetch(target.id);
     if (guildMember) {
-      if (guildMember.displayAvatarURL().length) return [guildMember, target];
+      if (
+        guildMember.displayAvatarURL().length &&
+        guildMember.displayAvatarURL() !== target.displayAvatarURL()
+      )
+        targets.push(guildMember);
     }
   }
-  return [target];
+  return targets;
 };
 module.exports = {
   execute: async (instance, message, args) => {
