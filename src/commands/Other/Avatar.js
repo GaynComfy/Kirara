@@ -11,10 +11,11 @@ const info = {
 //const userId = /\d{17,19}/;
 
 const getTargets = async (instance, message, args) => {
+  const sendGlobal = args.includes("global") || args.includes("g");
   const target =
     message.mentions.users.first() ||
     (args.length ? await instance.client.users.fetch(args[0]) : message.author);
-  const targets = [target];
+  if (sendGlobal) return [target];
   if (message.guild) {
     const guildMember = await message.guild.members.fetch(target.id);
     if (guildMember) {
@@ -22,10 +23,10 @@ const getTargets = async (instance, message, args) => {
         guildMember.displayAvatarURL()?.length &&
         guildMember.displayAvatarURL() !== target.displayAvatarURL()
       )
-        targets.push(guildMember);
+        return [guildMember];
     }
   }
-  return targets;
+  return [target];
 };
 module.exports = {
   execute: async (instance, message, args) => {
