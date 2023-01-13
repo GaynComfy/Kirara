@@ -18,12 +18,8 @@ const getTargets = async (instance, message, args) => {
   if (sendGlobal) return [target];
   if (message.guild) {
     const guildMember = await message.guild.members.fetch(target.id);
-    if (guildMember) {
-      if (
-        guildMember.displayAvatarURL()?.length &&
-        guildMember.displayAvatarURL() !== target.displayAvatarURL()
-      )
-        return [guildMember];
+    if (guildMember && guildMember.avatar) {
+      return [guildMember];
     }
   }
   return [target];
