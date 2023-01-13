@@ -19,7 +19,7 @@ const getTargets = async (instance, message, args) => {
     const guildMember = await message.guild.members.fetch(target.id);
     if (guildMember) {
       if (
-        guildMember.displayAvatarURL().length &&
+        guildMember.displayAvatarURL()?.length &&
         guildMember.displayAvatarURL() !== target.displayAvatarURL()
       )
         targets.push(guildMember);
@@ -30,7 +30,6 @@ const getTargets = async (instance, message, args) => {
 module.exports = {
   execute: async (instance, message, args) => {
     const targets = await getTargets(instance, message, args);
-    message.channel.send(`${targets.length} ${targets[0].displayAvatarURL()}`);
     // Embed
     const embeds = targets.map(target =>
       new EmbedBuilder()
