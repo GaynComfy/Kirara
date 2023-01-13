@@ -25,6 +25,7 @@ const getTargets = async (instance, message, args) => {
 module.exports = {
   execute: async (instance, message, args) => {
     const targets = await getTargets(instance, message, args);
+    message.channel.send(`${targets.length}`);
     // Embed
     const embeds = targets.map(target =>
       new EmbedBuilder()
