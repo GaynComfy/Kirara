@@ -1,5 +1,7 @@
 // const { ChannelType } = require("discord.js");
 const { withCooldown, verifyPerms } = require("./utils/hooks");
+const registerSlashCommands = require("./discord/RegisterCommands");
+const interactionFakeMessageMapping = require("./utils/interactionMapper");
 const Constants = require("./utils/Constants.json");
 const sendError = require("./utils/SendError");
 const sendUsage = require("./utils/SendUsage");
@@ -86,8 +88,36 @@ class EventManager {
         }
     });
   }
+  registerOnInteraction() {
+    this.client.on("interactionCreate", async ev => {
+      const command = this.commands[ev.commandName];
+      if (command) {
+        const mapped = await interactionFakeMessageMapping(
+          this.instance,
+          ev,
+          command
+        );
+        if (mapped === null) {
+          // TODO return error message to interaction
+        }
+        const [message, args] = mapped;
+        this.commandExecution(command, message, args, true);
+      }
+      console.log(ev.options.data);
+      const otherHandlers = this.events["interactionCreate"];
+      if (otherHandlers) {
+        for (const handler of otherHandlers) {
+          await handler.execute(this.instance, ev);
+        }
+      }
+    });
+  }
   registerOnReady() {
     this.client.on("ready", async t => {
+      const slashCommands = Object.values(this.commands).filter(
+        cmd => cmd.info.slashSupport
+      );
+      await registerSlashCommands(this.instance, slashCommands);
       this.mentionRegex = new RegExp(`^<@!?${this.client.user.id}> ?`);
       const otherHandlers = this.events["ready"];
       if (otherHandlers) {
@@ -109,7 +139,7 @@ class EventManager {
       this.commandQueue = [];
     });
   }
-  async commandExecution(command, message, args) {
+  async commandExecution(command, message, args, fromInteraction = false) {
     if (!this.discordReady) {
       this.commandQueue.push([command, message, args]);
       return;
@@ -177,7 +207,21 @@ class EventManager {
               command.info.name,
               args
             );
-          if (result === false) sendUsage(message.channel, command.help);
+          if (
+            fromInteraction &&
+            result !== false &&
+            !message.interaction.didSendReply
+          ) {
+            message.interaction.reply({
+              content: "Command ran",
+              ephemeral: true,
+            });
+          }
+          if (result === false) {
+            if (fromInteraction && !message.interaction.didSendReply)
+              sendUsage(message.interaction, command.help, true);
+            else if (!fromInteraction) sendUsage(message.channel, command.help);
+          }
           return result;
         } catch (err) {
           console.error(
@@ -244,7 +288,12 @@ class EventManager {
   }
   async setup(wasReady = false) {
     Object.keys(this.events).forEach(elem => {
-      if (elem === "messageCreate" || elem === "ready") return;
+      if (
+        elem === "messageCreate" ||
+        elem === "ready" ||
+        elem === "interactionCreate"
+      )
+        return;
       this.registerEventHandler(elem, this.events[elem]);
     });
     Object.keys(this.restEvents).forEach(elem =>
@@ -252,6 +301,7 @@ class EventManager {
     );
     this.registerOnMessage();
     this.registerOnReady();
+    this.registerOnInteraction();
     if (wasReady) {
       this.services
         .filter(element => element.onlyOnDiscordStart !== true)

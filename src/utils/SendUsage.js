@@ -1,7 +1,7 @@
 const Color = require("./Colors.json");
 const { EmbedBuilder } = require("discord.js");
 
-module.exports = async (channel, info) => {
+module.exports = async (target, info, fromInteraction = false) => {
   const fields = [
     { name: "Description", value: info.description, inline: true },
     { name: "Usage", value: `\`${info.usage}\`` },
@@ -19,5 +19,6 @@ module.exports = async (channel, info) => {
     .setColor(Color.red)
     .addFields(fields);
 
-  channel.send({ embeds: [embed] }).catch(() => null);
+  if (fromInteraction) target.reply({ embeds: [embed], ephemeral: true });
+  else target.send({ embeds: [embed] }).catch(() => null);
 };

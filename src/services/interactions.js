@@ -18,4 +18,5 @@ module.exports = {
     instance.client.ws.removeAllListeners("INTERACTION_CREATE");
     running = -1;
   },
+  disabled: true,
 };

@@ -37,6 +37,8 @@ module.exports = {
     "189978735816998913", // cass#9999
   ],
   shardCount: 1,
+  devServerId: "1064798672182853653",
+  clientId: "1064770831911223397",
   get season() {
     return dayjs.tz(Date.now(), tz).diff(birth, "month");
   },
