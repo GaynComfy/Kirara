@@ -99,9 +99,10 @@ class EventManager {
         );
         if (mapped === null) {
           // TODO return error message to interaction
+        } else {
+          const [message, args] = mapped;
+          this.commandExecution(command, message, args, true);
         }
-        const [message, args] = mapped;
-        this.commandExecution(command, message, args, true);
       }
       console.log(ev.options.data);
       const otherHandlers = this.events["interactionCreate"];
@@ -114,10 +115,6 @@ class EventManager {
   }
   registerOnReady() {
     this.client.on("ready", async t => {
-      const slashCommands = Object.values(this.commands).filter(
-        cmd => cmd.info.slashSupport
-      );
-      await registerSlashCommands(this.instance, slashCommands);
       this.mentionRegex = new RegExp(`^<@!?${this.client.user.id}> ?`);
       const otherHandlers = this.events["ready"];
       if (otherHandlers) {
@@ -287,6 +284,10 @@ class EventManager {
     this.services = [];
   }
   async setup(wasReady = false) {
+    const slashCommands = Object.values(this.commands).filter(
+      cmd => cmd.info.slashSupport
+    );
+    await registerSlashCommands(this.instance, slashCommands);
     Object.keys(this.events).forEach(elem => {
       if (
         elem === "messageCreate" ||
