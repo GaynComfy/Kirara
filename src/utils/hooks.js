@@ -14,7 +14,7 @@ exports.withRole = async (member, handler, role) => {
   member
     .send(`You are missing a required role for this command: \`${role.name}\`.`)
     .catch(() => null);
-  return null;
+  return true;
 };
 
 exports.withRights = async (member, handler, permission = "Administrator") => {
@@ -29,7 +29,7 @@ exports.withRights = async (member, handler, permission = "Administrator") => {
       `You are missing a required permission for this command: \`${permission}\``
     )
     .catch(() => null);
-  return null;
+  return true;
 };
 
 exports.withOwner = async (userId, handler, owners) => {
@@ -37,6 +37,7 @@ exports.withOwner = async (userId, handler, owners) => {
     throw new Error("owner not present or user not present");
 
   if (owners.includes(userId)) return handler();
+  else return true;
 };
 
 exports.withCooldown = async (

@@ -19,13 +19,13 @@ module.exports = {
       await message.reply(
         "Hah, you're lonely... But no, I can't let you do that."
       );
-      return;
+      return true;
     }
     if (asking.bot && !sentientBots.includes(asking.id)) {
       await message.reply(
         "I know you're desperate, but I don't think a bot's gonna marry you. :("
       );
-      return;
+      return true;
     }
 
     const scdKey = `marrycooldown:${asker.id}`;
@@ -38,25 +38,26 @@ module.exports = {
       (marry.length !== 0 && (await instance.cache.exists(scdKey))) ||
       (await instance.cache.exists(rcdKey))
     ) {
-      return message.react("🕘").catch(() => null);
+      await message.react("🕘").catch(() => null);
+      return true;
     }
     if (marry.find(m => m.user === asking.id)) {
       await message.reply(
         "You are already married to them! I don't think you need to renew your marriage..."
       );
-      return;
+      return true;
     }
     if (marry.length !== 0) {
       await message.reply(
         "You are already married to someone else! Bad bad. I'm not into poly yet."
       );
-      return;
+      return true;
     }
     if (toMarry.length !== 0) {
       await message.reply(
         "Sorry, but someone has beat you already; they are already married! Stay lonely, loser!"
       );
-      return;
+      return true;
     }
 
     await instance.cache.setExpire(rcdKey, "1", 60);
@@ -97,6 +98,7 @@ module.exports = {
         );
       }
     });
+    return true;
   },
   info,
   help: {
