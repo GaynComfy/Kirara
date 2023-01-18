@@ -57,8 +57,8 @@ module.exports = {
   },
   info,
   help: {
-    usage: "avatar <@user>",
-    examples: ["avatar @JeDaYoshi"],
+    usage: "avatar [global] [@user]",
+    examples: ["avatar", "avatar @JeDaYoshi", "avatar g @Alycans"],
     description: "Show someone's avatar!",
   },
 };
