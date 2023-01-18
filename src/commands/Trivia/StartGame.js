@@ -112,7 +112,7 @@ module.exports = {
         });
 
         await collectorMessage.react("✅").catch(err => console.error(err));
-        return collector;
+        return true;
       },
       "ManageMessages"
     ),

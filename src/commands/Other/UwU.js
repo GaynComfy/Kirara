@@ -11,7 +11,8 @@ module.exports = {
   execute: async (instance, message) => {
     message.delete().catch(() => null);
     const embed = new EmbedBuilder().setDescription("UwU").setColor("Random");
-    return message.channel.send({ embeds: [embed] });
+    await message.channel.send({ embeds: [embed] });
+    return true;
   },
   info,
   help: {

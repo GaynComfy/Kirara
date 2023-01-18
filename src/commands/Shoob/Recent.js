@@ -137,7 +137,7 @@ module.exports = {
       msg,
       time: Date.now() + 15 * 1000,
     };
-    return msg;
+    return true;
   },
   info,
   help: {

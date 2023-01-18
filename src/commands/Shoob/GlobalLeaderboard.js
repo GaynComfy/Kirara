@@ -22,7 +22,7 @@ module.exports = {
     message.channel.sendTyping().catch(() => null);
     let last = -1;
 
-    return createPagedResults(message, Infinity, async page => {
+    await createPagedResults(message, Infinity, async page => {
       const offset = (page > last && last !== -1 ? last : page) * 8;
       const k = `glb:${offset}`;
       let claimers = [];
@@ -60,7 +60,7 @@ module.exports = {
           )
           .setColor(Color.red);
         await message.channel.send({ embeds: [embed] });
-        return null;
+        return false;
       }
       if (claimers.length === 0 && last === -1) {
         last = page - 1;
@@ -109,6 +109,7 @@ module.exports = {
       }
       return embed;
     });
+    return true;
   },
   info,
   help: {

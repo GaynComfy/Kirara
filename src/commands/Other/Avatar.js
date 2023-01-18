@@ -51,6 +51,7 @@ module.exports = {
         .setImage(target.displayAvatarURL({ size: 4096 }))
     );
     await message.channel.send({ embeds });
+    return true;
   },
   info,
   help: {

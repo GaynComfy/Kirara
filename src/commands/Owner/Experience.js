@@ -69,7 +69,7 @@ module.exports = {
                 .join("\n"),
             },
           ]);
-        message.channel.send({ embeds: [embed] });
+        await message.channel.send({ embeds: [embed] });
         return true;
       }
       const id = args[0];

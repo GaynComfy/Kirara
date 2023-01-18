@@ -147,7 +147,7 @@ module.exports = {
       ]);
     }
 
-    return message.reply({
+    await message.reply({
       embeds: [embed],
       files: [
         {
@@ -156,6 +156,7 @@ module.exports = {
         },
       ],
     });
+    return true;
   },
   info,
   help: {

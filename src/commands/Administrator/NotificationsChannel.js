@@ -141,12 +141,13 @@ const execute = async (instance, message, args) => {
     } else if (type === "all") {
       const em = await exec(instance, message, args, "notifs", true);
       if (em === null) return false;
-      message.channel.send({ embeds: [em] });
+      message.channel.send({ embeds: [em] }).catch(() => null);
       return exec(instance, message, args, "games", false);
     } else return false;
     const embed = await exec(instance, message, args, type);
     if (embed === null) return false;
-    return message.channel.send({ embeds: [embed] });
+    await message.channel.send({ embeds: [embed] });
+    return true;
   });
 };
 

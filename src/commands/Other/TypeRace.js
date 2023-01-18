@@ -177,7 +177,7 @@ module.exports = {
       message.channel.send({ embeds: [result] });
       cd.set(message.channel.id, Date.now());
     });
-    return collector;
+    return true;
   },
   info,
   help: {

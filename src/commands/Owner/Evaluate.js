@@ -41,11 +41,14 @@ module.exports = {
                 "<:Sirona_NoCross:762606114444935168> The eval result is over 2000 characters."
               )
               .setColor(Color.red);
-            return message.reply({ embeds: [embed] });
+            await message.reply({ embeds: [embed] });
+            return true;
           }
-          return message.reply(clean(evaled), { code: "xl" });
+          await message.reply(clean(evaled), { code: "xl" });
+          return true;
         } catch (err) {
-          return message.reply(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+          await message.reply(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+          return true;
         }
       },
       instance.config.owner

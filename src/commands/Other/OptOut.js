@@ -52,7 +52,8 @@ module.exports = {
         .setColor("Random");
     } else return false;
 
-    return message.reply({ embeds: [embed] });
+    await message.reply({ embeds: [embed] });
+    return true;
   },
   info,
   help: {
