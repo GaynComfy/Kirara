@@ -132,10 +132,16 @@ module.exports = {
         }
       }
     };
+
+    // wait until all shards have started
+    while (instance.client.shard.count < instance.config.shardCount) {
+      await new Promise(r => setTimeout(r, 1000));
+    }
+
     const shard_id = instance.client.shard.ids[0];
     if (shard_id === 0) {
       const callback = async (client, { channel, msg }) => {
-        return await client.b_handle_auction(channel, msg);
+        await client.b_handle_auction(channel, msg);
       };
 
       client = new Redis(`redis://${config.cache.host}:${config.cache.port}`);
