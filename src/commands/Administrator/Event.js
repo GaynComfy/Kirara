@@ -25,7 +25,6 @@ module.exports = {
         event: newState,
       };
       if (newState) update.event_time = new Date();
-      else delete instance.timedEvents[message.guild.id];
       await instance.database.simpleUpdate(
         "SERVERS",
         {
@@ -37,6 +36,8 @@ module.exports = {
         ...instance.guilds[message.guild.id],
         ...update,
       };
+      if (!newState) delete instance.timedEvents[message.guild.id];
+
       if (arg === "start-timed")
         instance.timedEvents[message.guild.id] = {
           val: Date.now() + time * 1000,
@@ -49,7 +50,8 @@ module.exports = {
             : "<:Flame:783439293506519101> The event of this server just ended!"
         )
         .setColor("Random");
-      return await message.channel.send({ embeds: [embed] });
+      await message.channel.send({ embeds: [embed] });
+      return true;
     });
   },
   info,

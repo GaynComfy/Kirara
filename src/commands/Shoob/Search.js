@@ -61,12 +61,17 @@ module.exports = {
           `<:Sirona_NoCross:762606114444935168> No cards found for that criteria.`
         )
         .setColor(Color.red);
-      message.reply({ embeds: [embed] });
-      return null;
+      await message.reply({ embeds: [embed] });
+      return false;
     }
-    if (card) return getCard(instance, message, card, isGlobal);
-    if (cards.length === 1)
-      return getCard(instance, message, cards[0], isGlobal);
+    if (card) {
+      await getCard(instance, message, card, isGlobal);
+      return true;
+    }
+    if (cards.length === 1) {
+      await getCard(instance, message, cards[0], isGlobal);
+      return true;
+    }
 
     const tierSettings = tier !== "all" ? tierInfo[`T${tier}`] : null;
     let last = false;
@@ -134,7 +139,8 @@ module.exports = {
         ]);
     };
 
-    return createMessagePagedResults(message, 1, handler);
+    await createMessagePagedResults(message, 1, handler);
+    return true;
   },
   info,
   help: {

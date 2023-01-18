@@ -55,7 +55,8 @@ module.exports = {
           }.`
         )
         .setColor(Color.red);
-      return message.channel.send({ embeds: [embed] });
+      await message.channel.send({ embeds: [embed] });
+      return true;
     }
 
     if (!background) {
@@ -143,7 +144,7 @@ module.exports = {
       })
       .setImage("attachment://leaderboard.png");
 
-    message.channel.send({
+    await message.channel.send({
       embeds: [embed],
       files: [
         {

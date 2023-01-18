@@ -59,10 +59,11 @@ module.exports = {
         )
         .setColor(Color.red);
       message.reply({ embeds: [embed] });
-      return null;
+      return true;
     }
 
-    return getCard(instance, message, card, isGlobal);
+    await getCard(instance, message, card, isGlobal);
+    return true;
   },
   info,
   help: {

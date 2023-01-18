@@ -244,7 +244,8 @@ module.exports = {
             "<:Sirona_NoCross:762606114444935168> I couldn't find a card or auction with that ID."
           )
           .setColor(Color.red);
-        return message.reply({ embeds: [embed] });
+        await message.reply({ embeds: [embed] });
+        return true;
       }
 
       const check = checkId[0];
@@ -282,14 +283,16 @@ module.exports = {
             `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
           )
           .setColor(Color.red);
-        return message.channel.send({ embeds: [embed] });
+        await message.channel.send({ embeds: [embed] });
+        return true;
       }
       card_id = card.id;
     }
     if ((auc_id || tier) && !card_id && args.length >= 1) return false;
     if (auc_id) {
       const embed = await computeAuction(instance, auc_id);
-      return message.channel.send({ embeds: [embed] });
+      await message.channel.send({ embeds: [embed] });
+      return true;
     }
 
     let recent;
@@ -319,8 +322,8 @@ module.exports = {
       return query.embed;
     };
 
-    const coll = await createMessagePagedResults(message, Infinity, handler);
-    return coll;
+    await createMessagePagedResults(message, Infinity, handler);
+    return true;
   },
   info,
   help: {

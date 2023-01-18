@@ -18,8 +18,10 @@ const info = {
   category: "Information",
 };
 module.exports = {
-  execute: async (instance, message) =>
-    message.channel.send({ embeds: [embed] }),
+  execute: async (instance, message) => {
+    await message.channel.send({ embeds: [embed] });
+    return true;
+  },
   info,
   help: {
     usage: "invite",

@@ -39,7 +39,8 @@ module.exports = {
           `<a:Sirona_Tick:749202570341384202> I have successfully turned ${args[0].toLowerCase()} the timer!`
         );
       }
-      return message.channel.send({ embeds: [embed] });
+      await message.channel.send({ embeds: [embed] });
+      return true;
     });
   },
   info,

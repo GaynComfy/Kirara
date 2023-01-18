@@ -56,7 +56,7 @@ module.exports = {
       }
 
       const pages = Math.ceil(Object.keys(tops).length / 3);
-      return createPagedResults(message, pages, async page => {
+      await createPagedResults(message, pages, async page => {
         const offset = (page > pages - 1 ? pages - 1 : page) * 3;
 
         const fields = [];
@@ -91,13 +91,14 @@ module.exports = {
 
         return embed;
       });
+      return true;
     } else {
       // multiple pages for per-difficulty typerace lb
       const diff = diffs[di];
       const dName = diff.charAt(0).toUpperCase() + diff.substring(1);
       let last = -1;
 
-      return createPagedResults(message, Infinity, async page => {
+      await createPagedResults(message, Infinity, async page => {
         const offset = (page > last && last !== -1 ? last : page) * 8;
         const stats = await getTopPlayersByDiff(instance, diff, 8, offset);
         if (stats.length === 0 && page === 0) {
@@ -161,6 +162,7 @@ module.exports = {
         }
         return embed;
       });
+      return true;
     }
   },
   info,

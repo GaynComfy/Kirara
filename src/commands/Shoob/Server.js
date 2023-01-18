@@ -86,7 +86,8 @@ module.exports = {
 = TOP 5 SERVERS =
 ${topped.join("\n")}
 \`\`\``;
-    return message.channel.send(stats);
+    await message.channel.send(stats);
+    return true;
   },
   info,
   help: {

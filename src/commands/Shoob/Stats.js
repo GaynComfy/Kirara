@@ -159,7 +159,7 @@ ${tiers2.join(" | ")}
         ]);
       }
 
-      message.channel.send({ embeds: [embed] });
+      await message.channel.send({ embeds: [embed] });
     }
 
     return true;

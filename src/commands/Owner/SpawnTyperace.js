@@ -224,6 +224,8 @@ module.exports = {
             message.channel.send({ embeds: [result] });
           }
         });
+
+        return true;
       },
       instance.config.owner
     );

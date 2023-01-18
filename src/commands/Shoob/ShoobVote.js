@@ -21,6 +21,7 @@ module.exports = {
       last: Date.now(),
     });
     await message.channel.send({ embeds: [embed] });
+    return true;
   },
   info,
   help: {
