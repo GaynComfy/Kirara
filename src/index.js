@@ -11,6 +11,7 @@ const discordConnect = require("./discord/");
 
 const Instance = require("./Instance");
 
+config.isDev = isDev;
 const start = async () => {
   const pgApi = await postgresConnect(config, !isDev);
 

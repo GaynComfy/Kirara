@@ -1,6 +1,5 @@
 const isDev = process.env.NODE_ENV === "development";
 const config = isDev ? require("./config-dev") : require("./config-prod");
-config.isDev = isDev;
 const { ShardingManager } = require("discord.js");
 
 const shardManager = new ShardingManager("./src/index.js", {
