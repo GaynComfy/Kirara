@@ -6,6 +6,8 @@ const info = {
   matchCase: false,
   category: "UwU",
   cooldown: 60,
+  slashSupport: true,
+  ephemeral: true,
 };
 //const mention = /<@!?(\d{17,19})>/;
 //const userId = /\d{17,19}/;
@@ -56,6 +58,21 @@ module.exports = {
     return true;
   },
   info,
+  arguments: [
+    {
+      type: "user",
+      name: "user",
+      description: "The user to fetch the avatar of",
+      required: true,
+    },
+    {
+      type: "boolean",
+      name: "global",
+      description: "Fetch the users global avatar",
+      required: false,
+      prio: true,
+    },
+  ],
   help: {
     usage: "avatar [global] [@user]",
     examples: ["avatar", "avatar @JeDaYoshi", "avatar g @Alycans"],

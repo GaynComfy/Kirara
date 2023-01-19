@@ -9,6 +9,7 @@ const info = {
   matchCase: false,
   category: "Shoob",
   cooldown: 2,
+  slashSupport: true,
   perms: ["AddReactions", "ManageMessages", "ReadMessageHistory"],
 };
 
@@ -99,6 +100,15 @@ module.exports = {
     return true;
   },
   info,
+  arguments: [
+    {
+      type: "boolean",
+      name: "Total",
+      description: "Do not limit to current season",
+      required: false,
+      mapping: [null, "t"],
+    },
+  ],
   help: {
     usage: "alb [total]",
     examples: ["alb", "tlb [total]"],

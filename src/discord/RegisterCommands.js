@@ -5,6 +5,7 @@ const {
   SlashCommandUserOption,
   SlashCommandChannelOption,
   SlashCommandBooleanOption,
+  SlashCommandRoleOption,
   REST,
   Routes,
 } = require("discord.js");
@@ -15,6 +16,7 @@ const ARGUMENT_REGISTER = {
   number: () => new SlashCommandNumberOption(),
   boolean: () => new SlashCommandBooleanOption(),
   channel: () => new SlashCommandChannelOption(),
+  role: () => new SlashCommandRoleOption(),
 };
 const NAME_MAP = {
   user: "addUserOption",
@@ -22,6 +24,7 @@ const NAME_MAP = {
   number: "addNumberOption",
   boolean: "addBooleanOption",
   channel: "addChannelOption",
+  role: "addRoleOption",
 };
 
 module.exports = async (instance, commands, token = process.env.TOKEN) => {
@@ -34,9 +37,17 @@ module.exports = async (instance, commands, token = process.env.TOKEN) => {
     for (const argument of command.arguments) {
       if (!ARGUMENT_REGISTER[argument.type]) continue;
       const option = ARGUMENT_REGISTER[argument.type]();
-      option.setName(argument.name);
-      if (argument.description) option.setDescription(argument.description);
+      if (!argument.name || !argument.description) {
+        console.error(
+          "Command",
+          command.info.name,
+          "argument missing name or description"
+        );
+        continue;
+      }
+      option.setName(argument.name.toLowerCase());
       option.setRequired(argument.required);
+      if (argument.description) option.setDescription(argument.description);
       if (argument.type === "string") {
         if (typeof argument.min === "number") {
           option.setMinLength(argument.min);
@@ -59,9 +70,7 @@ module.exports = async (instance, commands, token = process.env.TOKEN) => {
     }
     slashCommands.push(builder.toJSON());
   }
-
   const rest = new REST().setToken(token);
-  console.log(instance.client.user.id, instance.config.devServerId);
   const target = instance.config.isDev
     ? Routes.applicationGuildCommands(
         instance.config.clientId,

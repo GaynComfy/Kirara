@@ -11,6 +11,7 @@ const info = {
   matchCase: false,
   category: "Shoob",
   cooldown: 2,
+  slashSupport: true,
   perms: ["AddReactions", "ManageMessages", "ReadMessageHistory"],
 };
 
@@ -23,9 +24,7 @@ module.exports = {
       args[0].toLowerCase() === "servers" ||
       args[0].toLowerCase() === "bot" ||
       args[0].toLowerCase() === "s";
-    const isOldGlobal =
-      args[0].toLowerCase() === "global" || args[0].toLowerCase() === "g";
-    if (isEvent || isGlobal || isOldGlobal) args.shift();
+    if (isEvent || isGlobal) args.shift();
     if (args.length === 0) return false;
     const hasTier = Constants.allTiers.includes(args[0].toLowerCase());
     const hasCardId = cardId.test(args[0]);
@@ -66,6 +65,30 @@ module.exports = {
     return true;
   },
   info,
+  arguments: [
+    {
+      type: "string",
+      name: "Name",
+      description: "The Cards Name",
+      required: true,
+    },
+    {
+      type: "boolean",
+      name: "Event",
+      description: "include only event cards",
+      required: false,
+      mapping: [null, "e"],
+      prio: 0,
+    },
+    {
+      type: "string",
+      name: "Tier",
+      description: "The cards tier",
+      required: false,
+      prio: 1,
+      options: Constants.allTiers.map(tier => [tier, tier]),
+    },
+  ],
   help: {
     usage: "card [event] [servers] [tier] <name/card ID/link>",
     examples: [

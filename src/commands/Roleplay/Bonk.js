@@ -43,33 +43,8 @@ module.exports = {
     {
       type: "user",
       required: false,
-      name: "user",
+      name: "User",
       description: "The User to bonk",
-    },
-    {
-      type: "string",
-      required: false,
-      name: "str",
-      description: "The String to bonk",
-    },
-    {
-      type: "number",
-      required: false,
-      name: "number",
-      description: "The Number to bonk",
-    },
-    {
-      type: "channel",
-      required: false,
-      name: "channel",
-      description: "The channel to bonk",
-    },
-    {
-      type: "boolean",
-      required: false,
-      name: "bool",
-      description: "The bool to bonk",
-      mapping: ["e", null],
     },
   ],
   help: {
