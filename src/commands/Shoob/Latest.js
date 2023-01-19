@@ -26,7 +26,7 @@ module.exports = {
     const tier = args.shift()[1].toUpperCase();
 
     let last = -1;
-    return createPagedResults(message, Infinity, async page => {
+    await createPagedResults(message, Infinity, async page => {
       const offset = (page > last && last !== -1 ? last : page) * 8;
       const result = await Fetcher.fetchByTier(
         instance,
@@ -89,6 +89,7 @@ module.exports = {
       }
       return embed;
     });
+    return true;
   },
   info,
   help: {

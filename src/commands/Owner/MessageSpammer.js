@@ -31,6 +31,7 @@ module.exports = {
           msg.delete();
           message.delete();
         }, 2500);
+        return true;
       },
       instance.config.owner
     );

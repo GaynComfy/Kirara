@@ -54,63 +54,62 @@ const fetchData = async instance => {
     kClaims,
   };
   // no need to await this, we just want it saved
-  cache.setExpire("botstats:latest", JSON.stringify(obj), 120);
+  cache
+    .setExpire("botstats:latest", JSON.stringify(obj), 120)
+    .catch(console.error);
   return obj;
 };
 module.exports = {
   execute: async (instance, message) => {
-    try {
-      const ping = Date.now() - message.createdTimestamp;
-      const midori = await getMidoriPing();
-      const { totalGuilds, totalMembers, channels, asClaims, kClaims } =
-        await fetchData(instance);
-      const shardid = instance.client.shard.ids[0] + 1;
-      const guildSize = instance.client.guilds.cache.size;
-      const userSize = instance.client.guilds.cache.reduce(
-        (acc, guild) => acc + guild.memberCount,
-        0
-      );
-      const channelSize = instance.client.channels.cache.size;
-      const embed = new EmbedBuilder()
-        .setAuthor({ name })
-        .setColor(Constants.color)
-        .setDescription(
-          `<:KiraraBoop:784849773291110460> [Invite me]` +
-            `(https://discord.com/oauth2/authorize?client_id=748100524246564894&permissions=511040&scope=bot)\n` +
-            `<a:KiraraHearto:775767859786809384> [Donate]` +
-            `(https://donatebot.io/checkout/378599231583289346?buyer=${message.author.id})\n\n` +
-            `🏓 Command: \`${ping}ms\`\n` +
-            `💓 Gateway: \`${instance.client.ws.ping}ms\`\n` +
-            `🖍️ midori: \`${midori.ping}\`` +
-            (midori.version ? `, v${midori.version}` : "")
-        )
-        .addFields([
-          {
-            name: "**🖥️ Bot Details**",
-            value:
-              `${numberWithCommas(totalGuilds)} Servers\n` +
-              `${numberWithCommas(totalMembers)} Users\n` +
-              `${numberWithCommas(channels)} Channels\n\n` +
-              `${numberWithCommas(asClaims)} AS claims\n` +
-              `${numberWithCommas(kClaims)} Kirara claims`,
-            inline: true,
-          },
-          {
-            name: `**🟢 Shard ${shardid}**`,
-            value:
-              `${numberWithCommas(guildSize)} Servers\n` +
-              `${numberWithCommas(userSize)} Users\n` +
-              `${numberWithCommas(channelSize)} Channels\n\n` +
-              `${numberWithCommas(instance.asClaims)} AS claims\n` +
-              `${numberWithCommas(instance.kClaims)} Kirara claims`,
-            inline: true,
-          },
-        ]);
+    const ping = Date.now() - message.createdTimestamp;
+    const midori = await getMidoriPing();
+    const { totalGuilds, totalMembers, channels, asClaims, kClaims } =
+      await fetchData(instance);
+    const shardid = instance.client.shard.ids[0] + 1;
+    const guildSize = instance.client.guilds.cache.size;
+    const userSize = instance.client.guilds.cache.reduce(
+      (acc, guild) => acc + guild.memberCount,
+      0
+    );
+    const channelSize = instance.client.channels.cache.size;
+    const embed = new EmbedBuilder()
+      .setAuthor({ name })
+      .setColor(Constants.color)
+      .setDescription(
+        `<:KiraraBoop:784849773291110460> [Invite me]` +
+          `(https://discord.com/oauth2/authorize?client_id=748100524246564894&permissions=511040&scope=bot)\n` +
+          `<a:KiraraHearto:775767859786809384> [Donate]` +
+          `(https://donatebot.io/checkout/378599231583289346?buyer=${message.author.id})\n\n` +
+          `🏓 Command: \`${ping}ms\`\n` +
+          `💓 Gateway: \`${instance.client.ws.ping}ms\`\n` +
+          `🖍️ midori: \`${midori.ping}\`` +
+          (midori.version ? `, v${midori.version}` : "")
+      )
+      .addFields([
+        {
+          name: "**🖥️ Bot Details**",
+          value:
+            `${numberWithCommas(totalGuilds)} Servers\n` +
+            `${numberWithCommas(totalMembers)} Users\n` +
+            `${numberWithCommas(channels)} Channels\n\n` +
+            `${numberWithCommas(asClaims)} AS claims\n` +
+            `${numberWithCommas(kClaims)} Kirara claims`,
+          inline: true,
+        },
+        {
+          name: `**🟢 Shard ${shardid}**`,
+          value:
+            `${numberWithCommas(guildSize)} Servers\n` +
+            `${numberWithCommas(userSize)} Users\n` +
+            `${numberWithCommas(channelSize)} Channels\n\n` +
+            `${numberWithCommas(instance.asClaims)} AS claims\n` +
+            `${numberWithCommas(instance.kClaims)} Kirara claims`,
+          inline: true,
+        },
+      ]);
 
-      return message.channel.send({ embeds: [embed] });
-    } catch (err) {
-      console.log(err);
-    }
+    await message.channel.send({ embeds: [embed] });
+    return true;
   },
   info,
   help: {

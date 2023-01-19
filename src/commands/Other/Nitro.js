@@ -45,7 +45,8 @@ module.exports = {
         .setColor("#e444f2");
     }
 
-    return message.channel.send({ embeds: [embed] });
+    await message.channel.send({ embeds: [embed] });
+    return true;
   },
   info,
   help: {

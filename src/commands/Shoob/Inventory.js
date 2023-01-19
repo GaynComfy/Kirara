@@ -78,12 +78,12 @@ module.exports = {
         )
         .setColor(Color.red);
       message.channel.send({ embeds: [embed] });
-      return null;
+      return true;
     }
     if (card) tier = card.tier;
     let last = -1;
     let cardAmt = 6;
-    return createPagedResults(message, Infinity, async page => {
+    await createPagedResults(message, Infinity, async page => {
       const offset = (page > last && last !== -1 ? last : page) * cardAmt;
       const result = await Fetcher.fetchInventory(
         instance,
@@ -141,6 +141,7 @@ module.exports = {
       }
       return embed;
     });
+    return true;
   },
   info,
   help: {

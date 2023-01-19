@@ -53,7 +53,8 @@ module.exports = {
             `<:Sirona_NoCross:762606114444935168> You cannot toggle the command toggle.`
           )
           .setColor(Color.red);
-        return message.channel.send({ embeds: [embed] });
+        await message.channel.send({ embeds: [embed] });
+        return true;
       }
 
       const query = {
@@ -77,7 +78,7 @@ module.exports = {
               `<a:Sirona_star:748985391360507924> The category \`${category}\` is ${ctoggle}.`
           )
           .setColor("Random");
-        message.channel.send({ embeds: [embed] });
+        await message.channel.send({ embeds: [embed] });
         return true;
       }
 
@@ -99,7 +100,7 @@ module.exports = {
           `<a:Sirona_Tick:749202570341384202> \`${cmd}\` has been turned ${args[1].toLowerCase()}.`
         )
         .setColor("Random");
-      message.channel.send({ embeds: [embed] });
+      await message.channel.send({ embeds: [embed] });
       return true;
     });
   },

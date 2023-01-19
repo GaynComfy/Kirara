@@ -53,11 +53,12 @@ module.exports = {
         .setImage(target.displayAvatarURL({ size: 4096 }))
     );
     await message.channel.send({ embeds });
+    return true;
   },
   info,
   help: {
-    usage: "avatar <@user>",
-    examples: ["avatar @JeDaYoshi"],
+    usage: "avatar [global] [@user]",
+    examples: ["avatar", "avatar @JeDaYoshi", "avatar g @Alycans"],
     description: "Show someone's avatar!",
   },
 };

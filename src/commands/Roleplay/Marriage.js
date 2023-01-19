@@ -33,7 +33,7 @@ module.exports = {
         )
         .setColor(Color.red);
       await message.channel.send({ embeds: [embed] });
-      return;
+      return true;
     }
 
     const married = marry
@@ -49,6 +49,7 @@ module.exports = {
       `<a:Sirona_star:748985391360507924> <@!${member.id}> is married to ${married}`
     );
     await message.channel.send({ embeds: [embed] });
+    return true;
   },
   info,
   help: {

@@ -33,12 +33,13 @@ module.exports = {
           `<:Sirona_NoCross:762606114444935168> This server has no dropped cards this month.`
         )
         .setColor(Color.red);
-      return await message.channel.send({ embeds: [embed] });
+      await message.channel.send({ embeds: [embed] });
+      return true;
     }
 
     const sorted = values.sort((a, b) => b.value - a.value);
     let last = -1;
-    return createPagedResults(message, Infinity, async page => {
+    await createPagedResults(message, Infinity, async page => {
       const offset = (page > last && last !== -1 ? last : page) * 8;
       const spawners = sorted.slice(offset, offset + 8);
 
@@ -89,6 +90,7 @@ module.exports = {
       }
       return embed;
     });
+    return true;
   },
   info,
   help: {

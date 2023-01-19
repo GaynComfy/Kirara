@@ -25,7 +25,8 @@ module.exports = {
           `<:Sirona_NoCross:762606114444935168> This server has no claimed cards for the past season.`
         )
         .setColor(Color.red);
-      return message.channel.send({ embeds: [embed] });
+      await message.channel.send({ embeds: [embed] });
+      return true;
     }
 
     const users = [];
@@ -50,7 +51,8 @@ module.exports = {
         { name: `•   __Claims__`, value: claims.join("\n"), inline: true },
       ]);
 
-    return message.channel.send({ embeds: [embed] });
+    await message.channel.send({ embeds: [embed] });
+    return true;
   },
   info,
   help: {

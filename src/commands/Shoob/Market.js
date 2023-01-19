@@ -204,7 +204,10 @@ module.exports = {
         ? Constants.allTiers.includes(args[0].toLowerCase())
         : false;
     const tier = hasTier ? args.shift()[1].toUpperCase() : "all";
-    if (args.length === 0) return processWithoutCard(instance, message, tier);
+    if (args.length === 0) {
+      await processWithoutCard(instance, message, tier);
+      return true;
+    }
 
     const hasOption =
       args.length > 0 ? allowedSortings.includes(args[0].toLowerCase()) : false;
@@ -228,8 +231,8 @@ module.exports = {
           `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
         )
         .setColor(Color.red);
-      message.reply({ embeds: [embed] });
-      return null;
+      await message.reply({ embeds: [embed] });
+      return true;
     }
     await processWithCard(instance, message, option, card);
     return true;

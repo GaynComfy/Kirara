@@ -64,7 +64,8 @@ module.exports = {
           true
         )*/
 
-      return message.channel.send({ embeds: [embed] });
+      await message.channel.send({ embeds: [embed] });
+      return true;
     });
   },
   info,
