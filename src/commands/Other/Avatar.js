@@ -70,7 +70,7 @@ module.exports = {
       name: "global",
       description: "Fetch the users global avatar",
       required: false,
-      prio: true,
+      prio: 0,
     },
   ],
   help: {
