@@ -8,8 +8,8 @@ const embed = new EmbedBuilder()
   })
   .setColor(Constants.color)
   .setDescription(
-    "Multi-purpose helper bot for game bots with extras! Completely free with no restrictions. \n" +
-      "Part of [__**Gay & Comfy**__](https://discord.gg/comfy)!"
+    "Multi-purpose helper bot for game bots with extras!\n" +
+      "Completely free with no restrictions. Part of [__**Gay & Comfy**__](https://discord.gg/comfy)!"
   )
   .addFields([
     {
