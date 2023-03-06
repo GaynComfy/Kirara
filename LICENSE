@@ -659,3 +659,8 @@ specific requirements.
 if any, to sign a "copyright disclaimer" for the program, if necessary.
 For more information on this, and how to apply and follow the GNU AGPL, see
 <https://www.gnu.org/licenses/>.
+
+
+Appendix Liz3:
+This license applies to all branches(Git branch which is not the current one) within the Git VCS system even,
+ if this LICENSE file is not present on that mentioned "Branch".
