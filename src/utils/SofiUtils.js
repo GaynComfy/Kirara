@@ -1,5 +1,14 @@
 const axios = require("axios").default;
 
+const httpClient = axios.create({
+  headers: {
+    "User-Agent":
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+    Origin: "https://sofi.gg",
+    referer: "https://sofi.gg/",
+  },
+});
+
 const getProfile = async (instance, id, force = false) => {
   if (!force) {
     const exists = await instance.cache.get(`sofi_profile:${id}`);
@@ -9,7 +18,7 @@ const getProfile = async (instance, id, force = false) => {
   }
   try {
     // TODO: this might break in the future?
-    const result = await axios.get(
+    const result = await httpClient.get(
       `https://sofi.gg/_next/data/_V35JrE__8s-ZOzLGk3rj/en/profile/${id}.json?userId=${id}`
     );
     instance.cache.setExpire(
@@ -31,7 +40,7 @@ const getCardStats = async (instance, id, force = false) => {
   }
   try {
     // TODO: this might break in the future?
-    const result = await axios.get(
+    const result = await httpClient.get(
       `https://api.sofi.gg/profile/card-stats?userId=${id}`
     );
     instance.cache.setExpire(
@@ -53,7 +62,7 @@ const getFollowers = async (instance, id, force = false) => {
   }
   try {
     // TODO: this might break in the future?
-    const result = await axios.get(
+    const result = await httpClient.get(
       `https://api.sofi.gg/profile/followers/${id}`
     );
     instance.cache.setExpire(
