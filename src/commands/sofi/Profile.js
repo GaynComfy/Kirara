@@ -16,7 +16,7 @@ const info = {
 
 module.exports = {
   execute: async (instance, message, args) => {
-    const force = args.length && args[0] === "force";
+    const force = false;
     const target =
       message.mentions.users.first() ||
       (args.length &&
@@ -80,7 +80,7 @@ module.exports = {
       ${socials.join("\n")}`);
     embed.setFooter({
       text: `Views: ${profileData.views} Followers: ${followers?.length || 0} ${
-        premium ? "**Premium**\n" : ""
+        premium ? "Premium User" : ""
       }`,
     });
     message.reply({ embeds: [embed] });
