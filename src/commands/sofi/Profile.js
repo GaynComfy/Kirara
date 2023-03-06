@@ -22,6 +22,7 @@ module.exports = {
       getFollowers(instance, target.id),
       getCardStats(instance, target.id),
     ]);
+    console.log(cardStats);
     const sorted = cardStats ? cardStats.sort((a, b) => b.value - a.value) : [];
     if (!profile) {
       const embed = new EmbedBuilder()
