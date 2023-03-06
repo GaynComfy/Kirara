@@ -74,11 +74,11 @@ module.exports = {
           : ""
       }
       ${socials.join("\n")}`);
-    embed.setFooter(
-      `Views: ${profileData.views} Followers: ${followers?.length || 0} ${
+    embed.setFooter({
+      text: `Views: ${profileData.views} Followers: ${followers?.length || 0} ${
         premium ? "**Premium**\n" : ""
-      }`
-    );
+      }`,
+    });
     message.reply({ embeds: [embed] });
     return true;
   },
