@@ -23,7 +23,6 @@ module.exports = {
       getFollowers(instance, target.id, force),
       getCardStats(instance, target.id, force),
     ]);
-    console.log(cardStats);
     const sorted = cardStats ? cardStats.sort((a, b) => b.value - a.value) : [];
     if (!profile) {
       const embed = new EmbedBuilder()
@@ -49,9 +48,13 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle(`${username}'s Profile on Sofi`)
       .setThumbnail(avatarURL);
-    for (const e of sorted.slice(0, 3)) {
-      embed.addField(e.name, `${e.value}%`, true);
-    }
+    if (sorted.length)
+      embed.addFields(
+        sorted
+          .slice(0, 3)
+          .map(e => ({ name: e.tooltip, value: `${e.value}%`, inline: true }))
+      );
+
     const socials = [];
     if (profileData) {
       if (profileData.background) embed.setImage(profileData.background);
