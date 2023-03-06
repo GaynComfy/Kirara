@@ -17,7 +17,11 @@ const info = {
 module.exports = {
   execute: async (instance, message, args) => {
     const force = args.length && args[0] === "force";
-    const target = message.mentions.users.first() || message.author;
+    const target =
+      message.mentions.users.first() ||
+      (args.length &&
+        (await instance.client.users.fetch(args[0]).catch(() => null))) ||
+      message.author;
     const [profile, followers, cardStats] = await Promise.all([
       getProfile(instance, target.id, force),
       getFollowers(instance, target.id, force),
