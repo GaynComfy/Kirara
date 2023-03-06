@@ -69,7 +69,7 @@ module.exports = {
       profileData.about ? `**${profileData.about}**\n` : ""
     }
       ${
-        badgeRoles
+        badgeRoles && badgeRoles.length
           ? `\`\`\`${badgeRoles.map(e => e.name).join(", ")}\`\`\``
           : ""
       }
