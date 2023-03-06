@@ -15,12 +15,13 @@ const info = {
 };
 
 module.exports = {
-  execute: async (instance, message) => {
+  execute: async (instance, message, args) => {
+    const force = args.length && args[0] === "force";
     const target = message.mentions.users.first() || message.author;
     const [profile, followers, cardStats] = await Promise.all([
-      getProfile(instance, target.id),
-      getFollowers(instance, target.id),
-      getCardStats(instance, target.id),
+      getProfile(instance, target.id, force),
+      getFollowers(instance, target.id, force),
+      getCardStats(instance, target.id, force),
     ]);
     console.log(cardStats);
     const sorted = cardStats ? cardStats.sort((a, b) => b.value - a.value) : [];
