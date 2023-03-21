@@ -2,6 +2,7 @@ const Color = require("../../utils/Colors.json");
 const sanitizer = require("@aero/sanitizer");
 const { getCachedURL } = require("../../utils/cacheUtils");
 const { createCanvas, loadImage, registerFont } = require("canvas");
+const { promisify } = require("util");
 const { EmbedBuilder } = require("discord.js");
 registerFont("./src/assets/CenturyGothic.ttf", { family: "Century Gothic" });
 registerFont("./src/assets/AppleColorEmoji.ttf", { family: "Apple" });
@@ -144,11 +145,12 @@ module.exports = {
       })
       .setImage("attachment://leaderboard.png");
 
+    const toBuffer = promisify(canvas.toBuffer.bind(canvas));
     await message.channel.send({
       embeds: [embed],
       files: [
         {
-          attachment: canvas.toBuffer(),
+          attachment: await toBuffer(),
           name: "leaderboard.png",
         },
       ],

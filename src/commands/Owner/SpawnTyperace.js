@@ -1,6 +1,7 @@
 // I am an arsehole for making this -JeDaYoshi
 const { EmbedBuilder } = require("discord.js");
 const { createCanvas, loadImage } = require("canvas");
+const { promisify } = require("util");
 const Color = require("../../utils/Colors.json");
 const Fetcher = require("../../utils/CardFetcher");
 const {
@@ -121,11 +122,12 @@ module.exports = {
             "https://repo.mplauncher.pl/fun/wla/AS.webp"
           );
 
+        const toBuffer = promisify(canvas.toBuffer.bind(canvas));
         const m = await message.channel.send({
           embeds: [embed],
           files: [
             {
-              attachment: canvas.toBuffer(),
+              attachment: await toBuffer(),
               name: filename,
             },
           ],

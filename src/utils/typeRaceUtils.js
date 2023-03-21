@@ -1,6 +1,7 @@
 const tcaptcha = require("trek-captcha");
 const { CaptchaGenerator } = require("captcha-canvas");
 const { createCanvas, registerFont } = require("canvas");
+const { promisify } = require("util");
 const { tierInfo } = require("./cardUtils");
 registerFont("./src/assets/Porter.ttf", { family: "Porter" });
 
@@ -214,8 +215,9 @@ const genCollectCaptcha = async tier => {
     28
   );
 
+  const toBuffer = promisify(captcha.toBuffer.bind(captcha));
   return {
-    buffer: captcha.toBuffer(),
+    buffer: await toBuffer(),
     txt: chars.toLowerCase(),
   };
 };

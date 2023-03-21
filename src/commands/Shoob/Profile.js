@@ -4,6 +4,7 @@ const sanitizer = require("@aero/sanitizer");
 const { getCachedURL } = require("../../utils/cacheUtils");
 const { EmbedBuilder } = require("discord.js");
 const { createCanvas, loadImage } = require("canvas");
+const { promisify } = require("util");
 const { mention, userId } = require("../../utils/regexUtils");
 
 const info = {
@@ -147,11 +148,12 @@ module.exports = {
       ]);
     }
 
+    const toBuffer = promisify(canvas.toBuffer.bind(canvas));
     await message.reply({
       embeds: [embed],
       files: [
         {
-          attachment: canvas.toBuffer(),
+          attachment: await toBuffer(),
           name: "profile.png",
         },
       ],
