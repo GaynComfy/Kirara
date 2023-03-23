@@ -1,15 +1,17 @@
 class TimeoutError extends Error {}
 
 exports.timeout = (
-  func,
+  promise,
   time,
   exception = new TimeoutError("Timeout exceeded")
 ) => {
-  let timer;
+  let timer = null;
   return Promise.race([
-    func,
+    promise,
     new Promise((_, reject) => (timer = setTimeout(reject, time, exception))),
-  ]).finally(() => clearTimeout(timer));
+  ]).finally(() => {
+    if (timer) clearTimeout(timer);
+  });
 };
 
 /**
