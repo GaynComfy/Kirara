@@ -12,6 +12,7 @@ const info = {
   matchCase: false,
   category: "Sofi",
   cooldown: 10,
+  disabled: process.env.NODE_ENV !== "development",
 };
 
 module.exports = {
