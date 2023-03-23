@@ -3,6 +3,7 @@ const { withCooldown, verifyPerms } = require("./utils/hooks");
 const Constants = require("./utils/Constants.json");
 const sendError = require("./utils/SendError");
 const sendUsage = require("./utils/SendUsage");
+const { save: saveLastCommand } = require("./utils/ReRun.js");
 
 const spaces = / +/g;
 
@@ -85,6 +86,16 @@ class EventManager {
             .catch(err => console.error(err));
         }
     });
+  }
+  reRun(commandName, target, args) {
+    const command = this.commands[commandName];
+    if (!command) {
+      return false;
+    }
+    // This is to not save the same command into the cache again since we already have it.
+    target._sirona_rerun = true;
+    this.commandExecution(command, target, args);
+    return true;
   }
   registerOnReady() {
     this.client.on("ready", async t => {
@@ -178,6 +189,9 @@ class EventManager {
               args
             );
           if (result === false) sendUsage(message.channel, command.help);
+          if (result && !message._sirona_rerun)
+            saveLastCommand(this.instance, command, message, args);
+
           return result;
         } catch (err) {
           console.error(
