@@ -17,12 +17,13 @@ const embed = new EmbedBuilder()
       value: "`Nota#8888`, `⋆˚🌺⃤ Jorgy₊ ˚#5611`, `Alycans#1693`",
     },
     {
-      name: "Lead Dev",
-      value: "[`JeDaYoshi#7942`](https://jeda.im)",
+      name: "Lead Devs",
+      value:
+        "[`JeDaYoshi#7942`](https://jeda.im), [`Liz3#0001`](https://nya.so)",
     },
     {
       name: "Team and Collaborators",
-      value: "`Liz3#0001`, `⋆˚🌺⃤ Jorgy₊ ˚#5611`, `Nota#8888`, `bappy#3311`",
+      value: "`⋆˚🌺⃤ Jorgy₊ ˚#5611`, `Nota#8888`, `bappy#3311`",
     },
   ])
   .setFooter({ text: "Roleplay images provided by https://waifu.pics" });
