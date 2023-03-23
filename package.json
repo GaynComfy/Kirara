@@ -1,7 +1,7 @@
 {
-  "name": "kirara",
+  "name": "sirona",
   "version": "3.2.1",
-  "description": "not Shitrona",
+  "description": "Card Game Helper bot with extra things.",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/sharder.js",
