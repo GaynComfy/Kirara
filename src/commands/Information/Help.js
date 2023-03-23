@@ -95,7 +95,7 @@ module.exports = {
   }\`
   **Description**: ${cmd.help.description || "A command"}
   **Usage**: \`${cmd.help.usage || ""}\`
-  **Examples**:\n\`\`\`diff\n+ ${
+  **Examples**:\n\`\`\`\n+ ${
     cmd.help.examples.join("\n+ ") || cmd.aliases[0]
   }\`\`\``
         )

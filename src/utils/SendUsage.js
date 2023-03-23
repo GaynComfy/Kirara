@@ -10,7 +10,7 @@ module.exports = async (channel, info) => {
   if (info.examples) {
     fields.push({
       name: "Examples",
-      value: `\`\`\`diff\n+ ${info.examples.join("\n+ ")}\`\`\``,
+      value: `\`\`\`\n+ ${info.examples.join("\n+ ")}\`\`\``,
     });
   }
 
