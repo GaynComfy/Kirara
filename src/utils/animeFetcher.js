@@ -101,9 +101,10 @@ const fetchAnime = async aid => {
 };
 
 const searchAnime = async (instance, term) => {
-  // const query = `select * from anime_list where (LOWER($1) LIKE ('%' || LOWER(title_en) || '%')) OR  (LOWER($1) LIKE ('%' || LOWER(title_jp) || '%')) LIMIT 5`;
-  const query = `select * from anime_list where LOWER(title_en) = LOWER($1) OR title_jp = $1 LIMIT 1`;
-  const { rows } = await instance.database.pool.query(query, [term]);
+  const query = `select * from anime_list where (LOWER(title_en) LIKE ('%' || $1 || '%')) OR (title_jp LIKE ('%' || $1 || '%')) LIMIT 1`;
+  const { rows } = await instance.database.pool.query(query, [
+    term.toLowerCase(),
+  ]);
   if (!rows.length) return null;
   const mapped = await Promise.all(
     rows.map(
