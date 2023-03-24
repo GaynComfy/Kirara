@@ -70,6 +70,7 @@ class Anime {
     }
     formatted += v;
     if (formatted.startsWith("* ")) formatted = formatted.substr(2);
+    formatted = formatted.replaceAll("`", "'");
     return formatted;
   }
   getFormattedDescription() {
