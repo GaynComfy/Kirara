@@ -32,7 +32,9 @@ class Anime {
           name: character.name[0],
           gender: character.gender?.[0],
           id: character["$"]?.id,
-          description: character.description?.[0] || "",
+          description: this._formatDescription(
+            character.description?.[0] || ""
+          ),
           image: this._imageLinkWithId(character.picture?.[0]),
           rating: character.rating?.[0]._,
         };
@@ -53,25 +55,28 @@ class Anime {
       });
     return this.creators;
   }
-  getFormattedDescription() {
-    if (this._formattedDescription) return this._formattedDescription;
+  _formatDescription(value) {
+    let formatted = "";
+    let v = value;
     const regex = /(http:\/\/anidb\.net\/c.+?) \[(.+?)\]/;
-    let description = this.data.description[0];
-    let newDescription = "";
     let match;
-    while ((match = regex.exec(description))) {
+    while ((match = regex.exec(v))) {
       if (!match) break;
       const [full, url, name] = match;
       const index = match.index;
-      if (index > 0) newDescription += description.substr(0, index);
-      newDescription += `[${name}](${url})`;
-      description = description.substr(index + full.length);
+      if (index > 0) formatted += v.substr(0, index);
+      formatted += `[${name}](${url})`;
+      v = v.substr(index + full.length);
     }
-    newDescription += description;
-    if (newDescription.startsWith("* "))
-      newDescription = newDescription.substr(2);
+    formatted += v;
+    if (formatted.startsWith("* ")) formatted = formatted.substr(2);
+    return formatted;
+  }
+  getFormattedDescription() {
+    if (this._formattedDescription) return this._formattedDescription;
+    const description = this.data.description[0];
+    const newDescription = this._formatDescription(description);
     this._formattedDescription = newDescription;
-    console.log(newDescription);
     return this._formattedDescription;
   }
 }
