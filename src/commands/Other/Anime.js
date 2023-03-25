@@ -30,7 +30,7 @@ module.exports = {
               value: anime.getRating(),
             },
             {
-              name: "JP Title",
+              name: "Japanese Title",
               value: anime.getTitle("ja"),
             },
           ]);
