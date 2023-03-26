@@ -1,25 +1,63 @@
 const sendError = require("./SendError");
 const Color = require("./Colors.json");
-const { EmbedBuilder } = require("discord.js");
-const { multiReact } = require("./miscUtils");
+const {
+  EmbedBuilder,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+} = require("discord.js");
+//const { multiReact } = require("./miscUtils");
 
-const FAST_REVERSE_SYMBOL = "\u23ea";
-const BACK_SYMBOL = "\u25c0\ufe0f";
-const FORWARD_SYMBOL = "\u25b6\ufe0f";
-const FAST_FORWARD_SYMBOL = "\u23e9";
-const REPEAT_SYMBOL = "\ud83d\udd01";
-const ALL_SYMBOLS = [
-  FAST_REVERSE_SYMBOL,
-  BACK_SYMBOL,
-  FORWARD_SYMBOL,
-  FAST_FORWARD_SYMBOL,
-  REPEAT_SYMBOL,
-];
+// const FAST_REVERSE_SYMBOL = "\u23ea";
+// const BACK_SYMBOL = "\u25c0\ufe0f";
+// const FORWARD_SYMBOL = "\u25b6\ufe0f";
+// const FAST_FORWARD_SYMBOL = "\u23e9";
+// const REPEAT_SYMBOL = "\ud83d\udd01";
+// const ALL_SYMBOLS = [
+//   FAST_REVERSE_SYMBOL,
+//   BACK_SYMBOL,
+//   FORWARD_SYMBOL,
+//   FAST_FORWARD_SYMBOL,
+//   REPEAT_SYMBOL,
+// ];
 
+const ACTIONS = {
+  back: {
+    label: "Back",
+    id: "back",
+  },
+  forward: {
+    label: "Forward",
+    id: "forward",
+  },
+  reset: {
+    label: "Reset",
+    id: "reset",
+  },
+  end: {
+    label: "End",
+    id: "end",
+  },
+  refresh: {
+    label: "Refresh",
+    id: "refresh",
+  },
+};
+const actionsToButtonRow = list => {
+  const buttons = list.map(entry => {
+    const e = { ...ACTIONS[entry[0]], ...(entry[1] || {}) };
+    return new ButtonBuilder()
+      .setCustomId(e.id)
+      .setLabel(e.label)
+      .setStyle(e.style || ButtonStyle.Primary)
+      .setDisabled(e.disabled === true);
+  });
+  return new ActionRowBuilder().addComponents(...buttons);
+};
 const collectorOpts = { idle: 45 * 1000 };
 
 const userMap = {};
-const embed = new EmbedBuilder()
+const ERROR_EMBED = new EmbedBuilder()
   .setDescription(
     "<:Sirona_NoCross:762606114444935168> An unexpected error has occurred on command execution."
   )
@@ -43,73 +81,96 @@ const createPagedResults = async (
   botMessage = null
 ) => {
   let page = 0;
-  let root = embed;
+  let root = ERROR_EMBED;
   let sentMessage = null;
   let running = false;
 
   try {
     root = await getMessageForPage(page, message.author);
-    // we are expecting for the function to handle it.
+    // we are expecting the function to handle the faulty return.
     if (!root) return null;
 
+    const buttons = [["reset", { disabled: true }], ["back"], ["forward"]];
+    if (maxPages !== Infinity) buttons.push(["end"]);
+    if (refresh) buttons.push(["refresh"]);
+    const components = maxPages < 2 ? [] : [actionsToButtonRow(buttons)];
     sentMessage = botMessage
-      ? await botMessage.edit({ embeds: [root] })
-      : await message.reply({ embeds: [root] });
+      ? await botMessage.edit({ embeds: [root], components })
+      : await message.reply({ embeds: [root], components });
     if (maxPages < 2) {
       return sentMessage;
     }
-
-    const filter = (r, user) =>
-      ALL_SYMBOLS.includes(r.emoji.name) && user.id === message.author.id;
-    const reacts = [BACK_SYMBOL, FORWARD_SYMBOL];
-    if (refresh) reacts.push(REPEAT_SYMBOL);
-    multiReact(sentMessage, reacts).catch(() => null);
-
-    return sentMessage
-      .createReactionCollector({ filter, ...collectorOpts })
-      .on("collect", async (r, user) => {
-        if (running === true) return;
-        let newPage = page;
-        switch (r.emoji.name) {
-          case FAST_REVERSE_SYMBOL:
+    const componentCollector =
+      sentMessage.channel.createMessageComponentCollector({
+        filter: i =>
+          i.message.id === sentMessage.id && i.user.id === message.author.id,
+        ...collectorOpts,
+      });
+    componentCollector.on("end", async () => {
+      sentMessage.edit({ components: [] });
+    });
+    return componentCollector.on("collect", async i => {
+      if (running) return;
+      const { user } = i;
+      let res;
+      let newPage = 0;
+      running = true;
+      try {
+        switch (i.customId) {
+          case "refresh": {
+            // NO OP
+            break;
+          }
+          case "reset": {
             newPage = 0;
             break;
-          case BACK_SYMBOL:
-            newPage = Math.max(page - 1, 0);
-            if (page === newPage && page === 0 && maxPages !== Infinity) {
-              newPage = maxPages - 1;
+          }
+          case "end": {
+            newPage = maxPages - 1;
+            break;
+          }
+          case "back": {
+            if (page > 0) {
+              newPage = page - 1;
+            } else {
+              if (maxPages !== Infinity) {
+                newPage = maxPages - 1;
+              }
             }
             break;
-          case FORWARD_SYMBOL:
+          }
+          case "forward": {
             newPage = Math.min(page + 1, maxPages - 1);
-            if (page === newPage && page === maxPages - 1) {
-              newPage = 0;
-            }
+            if (page === newPage && page === maxPages - 1) newPage = 0;
             break;
-          case FAST_FORWARD_SYMBOL:
-            if (maxPages !== Infinity) newPage = maxPages - 1;
-            break;
+          }
         }
-        if (newPage === page && !refresh)
-          return r.users.remove(user).catch(() => null);
-
-        let res;
-        running = true;
-        try {
-          res = await getMessageForPage(newPage, user);
-          if (res && res !== true) await sentMessage.edit({ embeds: [res] });
-        } catch (err) {
-          console.error(err);
-          sentMessage.edit({ embeds: [embed] });
-        }
-        running = false;
-        r.users.remove(user).catch(() => null);
-        if (res) page = newPage;
-      })
-      .on("end", () => sentMessage.reactions.removeAll().catch(() => null));
+        res = await getMessageForPage(newPage, user);
+      } catch (err) {
+        console.error(err);
+        sentMessage.edit({ embeds: [ERROR_EMBED] });
+      }
+      running = false;
+      if (res) page = newPage;
+      if (res) {
+        const updatedButtons = [
+          ["reset", { disabled: page === 0 }],
+          ["back"],
+          ["forward"],
+        ];
+        if (maxPages !== Infinity)
+          updatedButtons.push(["end", { disabled: page === maxPages - 1 }]);
+        if (refresh) updatedButtons.push(["refresh"]);
+        return i.update({
+          embeds: [res],
+          components: [actionsToButtonRow(updatedButtons)],
+        });
+      }
+      return null;
+    });
   } catch (err) {
     console.error(err);
-    if (sentMessage) sentMessage.edit({ embeds: [embed] });
+    if (sentMessage) sentMessage.edit({ embeds: [ERROR_EMBED] });
     else sendError(message.channel);
     return null;
   }
@@ -122,7 +183,7 @@ const createMessagePagedResults = async (
 ) => {
   const s = Symbol();
   let page = 0;
-  let root = embed;
+  let root = ERROR_EMBED;
   let inSubPage = false;
   let sentMessage = null;
   let running = false;
@@ -199,7 +260,7 @@ const createMessagePagedResults = async (
       });
   } catch (err) {
     console.error(err);
-    if (sentMessage) sentMessage.edit({ embeds: [embed] });
+    if (sentMessage) sentMessage.edit({ embeds: [ERROR_EMBED] });
     else sendError(message.channel);
     return null;
   }
