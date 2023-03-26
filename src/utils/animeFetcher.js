@@ -32,9 +32,9 @@ class Anime {
           name: character.name[0],
           gender: character.gender?.[0],
           id: character["$"]?.id,
-          description: this._formatDescription(
-            character.description?.[0] || ""
-          ),
+          description: character.description?.[0]
+            ? this._formatDescription(character.description?.[0])
+            : null,
           image: this._imageLinkWithId(character.picture?.[0]),
           rating: character.rating?.[0]._,
         };
