@@ -46,11 +46,13 @@ const ACTIONS = {
 const actionsToButtonRow = list => {
   const buttons = list.map(entry => {
     const e = { ...ACTIONS[entry[0]], ...(entry[1] || {}) };
-    return new ButtonBuilder()
+    const b = new ButtonBuilder()
       .setCustomId(e.id)
-      .setLabel(e.label)
       .setStyle(e.style || ButtonStyle.Primary)
       .setDisabled(e.disabled === true);
+    if (e.label) b.setLabel(e.label);
+    if (e.emote) b.setEmoji(e.emote);
+    return b;
   });
   return new ActionRowBuilder().addComponents(...buttons);
 };
