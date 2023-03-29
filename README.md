@@ -26,6 +26,7 @@ docker-compose up --build
 ## Todos
 
 - [ ] Make the bot runnable without shoob access
+- [ ] Some code cleanup
 
 # License
 
