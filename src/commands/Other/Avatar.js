@@ -7,8 +7,6 @@ const info = {
   category: "UwU",
   cooldown: 60,
 };
-//const mention = /<@!?(\d{17,19})>/;
-//const userId = /\d{17,19}/;
 
 const getTargets = async (instance, message, args) => {
   const sendGlobal = args.includes("global") || args.includes("g");
