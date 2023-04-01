@@ -104,14 +104,16 @@ const createPagedResults = async (
     }
     const componentCollector =
       sentMessage.channel.createMessageComponentCollector({
-        filter: i =>
-          i.message.id === sentMessage.id && i.user.id === message.author.id,
+        filter: i => i.message.id === sentMessage.id,
         ...collectorOpts,
       });
     componentCollector.on("end", async () => {
       sentMessage.edit({ components: [] });
     });
     return componentCollector.on("collect", async i => {
+      if (i.user.id !== message.author.id) {
+        return i.deferUpdate({ ephemeral: true });
+      }
       if (running) return;
       const { user } = i;
       let res;
