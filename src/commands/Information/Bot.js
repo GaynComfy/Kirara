@@ -3,14 +3,14 @@ const { getMidoriPing } = require("./utils");
 const { version } = require("../../../package.json");
 const Constants = require("../../utils/Constants.json");
 
-const name = `Kirara v${version}`;
+const FULL_BOT_NAME = `Kirara v${version}`;
 
 const info = {
   name: "bot",
   matchCase: false,
   category: "Information",
 };
-const numberWithCommas = entry =>
+const formatNumber = entry =>
   entry.toLocaleString(undefined, {
     style: "decimal",
     maximumFractionDigits: 0,
@@ -73,7 +73,7 @@ module.exports = {
     );
     const channelSize = instance.client.channels.cache.size;
     const embed = new EmbedBuilder()
-      .setAuthor({ name })
+      .setAuthor({ name: FULL_BOT_NAME })
       .setColor(Constants.color)
       .setDescription(
         `<:KiraraBoop:784849773291110460> [Invite me]` +
@@ -89,21 +89,21 @@ module.exports = {
         {
           name: "**🖥️ Bot Details**",
           value:
-            `${numberWithCommas(totalGuilds)} Servers\n` +
-            `${numberWithCommas(totalMembers)} Users\n` +
-            `${numberWithCommas(channels)} Channels\n\n` +
-            `${numberWithCommas(asClaims)} AS claims\n` +
-            `${numberWithCommas(kClaims)} Kirara claims`,
+            `${formatNumber(totalGuilds)} Servers\n` +
+            `${formatNumber(totalMembers)} Users\n` +
+            `${formatNumber(channels)} Channels\n\n` +
+            `${formatNumber(asClaims)} AS claims\n` +
+            `${formatNumber(kClaims)} Kirara claims`,
           inline: true,
         },
         {
           name: `**🟢 Shard ${shardid}**`,
           value:
-            `${numberWithCommas(guildSize)} Servers\n` +
-            `${numberWithCommas(userSize)} Users\n` +
-            `${numberWithCommas(channelSize)} Channels\n\n` +
-            `${numberWithCommas(instance.asClaims)} AS claims\n` +
-            `${numberWithCommas(instance.kClaims)} Kirara claims`,
+            `${formatNumber(guildSize)} Servers\n` +
+            `${formatNumber(userSize)} Users\n` +
+            `${formatNumber(channelSize)} Channels\n\n` +
+            `${formatNumber(instance.asClaims)} AS claims\n` +
+            `${formatNumber(instance.kClaims)} Kirara claims`,
           inline: true,
         },
       ]);

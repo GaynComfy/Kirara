@@ -6,7 +6,7 @@ const {
   userAllInfo,
   userInfo,
 } = require("../../utils/typeRaceUtils");
-
+const { mention, userId } = require("../../utils/regexUtils");
 const info = {
   name: "typeraceinfo",
   aliases: ["tri", "trs"],
@@ -16,9 +16,6 @@ const info = {
 
 const initialDiffs = Object.keys(diffs);
 const fullDiffs = Object.values(diffs);
-
-const mention = /<@!?(\d{17,19})>/;
-const userId = /\d{17,19}/;
 
 module.exports = {
   execute: async (instance, message, args) => {

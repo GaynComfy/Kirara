@@ -24,9 +24,12 @@ const tierPositions = [
   { t: "5", x: 735, y: 360 },
   { t: "6", x: 935, y: 360 },
 ];
-let background1;
+let DEFAULT_BACKGROUND;
 
 module.exports = {
+  init: async () => {
+    DEFAULT_BACKGROUND = await loadImage("./src/assets/profile.png");
+  },
   execute: async (instance, message, args) => {
     let member =
       message.mentions.users.first() ||
@@ -73,15 +76,12 @@ module.exports = {
         .then(r => r.rows),
     ]);
 
-    if (!background1) {
-      background1 = await loadImage("./src/assets/profile.png");
-    }
     const avatar = await loadImage(avatarB);
 
     const canvas = createCanvas(1100, 400);
     const ctx = canvas.getContext("2d");
     ctx.drawImage(avatar, 26, 6, 390, 390);
-    ctx.drawImage(background1, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(DEFAULT_BACKGROUND, 0, 0, canvas.width, canvas.height);
 
     ctx.font = "58px Century Gothic";
     ctx.textAlign = "right";

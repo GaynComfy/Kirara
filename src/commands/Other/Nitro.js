@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const humanizeDuration = require("humanize-duration");
-
+const { mention, userId } = require("../../utils/regexUtils");
 const info = {
   name: "nitro",
   aliases: ["boost"],
@@ -8,8 +8,6 @@ const info = {
   category: "UwU",
   cooldown: 2,
 };
-const mention = /<@!?(\d{17,19})>/;
-const userId = /\d{17,19}/;
 
 module.exports = {
   execute: async (instance, message, args) => {
