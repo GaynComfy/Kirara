@@ -106,10 +106,10 @@ const fetchAnime = async aid => {
   return parseXml(result.data);
 };
 
-const searchAnime = async (instance, term) => {
+const searchAnime = async (instance, searchQuery) => {
   const query = `select * from anime_list where (LOWER(title_en) LIKE ('%' || $1 || '%')) OR (title_jp LIKE ('%' || $1 || '%')) LIMIT 1`;
   const { rows } = await instance.database.pool.query(query, [
-    term.toLowerCase(),
+    searchQuery.toLowerCase(),
   ]);
   if (!rows.length) return null;
   const mapped = await Promise.all(
@@ -120,7 +120,6 @@ const searchAnime = async (instance, term) => {
             resolve(new Anime(row.data.anime));
             return;
           }
-          console.log("fetching anime", row.aid);
           fetchAnime(row.aid)
             .then(res => {
               instance.database
