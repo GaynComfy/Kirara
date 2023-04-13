@@ -37,7 +37,8 @@
     "ioredis": "^5.3.1",
     "pg": "^8.9.0",
     "quick-lru": "5.1.1",
-    "trek-captcha": "^0.4.0"
+    "trek-captcha": "^0.4.0",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "eslint": "^8.34.0",
