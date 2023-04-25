@@ -22,24 +22,29 @@ const {
 // ];
 
 const ACTIONS = {
+  reset: {
+    emote: "<:tablerLeftLines:1100263439156387861>",
+    //label: "Reset",
+    id: "reset",
+  },
   back: {
-    label: "Back",
+    emote: "<:tablerLeftFilled:1100263472568209439>",
+    //label: "Back",
     id: "back",
   },
   forward: {
-    label: "Forward",
+    emote: "<:tablerRightFilled:1100263510837039117>",
+    //label: "Forward",
     id: "forward",
   },
-  reset: {
-    label: "Reset",
-    id: "reset",
-  },
   end: {
-    label: "End",
+    emote: "<:tablerRightLines:1100263546513805322>",
+    //label: "End",
     id: "end",
   },
   refresh: {
-    label: "Refresh",
+    emote: "<:tablerReload:1100263584975552692>",
+    //label: "Refresh",
     id: "refresh",
   },
 };
