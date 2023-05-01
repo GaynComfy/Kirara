@@ -32,7 +32,7 @@
     "canvas": "^2.11.2",
     "captcha-canvas": "2.3.1",
     "dayjs": "^1.11.7",
-    "discord.js": "^14.10.0",
+    "discord.js": "^14.10.1",
     "humanize-duration": "^3.28.0",
     "ioredis": "^5.3.2",
     "pg": "^8.10.0",
