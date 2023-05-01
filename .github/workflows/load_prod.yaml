@@ -15,7 +15,7 @@ jobs:
           host: ${{ secrets.HOST_PROD }}
           username: kirara
           key: ${{ secrets.SSH_KEY }}
-          port: 22
+          port: ${{ secrets.PORT_PROD }}
           script: |
             cd
             cd Kirara

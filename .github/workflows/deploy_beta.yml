@@ -13,9 +13,9 @@ jobs:
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.HOST_BETA }}
-          username: kirara
+          username: beta
           key: ${{ secrets.SSH_KEY }}
-          port: 22
+          port: ${{ secrets.PORT_BETA }}
           script: |
             cd
             cd Kirara
