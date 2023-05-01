@@ -8,15 +8,15 @@ const birth = dayjs.tz("2020-11-08 00:00:00", tz);
 module.exports = {
   prefix: "k!",
   database: {
-    host: "10.0.0.4",
+    host: "127.0.0.1",
     user: "kirarabeta",
     database: "kirarabeta",
     port: 5432,
   },
   cache: {
     host: "127.0.0.1",
-    port: 3050,
-    db: 1,
+    port: 6380,
+    db: 0,
   },
   structure: {
     commands: "commands",
