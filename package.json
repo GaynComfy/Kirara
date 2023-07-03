@@ -35,7 +35,7 @@
     "discord.js": "^14.10.2",
     "humanize-duration": "^3.28.0",
     "ioredis": "^5.3.2",
-    "pg": "^8.10.0",
+    "pg": "^8.11.1",
     "quick-lru": "5.1.1",
     "trek-captcha": "^0.4.0",
     "xml2js": "^0.5.0"
