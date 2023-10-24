@@ -36,10 +36,13 @@ module.exports = {
       cd.has(message.channel.id) &&
       Date.now() - cd.get(message.channel.id) < 8000
     ) {
-      return queue.addItem(() => message.react("🕘").catch(() => null));
+      queue.addItem(() => message.react("🕘").catch(() => null));
+      return true;
     }
-    if (channelMap[message.channel.id])
-      return queue.addItem(() => message.react("🕘").catch(() => null));
+    if (channelMap[message.channel.id]) {
+      queue.addItem(() => message.react("🕘").catch(() => null));
+      return true;
+    }
 
     let di = args.length > 0 ? args.shift().toLowerCase() : false;
     const tier =
@@ -177,6 +180,7 @@ module.exports = {
       message.channel.send({ embeds: [result] });
       cd.set(message.channel.id, Date.now());
     });
+
     return true;
   },
   info,

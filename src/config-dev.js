@@ -3,7 +3,7 @@ dayjs.extend(require("dayjs/plugin/utc"));
 dayjs.extend(require("dayjs/plugin/timezone"));
 
 const tz = "America/New_York";
-const birth = dayjs.tz("2020-11-08 00:00:00", tz);
+const birth = dayjs.tz("2020-11-03 00:00:00", tz);
 
 module.exports = {
   prefix: "k!",

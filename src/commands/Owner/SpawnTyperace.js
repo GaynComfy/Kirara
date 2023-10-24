@@ -78,7 +78,7 @@ module.exports = {
               `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
             )
             .setColor(Color.red);
-          message.channel.send({ embeds: [embed] });
+          message.channel.send({ embeds: [embed] }).catch(() => null);
           return null;
         }
 

@@ -231,7 +231,7 @@ module.exports = {
           `<:Sirona_NoCross:762606114444935168> No card found for that criteria.`
         )
         .setColor(Color.red);
-      await message.reply({ embeds: [embed] });
+      await message.channel.send({ embeds: [embed] });
       return true;
     }
     await processWithCard(instance, message, option, card);

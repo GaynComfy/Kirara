@@ -94,8 +94,8 @@ exports.getCard = async (instance, message, card, tracked, botMessage) => {
           // card info & market listings
           const [top, listings] = await Promise.all([
             tracked
-              ? DbFetcher.fetchTopOwners(instance, card.id, "0", "5")
-              : Fetcher.fetchTopOwners(instance, card.id, "0", "5"),
+              ? DbFetcher.fetchTopOwners(instance, card.id, "0", "10")
+              : Fetcher.fetchTopOwners(instance, card.id, "0", "10"),
             Fetcher.fetchMarketByCardId(instance, card.id, "0", "10"),
           ]);
 
